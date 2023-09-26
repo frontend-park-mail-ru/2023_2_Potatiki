@@ -1,5 +1,11 @@
-import Button from "./src/components/button/button.js";
+import MainPage from "./src/pages/main-page/main-page.js";
 
 const root = document.getElementById('root');
-const button = new Button(root);
-button.render({'text': 'Hello mir'});
+console.log("root")
+
+const renderMainPage = () => {
+    const main = new MainPage(root);
+    main.render();
+};
+
+renderMainPage();

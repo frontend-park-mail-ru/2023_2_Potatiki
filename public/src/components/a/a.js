@@ -1,8 +1,7 @@
-
 import '../templates.js';
 
 
-export default class Button {
+export default class A {
     #parent;
 
     constructor(parent) {
@@ -15,9 +14,10 @@ export default class Button {
             .addEventListener("click", listener)
     }
 
-    render(config, submitHandle) {
-        console.log(config)
-        this.#parent.innerHTML += window.Handlebars.templates['button.hbs'](config);
-        this.addListeners(submitHandle, config.id)
+    render(config, listener) {
+        this.#parent.innerHTML += window.Handlebars.templates['a.hbs'](config);
+        
+        console.log(listener, config)
+        this.addListeners(listener, config.id)
     }
 }

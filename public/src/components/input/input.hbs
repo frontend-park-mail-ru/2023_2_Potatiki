@@ -1,0 +1,5 @@
+<div class="{{input-container-class}}">
+    {{#if label}}<label class="{{label-class}}" for="{{label-for}}">{{label-text}}</label>{{/if}}
+    <input class="{{input-class}}" type="{{input-type}}" autocomplete="{{autocomplete}}" name="{{input-name}}" placeholder="{{input-placeholder}}"> 
+    {{#if error}}<div class="{{input-error}}">{{error-text}}</div>{{/if}}
+</div>
