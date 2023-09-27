@@ -1,3 +1,4 @@
+import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
 
 import '../templates.js';
@@ -5,7 +6,7 @@ import '../templates.js';
 /**
  * Класс главной страницы
  */
-export default class MainPage { // extends BasePage {
+export default class MainPage {
   #parent;
 
   #config;
@@ -33,7 +34,15 @@ export default class MainPage { // extends BasePage {
     this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['main-page.hbs']());
 
     const self = document.getElementById('main-page');
-    const header = new Header(self, this.#config.mainPage, this.searchFormListener.bind(this));
+    const header = new Header(
+      self,
+      this.#config.mainPage,
+      this.searchFormListener.bind(this),
+      this.#config.isAuthorized,
+    );
     header.render();
+
+    const carousel = new Carousel(self, this.#config.mainPage.products);
+    carousel.render();
   }
 }

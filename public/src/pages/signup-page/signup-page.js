@@ -1,8 +1,8 @@
-import Form from '../../components/form/form';
-import A from '../../components/a/a';
-import '../templates';
+import Form from '../../components/form/form.js';
+import A from '../../components/a/a.js';
+import '../templates.js';
 
-export default class SignupPage { // extends BasePage {
+export default class SignupPage {
   #parent;
 
   #config;

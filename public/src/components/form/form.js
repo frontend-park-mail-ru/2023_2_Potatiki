@@ -19,11 +19,17 @@ export default class Form {
     this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['form.hbs'](this.#config));
 
     const self = document.getElementById(this.#config.formId);
+    self.innerHTML = '';
+    // this.#config.inputs.forEach((element) => {
+    //   const input = new Input(self, Object.values(element)[0]);
+    //   input.render();
+    // });
 
-    this.#config.inputs.forEach((element) => {
-      const input = new Input(self, element);
+    for (const inputConf in this.#config.inputs) {
+      console.log(inputConf);
+      const input = new Input(self, this.#config.inputs[inputConf]);
       input.render();
-    });
+    }
 
     const submit = new Button(self, this.#config.submit, this.#submitHandle);
     submit.render();

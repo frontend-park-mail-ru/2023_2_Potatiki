@@ -21,9 +21,10 @@ export default class Button {
 
   render() {
     // this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['button.hbs'](this.#config));
+    console.log(this.#config);
     const button = document.createElement('button');
     button.setAttribute('class', this.#config.class);
-    button.setAttribute('type', this.#config?.type);
+    button.setAttribute('type', this.#config.type);
     button.setAttribute('id', this.#config.id);
     button.addEventListener('click', this.#submitHandle);
     button.innerHTML = window.Handlebars.templates['button.hbs'](this.#config);

@@ -10,10 +10,13 @@ export default class Header {
 
   #searchHandle;
 
-  constructor(parent, config, searchHandle) {
+  #isAuth;
+
+  constructor(parent, config, searchHandle, isAuth) {
     this.#parent = parent;
     this.#config = config;
     this.#searchHandle = searchHandle;
+    this.#isAuth = isAuth;
   }
 
   render() {
@@ -33,7 +36,14 @@ export default class Header {
     const basket = new A(self, this.#config.basket);
     basket.render();
 
-    const user = new A(self, this.#config.login);
+    const profileState = this.#isAuth ? this.#config.profile : this.#config.login;
+
+    const user = new A(self, profileState);
     user.render();
+
+    if (this.#isAuth) {
+      const logout = new A(self, this.#config.logout);
+      logout.render();
+    }
   }
 }
