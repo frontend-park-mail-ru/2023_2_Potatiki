@@ -1,14 +1,16 @@
 import '../templates.js';
 
-
 export default class Input {
-    #parent;
+  #parent;
 
-    constructor(parent) {
-        this.#parent = parent;
-    }
+  #config;
 
-    render(config) {
-        this.#parent.innerHTML += window.Handlebars.templates['input.hbs'](config);
-    }
+  constructor(parent, config) {
+    this.#parent = parent;
+    this.#config = config;
+  }
+
+  render() {
+    this.#parent.innerHTML += window.Handlebars.templates['input.hbs'](this.#config);
+  }
 }

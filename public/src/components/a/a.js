@@ -1,23 +1,16 @@
 import '../templates.js';
 
-
 export default class A {
-    #parent;
+  #parent;
 
-    constructor(parent) {
-        this.#parent = parent;
-    }
+  #config;
 
-    addListeners(listener, id) {
-        document
-            .getElementById(id)
-            .addEventListener("click", listener)
-    }
+  constructor(parent, config) {
+    this.#parent = parent;
+    this.#config = config;
+  }
 
-    render(config, listener) {
-        this.#parent.innerHTML += window.Handlebars.templates['a.hbs'](config);
-        
-        console.log(listener, config)
-        this.addListeners(listener, config.id)
-    }
+  render() {
+    this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['a.hbs'](this.#config));
+  }
 }

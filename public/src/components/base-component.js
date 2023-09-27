@@ -1,11 +1,11 @@
 export default class BaseComponent {
-    #parent;
+  #parent;
 
-    constructor(parent) {
-        this.#parent = parent;
-    }
+  constructor(parent) {
+    this.#parent = parent;
+  }
 
-    render(data) {
+  render(data) {
 
-    }
+  }
 }

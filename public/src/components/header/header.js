@@ -3,31 +3,37 @@ import Form from '../form/form.js';
 import A from '../a/a.js';
 import '../templates.js';
 
-
 export default class Header {
-    #parent;
+  #parent;
 
-    constructor(parent) {
-        this.#parent = parent;
-    }
+  #config;
 
-    render(config, profileAction) {
-        this.#parent.innerHTML += window.Handlebars.templates['header.hbs']();
-        const self = document.getElementById('header');
+  #searchHandle;
 
-        const logo = new Button(self);
-        logo.render(config.logo);
+  constructor(parent, config, searchHandle) {
+    this.#parent = parent;
+    this.#config = config;
+    this.#searchHandle = searchHandle;
+  }
 
-        const catalog = new Button(self);
-        catalog.render(config.catalog);
+  render() {
+    this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['header.hbs']());
 
-        const search = new Form(self);
-        search.render(config.search);
+    const self = document.getElementById('header');
 
-        const basket = new A(self);
-        basket.render(config.basket);
+    const logo = new A(self, this.#config.logo);
+    logo.render();
 
-        const user = new A(self);
-        user.render(config.login, profileAction)
-    }
+    const catalog = new Button(self, this.#config.catalog);
+    catalog.render();
+
+    const search = new Form(self, this.#config.search, this.#searchHandle);
+    search.render();
+
+    const basket = new A(self, this.#config.basket);
+    basket.render();
+
+    const user = new A(self, this.#config.login);
+    user.render();
+  }
 }

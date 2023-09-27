@@ -2,26 +2,30 @@ import Button from '../button/button.js';
 import Input from '../input/input.js';
 import '../templates.js';
 
-
 export default class Form {
-    #parent;
+  #parent;
 
-    constructor(parent) {
-        this.#parent = parent;
-    }
+  #config;
 
-    render(config, submitHandle) {
-        console.log("form-data", config)
-        this.#parent.innerHTML += window.Handlebars.templates['form.hbs'](config);
+  #submitHandle;
 
-        const self = document.getElementById(config.formId);
+  constructor(parent, config, submitHandle) {
+    this.#parent = parent;
+    this.#config = config;
+    this.#submitHandle = submitHandle;
+  }
 
-        config.inputs.forEach(element => {
-            const input = new Input(self);
-            input.render(element);
-        });
+  render() {
+    this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['form.hbs'](this.#config));
 
-        const submit = new Button(self);
-        submit.render(config.submit, submitHandle);
-    }
+    const self = document.getElementById(this.#config.formId);
+
+    this.#config.inputs.forEach((element) => {
+      const input = new Input(self, element);
+      input.render();
+    });
+
+    const submit = new Button(self, this.#config.submit, this.#submitHandle);
+    submit.render();
+  }
 }

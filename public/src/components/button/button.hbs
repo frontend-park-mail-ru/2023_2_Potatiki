@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./src/components/button/button.css">
+{{!-- <link rel="stylesheet" href="./src/components/button/button.css"> --}}
 
 {{!-- <button class="{{button-class}}">
     <label class="{{button-label-class}}">{{button-text}}</label>
@@ -13,7 +13,10 @@
     </a>
 </div> --}}
 
-<button class="{{button-class}}" type="{{button-type}}" id="{{id}}">
+{{!-- <button class="{{button-class}}" type="{{button-type}}" id="{{id}}">
     {{#if withImg}} <img class="{{img-class}}" src="{{img-src}}"> {{/if}}
     <span class="{{button-span-class}}">{{button-text}}</span>
-</button>
+</button> --}}
+
+{{#if withImg}} <img class="{{imgClass}}" src="{{imgSrc}}"> {{/if}}
+<span class="{{buttonSpanClass}}">{{text}}</span>
