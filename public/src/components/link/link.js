@@ -1,6 +1,6 @@
 import '../templates.js';
 
-export default class A {
+export default class Link {
   #parent;
 
   #config;
