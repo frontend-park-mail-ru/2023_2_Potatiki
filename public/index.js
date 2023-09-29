@@ -1,5 +1,6 @@
 import MainPage from './src/pages/main-page/main-page.js';
 import LoginPage from './src/pages/login-page/login-page.js';
+import SignupPage from './src/pages/signup-page/signup-page.js';
 
 const root = document.getElementById('root');
 console.log('root');
@@ -468,6 +469,12 @@ const renderLoginPage = (router, isAuth) => {
   login.render();
 };
 
+const renderSignupPage = (router, isAuth) => {
+  config.isAuthorized = isAuth;
+  const signup = new SignupPage(root, config, router);
+  signup.render();
+};
+
 const changePage = (href, isAuth) => {
   switch (href) {
     case 'main':
@@ -480,6 +487,12 @@ const changePage = (href, isAuth) => {
       if (page !== 'login') {
         renderLoginPage(changePage, isAuth);
         page = 'login';
+      }
+      break;
+    case 'signup':
+      if (page !== 'signup') {
+        renderSignupPage(changePage, isAuth);
+        page = 'signup';
       }
       break;
     case 'logout':

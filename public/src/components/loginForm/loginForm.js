@@ -1,5 +1,6 @@
 import Button from '../button/button.js';
 import Input from '../input/input.js';
+import Link from '../link/link.js';
 import '../templates.js';
 
 
@@ -26,7 +27,18 @@ export default class LoginForm {
             },
 
             submit: {
-                
+                class: 'button login-form__button',
+                type: 'button',
+                id: 'login-submit-button',
+                text: 'Войти',
+            }, 
+
+            signup: {
+                id: 'signup-link',
+                aClass: 'link login-form__link',
+                aText: 'Зарегистрироваться',
+                aHref: 'signup',
+                withText: true,
             }
         }
     }
@@ -45,5 +57,8 @@ export default class LoginForm {
 
         const submit = new Button(self, this.#config.submit);
         submit.render();
+
+        const signupLink = new Link(self, this.#config.signup);
+        signupLink.render();
     }
 }

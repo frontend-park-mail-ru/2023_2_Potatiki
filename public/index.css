@@ -7,7 +7,9 @@
 @import './src/components/carousel/carousel.css';
 @import './src/pages/main-page/main-page.css';
 @import './src/pages/login-page/login-page.css';
+@import './src/pages/signup-page/signup-page.css';
 @import './src/components/loginForm/loginForm.css';
+@import './src/components/signupForm/signupForm.css';
 
 html, body {
     height: 100%;

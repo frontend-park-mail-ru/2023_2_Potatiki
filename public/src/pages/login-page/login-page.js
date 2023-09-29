@@ -1,6 +1,7 @@
 import Form from '../../components/form/form.js';
 import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
+import SignupForm from '../../components/signupForm/signupForm.js';
 import '../templates.js';
 
 export default class LoginPage {

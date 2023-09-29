@@ -1,4 +1,4 @@
-.login-form {
+.signup-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,17 +9,17 @@
     background: #EEEFFF; 
 }
 
-.login-form__input {
+.signup-form__input {
     width: 316px;
     margin-bottom: 36px;
 }
 
-.login-form__button {
+.signup-form__button {
     background: #5E64FF; 
     width: 316px; 
 }
 
-.login-form__name {
+.signup-form__name {
     margin-top: 86px;
     margin-bottom: 62px;
     font-family: Lato;
@@ -29,6 +29,6 @@
     line-height: normal; 
 }
 
-.login-form__link {
+.signup-form__link {
     margin-top: 32px;
 }

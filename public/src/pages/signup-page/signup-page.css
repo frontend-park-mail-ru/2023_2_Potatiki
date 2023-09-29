@@ -1,4 +1,4 @@
-#login-page {
+#signup-page {
     display: flex;
     flex-direction: column;
     background-color: #EEEFFF;
@@ -9,7 +9,7 @@
     padding-top: 64px;
 }
 
-.login-page__logo > img {
+.signup-page__logo > img {
     width: 200;
     height: 66px;
 }
