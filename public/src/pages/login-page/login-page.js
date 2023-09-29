@@ -9,10 +9,13 @@ export default class LoginPage {
 
   #router;
 
-  constructor(parent, config, router) {
+  #ajax;
+
+  constructor(parent, config, router, ajax) {
     this.#parent = parent;
     this.#config = config;
     this.#router = router;
+    this.#ajax = ajax;
   }
 
   get self() {
@@ -21,30 +24,58 @@ export default class LoginPage {
 
   formListener(e) {
     e.preventDefault();
+    // e.target.removeEventListener('click', this.formListener); ???
     const form = document.forms['login-form'];
     const login = form.elements.login.value.trim();
     const password = form.elements.password.value;
     console.log('login', login, password);
     form.elements.login.value = '';
     form.elements.password.value = '';
+
+    // validate
+    const [statusCode, message] = this.#ajax.postRequest('/api/v1/signin', { login, password });
+    switch (statusCode) {
+      case 200:
+        this.#router('main', true);
+        break;
+      case 401:
+        this.renderError('password', message);
+        break;
+      case 500:
+        this.renderServerError(message);
+        break;
+      default:
+        console.log('undefined status code:', statusCode);
+    }
     this.checkPassword(password);
   }
 
-  checkPassword(password) {
-    if (password !== 'password') {
-      const errorConfig = {
-        error: true,
-        errorText: 'Wrong password',
-      };
-      const passwordErrConfig = Object.assign(this.#config.loginPage.inputs.password, errorConfig);
-      const newConfig = this.#config.loginPage;
-      newConfig.inputs.password = passwordErrConfig;
+  renderServerError(msg) {
+    const serverError = document.createElement('div');
+    serverError.setAttribute('server-error');
+    serverError.textContent = msg;
+    document.body.appendChild(serverError);
+    setTimeout(() => {
+      document.body.removeChild(document.getElementById('server-error'));
+    }, 5000);
+  }
 
-      const loginForm = new Form(this.self, newConfig, this.formListener.bind(this));
-      loginForm.render();
-      return;
-    }
-    this.#router('main', true);
+  renderError(field, msg) {
+    const errorConfig = {
+      error: true,
+      errorText: msg,
+    };
+    const ErrConfig = Object.assign(this.#config.loginPage.inputs[field], errorConfig);
+    const newConfig = this.#config.loginPage;
+    newConfig.inputs[field] = ErrConfig;
+
+    this.renderForm(newConfig);
+  }
+
+  renderForm(newConfig) {
+    const config = newConfig || this.#config;
+    const loginForm = new Form(this.self, config, this.formListener.bind(this));
+    loginForm.render();
   }
 
   render() {
@@ -55,7 +86,6 @@ export default class LoginPage {
     const logo = new A(this.self, this.#config.loginPage.logo);
     logo.render();
 
-    const loginForm = new Form(this.self, this.#config.loginPage, this.formListener.bind(this));
-    loginForm.render();
+    this.renderForm();
   }
 }

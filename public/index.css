@@ -12,3 +12,40 @@ img {
     width: 50px;
     height: 50px;
 }
+
+@keyframes errorSurface {
+    from {
+        opacity: 0%;
+    }
+
+    10% {
+        opacity: 100%;
+    }
+
+    40% {
+        opacity: 100%;
+    }
+
+    to {
+        opacity: 0%;
+    }
+}
+
+#server-error {
+    color: white;
+    position: absolute;
+    left: 50%;
+    bottom: 20%;
+    background-color: rgb(237, 128, 128);
+    padding: 10px 30px 10px 30px;
+    border-radius: 20px;
+    animation-name: errorSurface;
+    animation-duration: 4100ms;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    /* animation-delay: 100, 1000ms; */
+    /* animation-timing-function: linear, linear; */
+    /* anim */
+    /* animation: errorSurface 3000ms linear; */
+
+}

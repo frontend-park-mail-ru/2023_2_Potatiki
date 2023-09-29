@@ -26,7 +26,7 @@ export default class Button {
     button.setAttribute('class', this.#config.class);
     button.setAttribute('type', this.#config.type);
     button.setAttribute('id', this.#config.id);
-    button.addEventListener('click', this.#submitHandle);
+    button.addEventListener('click', this.#submitHandle, { once: true }); // не удаляется?
     button.innerHTML = window.Handlebars.templates['button.hbs'](this.#config);
     this.#parent.appendChild(button);
   }

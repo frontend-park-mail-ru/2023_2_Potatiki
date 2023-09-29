@@ -1,5 +1,8 @@
 import MainPage from './src/pages/main-page/main-page.js';
 import LoginPage from './src/pages/login-page/login-page.js';
+import Ajax from './src/modules/ajax.js';
+
+const ajax = new Ajax('https://localhost', 3000);
 
 const root = document.getElementById('root');
 console.log('root');
@@ -199,13 +202,13 @@ const config = {
 
 const renderMainPage = (router, isAuth) => {
   config.isAuthorized = isAuth;
-  const main = new MainPage(root, config, router);
+  const main = new MainPage(root, config, router, ajax);
   main.render();
 };
 
 const renderLoginPage = (router, isAuth) => {
   config.isAuthorized = isAuth;
-  const login = new LoginPage(root, config, router);
+  const login = new LoginPage(root, config, router, ajax);
   login.render();
 };
 
