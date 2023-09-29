@@ -1,6 +1,7 @@
 import Button from '../button/button.js';
 import Form from '../form/form.js';
-import A from '../a/a.js';
+import Link from '../link/link.js';
+import SearchForm from '../searchForm/searchForm.js';
 import '../templates.js';
 
 export default class Header {
@@ -24,25 +25,31 @@ export default class Header {
 
     const self = document.getElementById('header');
 
-    const logo = new A(self, this.#config.logo);
+    const logo = new Link(self, this.#config.logo);
     logo.render();
 
     const catalog = new Button(self, this.#config.catalog);
     catalog.render();
 
-    const search = new Form(self, this.#config.search, this.#searchHandle);
+    const search = new SearchForm(self, this.#config.search, this.#searchHandle);
     search.render();
 
-    const basket = new A(self, this.#config.basket);
+    const orders = new Link(self, this.#config.orders);
+    orders.render();
+
+    const favorite = new Link(self, this.#config.favorite);
+    favorite.render();
+
+    const basket = new Link(self, this.#config.basket);
     basket.render();
 
     const profileState = this.#isAuth ? this.#config.profile : this.#config.login;
 
-    const user = new A(self, profileState);
+    const user = new Link(self, profileState);
     user.render();
 
     if (this.#isAuth) {
-      const logout = new A(self, this.#config.logout);
+      const logout = new Link(self, this.#config.logout);
       logout.render();
     }
   }

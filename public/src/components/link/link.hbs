@@ -1,4 +1,5 @@
-<a class="{{a-class}}" href="{{a-href}}" id="{{id}}">
-    {{#if withImg}} <img class="{{img-class}}" src="{{img-src}}"> {{/if}}
-    <span class="{{a-span-class}}">{{a-text}}</span>
+<a class="{{aClass}}" href="{{aHref}}" id="{{id}}" data-href="{{aHref}}">
+    {{#if withImg}} <img class="{{imgClass}}" src="{{imgSrc}}"> {{/if}}
+    {{#if withText}} <span class="{{aSpanClass}}">{{aText}}</span> {{/if}}
+    {{!-- тоже в иф обернуть? --}}
 </a>

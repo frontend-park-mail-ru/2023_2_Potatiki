@@ -1,5 +1,6 @@
 import Form from '../../components/form/form.js';
-import A from '../../components/a/a.js';
+import Link from '../../components/link/link.js';
+import LoginForm from '../../components/loginForm/loginForm.js';
 import '../templates.js';
 
 export default class LoginPage {
@@ -52,10 +53,10 @@ export default class LoginPage {
 
     this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['login-page.hbs']());
 
-    const logo = new A(this.self, this.#config.loginPage.logo);
+    const logo = new Link(this.self, this.#config.loginPage.logo);
     logo.render();
 
-    const loginForm = new Form(this.self, this.#config.loginPage, this.formListener.bind(this));
+    const loginForm = new LoginForm(this.self, this.#config.loginPage, this.formListener.bind(this));
     loginForm.render();
   }
 }

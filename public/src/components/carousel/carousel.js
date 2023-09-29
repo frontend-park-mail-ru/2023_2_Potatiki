@@ -1,4 +1,5 @@
-import ProductCard from '../poduct-card/product-card.js';
+import Button from '../button/button.js';
+import ProductCard from '../productCard/productCard.js';
 import '../templates.js';
 
 export default class Carousel {
@@ -12,13 +13,20 @@ export default class Carousel {
   }
 
   render() {
-    this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['carousel.hbs']());
+    this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['carousel.hbs'](this.#config));
 
-    const self = document.getElementById('carousel');
+    const self = document.getElementById(this.#config.id);
 
-    this.#config.forEach((element) => {
+    const buttonLeft = new Button(self, this.#config.buttonLeft);
+    buttonLeft.render();
+
+    console.log(this.#config.id);
+    this.#config.productsList.forEach((element) => {
       const product = new ProductCard(self, element);
       product.render();
     });
+
+    const buttonRight = new Button(self, this.#config.buttonRight);
+    buttonRight.render();
   }
 }

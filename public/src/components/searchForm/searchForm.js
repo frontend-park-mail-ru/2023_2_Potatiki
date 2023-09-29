@@ -18,11 +18,8 @@ export default class SearchForm {
 
         const self = document.getElementById("search-form");
 
-        console.log(self);
-        this.#config.inputs.forEach(element => {
-            const input = new Input(self, element);
-          input.render();
-        });
+        const input = new Input(self, this.#config.input);
+        input.render();
 
         const submit = new Button(self, this.#config.submit);
         submit.render();

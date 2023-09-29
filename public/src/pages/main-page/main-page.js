@@ -41,8 +41,12 @@ export default class MainPage {
       this.#config.isAuthorized,
     );
     header.render();
-
+    
+    
     const carousel = new Carousel(self, this.#config.mainPage.products);
     carousel.render();
+
+    const carousel2 = new Carousel(self, this.#config.mainPage.products2);
+    carousel2.render();
   }
 }

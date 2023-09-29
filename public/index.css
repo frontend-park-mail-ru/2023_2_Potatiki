@@ -1,14 +1,25 @@
+@import './src/components/button/button.css';
+@import './src/components/header/header.css';
+@import './src/components/link/link.css';
+@import './src/components/input/input.css';
+@import './src/components/searchForm/searchForm.css';
+@import './src/components/productCard/productCard.css';
+@import './src/components/carousel/carousel.css';
+@import './src/pages/main-page/main-page.css';
+@import './src/pages/login-page/login-page.css';
+@import './src/components/loginForm/loginForm.css';
 
-
-#header {
-    display: flex;
-    flex-direction: row;
-    height: 50px;
-    width: 100%;
-    justify-content: space-between;
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
-img {
-    width: 50px;
-    height: 50px;
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
 }

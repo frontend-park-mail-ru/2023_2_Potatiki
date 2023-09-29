@@ -11,6 +11,6 @@ export default class Link {
   }
 
   render() {
-    this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['a.hbs'](this.#config));
+    this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['link.hbs'](this.#config));
   }
 }

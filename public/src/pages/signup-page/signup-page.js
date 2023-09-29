@@ -1,5 +1,5 @@
 import Form from '../../components/form/form.js';
-import A from '../../components/a/a.js';
+import Link from '../../components/link/link.js';
 import '../templates.js';
 
 export default class SignupPage {
@@ -29,7 +29,7 @@ export default class SignupPage {
 
     const self = document.getElementById('signup-page');
 
-    const logo = new A(self, this.#config.loginPage.logo);
+    const logo = new Link(self, this.#config.loginPage.logo);
     logo.render();
 
     const loginForm = new Form(self, this.#config.loginPage, this.formListener.bind(this));

@@ -1,0 +1,14 @@
+.header {
+    display: flex;
+    height: 70px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    background-color: #FEFEFE;
+}
+
+.header__button_size_catalog {
+    width: 120px;
+    gap: 10px;
+}

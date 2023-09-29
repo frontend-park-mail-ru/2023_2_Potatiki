@@ -1,7 +1,7 @@
 .product-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
+   
     width: 196px;
     height: 338px;
     border-radius: 16px;
@@ -26,15 +26,19 @@
 
 .product-card__img {
     margin-top: 16px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .product-card__name {
     margin-top: 12px;
     padding-left: 16px;
+    height: 30px;
 }
 
 .product-card__reviews {
     margin-top: 18px;
+    padding-left: 16px;
 }
 
 .product-card__rate {
@@ -54,7 +58,7 @@
 
 .product-card__price {
     display: flex;
-    padding-left: 28px;
+    padding-left: 16px;
     width: 100%;
     margin-top: 20px;
 }
@@ -72,4 +76,6 @@
     margin-top: 22px;
     gap: 10px;
     width: 164px;
+    margin-left: auto;
+    margin-right: auto;
 }
