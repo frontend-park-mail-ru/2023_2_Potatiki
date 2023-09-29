@@ -1,22 +1,4 @@
-{{!-- <link rel="stylesheet" href="./src/components/button/button.css"> --}}
-
-{{!-- <button class="{{button-class}}">
-    <label class="{{button-label-class}}">{{button-text}}</label>
-</button> --}}
-
-
- {{!-- a -> button? --}}
-{{!-- <div class="{{button-class}}" type="{{button-type}}">
-    <a class="{{a-class}}" href="{{a-href}}">
-        {{#if withImg}} <img class="{{img-class}}" src="{{img-src}}"> {{/if}}
-        <label class="{{button-label-class}}">{{button-text}}</label>
-    </a>
-</div> --}}
-
-{{!-- <button class="{{button-class}}" type="{{button-type}}" id="{{id}}">
-    {{#if withImg}} <img class="{{img-class}}" src="{{img-src}}"> {{/if}}
-    <span class="{{button-span-class}}">{{button-text}}</span>
-</button> --}}
-
-{{#if withImg}} <img class="button__img" src="{{imgSrc}}"> {{/if}}
-<span class="button__text">{{text}}</span>
+<button class="button {{class}}" type="{{type}}" id="{{id}}">
+    {{#if withImg}} <img class="button__img" src="{{imgSrc}}"> {{/if}}
+    <span class="button__text">{{text}}</span>
+</button>

@@ -37,7 +37,7 @@ export default class SignupPage {
     const logo = new Link(this.self, this.#config.loginPage.logo);
     logo.render();
 
-    const signupForm = new SignupForm(this.self, this.#config.loginPage, this.formListener.bind(this));
+    const signupForm = new SignupForm(this.self, this.#config.signupPage.form, this.formListener.bind(this));
     signupForm.render();
   }
 }

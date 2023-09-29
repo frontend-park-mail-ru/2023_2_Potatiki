@@ -8,39 +8,9 @@ export default class LoginForm {
     #parent;
     #config
 
-    constructor(parent) {
+    constructor(parent, config) {
         this.#parent = parent;
-        //this.#config = config;
-        this.#config = {
-            formName: 'login',
-
-            login: {
-                inputClass: 'input login-form__input',
-                inputName: 'login',
-                inputPlaceholder: 'Введите логин'
-            },
-
-            password: {
-                inputClass: 'input login-form__input',
-                inputName: 'password',
-                inputPlaceholder: 'Введите пароль'
-            },
-
-            submit: {
-                class: 'button login-form__button',
-                type: 'button',
-                id: 'login-submit-button',
-                text: 'Войти',
-            }, 
-
-            signup: {
-                id: 'signup-link',
-                aClass: 'link login-form__link',
-                aText: 'Зарегистрироваться',
-                aHref: 'signup',
-                withText: true,
-            }
-        }
+        this.#config = config;
     }
 
     render(submitHandle) {

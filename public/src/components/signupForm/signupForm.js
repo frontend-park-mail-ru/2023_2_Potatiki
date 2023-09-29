@@ -8,45 +8,9 @@ export default class SignupForm {
     #parent;
     #config
 
-    constructor(parent) {
+    constructor(parent, config) {
         this.#parent = parent;
-        //this.#config = config;
-        this.#config = {
-            formName: 'signup-form',
-
-            login: {
-                inputClass: 'input signup-form__input',
-                inputName: 'login',
-                inputPlaceholder: 'Придумайте логин'
-            },
-
-            password: {
-                inputClass: 'input signup-form__input',
-                inputName: 'password',
-                inputPlaceholder: 'Придумайте пароль'
-            },
-
-            repeatPassword: {
-                inputClass: 'input signup-form__input',
-                inputName: 'repeat-password',
-                inputPlaceholder: 'Повторите пароль'
-            },
-
-            submit: {
-                class: 'button signup-form__button',
-                type: 'button',
-                id: 'signup-submit-button',
-                text: 'Зарегистрироваться',
-            }, 
-
-            loginLink: {
-                id: 'login-link',
-                aClass: 'link signup-form__link',
-                aText: 'Уже есть аккаунт?',
-                aHref: 'login',
-                withText: true,
-            }
-        }
+        this.#config = config;
     }
 
     render(submitHandle) {

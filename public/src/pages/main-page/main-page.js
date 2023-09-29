@@ -36,17 +36,16 @@ export default class MainPage {
     const self = document.getElementById('main-page');
     const header = new Header(
       self,
-      this.#config.mainPage,
+      this.#config.mainPage.header,
       this.searchFormListener.bind(this),
       this.#config.isAuthorized,
     );
     header.render();
     
-    
-    const carousel = new Carousel(self, this.#config.mainPage.products);
-    carousel.render();
+    const carousel1 = new Carousel(self, this.#config.mainPage.newCarousel);
+    carousel1.render();
 
-    const carousel2 = new Carousel(self, this.#config.mainPage.products2);
+    const carousel2 = new Carousel(self, this.#config.mainPage.popularCarousel);
     carousel2.render();
   }
 }

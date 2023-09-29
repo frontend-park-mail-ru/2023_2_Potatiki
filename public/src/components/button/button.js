@@ -13,21 +13,18 @@ export default class Button {
     this.#submitHandle = submitHandle;
   }
 
-  // addListeners() {
-  //     document
-  //         .getElementById(this.#config.id)
-  //         .addEventListener("click", this.#submitHandle)
-  // }
+  get self() {
+    return document.getElementById(this.#config.id);
+  }
+
+  addListeners() {
+       document
+           .getElementById(this.#config.id)
+           .addEventListener("click", this.#submitHandle)
+  }
 
   render() {
-    // this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['button.hbs'](this.#config));
-    console.log(this.#config);
-    const button = document.createElement('button');
-    button.setAttribute('class', this.#config.class);
-    button.setAttribute('type', this.#config.type);
-    button.setAttribute('id', this.#config.id);
-    button.addEventListener('click', this.#submitHandle);
-    button.innerHTML = window.Handlebars.templates['button.hbs'](this.#config);
-    this.#parent.appendChild(button);
+    this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['button.hbs'](this.#config));
+    //this.self.addEventListener('click', this.#submitHandle);
   }
 }

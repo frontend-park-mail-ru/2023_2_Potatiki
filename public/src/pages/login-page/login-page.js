@@ -57,7 +57,7 @@ export default class LoginPage {
     const logo = new Link(this.self, this.#config.loginPage.logo);
     logo.render();
 
-    const loginForm = new LoginForm(this.self, this.#config.loginPage, this.formListener.bind(this));
+    const loginForm = new LoginForm(this.self, this.#config.loginPage.form, this.formListener.bind(this));
     loginForm.render();
   }
 }

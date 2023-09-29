@@ -1,5 +1,4 @@
 import Button from '../button/button.js';
-import Form from '../form/form.js';
 import Link from '../link/link.js';
 import SearchForm from '../searchForm/searchForm.js';
 import '../templates.js';
