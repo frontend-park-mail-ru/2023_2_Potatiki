@@ -1,3 +1,6 @@
+
+export const baseURL = 'https://84.23.52.212:8082';
+
 const header = {
     logo: {
         id: 'logo-link',

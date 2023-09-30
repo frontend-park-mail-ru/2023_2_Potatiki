@@ -25,6 +25,8 @@ export default class SignupPage {
     const repeatPassword = form.elements['repeat-password'].value;
   }
 
+  // add removeListeners
+
   render() {
     this.#parent.innerHTML = '';
 

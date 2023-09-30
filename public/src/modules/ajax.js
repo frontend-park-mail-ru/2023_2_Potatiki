@@ -1,16 +1,7 @@
+import { baseURL } from "../../config";
+
+
 export default class Ajax {
-  #host;
-
-  #port;
-
-  constructor(host, port) {
-    this.#host = host;
-    this.#port = port;
-  }
-
-  get baseURL() {
-    return `${this.#host}:${this.#port}`;
-  }
 
   async postRequest(url, data) {
     const options = {
@@ -24,7 +15,7 @@ export default class Ajax {
       body: JSON.stringify(data),
     };
     try {
-      const response = await fetch(this.baseURL + url, options);
+      const response = await fetch(baseURL + url, options);
       const body = await response.json();
       return [response.status, body];
     } catch (error) {
@@ -43,7 +34,7 @@ export default class Ajax {
       },
     };
     try {
-      const response = await fetch(this.baseURL + url, options);
+      const response = await fetch(baseURL + url, options);
       const body = await response.json();
       return [response.status, body];
     } catch (error) {

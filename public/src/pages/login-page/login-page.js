@@ -9,13 +9,10 @@ export default class LoginPage {
 
   #router;
 
-  #ajax;
-
-  constructor(parent, config, router, ajax) {
+  constructor(parent, config, router) {
     this.#parent = parent;
     this.#config = config;
     this.#router = router;
-    this.#ajax = ajax;
   }
 
   get self() {
@@ -24,21 +21,20 @@ export default class LoginPage {
 
   formListener(e) {
     e.preventDefault();
-    // e.target.removeEventListener('click', this.formListener); ???
     const form = document.forms['login-form'];
     const login = form.elements.login.value.trim();
     const password = form.elements.password.value;
-    form.elements.login.value = '';
     form.elements.password.value = '';
 
     // validate
-    const [statusCode, message] = this.#ajax.postRequest('/api/v1/signin', { login, password });
+    const [statusCode, message] = Ajax.postRequest('/api/v1/signin', { login, password });
     switch (statusCode) {
       case 200:
         this.#router('main', true);
         break;
       case 401:
-        this.renderError('password', message);
+        // add from error (make visible)
+        // this.renderError('password', message);
         break;
       case 500:
         this.renderServerError(message);
@@ -59,22 +55,7 @@ export default class LoginPage {
     }, 5000);
   }
 
-  renderError(field, msg) {
-    const errorConfig = {
-      error: true,
-      errorText: msg,
-    };
-    const ErrConfig = Object.assign(this.#config.loginPage.inputs[field], errorConfig);
-    const newConfig = this.#config.loginPage;
-    newConfig.inputs[field] = ErrConfig;
-
-    this.renderForm(newConfig);
-  }
-
-      return;
-    }
-    this.#router('main', true);
-  }
+  // add removeListeners
 
   render() {
     this.#parent.innerHTML = '';

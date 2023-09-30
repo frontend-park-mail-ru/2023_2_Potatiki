@@ -1,5 +1,6 @@
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
+import Ajax from '../../modules/ajax.js';
 
 import '../templates.js';
 
@@ -13,8 +14,6 @@ export default class MainPage {
 
   #router;
 
-  #ajax;
-
   /**
      *
      * @param {*} parent
@@ -23,8 +22,7 @@ export default class MainPage {
   constructor(parent, config, router, ajax) {
     this.#parent = parent;
     this.#config = config;
-    this.#router = router;
-    this.#ajax = ajax;
+    this.#router = router; // пока не нужен?
   }
 
   // getProduct(id) {
@@ -59,7 +57,7 @@ export default class MainPage {
   }
 
   getProducts() {
-    const [statusCode, message] = this.#ajax.getRequest('/api/v1/product');
+    const [statusCode, message] = Ajax.getRequest('/api/v1/product');
     switch (statusCode) {
       case 200:
         const carousel = new Carousel(self, message.body);
@@ -79,6 +77,8 @@ export default class MainPage {
     const form = document.forms['search-form'];
     const search = form.elements.search.value;
   }
+
+  // add removeListeners
 
   render() {
     this.#parent.innerHTML = '';
