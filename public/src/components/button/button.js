@@ -25,6 +25,5 @@ export default class Button {
 
   render() {
     this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['button.hbs'](this.#config));
-    //this.self.addEventListener('click', this.#submitHandle);
   }
 }

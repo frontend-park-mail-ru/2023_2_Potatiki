@@ -25,7 +25,6 @@ export default class MainPage {
     e.preventDefault();
     const form = document.forms['search-form'];
     const search = form.elements.search.value;
-    console.log('search', search);
   }
 
   render() {

@@ -1,4 +1,3 @@
-import Form from '../../components/form/form.js';
 import Link from '../../components/link/link.js';
 import SignupForm from '../../components/signupForm/signupForm.js';
 import '../templates.js';
@@ -24,15 +23,12 @@ export default class SignupPage {
     const name = form.elements.name.value.trim();
     const password = form.elements.password.value;
     const repeatPassword = form.elements['repeat-password'].value;
-    console.log('signup', login, name, password, repeatPassword);
   }
 
   render() {
     this.#parent.innerHTML = '';
 
     this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['signup-page.hbs']());
-
-    //const self = document.getElementById('signup-page');
 
     const logo = new Link(this.self, this.#config.loginPage.logo);
     logo.render();

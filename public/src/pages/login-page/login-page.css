@@ -1,7 +1,7 @@
 #login-page {
     display: flex;
     flex-direction: column;
-    background-color: #EEEFFF;
+    background-color: var(--color-background-auth);
     width: 100%;
     height: 100%;
     align-items: center;

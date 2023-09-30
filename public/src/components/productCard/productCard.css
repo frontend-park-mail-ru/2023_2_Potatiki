@@ -5,7 +5,7 @@
     width: 196px;
     height: 338px;
     border-radius: 16px;
-    background: #F5F5FF; 
+    background: var(--color-card-background); 
 }
 
 .product-card__reviews {
@@ -48,7 +48,7 @@
 }
 
 .product-card__rate > span {
-    color: #5E64FF;
+    color: var( --color-highlight);
     font-family: Lato;
     font-size: 12px;
     font-style: normal;
@@ -64,7 +64,7 @@
 }
 
 .product-card__price > span{
-    color: #181818;
+    color: var(--color-headline);
     font-family: Lato;
     font-size: 20px;
     font-style: normal;

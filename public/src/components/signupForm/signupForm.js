@@ -14,7 +14,6 @@ export default class SignupForm {
     }
 
     render(submitHandle) {
-        console.log("form-data", this.#config)
         this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['signupForm.hbs'](this.#config));
 
         const self = document.getElementById("signup-form");

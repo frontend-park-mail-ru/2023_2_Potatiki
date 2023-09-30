@@ -13,8 +13,7 @@ export default class SearchForm {
     }
 
     render(submitHandle) {
-        console.log("form-data", this.#config)
-        this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['form.hbs'](this.#config));
+        this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['searchForm.hbs'](this.#config));
 
         const self = document.getElementById("search-form");
 

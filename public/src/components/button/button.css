@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 38px;
-    background: #18D9C8;
+    background: var(--color-secondary);
     border-radius: 24px;
     border: 0;
 }
@@ -15,8 +15,8 @@
 }
 
 .button__text {
-    color: #FFF;
-    font-family: Lato;
+    color: var(--color-button-text);
+    font-family: Lato, sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 400;

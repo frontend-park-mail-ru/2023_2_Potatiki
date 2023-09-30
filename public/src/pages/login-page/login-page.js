@@ -1,7 +1,5 @@
-import Form from '../../components/form/form.js';
 import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
-import SignupForm from '../../components/signupForm/signupForm.js';
 import '../templates.js';
 
 export default class LoginPage {
@@ -26,7 +24,6 @@ export default class LoginPage {
     const form = document.forms['login-form'];
     const login = form.elements.login.value.trim();
     const password = form.elements.password.value;
-    console.log('login', login, password);
     form.elements.login.value = '';
     form.elements.password.value = '';
     this.checkPassword(password);
@@ -42,8 +39,6 @@ export default class LoginPage {
       const newConfig = this.#config.loginPage;
       newConfig.inputs.password = passwordErrConfig;
 
-      const loginForm = new Form(this.self, newConfig, this.formListener.bind(this));
-      loginForm.render();
       return;
     }
     this.#router('main', true);

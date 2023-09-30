@@ -4,7 +4,6 @@ import SignupPage from './src/pages/signup-page/signup-page.js';
 import {config} from '/config.js';
 
 const root = document.getElementById('root');
-console.log('root');
 
 let page = 'main';
 
@@ -50,7 +49,6 @@ const changePage = (href, isAuth) => {
       renderMainPage(changePage, false);
       break;
     default:
-      console.log('undefined click');
   }
 };
 

@@ -1,4 +1,4 @@
 <button class="button {{class}}" type="{{type}}" id="{{id}}">
-    {{#if withImg}} <img class="button__img" src="{{imgSrc}}"> {{/if}}
-    <span class="button__text">{{text}}</span>
+    {{#if imgSrc}} <img class="button__img" src="{{imgSrc}}" alt="{{altText}}"/> {{/if}}
+    {{#if text}}<span class="button__text">{{text}}</span>{{/if}}
 </button>

@@ -12,6 +12,5 @@ export default class Input {
 
   render() {
     this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['input.hbs'](this.#config));
-    //this.#parent.innerHTML += window.Handlebars.templates['input.hbs'](this.#config);
   }
 }

@@ -14,7 +14,6 @@ export default class LoginForm {
     }
 
     render(submitHandle) {
-        console.log("form-data", this.#config)
         this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['loginForm.hbs'](this.#config));
 
         const self = document.getElementById("login-form");

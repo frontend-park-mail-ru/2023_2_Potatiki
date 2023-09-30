@@ -11,10 +11,10 @@
     margin-top: 16px;
 }
 
-.carousel-name {
+.carousel__name {
     padding-left: 80px;
-    color: #181818;
-    font-family: Nico Moji;
+    color: var(--color-headline);
+    font-family: Lato, sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
@@ -24,7 +24,7 @@
 .carousel__button {
     width: 42px;
     height: 42px;
-    background-color: #F5F5FF;
+    background-color: var(--color-button-text);
 }
 
 .carousel__button > img {
