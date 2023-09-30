@@ -11,14 +11,67 @@ export default class MainPage {
 
   #config;
 
+  #router;
+
+  #ajax;
+
   /**
      *
      * @param {*} parent
      * @param {*} config
      */
-  constructor(parent, config) {
+  constructor(parent, config, router, ajax) {
     this.#parent = parent;
     this.#config = config;
+    this.#router = router;
+    this.#ajax = ajax;
+  }
+
+  // getProduct(id) {
+  //   const [statusCode, message] = this.#ajax.getRequest(`/api/v1/product/${id}`);
+  //   switch (statusCode) {
+  //     case 200:
+  //       // ???
+  //       break;
+  //     default:
+  //       console.log('undefined status code');
+  //       break;
+  //   }
+  // }
+  // {
+  //   uuid:
+  //   img:
+  //   name:
+  //   category:
+  //   price:
+  //   rate:
+  //   reviews_count:
+  // }
+
+  renderServerError(msg) {
+    const serverError = document.createElement('div');
+    serverError.setAttribute('server-error');
+    serverError.textContent = msg;
+    document.body.appendChild(serverError);
+    setTimeout(() => {
+      document.body.removeChild(document.getElementById('server-error'));
+    }, 5000);
+  }
+
+  getProducts() {
+    const [statusCode, message] = this.#ajax.getRequest('/api/v1/product');
+    switch (statusCode) {
+      case 200:
+        const carousel = new Carousel(self, message.body);
+        carousel.render();
+        break;
+      case 500:
+        this.renderServerError(message);
+        break;
+      default:
+        console.log('undefined status code');
+        break;
+    }
   }
 
   searchFormListener(e) {
@@ -40,11 +93,7 @@ export default class MainPage {
       this.#config.isAuthorized,
     );
     header.render();
-    
-    const carousel1 = new Carousel(self, this.#config.mainPage.newCarousel);
-    carousel1.render();
 
-    const carousel2 = new Carousel(self, this.#config.mainPage.popularCarousel);
-    carousel2.render();
+    this.getProducts();
   }
 }

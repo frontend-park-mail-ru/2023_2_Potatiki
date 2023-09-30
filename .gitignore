@@ -1,5 +1,4 @@
 .idea/
 node_modules/
 .DS_Store
-public/src/pages/templates.js
-public/src/components/templates.js
+templates.js
