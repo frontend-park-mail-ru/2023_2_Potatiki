@@ -4,21 +4,19 @@ import SignupPage from './src/pages/signup-page/signup-page.js';
 import {config} from '/config.js';
 import Ajax from './src/modules/ajax.js';
 
-const ajax = new Ajax('https://localhost', 3000);
-
 const root = document.getElementById('root');
 
 let page = 'main';
 
 const renderMainPage = (router, isAuth) => {
   config.isAuthorized = isAuth;
-  const main = new MainPage(root, config, router, ajax);
+  const main = new MainPage(root, config, router);
   main.render();
 };
 
 const renderLoginPage = (router, isAuth) => {
   config.isAuthorized = isAuth;
-  const login = new LoginPage(root, config, router, ajax);
+  const login = new LoginPage(root, config, router);
   login.render();
 };
 
@@ -59,8 +57,7 @@ const listenClick = (e) => {
   e.preventDefault();
   const anchor = e.target.closest('a');
   if (!anchor) return;
-  const href = anchor.getAttribute('href');
-  changePage(href);
+  changePage(anchor.getAttribute('href'));
 };
 
 window.addEventListener('click', listenClick);
