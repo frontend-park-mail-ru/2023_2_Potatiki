@@ -1,7 +1,7 @@
 import MainPage from './src/pages/main-page/main-page.js';
 import LoginPage from './src/pages/login-page/login-page.js';
 import SignupPage from './src/pages/signup-page/signup-page.js';
-import {config} from '/config.js';
+import {config} from './config.js';
 
 const root = document.getElementById('root');
 

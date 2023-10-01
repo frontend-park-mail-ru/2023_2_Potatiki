@@ -10,6 +10,10 @@ export default class SignupForm {
     #parent;
     #config;
     #submitHandle;
+    login;
+    password;
+    repeatPassword;
+    submit;
 
     /**
      *
@@ -26,6 +30,14 @@ export default class SignupForm {
     /**
    *
    */
+
+    checkLogin(login) {
+        if(login.length < 6) {
+            return false;
+        }
+        return true;
+    }
+
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
@@ -34,17 +46,37 @@ export default class SignupForm {
 
         const self = document.getElementById('signup-form');
 
-        const login = new Input(self, this.#config.login);
-        login.render();
+        this.login = new Input(self, this.#config.login);
+        this.login.render();
 
-        const password = new Input(self, this.#config.password);
-        password.render();
+        // self.login.addEventListener("focusout", (event) => {
+        //     if (!this.checkLogin(self.login.value)) {
+        //         login.renderError('Error!');
+        //     }
+        // });
 
-        const reapeatPassword = new Input(self, this.#config.repeatPassword);
-        reapeatPassword.render();
+        // self.login.addEventListener("focusin", (event) => {
+        //     login.removeError();
+        // });
 
-        const submit = new Button(self, this.#config.submit, this.#submitHandle);
-        submit.render();
+        this.password = new Input(self, this.#config.password);
+        this.password.render();
+
+        // self.password.addEventListener("focusout", (event) => {
+        //     if (!this.checkPassword(self.password.value)) {
+        //         login.renderError('Error!');
+        //     }
+        // });
+
+        // this.password.addEventListener("focusin", (event) => {
+        //     password.removeError();
+        // });
+
+        this.reapeatPassword = new Input(self, this.#config.repeatPassword);
+        this.reapeatPassword.render();
+
+        this.submit = new Button(self, this.#config.submit, this.#submitHandle);
+        this.submit.render();
 
         const loginLink = new Link(self, this.#config.loginLink);
         loginLink.render();

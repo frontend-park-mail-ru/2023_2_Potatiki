@@ -452,6 +452,7 @@ const loginPage = {
         password: {
             inputClass: 'input login-form__input',
             inputName: 'password',
+            inputType: 'password',
             inputPlaceholder: 'Введите пароль',
         },
 
@@ -488,18 +489,23 @@ const signupPage = {
             inputClass: 'input signup-form__input',
             inputName: 'login',
             inputPlaceholder: 'Придумайте логин',
+            errorId: 'login-error',
         },
 
         password: {
             inputClass: 'input signup-form__input',
             inputName: 'password',
+            inputType: 'password',
             inputPlaceholder: 'Придумайте пароль',
+            errorId: 'password-error',
         },
 
         repeatPassword: {
             inputClass: 'input signup-form__input',
             inputName: 'repeat-password',
+            inputType: 'password',
             inputPlaceholder: 'Повторите пароль',
+            errorId: 'repeat-password-error',
         },
 
         submit: {

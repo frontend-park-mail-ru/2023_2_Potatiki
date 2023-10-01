@@ -40,6 +40,50 @@ export default class SignupPage {
         const repeatPassword = form.elements['repeat-password'].value;
     }
 
+    checkLogin(login) {
+      if(login.length < 6) {
+          return false;
+      }
+
+      for (let i = 0; i < login.length; ++i) {
+        if(!(login.codePointAt(i) >= 0x41 && login.codePointAt(i) <= 0x5A || 
+          login.codePointAt(i) >= 0x61 && login.codePointAt(i) <= 0x7A || 
+          login.codePointAt(i) >= 0x30 && login.codePointAt(i) <= 0x39)) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    checkPassword(pass) {
+      if(pass.length < 6) {
+          return false;
+      }
+
+      let isHasUpperLetter = false;
+      let isHasLowerLetter = false
+      let isHasDigit = false
+
+      for (let i = 0; i < pass.length; ++i) {
+        if(login.codePointAt(i) >= 0x41 && login.codePointAt(i) <= 0x5A) {
+          isHasUpperLetter = true;
+        }
+
+        if(login.codePointAt(i) >= 0x61 && login.codePointAt(i) <= 0x7A) {
+          isHasLowerLetter = true;
+        }
+
+        if(login.codePointAt(i) >= 0x30 && login.codePointAt(i) <= 0x39) {
+          isHasDigit = true;
+        }
+      }
+
+      if(isHasDigit && isHasLowerLetter && isHasUpperLetter) { 
+        return true;
+      }
+    }
+
     // add removeListeners
 
     /**
@@ -63,5 +107,11 @@ export default class SignupPage {
         );
 
         signupForm.render();
+        
+        signupForm.login.addFocusOutListener(this.checkLogin);
+        signupForm.login.addFocusInListener();
+
+        signupForm.password.addFocusOutListener(this.checkPassword);
+        signupForm.password.addFocusInListener();
     }
 }

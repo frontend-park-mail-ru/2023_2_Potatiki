@@ -18,9 +18,40 @@ export default class Input {
         this.#config = config;
     }
 
+   
+
     /**
    *
    */
+  
+    addFocusOutListener(callback) {
+        const self = document.getElementsByName(this.#config.inputName)[0];
+        self.addEventListener('focusout', (event) => {
+            if (!callback(self.value)) {
+                this.renderError('Error!');
+            }
+        });
+    }
+
+    addFocusInListener() {
+        const self = document.getElementsByName(this.#config.inputName)[0]
+        self.addEventListener('focusin', (event) => {
+            this.removeError();
+        });
+    }
+
+    renderError(error) {
+        const errorDiv = document.getElementById(this.#config.errorId);
+        errorDiv.insertAdjacentHTML('beforeend', error);
+        console.log('error', error);
+    }
+
+    removeError() {
+        const errorDiv = document.getElementById(this.#config.errorId);
+        errorDiv.innerHTML = '';
+        console.log('no error');
+    }
+
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
