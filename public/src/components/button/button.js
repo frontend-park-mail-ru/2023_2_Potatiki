@@ -1,7 +1,7 @@
 import '../templates.js';
 
 /**
- *
+ * Класс кнопки
  */
 export default class Button {
     #parent;
@@ -11,10 +11,10 @@ export default class Button {
     #submitHandle;
 
     /**
-   *
-   * @param {*} parent
-   * @param {*} config
-   * @param {*} submitHandle
+   * Конструктор класса
+   * @param {Element} parent Родительский элемент
+   * @param {Object} config Конфиг для отрисовки класса
+   * @param {Function} submitHandle Функция, вызываемая при нажатии на кнопку
    */
     constructor(parent, config, submitHandle) {
         this.#parent = parent;
@@ -23,14 +23,14 @@ export default class Button {
     }
 
     /**
-   *
+   * Получение элемента компонента кнопик
    */
     get self() {
         return document.getElementById(this.#config.id);
     }
 
     /**
-   *
+   * Добавление лисенера на событие 'click'
    */
     addListeners() {
         document
@@ -39,7 +39,7 @@ export default class Button {
     }
 
     /**
-   *
+   * Отрисовка компонента кнопки
    */
     render() {
         this.#parent.insertAdjacentHTML(

@@ -1,48 +1,61 @@
 import MainPage from './src/pages/main-page/main-page.js';
 import LoginPage from './src/pages/login-page/login-page.js';
 import SignupPage from './src/pages/signup-page/signup-page.js';
+import Ajax from './src/modules/ajax.js';
+import renderServerError from './src/modules/server-error.js';
 import {config} from './config.js';
 
 const root = document.getElementById('root');
 
-let page = 'main';
-
-const renderMainPage = (router, isAuth) => {
+/**
+ * Отрисовка главной страницы
+ * @param {Boolean} isAuth Статус авторизации
+ */
+const renderMainPage = (isAuth) => {
     config.isAuthorized = isAuth;
-    const main = new MainPage(root, config, router);
+    const main = new MainPage(root, config, changePage);
     main.render();
 };
 
-const renderLoginPage = (router, isAuth) => {
-    config.isAuthorized = isAuth;
-    const login = new LoginPage(root, config, router);
+/**
+ * Отрисовка страницы авторизации
+ */
+const renderLoginPage = () => {
+    const login = new LoginPage(root, config, changePage);
     login.render();
 };
 
-const renderSignupPage = (router, isAuth) => {
-    config.isAuthorized = isAuth;
-    const signup = new SignupPage(root, config, router);
+/**
+ * Отрисовка страницы регистрации
+ */
+const renderSignupPage = () => {
+    const signup = new SignupPage(root, config, changePage);
     signup.render();
 };
 
+/**
+ * Функция осуществляющая переход на нужную страницу
+ * @param {String} href Путь к странице
+ * @param {Boolean} isAuth статус авторизации
+ */
 const changePage = (href, isAuth) => {
     switch (href) {
     case 'main':
-        if (page !== 'main') {
+        if (config.page !== 'main') {
             renderMainPage(changePage, isAuth);
-            page = 'main';
+            config.page = 'main';
         }
         break;
     case 'login':
-        if (page !== 'login') {
-            renderLoginPage(changePage, isAuth);
-            page = 'login';
+        if (config.page !== 'login') {
+            renderLoginPage(changePage);
+            config.page = 'login';
         }
         break;
     case 'signup':
-        if (page !== 'signup') {
-            renderSignupPage(changePage, isAuth);
-            page = 'signup';
+        if (config.page !== 'signup') {
+            renderSignupPage(changePage);
+            config.page = 'signup';
         }
         break;
     case 'logout':
@@ -52,12 +65,38 @@ const changePage = (href, isAuth) => {
     }
 };
 
-const listenClick = (e) => {
-    e.preventDefault();
-    const anchor = e.target.closest('a');
+/**
+ * Listener для нажатий по ссылкам
+ * @param {Object} event Событие нажатия по ссылке
+ */
+const listenClick = (event) => {
+    event.preventDefault();
+    const anchor = event.target.closest('a');
     if (!anchor) return;
     changePage(anchor.getAttribute('href'));
 };
 
 window.addEventListener('click', listenClick);
-renderMainPage(changePage, false);
+
+/**
+ * Функция проверяет авторизован ли пользователь и
+ * отображает соответствующий вид страницы
+ */
+const checkSession = () => {
+    const [statusCode, body] = Ajax.getRequest('check_session');
+    switch (statusCode) {
+    case 200:
+        renderMainPage(true);
+        break;
+    case 401:
+        renderMainPage(false);
+        break;
+    case 500:
+        renderServerError(body.error);
+        break;
+    default:
+        console.log('undefined status code:', statusCode);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', checkSession);

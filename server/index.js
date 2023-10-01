@@ -8,9 +8,9 @@ app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.use(express.static(path.resolve(__dirname, '..', 'node_modules')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
 app.listen(port, () => {
-  console.log(`Server listening port ${port}`);
+    console.log(`Server listening port ${port}`);
 });

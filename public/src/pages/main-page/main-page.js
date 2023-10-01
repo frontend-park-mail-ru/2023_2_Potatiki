@@ -1,6 +1,7 @@
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
 import Ajax from '../../modules/ajax.js';
+import renderServerError from '../../modules/server-error.js';
 
 import '../templates.js';
 
@@ -15,10 +16,10 @@ export default class MainPage {
     #router;
 
     /**
-   *
-   * @param {*} parent
-   * @param {*} config
-   * @param {*} router
+   * Конструктор класса
+   * @param {Element} parent Родительский элемент
+   * @param {Object} config Конфиг для отрисовки страницы
+   * @param {Function} router Функция осуществляющая переход на другую страницу
    */
     constructor(parent, config, router) {
         this.#parent = parent;
@@ -26,53 +27,20 @@ export default class MainPage {
         this.#router = router; // пока не нужен?
     }
 
-    // getProduct(id) {
-    //   const [statusCode, message] = this.#ajax.getRequest(`/api/v1/product/${id}`);
-    //   switch (statusCode) {
-    //     case 200:
-    //       // ???
-    //       break;
-    //     default:
-    //       console.log('undefined status code');
-    //       break;
-    //   }
-    // }
-    // {
-    //   uuid:
-    //   img:
-    //   name:
-    //   category:
-    //   price:
-    //   rate:
-    //   reviews_count:
-    // }
-
     /**
-   *
-   * @param {*} msg
+   * Получение и отрисовка карусели товаров
+   * @param {Number} offset Сдвиг в списке товаров
+   * @param {Number} count Количество запрашиваемых товаров
    */
-    renderServerError(msg) {
-        const serverError = document.createElement('div');
-        serverError.setAttribute('server-error');
-        serverError.textContent = msg;
-        document.body.appendChild(serverError);
-        setTimeout(() => {
-            document.body.removeChild(document.getElementById('server-error'));
-        }, 5000);
-    }
-
-    /**
-   *
-   */
-    getProducts() {
-        const [statusCode, message] = Ajax.getRequest('/api/v1/product');
+    getProducts(offset=0, count=5) {
+        const [statusCode, body] = Ajax.getRequest(`products/?offset=${offset}&count=${count}`);
         switch (statusCode) {
         case 200:
-            const carousel = new Carousel(self, message.body);
+            const carousel = new Carousel(self, body.body);
             carousel.render();
             break;
         case 500:
-            this.renderServerError(message);
+            renderServerError(body.error);
             break;
         default:
             console.log('undefined status code');
@@ -81,10 +49,10 @@ export default class MainPage {
     }
 
     /**
-   *
-   * @param {*} e
+   * Обработка формы поиска по странице
+   * @param {Object} event
    */
-    searchFormListener(e) {
+    searchFormListener(event) {
         e.preventDefault();
         const form = document.forms['search-form'];
         const search = form.elements.search.value;
@@ -93,7 +61,7 @@ export default class MainPage {
     // add removeListeners
 
     /**
-   *
+   * Отрисовка страницы регистрации
    */
     render() {
         this.#parent.innerHTML = '';
@@ -112,6 +80,6 @@ export default class MainPage {
         );
         header.render();
 
-        this.getProducts();
+        this.getProducts(0, 5);
     }
 }

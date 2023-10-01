@@ -1,14 +1,14 @@
 import {baseURL} from '../../config.js';
 
 /**
- *
+ * Методы для отправки сетевых запросов
  */
 export default class Ajax {
     /**
-   *
-   * @param {*} url
-   * @param {*} data
-   * @returns
+   * POST-запрос
+   * @param {String} url Путь запроса
+   * @param {Object} data Тело запроса
+   * @return {Object} Ответ с сервера
    */
     async postRequest(url, data) {
         const options = {
@@ -31,9 +31,9 @@ export default class Ajax {
     }
 
     /**
-   *
-   * @param {String} url
-   * @returns
+   * GET-запрос
+   * @param {String} url Путь запроса
+   * @return {Object} Ответ с сервера
    */
     async getRequest(url) {
         const options = {

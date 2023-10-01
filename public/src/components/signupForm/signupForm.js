@@ -4,7 +4,7 @@ import Link from '../link/link.js';
 import '../templates.js';
 
 /**
- *
+ * Класс формы регистрации
  */
 export default class SignupForm {
     #parent;
@@ -27,17 +27,22 @@ export default class SignupForm {
         this.#submitHandle = submitHandle;
     }
 
-    /**
-   *
-   */
 
+    /**
+     * Валидация логина
+     * @param {String} login Логин пользователя
+     * @return {Boolean} Результат проверки
+     */
     checkLogin(login) {
-        if(login.length < 6) {
+        if (login.length < 6) {
             return false;
         }
         return true;
     }
 
+    /**
+     * Отрисовка компонента формы регистрации
+     */
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',

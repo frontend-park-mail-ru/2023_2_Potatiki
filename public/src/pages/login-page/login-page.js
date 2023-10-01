@@ -1,10 +1,11 @@
 import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import Ajax from '../../modules/ajax.js';
+import renderServerError from '../../modules/server-error.js';
 import '../templates.js';
 
 /**
- *
+ * Класс страницы авторизации
  */
 export default class LoginPage {
     #parent;
@@ -14,10 +15,10 @@ export default class LoginPage {
     #router;
 
     /**
-   *
-   * @param {*} parent
-   * @param {*} config
-   * @param {*} router
+   * Конструктор класса
+   * @param {Element} parent Родительский элемент
+   * @param {Object} config Конфиг для отрисовки страницы
+   * @param {Function} router Функция осуществляющая переход на другую страницу
    */
     constructor(parent, config, router) {
         this.#parent = parent;
@@ -26,26 +27,26 @@ export default class LoginPage {
     }
 
     /**
-   *
+   * Получение элемента страницы из документа
    */
     get self() {
         return document.getElementById('login-page');
     }
 
     /**
-   *
-   * @param {*} e
+   * Обработка отправки формы авторизации
+   * @param {Object} event Событие отправки формы
    */
-    formListener(e) {
-        e.preventDefault();
+    formListener(event) {
+        event.preventDefault();
         const form = document.forms['login-form'];
         const login = form.elements.login.value.trim();
         const password = form.elements.password.value;
         form.elements.password.value = '';
 
         // validate
-        const [statusCode, message] = Ajax.postRequest(
-            '/api/v1/signin',
+        const [statusCode, body] = Ajax.postRequest(
+            'signin',
             {login, password},
         );
         switch (statusCode) {
@@ -57,33 +58,19 @@ export default class LoginPage {
         // this.renderError('password', message);
             break;
         case 500:
-            this.renderServerError(message);
+            renderServerError(body.error);
             break;
         default:
             console.log('undefined status code:', statusCode);
         }
-        this.checkPassword(password);
     }
 
-    /**
-   *
-   * @param {*} msg
-   */
-    renderServerError(msg) {
-        const serverError = document.createElement('div');
-        serverError.setAttribute('server-error');
-        serverError.textContent = msg;
-        document.body.appendChild(serverError);
-        setTimeout(() => {
-            document.body.removeChild(document.getElementById('server-error'));
-        }, 5000);
-    }
 
     // add removeListeners
 
 
     /**
-   *
+   * Отрисовки страницы авторизации
    */
     render() {
         this.#parent.innerHTML = '';
