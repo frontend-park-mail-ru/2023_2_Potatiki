@@ -8,6 +8,8 @@ export default class Input {
 
     #config;
 
+    value;
+
     /**
    *
    * @param {*} parent
@@ -23,12 +25,15 @@ export default class Input {
     /**
    *
    */
-  
+
     addFocusOutListener(callback) {
         const self = document.getElementsByName(this.#config.inputName)[0];
         self.addEventListener('focusout', (event) => {
-            if (!callback(self.value)) {
-                this.renderError('Error!');
+            this.value = self.value;
+            const err = callback(self.value);
+            if (err) {
+                self.style.borderColor = 'var(--color-incorrect)';
+                this.renderError(err);
             }
         });
     }
@@ -36,6 +41,7 @@ export default class Input {
     addFocusInListener() {
         const self = document.getElementsByName(this.#config.inputName)[0]
         self.addEventListener('focusin', (event) => {
+            self.style.borderColor = '#babfff';
             this.removeError();
         });
     }

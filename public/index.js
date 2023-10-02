@@ -26,24 +26,25 @@ const renderSignupPage = (router, isAuth) => {
 };
 
 const changePage = (href, isAuth) => {
+    console.log(page, href);
     switch (href) {
     case 'main':
         if (page !== 'main') {
             renderMainPage(changePage, isAuth);
-            page = 'main';
         }
+        page = 'main';
         break;
     case 'login':
         if (page !== 'login') {
             renderLoginPage(changePage, isAuth);
-            page = 'login';
         }
+        page = 'login';
         break;
     case 'signup':
         if (page !== 'signup') {
             renderSignupPage(changePage, isAuth);
-            page = 'signup';
         }
+        page = 'signup';
         break;
     case 'logout':
         renderMainPage(changePage, false);

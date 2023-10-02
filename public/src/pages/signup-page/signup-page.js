@@ -42,23 +42,23 @@ export default class SignupPage {
 
     checkLogin(login) {
       if(login.length < 6) {
-          return false;
+          return 'Минимальная длина 6 символов';
       }
 
       for (let i = 0; i < login.length; ++i) {
         if(!(login.codePointAt(i) >= 0x41 && login.codePointAt(i) <= 0x5A || 
           login.codePointAt(i) >= 0x61 && login.codePointAt(i) <= 0x7A || 
           login.codePointAt(i) >= 0x30 && login.codePointAt(i) <= 0x39)) {
-          return false;
+          return 'Разрешена только латиница и цифры';
         }
       }
 
-      return true;
+      return '';
     }
 
     checkPassword(pass) {
-      if(pass.length < 6) {
-          return false;
+      if(pass.length < 8) {
+          return 'Минимальная длина 8 символов';
       }
 
       let isHasUpperLetter = false;
@@ -66,21 +66,30 @@ export default class SignupPage {
       let isHasDigit = false
 
       for (let i = 0; i < pass.length; ++i) {
-        if(login.codePointAt(i) >= 0x41 && login.codePointAt(i) <= 0x5A) {
+        if(pass.codePointAt(i) >= 0x41 && pass.codePointAt(i) <= 0x5A) {
           isHasUpperLetter = true;
-        }
-
-        if(login.codePointAt(i) >= 0x61 && login.codePointAt(i) <= 0x7A) {
+        } else if(pass.codePointAt(i) >= 0x61 && pass.codePointAt(i) <= 0x7A) {
           isHasLowerLetter = true;
-        }
-
-        if(login.codePointAt(i) >= 0x30 && login.codePointAt(i) <= 0x39) {
+        } else if(pass.codePointAt(i) >= 0x30 && pass.codePointAt(i) <= 0x39) {
           isHasDigit = true;
+        } else {
+          return 'Разрешена только латиница и цифры';
         }
       }
 
       if(isHasDigit && isHasLowerLetter && isHasUpperLetter) { 
-        return true;
+        return '';
+      }
+
+      return 'Должны быть заглавные, прописные буквы латиницы и цифры';
+    }
+
+    checkEqualityPassword(pass) {
+      return function(reapeatPass) {
+        if(pass.value !== reapeatPass) {
+          return 'Пароли не совпадают';
+        }
+        return '';
       }
     }
 
@@ -107,11 +116,15 @@ export default class SignupPage {
         );
 
         signupForm.render();
-        
+
         signupForm.login.addFocusOutListener(this.checkLogin);
         signupForm.login.addFocusInListener();
 
         signupForm.password.addFocusOutListener(this.checkPassword);
         signupForm.password.addFocusInListener();
+
+        console.log(signupForm.password.value);
+        signupForm.reapeatPassword.addFocusOutListener(this.checkEqualityPassword(signupForm.password));
+        signupForm.reapeatPassword.addFocusInListener();
     }
 }

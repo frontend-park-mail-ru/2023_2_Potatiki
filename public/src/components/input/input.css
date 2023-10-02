@@ -9,5 +9,7 @@
 }
 
 .input__error {
-    height: 16px;
+    padding-left: 12px;
+    font-size: 14px;
+    color: var(--color-incorrect);
 }
