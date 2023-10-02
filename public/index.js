@@ -64,6 +64,7 @@ const changePage = (href, isAuth) => {
         break;
     case 'logout':
         renderMainPage(false);
+        Ajax.prototype.getRequest('auth/logout');
         break;
     default:
     }
@@ -106,4 +107,3 @@ const checkSession = () => {
 };
 
 document.addEventListener('DOMContentLoaded', checkSession);
-

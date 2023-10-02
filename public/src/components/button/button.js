@@ -46,5 +46,6 @@ export default class Button {
             'beforeend',
             window.Handlebars.templates['button.hbs'](this.#config),
         );
+        this.addListeners();
     }
 }

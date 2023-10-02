@@ -484,7 +484,8 @@ const signupPage = {
 
     form: {
         formName: 'signup-form',
-
+        errorId: 'singup-form-error',
+        
         login: {
             inputClass: 'input signup-form__input',
             inputName: 'login',

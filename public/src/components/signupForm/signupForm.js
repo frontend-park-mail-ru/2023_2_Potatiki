@@ -24,8 +24,20 @@ export default class SignupForm {
     constructor(parent, config, submitHandle) {
         this.#parent = parent;
         this.#config = config;
-       // this.#submitHandle = submitHandle;
-       this.#submitHandle = () => {console.log('Immma SUBMIT')};
+        this.#submitHandle = submitHandle;
+       //this.#submitHandle = () => {console.log('Immma SUBMIT')};
+    }
+
+    renderError(error) {
+        const errorDiv = document.getElementById(this.#config.errorId);
+        errorDiv.insertAdjacentHTML('beforeend', error);
+        console.log('error', error);
+    }
+
+    removeError() {
+        const errorDiv = document.getElementById(this.#config.errorId);
+        errorDiv.innerHTML = '';
+        console.log('no error');
     }
 
 

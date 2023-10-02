@@ -1,5 +1,6 @@
 import Link from '../../components/link/link.js';
 import SignupForm from '../../components/signupForm/signupForm.js';
+import Ajax from '../../modules/ajax.js';
 import '../templates.js';
 
 /**
@@ -11,6 +12,9 @@ export default class SignupPage {
     #config;
 
     #router;
+
+    signupForm;
+    isValidForm = false;
 
     /**
    * Конструктор класса
@@ -38,10 +42,29 @@ export default class SignupPage {
     formListener(event) {
         event.preventDefault();
         const form = document.forms['signup-form'];
-        const login = form.elements.login.value.trim();
-        const name = form.elements.name.value.trim();
+        const login = form.elements.login.value;
         const password = form.elements.password.value;
-        const repeatPassword = form.elements['repeat-password'].value;
+
+        if(this.isValidForm) {
+          Ajax.prototype.postRequest('auth/signup', {'login': login, 'password': password}).then((result) => {
+            const [statusCode, body] = result;
+            this.signupForm.removeError();
+
+            switch (statusCode) {
+              case 200:
+                  this.#router('main', true);
+                  break;
+              case 400:
+                  this.signupForm.renderError('Такой логин уже существует');
+                  break;
+              case 429:
+                  this.signupForm.renderError('Такой логин уже существует');
+                  break;
+              default:
+                  console.log('undefined status code:', statusCode);
+            }
+          });
+        }
     }
 
     /**
@@ -51,17 +74,21 @@ export default class SignupPage {
      */
     checkLogin(login) {
       if(login.length < 6) {
-          return 'Минимальная длина 6 символов';
+        this.isValidForm = false;
+        return 'Минимальная длина 6 символов';
+          
       }
 
         for (let i = 0; i < login.length; ++i) {
             if (!(login.codePointAt(i) >= 0x41 && login.codePointAt(i) <= 0x5A ||
           login.codePointAt(i) >= 0x61 && login.codePointAt(i) <= 0x7A ||
           login.codePointAt(i) >= 0x30 && login.codePointAt(i) <= 0x39)) {
+          this.isValidForm = false;
           return 'Разрешена только латиница и цифры';
         }
       }
 
+      this.isValidForm = true;
       return '';
     }
 
@@ -72,6 +99,7 @@ export default class SignupPage {
      */
     checkPassword(pass) {
       if(pass.length < 8) {
+          this.isValidForm = false;
           return 'Минимальная длина 8 символов';
       }
 
@@ -87,22 +115,28 @@ export default class SignupPage {
         } else if(pass.codePointAt(i) >= 0x30 && pass.codePointAt(i) <= 0x39) {
           isHasDigit = true;
         } else {
+          this.isValidForm = false;
           return 'Разрешена только латиница и цифры';
         }
       }
 
       if(isHasDigit && isHasLowerLetter && isHasUpperLetter) { 
+        this.isValidForm = true;
         return '';
       }
 
+      this.isValidForm = false;
       return 'Должны быть заглавные, прописные буквы латиницы и цифры';
     }
 
     checkEqualityPassword(pass) {
       return function(reapeatPass) {
         if(pass.value !== reapeatPass) {
+          this.isValidForm = false;
           return 'Пароли не совпадают';
         }
+        
+        this.isValidForm = true;
         return '';
       }
     }
@@ -123,22 +157,21 @@ export default class SignupPage {
         const logo = new Link(this.self, this.#config.loginPage.logo);
         logo.render();
 
-        const signupForm = new SignupForm(
+        this.signupForm = new SignupForm(
             this.self,
             this.#config.signupPage.form,
             this.formListener.bind(this),
         );
 
-        signupForm.render();
+        this.signupForm.render();
 
-        signupForm.login.addFocusOutListener(this.checkLogin);
-        signupForm.login.addFocusInListener();
+        this.signupForm.login.addFocusOutListener(this.checkLogin.bind(this));
+        this.signupForm.login.addFocusInListener();
 
-        signupForm.password.addFocusOutListener(this.checkPassword);
-        signupForm.password.addFocusInListener();
+        this.signupForm.password.addFocusOutListener(this.checkPassword.bind(this));
+        this.signupForm.password.addFocusInListener();
 
-        console.log(signupForm.password.value);
-        signupForm.reapeatPassword.addFocusOutListener(this.checkEqualityPassword(signupForm.password));
-        signupForm.reapeatPassword.addFocusInListener();
+        this.signupForm.reapeatPassword.addFocusOutListener(this.checkEqualityPassword(this.signupForm.password).bind(this));
+        this.signupForm.reapeatPassword.addFocusInListener();
     }
 }
