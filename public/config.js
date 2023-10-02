@@ -1,5 +1,5 @@
 
-export const baseURL = 'https://84.23.52.212:8082/api/v1/';
+export const baseURL = 'http://84.23.52.212:8082/api/';
 
 const header = {
     logo: {

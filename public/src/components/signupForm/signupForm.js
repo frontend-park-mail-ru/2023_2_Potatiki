@@ -24,7 +24,8 @@ export default class SignupForm {
     constructor(parent, config, submitHandle) {
         this.#parent = parent;
         this.#config = config;
-        this.#submitHandle = submitHandle;
+       // this.#submitHandle = submitHandle;
+       this.#submitHandle = () => {console.log('Immma SUBMIT')};
     }
 
 
@@ -54,28 +55,9 @@ export default class SignupForm {
         this.login = new Input(self, this.#config.login);
         this.login.render();
 
-        // self.login.addEventListener("focusout", (event) => {
-        //     if (!this.checkLogin(self.login.value)) {
-        //         login.renderError('Error!');
-        //     }
-        // });
-
-        // self.login.addEventListener("focusin", (event) => {
-        //     login.removeError();
-        // });
-
         this.password = new Input(self, this.#config.password);
         this.password.render();
 
-        // self.password.addEventListener("focusout", (event) => {
-        //     if (!this.checkPassword(self.password.value)) {
-        //         login.renderError('Error!');
-        //     }
-        // });
-
-        // this.password.addEventListener("focusin", (event) => {
-        //     password.removeError();
-        // });
 
         this.reapeatPassword = new Input(self, this.#config.repeatPassword);
         this.reapeatPassword.render();

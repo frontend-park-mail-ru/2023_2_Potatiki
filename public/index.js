@@ -39,31 +39,31 @@ const renderSignupPage = () => {
  * @param {Boolean} isAuth статус авторизации
  */
 const changePage = (href, isAuth) => {
-    console.log(page, href);
+    console.log(config.page, href);
     switch (href) {
     case 'main':
         if (config.page !== 'main') {
-            renderMainPage(changePage, isAuth);
+            renderMainPage(isAuth);
             config.page = 'main';
         }
-        page = 'main';
+        config.page = 'main';
         break;
     case 'login':
         if (config.page !== 'login') {
-            renderLoginPage(changePage);
+            renderLoginPage();
             config.page = 'login';
         }
-        page = 'login';
+        config.page = 'login';
         break;
     case 'signup':
         if (config.page !== 'signup') {
-            renderSignupPage(changePage);
+            renderSignupPage();
             config.page = 'signup';
         }
-        page = 'signup';
+        config.page = 'signup';
         break;
     case 'logout':
-        renderMainPage(changePage, false);
+        renderMainPage(false);
         break;
     default:
     }
@@ -87,20 +87,23 @@ window.addEventListener('click', listenClick);
  * отображает соответствующий вид страницы
  */
 const checkSession = () => {
-    const [statusCode, body] = Ajax.getRequest('check_session');
-    switch (statusCode) {
-    case 200:
-        renderMainPage(true);
-        break;
-    case 401:
-        renderMainPage(false);
-        break;
-    case 500:
-        renderServerError(body.error);
-        break;
-    default:
-        console.log('undefined status code:', statusCode);
-    }
+    Ajax.prototype.getRequest('auth/check_auth').then((result) => {
+        const [statusCode, body] = result;
+        switch (statusCode) {
+            case 200:
+                renderMainPage(true);
+                break;
+            case 401:
+                renderMainPage(false);
+                break;
+            case 500:
+                renderServerError(body.error);
+                break;
+            default:
+                console.log('undefined status code:', statusCode);
+        }
+    });
 };
 
 document.addEventListener('DOMContentLoaded', checkSession);
+

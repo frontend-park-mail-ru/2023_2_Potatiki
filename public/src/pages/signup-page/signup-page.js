@@ -131,7 +131,6 @@ export default class SignupPage {
 
         signupForm.render();
 
-
         signupForm.login.addFocusOutListener(this.checkLogin);
         signupForm.login.addFocusInListener();
 

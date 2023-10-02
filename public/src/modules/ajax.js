@@ -16,14 +16,16 @@ export default class Ajax {
             mode: 'cors',
             credentials: 'include',
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                //'Content-Type': 'application/json',
+                //'Accept': 'application/json',
             },
             body: JSON.stringify(data),
         };
         try {
             const response = await fetch(baseURL + url, options);
             const body = await response.json();
+            console.log("body", body);
+            console.log(response.status);
             return [response.status, body];
         } catch (error) {
             return [500, error];
@@ -41,13 +43,15 @@ export default class Ajax {
             mode: 'cors',
             credentials: 'include',
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                //'Content-Type': 'application/json',
+                //'Accept': 'application/json',
+                'Access-Control-Request-Method': 'GET',
             },
         };
         try {
             const response = await fetch(baseURL + url, options);
             const body = await response.json();
+            console.log(response.status);
             return [response.status, body];
         } catch (error) {
             return [500, error];
