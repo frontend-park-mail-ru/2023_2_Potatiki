@@ -39,3 +39,35 @@ html, body {
     --color-incorrect: #ED7777;;
     --color-correct: #18D988;
 }
+
+@keyframes errorSurface {
+    from {
+        opacity: 0%;
+    }
+
+    10% {
+        opacity: 100%;
+    }
+
+    40% {
+        opacity: 100%;
+    }
+
+    to {
+        opacity: 0%;
+    }
+}
+
+#server-error {
+    color: --color-background;
+    position: absolute;
+    left: 50%;
+    bottom: 20%;
+    background-color: --color-incorrect;
+    padding: 10px 30px 10px 30px;
+    border-radius: 20px;
+    animation-name: errorSurface;
+    animation-duration: 4100ms;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+}

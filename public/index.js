@@ -46,21 +46,18 @@ const changePage = (href, isAuth) => {
             renderMainPage(isAuth);
             config.page = 'main';
         }
-        config.page = 'main';
         break;
     case 'login':
         if (config.page !== 'login') {
             renderLoginPage();
             config.page = 'login';
         }
-        config.page = 'login';
         break;
     case 'signup':
         if (config.page !== 'signup') {
             renderSignupPage();
             config.page = 'signup';
         }
-        config.page = 'signup';
         break;
     case 'logout':
         renderMainPage(false);
@@ -91,17 +88,17 @@ const checkSession = () => {
     Ajax.prototype.getRequest('auth/check_auth').then((result) => {
         const [statusCode, body] = result;
         switch (statusCode) {
-            case 200:
-                renderMainPage(true);
-                break;
-            case 401:
-                renderMainPage(false);
-                break;
-            case 500:
-                renderServerError(body.error);
-                break;
-            default:
-                console.log('undefined status code:', statusCode);
+        case 200:
+            renderMainPage(true);
+            break;
+        case 401:
+            renderMainPage(false);
+            break;
+        case 500:
+            renderServerError(body.error);
+            break;
+        default:
+            console.log('undefined status code:', statusCode);
         }
     });
 };

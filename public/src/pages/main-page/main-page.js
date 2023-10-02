@@ -80,6 +80,6 @@ export default class MainPage {
         );
         header.render();
 
-       // this.getProducts(0, 5);
+        // this.getProducts(0, 5);
     }
 }

@@ -34,6 +34,22 @@ export default class LoginPage {
     }
 
     /**
+     *
+     * @param {*} login
+     * @param {*} password
+     * @returns
+     */
+    checkInput(login, password) {
+        if (login.length < 6) {
+            return false;
+        }
+        if (password.length < 8) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
    * Обработка отправки формы авторизации
    * @param {Object} event Событие отправки формы
    */
@@ -44,30 +60,55 @@ export default class LoginPage {
         const password = form.elements.password.value;
         form.elements.password.value = '';
 
-        // validate
-        const [statusCode, body] = Ajax.postRequest(
-            'signin',
-            {login, password},
-        );
-        switch (statusCode) {
-        case 200:
-            this.#router('main', true);
-            break;
-        case 401:
-        // add from error (make visible)
-        // this.renderError('password', message);
-            break;
-        case 500:
-            renderServerError(body.error);
-            break;
-        default:
-            console.log('undefined status code:', statusCode);
+        if (!this.checkInput(login, password)) {
+            this.renderLoginError('Неверный логин или пароль');
+            console.log('err input');
+            return;
         }
+        Ajax.prototype.postRequest(
+            'auth/signin',
+            {login, password},
+        ).then((result) => {
+            const [statusCode, body] = result;
+            switch (statusCode) {
+            case 200:
+                this.#router('main', true);
+                break;
+            case 401:
+                this.renderLoginError(body);
+                break;
+            case 500:
+                renderServerError(body.error);
+                break;
+            default:
+                break;
+            }
+        });
     }
 
 
     // add removeListeners
 
+    /**
+     *
+     * @param {*} event
+     * @param {*} error
+     */
+    removeError(event, error) {
+        event.preventDefault();
+        error.textContent = '';
+    }
+
+    /**
+     *
+     * @param {*} errorText
+     */
+    renderLoginError(errorText) {
+        const error = document.getElementById('login-form-error');
+        error.textContent = errorText;
+        const input = document.getElementsByClassName('login-form__input')[0];
+        input.addEventListener('focusin', this.removeError.bind(this, error));
+    }
 
     /**
    * Отрисовки страницы авторизации

@@ -25,7 +25,7 @@ export default class SignupForm {
         this.#parent = parent;
         this.#config = config;
         this.#submitHandle = submitHandle;
-       //this.#submitHandle = () => {console.log('Immma SUBMIT')};
+        // this.#submitHandle = () => {console.log('Immma SUBMIT')};
     }
 
     renderError(error) {
