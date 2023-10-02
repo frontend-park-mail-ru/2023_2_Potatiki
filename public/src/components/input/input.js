@@ -1,7 +1,7 @@
 import '../templates.js';
 
 /**
- *
+ * Класса компонента инпута
  */
 export default class Input {
     #parent;
@@ -11,20 +11,14 @@ export default class Input {
     value;
 
     /**
-   *
-   * @param {*} parent
-   * @param {*} config
+   * Конструктор класса
+   * @param {Element} parent Родительский элемент
+   * @param {Object} config Конфиг для отрисовки компонента
    */
     constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
     }
-
-   
-
-    /**
-   *
-   */
 
     addFocusOutListener(callback) {
         const self = document.getElementsByName(this.#config.inputName)[0];
@@ -39,7 +33,7 @@ export default class Input {
     }
 
     addFocusInListener() {
-        const self = document.getElementsByName(this.#config.inputName)[0]
+        const self = document.getElementsByName(this.#config.inputName)[0];
         self.addEventListener('focusin', (event) => {
             self.style.borderColor = '#babfff';
             this.removeError();
@@ -58,6 +52,9 @@ export default class Input {
         console.log('no error');
     }
 
+    /**
+     * Отрисовка компонента инпута
+     */
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',

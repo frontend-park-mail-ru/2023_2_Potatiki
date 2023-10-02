@@ -1,5 +1,5 @@
 
-export const baseURL = 'https://84.23.52.212:8082';
+export const baseURL = 'https://84.23.52.212:8082/api/v1/';
 
 const header = {
     logo: {
@@ -353,7 +353,7 @@ const productsList2 = [{
     id: 'product-8',
     img: {
         id: 'product-4-img',
-        aClass: 'ac1',
+        aClass: 'product-link',
         aHref: 'product-2',
         withImg: true,
         withText: false,
@@ -361,7 +361,7 @@ const productsList2 = [{
     },
     name: {
         id: 'product-4-name',
-        aClass: 'ac1',
+        aClass: 'product-name',
         aHref: 'product-2',
         aText: 'Macbook air',
         withImg: false,
@@ -377,9 +377,9 @@ const productsList2 = [{
     },
     reviewsHref: 'review',
     starHref: './static/images/star-purple.svg',
-    starClass: 'sc1',
+    starClass: 'product-rate-img',
     productRate: '5.0',
-    reviewsCountClass: 'rc1',
+    reviewsCountClass: 'product-count',
     reviewsCount: '144 отзыва',
     priceClass: 'pc1',
     price: '11 9999 ₽',
@@ -527,6 +527,7 @@ const signupPage = {
 
 export const config = {
     isAuthorized: false,
+    page: 'main',
     mainPage: mainPage,
     signupPage: signupPage,
     loginPage: loginPage,

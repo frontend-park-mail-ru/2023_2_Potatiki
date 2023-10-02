@@ -1,7 +1,7 @@
 import '../templates.js';
 
 /**
- *
+ * Класс компонента ссылки
  */
 export default class Link {
     #parent;
@@ -9,9 +9,9 @@ export default class Link {
     #config;
 
     /**
-   *
-   * @param {*} parent
-   * @param {*} config
+   * Конструктор класса ссылки
+   * @param {Element} parent Родительский компонент
+   * @param {Object} config Конфиг для отрисовки компонента
    */
     constructor(parent, config) {
         this.#parent = parent;
@@ -19,7 +19,7 @@ export default class Link {
     }
 
     /**
-   *
+   * Отрисовка компонента ссылки
    */
     render() {
         this.#parent.insertAdjacentHTML(

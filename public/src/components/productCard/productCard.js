@@ -3,7 +3,7 @@ import Link from '../link/link.js';
 import '../templates.js';
 
 /**
- *
+ * Класс компонента карточки товара
  */
 export default class ProductCard {
     #parent;
@@ -11,9 +11,9 @@ export default class ProductCard {
     #config;
 
     /**
-   *
-   * @param {*} parent
-   * @param {*} config
+   * Конструктор класса
+   * @param {Element} parent Родительский элемент
+   * @param {Object} config Конфиг отрисовки класса
    */
     constructor(parent, config) {
         this.#parent = parent;
@@ -21,7 +21,7 @@ export default class ProductCard {
     }
 
     /**
-   *
+   * Отрисовка компонента карточки продукта
    */
     render() {
         this.#parent.insertAdjacentHTML(

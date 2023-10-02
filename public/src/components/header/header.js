@@ -4,7 +4,7 @@ import SearchForm from '../searchForm/searchForm.js';
 import '../templates.js';
 
 /**
- *
+ * Класс хедера страницы
  */
 export default class Header {
     #parent;
@@ -16,11 +16,11 @@ export default class Header {
     #isAuth;
 
     /**
-   *
-   * @param {*} parent
-   * @param {*} config
-   * @param {*} searchHandle
-   * @param {*} isAuth
+   * Конструктор класса
+   * @param {Element} parent Родительский элемент
+   * @param {Object} config Конфиг для отрисовки класса
+   * @param {Function} searchHandle Функция, вызываемая при нажатии кнопки поиска
+   * @param {Bool} isAuth Данные об авторизации пользователя
    */
     constructor(parent, config, searchHandle, isAuth) {
         this.#parent = parent;
@@ -30,7 +30,7 @@ export default class Header {
     }
 
     /**
-   *
+   * Отрисовка компонента хедера
    */
     render() {
         this.#parent.insertAdjacentHTML(

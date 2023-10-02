@@ -3,7 +3,7 @@ import Input from '../input/input.js';
 import '../templates.js';
 
 /**
- *
+ * Класс компонента формы поиска
  */
 export default class SearchForm {
     #parent;
@@ -11,10 +11,10 @@ export default class SearchForm {
     #submitHandle;
 
     /**
-     *
-     * @param {*} parent
-     * @param {*} config
-     * @param {*} submitHandle
+     * Конструктор класса
+     * @param {Element} parent Родительский компонент
+     * @param {Object} config Конфиг для отрисовки класса
+     * @param {Function} submitHandle Функция, вызываемая при отправке формы
      */
     constructor(parent, config, submitHandle) {
         this.#parent = parent;
@@ -23,7 +23,7 @@ export default class SearchForm {
     }
 
     /**
-   *
+   * Отрисовка компонента формы поиска
    */
     render() {
         this.#parent.insertAdjacentHTML(

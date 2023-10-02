@@ -4,7 +4,7 @@ import Link from '../link/link.js';
 import '../templates.js';
 
 /**
- *
+ * Класс формы авторизации
  */
 export default class LoginForm {
     #parent;
@@ -14,10 +14,10 @@ export default class LoginForm {
     #submitHandle;
 
     /**
-   *
-   * @param {*} parent
-   * @param {*} config
-   * @param {*} submitHandle
+   * Конструктор класса
+   * @param {Element} parent Родительский компонент
+   * @param {Object} config Конфиг для отрисовки класса
+   * @param {Function} submitHandle Функция, вызываемая при отправке формы
    */
     constructor(parent, config, submitHandle) {
         this.#parent = parent;
@@ -26,7 +26,7 @@ export default class LoginForm {
     }
 
     /**
-   *
+   * Отрисовка компонента формы авторизации
    */
     render() {
         this.#parent.insertAdjacentHTML(
