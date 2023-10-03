@@ -13,9 +13,8 @@
 
 @font-face {
     font-family: Lato, sans-serif;
-    src: local("LexendPeta-Italic"),
-      url("./static/fonts/Arimo/static/Arimo-Regular.ttf") format("ttf");
-    font-weight: 400;
+    src: url("./static/fonts/Lato/Lato-Regular.woff2") format("woff2"),
+         url("static/fonts/Lato/Lato-Regular.woff") format("woff");
     font-style: normal;
     font-display: fallback;
 }
@@ -39,6 +38,7 @@ html, body {
     --color-background-header: #FBF9FF;
     --color-incorrect: #ED7777;;
     --color-correct: #18D988;
+    font-family: Lato, sans-serif;
 }
 
 @keyframes errorSurface {

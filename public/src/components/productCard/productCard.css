@@ -49,7 +49,6 @@
 
 .product-card__rate > span {
     color: var( --color-highlight);
-    font-family: Lato;
     font-size: 12px;
     font-style: normal;
     font-weight: 800;
@@ -65,7 +64,6 @@
 
 .product-card__price > span{
     color: var(--color-headline);
-    font-family: Lato;
     font-size: 20px;
     font-style: normal;
     font-weight: 800;

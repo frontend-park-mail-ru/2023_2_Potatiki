@@ -33,7 +33,8 @@ export default class Input {
             this.value = this.self.value;
             const err = callback(this.self.value);
             if (err) {
-                self.style.borderColor = 'var(--color-incorrect)';
+                console.log(self);
+                this.self.style.borderColor = 'var(--color-incorrect)';
                 this.renderError(err);
             }
         };
