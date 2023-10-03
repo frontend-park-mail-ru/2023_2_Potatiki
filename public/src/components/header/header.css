@@ -3,7 +3,8 @@
     height: 70px;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    padding-left: 24px;
     gap: 32px;
     background-color: var(--color-background-auth);
 }

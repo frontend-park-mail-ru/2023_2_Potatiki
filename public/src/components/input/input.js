@@ -8,6 +8,10 @@ export default class Input {
 
     #config;
 
+    focusInHandle;
+
+    focusOutHandle;
+
     value;
 
     /**
@@ -20,24 +24,29 @@ export default class Input {
         this.#config = config;
     }
 
+    get self() {
+        return document.getElementsByName(this.#config.inputName)[0];
+    }
+
     addFocusOutListener(callback) {
-        const self = document.getElementsByName(this.#config.inputName)[0];
-        self.addEventListener('focusout', (event) => {
-            this.value = self.value;
-            const err = callback(self.value);
+        this.focusOutHandle = (event) => {
+            this.value = this.self.value;
+            const err = callback(this.self.value);
             if (err) {
                 self.style.borderColor = 'var(--color-incorrect)';
                 this.renderError(err);
             }
-        });
+        };
+
+        this.self.addEventListener('focusout', this.focusOutHandle);
     }
 
     addFocusInListener() {
-        const self = document.getElementsByName(this.#config.inputName)[0];
-        self.addEventListener('focusin', (event) => {
-            self.style.borderColor = '#babfff';
+        this.focusInHandle = (event) => {
+            this.self.style.borderColor = '#babfff';
             this.removeError();
-        });
+        };
+        this.self.addEventListener('focusin', this.focusInHandle);
     }
 
     renderError(error) {
@@ -50,6 +59,16 @@ export default class Input {
         const errorDiv = document.getElementById(this.#config.errorId);
         errorDiv.innerHTML = '';
         console.log('no error');
+    }
+
+    removeListeners() {
+        if(this.focusOutHandle !== undefined) {
+            this.self.removeEventListener('focusout', this.focusOutHandle);
+        }
+
+        if(this.focusInHandle !== undefined) {
+            this.self.removeEventListener('focusin', this.focusInHandle);
+        }
     }
 
     /**

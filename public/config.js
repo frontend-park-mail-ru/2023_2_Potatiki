@@ -7,6 +7,7 @@ const header = {
         class: 'header__link_size_logo',
         href: 'main',
         withImg: true,
+        altText: 'ZuZu',
         imgSrc: './static/images/logo.svg',
     },
 
@@ -36,6 +37,7 @@ const header = {
             text: '',
             id: 'search-button',
             withImg: true,
+            altText: 'Поиск',
             imgSrc: './static/images/search.svg',
         },
 
@@ -55,7 +57,7 @@ const header = {
         id: 'favorite-button',
         class: 'link__icon',
         text: 'Избранное',
-        href: 'login',
+        href: '#',
         withImg: true,
         withText: true,
         imgSrc: './static/images/like-icon.svg',
@@ -437,6 +439,7 @@ const loginPage = {
         class: 'login-page__logo',
         href: 'main',
         withImg: true,
+        altText: 'ZuZu',
         imgSrc: './static/images/logo.svg',
     },
 
@@ -479,6 +482,7 @@ const signupPage = {
         class: 'login-page__logo',
         href: 'main',
         withImg: true,
+        altText: 'ZuZu',
         imgSrc: './static/images/logo.svg',
     },
 

@@ -44,6 +44,13 @@ export default class SignupForm {
         console.log('no error');
     }
 
+    removeListeners() {
+        this.login.removeListeners();
+        this.password.removeListeners();
+        this.reapeatPassword.removeListeners();
+        this.submit.removeListeners();
+    }
+
 
     /**
      * Валидация логина

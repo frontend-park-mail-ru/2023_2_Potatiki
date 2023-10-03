@@ -38,6 +38,12 @@ export default class Button {
             .addEventListener('click', this.#submitHandle);
     }
 
+    removeListeners() {
+        document
+            .getElementById(this.#config.id)
+            .removeEventListener('click', this.#submitHandle);
+    }
+
     /**
    * Отрисовка компонента кнопки
    */

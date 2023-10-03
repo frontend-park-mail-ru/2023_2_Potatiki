@@ -106,7 +106,7 @@ export default class SignupPage {
     }
 
     removeListeners() {
-        console.log('remove signup listeners');
+        this.signupForm.removeListeners();
     }
 
     /**
