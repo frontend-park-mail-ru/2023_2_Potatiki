@@ -74,10 +74,10 @@ export default class LoginPage {
             case 200:
                 this.#router('main', true);
                 break;
-            case 401:
-                this.renderLoginError(body);
+            case 400:
+                this.renderLoginError('Неверный логин или пароль'); // на сервере на русском?
                 break;
-            case 500:
+            case 429:
                 renderServerError(body.error);
                 break;
             default:
@@ -94,7 +94,7 @@ export default class LoginPage {
      * @param {*} event
      * @param {*} error
      */
-    removeError(event, error) {
+    removeError(error, event) {
         event.preventDefault();
         error.textContent = '';
     }
@@ -106,8 +106,26 @@ export default class LoginPage {
     renderLoginError(errorText) {
         const error = document.getElementById('login-form-error');
         error.textContent = errorText;
-        const input = document.getElementsByClassName('login-form__input')[0];
-        input.addEventListener('focusin', this.removeError.bind(this, error));
+        const login = document.getElementsByName('login')[0];
+        login.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
+        const password = document.getElementsByName('password')[0];
+        password.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
+        // const input = document.getElementsByClassName('login-form__input')[0];
+    }
+
+    /**
+     *
+     */
+    removeListeners() {
+        const id = this.#config.loginPage.form.submit.id;
+        const button = document.getElementById(id);
+        button.removeEventListener('click', this.formListener);
+
+        const loginInput = document.getElementsByName('login')[0];
+        loginInput.removeEventListener('focusin', this.removeError);
+
+        const passwordInput = document.getElementsByName('password')[0];
+        passwordInput.removeEventListener('focusin', this.removeError);
     }
 
     /**

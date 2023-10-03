@@ -36,10 +36,10 @@ export default class LoginForm {
 
         const self = document.getElementById('login-form');
 
-        const login = new Input(self, this.#config.login);
+        const login = new Input(document.getElementsByClassName('login-form__login')[0], this.#config.login);
         login.render();
 
-        const password = new Input(self, this.#config.password);
+        const password = new Input(document.getElementsByClassName('login-form__password')[0], this.#config.password);
         password.render();
 
         const submit = new Button(self, this.#config.submit, this.#submitHandle);

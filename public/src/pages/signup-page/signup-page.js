@@ -1,6 +1,7 @@
 import Link from '../../components/link/link.js';
 import SignupForm from '../../components/signupForm/signupForm.js';
 import Ajax from '../../modules/ajax.js';
+import {checkLogin, checkPassword} from '../../modules/validation.js';
 import '../templates.js';
 
 /**
@@ -60,7 +61,7 @@ export default class SignupPage {
                     this.signupForm.renderError('Такой логин уже существует');
                     break;
                 case 429:
-                    this.signupForm.renderError('Такой логин уже существует');
+                    this.signupForm.renderError('Такой логин уже существует'); // почему
                     break;
                 default:
                     console.log('undefined status code:', statusCode);
@@ -74,23 +75,10 @@ export default class SignupPage {
      * @param {String} login Логин пользователя
      * @return {String} Описание ошибки
      */
-    checkLogin(login) {
-        if (login.length < 6) {
-            this.isValidForm = false;
-            return 'Минимальная длина 6 символов';
-        }
-
-        for (let i = 0; i < login.length; ++i) {
-            if (!(login.codePointAt(i) >= 0x41 && login.codePointAt(i) <= 0x5A ||
-          login.codePointAt(i) >= 0x61 && login.codePointAt(i) <= 0x7A ||
-          login.codePointAt(i) >= 0x30 && login.codePointAt(i) <= 0x39)) {
-                this.isValidForm = false;
-                return 'Разрешена только латиница и цифры';
-            }
-        }
-
-        this.isValidForm = true;
-        return '';
+    validateLogin(login) {
+        const [message, isValid] = checkLogin(login);
+        this.isValidForm = isValid;
+        return message;
     }
 
     /**
@@ -98,36 +86,10 @@ export default class SignupPage {
      * @param {String} pass Пароль пользователя
      * @return {String} Описание ошибки
      */
-    checkPassword(pass) {
-        if (pass.length < 8) {
-            this.isValidForm = false;
-            return 'Минимальная длина 8 символов';
-        }
-
-        let isHasUpperLetter = false;
-        let isHasLowerLetter = false;
-        let isHasDigit = false;
-
-        for (let i = 0; i < pass.length; ++i) {
-            if (pass.codePointAt(i) >= 0x41 && pass.codePointAt(i) <= 0x5A) {
-                isHasUpperLetter = true;
-            } else if (pass.codePointAt(i) >= 0x61 && pass.codePointAt(i) <= 0x7A) {
-                isHasLowerLetter = true;
-            } else if (pass.codePointAt(i) >= 0x30 && pass.codePointAt(i) <= 0x39) {
-                isHasDigit = true;
-            } else {
-                this.isValidForm = false;
-                return 'Разрешена только латиница и цифры';
-            }
-        }
-
-        if (isHasDigit && isHasLowerLetter && isHasUpperLetter) {
-            this.isValidForm = true;
-            return '';
-        }
-
-        this.isValidForm = false;
-        return 'Должны быть заглавные, прописные буквы латиницы и цифры';
+    validatePassword(password) {
+        const [message, isValid] = checkPassword(password);
+        this.isValidForm = isValid;
+        return message;
     }
 
 
@@ -143,7 +105,9 @@ export default class SignupPage {
         };
     }
 
-    // add removeListeners
+    removeListeners() {
+        console.log('remove signup listeners');
+    }
 
     /**
    * Отрисовка страницы
@@ -167,13 +131,15 @@ export default class SignupPage {
 
         this.signupForm.render();
 
-        this.signupForm.login.addFocusOutListener(this.checkLogin.bind(this));
+        this.signupForm.login.addFocusOutListener(this.validateLogin.bind(this));
         this.signupForm.login.addFocusInListener();
 
-        this.signupForm.password.addFocusOutListener(this.checkPassword.bind(this));
+        this.signupForm.password.addFocusOutListener(this.validatePassword.bind(this));
         this.signupForm.password.addFocusInListener();
 
-        this.signupForm.reapeatPassword.addFocusOutListener(this.checkEqualityPassword(this.signupForm.password).bind(this));
+        this.signupForm.reapeatPassword.addFocusOutListener(
+            this.checkEqualityPassword(this.signupForm.password).bind(this),
+        );
         this.signupForm.reapeatPassword.addFocusInListener();
     }
 }

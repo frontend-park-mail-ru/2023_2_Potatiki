@@ -6,6 +6,7 @@ import renderServerError from './src/modules/server-error.js';
 import {config} from './config.js';
 
 const root = document.getElementById('root');
+let pageObject;
 
 /**
  * Отрисовка главной страницы
@@ -13,24 +14,27 @@ const root = document.getElementById('root');
  */
 const renderMainPage = (isAuth) => {
     config.isAuthorized = isAuth;
-    const main = new MainPage(root, config, changePage);
-    main.render();
+    pageObject?.removeListeners();
+    pageObject = new MainPage(root, config, changePage);
+    pageObject.render();
 };
 
 /**
  * Отрисовка страницы авторизации
  */
 const renderLoginPage = () => {
-    const login = new LoginPage(root, config, changePage);
-    login.render();
+    pageObject.removeListeners();
+    pageObject = new LoginPage(root, config, changePage);
+    pageObject.render();
 };
 
 /**
  * Отрисовка страницы регистрации
  */
 const renderSignupPage = () => {
-    const signup = new SignupPage(root, config, changePage);
-    signup.render();
+    pageObject.removeListeners();
+    pageObject = new SignupPage(root, config, changePage);
+    pageObject.render();
 };
 
 /**
@@ -94,7 +98,7 @@ const checkSession = () => {
         case 401:
             renderMainPage(false);
             break;
-        case 500:
+        case 429:
             renderServerError(body.error);
             break;
         default:

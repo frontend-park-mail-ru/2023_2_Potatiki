@@ -30,13 +30,17 @@ export default class SignupForm {
 
     renderError(error) {
         const errorDiv = document.getElementById(this.#config.errorId);
-        errorDiv.insertAdjacentHTML('beforeend', error);
+        // errorDiv.insertAdjacentHTML('beforeend', error);
+        console.log(errorDiv);
+        errorDiv.textContent = error;
         console.log('error', error);
     }
 
     removeError() {
+        console.log('remove', this.#config.errorId);
         const errorDiv = document.getElementById(this.#config.errorId);
-        errorDiv.innerHTML = '';
+        console.log(errorDiv);
+        errorDiv.textContent = '';
         console.log('no error');
     }
 
@@ -64,14 +68,14 @@ export default class SignupForm {
 
         const self = document.getElementById('signup-form');
 
-        this.login = new Input(self, this.#config.login);
+        this.login = new Input(document.getElementsByClassName('signup-form__login')[0], this.#config.login);
         this.login.render();
 
-        this.password = new Input(self, this.#config.password);
+        this.password = new Input(document.getElementsByClassName('signup-form__password')[0], this.#config.password);
         this.password.render();
 
 
-        this.reapeatPassword = new Input(self, this.#config.repeatPassword);
+        this.reapeatPassword = new Input(document.getElementsByClassName('signup-form__repeat-password')[0], this.#config.repeatPassword);
         this.reapeatPassword.render();
 
         this.submit = new Button(self, this.#config.submit, this.#submitHandle);

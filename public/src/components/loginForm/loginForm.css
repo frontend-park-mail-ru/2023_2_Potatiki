@@ -11,17 +11,19 @@
 
 .login-form__input {
     width: 316px;
-    margin-bottom: 36px;
+    margin-top: 42px;
+    height: 50px;
 }
 
 .login-form__button {
     background: var(--color-highlight); 
     width: 316px; 
+    /* margin-top: 20px; */
 }
 
 .login-form__name {
-    margin-top: 86px;
-    margin-bottom: 62px;
+    margin-top: 26px;
+    margin-bottom: 6px;
     font-family: Lato;
     font-size: 30px;
     font-style: normal;
@@ -31,4 +33,13 @@
 
 .login-form__link {
     margin-top: 32px;
+}
+
+.login-form__error {
+    height: 16px; 
+    /* text-align: center; */
+    width: 316px; 
+    /* padding-top: 16px;
+    padding-left: 20px; */
+    padding: 8px 0 20px 20px;
 }

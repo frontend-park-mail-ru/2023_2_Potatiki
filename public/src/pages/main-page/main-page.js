@@ -39,11 +39,10 @@ export default class MainPage {
             const carousel = new Carousel(self, body.body);
             carousel.render();
             break;
-        case 500:
+        case 429:
             renderServerError(body.error);
             break;
         default:
-            console.log('undefined status code');
             break;
         }
     }
@@ -58,7 +57,14 @@ export default class MainPage {
         const search = form.elements.search.value;
     }
 
-    // add removeListeners
+    /**
+     *
+     */
+    removeListeners() {
+        const buttonId = this.#config.mainPage.header.search.submit.id;
+        const button = document.getElementById(buttonId);
+        button.removeEventListener('click', this.searchFormListener);
+    }
 
     /**
    * Отрисовка страницы регистрации
