@@ -32,19 +32,22 @@ export default class MainPage {
    * @param {Number} offset Сдвиг в списке товаров
    * @param {Number} count Количество запрашиваемых товаров
    */
-    getProducts(offset=0, count=5) {
-        const [statusCode, body] = Ajax.getRequest(`products/?offset=${offset}&count=${count}`);
-        switch (statusCode) {
-        case 200:
-            const carousel = new Carousel(self, body.body);
-            carousel.render();
-            break;
-        case 429:
-            renderServerError(body.error);
-            break;
-        default:
-            break;
-        }
+    getProducts(offset=0, count=5, config) {
+        Ajax.getRequest(`products/get_all?paging=${offset}&count=${count}`).then((result) => {
+            const [statusCode, body] = result;
+            switch (statusCode) {
+            case 200:
+                const carousel = new Carousel(self, config, body.body);
+                carousel.render();
+                break;
+            case 429:
+                renderServerError(body.error);
+                break;
+            default:
+                break;
+            }
+        })
+        
     }
 
     /**
@@ -87,5 +90,10 @@ export default class MainPage {
         header.render();
 
         // this.getProducts(0, 5);
+        const carousel1 = new Carousel(self, this.#config.mainPage.newCarousel);
+        carousel1.render();
+
+        const carousel2 = new Carousel(self, this.#config.mainPage.popularCarousel);
+        carousel2.render();
     }
 }

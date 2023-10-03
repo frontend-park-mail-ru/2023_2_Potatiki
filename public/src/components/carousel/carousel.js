@@ -56,8 +56,10 @@ export default class Carousel {
         const buttonLeft = new Button(self, this.#config.buttonLeft);
         buttonLeft.render();
 
+        // this.#data.forEach((element) => {
+        //     const product = new ProductCard(self, this.getConfig(element));
         this.#config.productsList.forEach((element) => {
-            const product = new ProductCard(self, this.getConfig(element));
+            const product = new ProductCard(self, element);
             product.render();
         });
 

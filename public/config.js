@@ -186,9 +186,9 @@ const productsList = [{
         imgSrc: './static/images/macbook.png',
     },
     name: {
-        id: 'product-2-name',
+        id: 'product-5-name',
         class: 'ac1',
-        href: 'product-2',
+        href: 'product-5',
         text: 'Macbook air',
         withImg: false,
         withText: true,
@@ -196,7 +196,7 @@ const productsList = [{
     button: {
         class: 'button product-card__button_size_in-cart',
         type: 'button',
-        id: 'product-2-button',
+        id: 'product-5-button',
         text: 'В корзину',
         withImg: true,
         imgSrc: './static/images/cart.svg',
@@ -215,7 +215,7 @@ const productsList = [{
     img: {
         id: 'product-6-img',
         class: 'ac1',
-        href: 'product-2',
+        href: 'product-6',
         withImg: true,
         withText: false,
         imgSrc: './static/images/macbook.png',
@@ -223,7 +223,7 @@ const productsList = [{
     name: {
         id: 'product-6-name',
         class: 'ac1',
-        href: 'product-2',
+        href: 'product-6',
         text: 'Macbook air',
         withImg: false,
         withText: true,
@@ -251,7 +251,7 @@ const productsList2 = [{
     img: {
         id: 'product-3-img',
         class: 'ac1',
-        aHref: 'product-1',
+        aHref: 'product-3',
         withImg: true,
         withText: false,
         imgSrc: './static/images/macbook.png',
@@ -259,8 +259,8 @@ const productsList2 = [{
     name: {
         id: 'product-3-name',
         aClass: 'ac1',
-        aHref: 'product-1',
-        aText: 'Apple MacBook Air 13 M1/8/256 Space Gray',
+        aHref: 'product-3',
+        text: 'Apple MacBook Air 13 M1/8/256 Space Gray',
         withImg: false,
         withText: true,
     },
@@ -286,7 +286,7 @@ const productsList2 = [{
     img: {
         id: 'product-4-img',
         aClass: 'ac1',
-        aHref: 'product-2',
+        aHref: 'product-4',
         withImg: true,
         withText: false,
         imgSrc: './static/images/macbook.png',
@@ -294,8 +294,8 @@ const productsList2 = [{
     name: {
         id: 'product-4-name',
         aClass: 'ac1',
-        aHref: 'product-2',
-        aText: 'Macbook air',
+        aHref: 'product-4',
+        text: 'Macbook air',
         withImg: false,
         withText: true,
     },
@@ -319,7 +319,7 @@ const productsList2 = [{
 {
     id: 'product-7',
     img: {
-        id: 'product-3-img',
+        id: 'product-7-img',
         aClass: 'ac1',
         aHref: 'product-1',
         withImg: true,
@@ -327,17 +327,17 @@ const productsList2 = [{
         imgSrc: './static/images/macbook.png',
     },
     name: {
-        id: 'product-3-name',
+        id: 'product-7-name',
         aClass: 'ac1',
         aHref: 'product-1',
-        aText: 'Apple MacBook Air 13 M1/8/256 Space Gray',
+        text: 'Apple MacBook Air 13 M1/8/256 Space Gray',
         withImg: false,
         withText: true,
     },
     button: {
         class: 'button product-card__button_size_in-cart',
         type: 'button',
-        id: 'product-3-button',
+        id: 'product-7-button',
         text: 'В корзину',
         withImg: true,
         imgSrc: './static/images/cart.svg',
@@ -354,7 +354,7 @@ const productsList2 = [{
 {
     id: 'product-8',
     img: {
-        id: 'product-4-img',
+        id: 'product-8-img',
         aClass: 'product-link',
         aHref: 'product-2',
         withImg: true,
@@ -362,17 +362,17 @@ const productsList2 = [{
         imgSrc: './static/images/macbook.png',
     },
     name: {
-        id: 'product-4-name',
+        id: 'product-8-name',
         aClass: 'product-name',
-        aHref: 'product-2',
-        aText: 'Macbook air',
+        aHref: 'product-8',
+        text: 'Macbook air',
         withImg: false,
         withText: true,
     },
     button: {
         class: 'button product-card__button_size_in-cart',
         type: 'button',
-        id: 'product-4-button',
+        id: 'product-8-button',
         text: 'В корзину',
         withImg: true,
         imgSrc: './static/images/cart.svg',
