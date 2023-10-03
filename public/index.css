@@ -60,11 +60,11 @@ html, body {
 }
 
 #server-error {
-    color: --color-background;
+    color: var(--color-background);
     position: absolute;
     left: 50%;
     bottom: 20%;
-    background-color: --color-incorrect;
+    background-color: var(--color-incorrect);
     padding: 10px 30px 10px 30px;
     border-radius: 20px;
     animation-name: errorSurface;

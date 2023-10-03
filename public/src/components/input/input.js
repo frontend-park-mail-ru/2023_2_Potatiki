@@ -33,7 +33,6 @@ export default class Input {
             this.value = this.self.value;
             const err = callback(this.self.value);
             if (err) {
-                console.log(self);
                 this.self.style.borderColor = 'var(--color-incorrect)';
                 this.renderError(err);
             }
@@ -63,11 +62,11 @@ export default class Input {
     }
 
     removeListeners() {
-        if(this.focusOutHandle !== undefined) {
+        if (this.focusOutHandle !== undefined) {
             this.self.removeEventListener('focusout', this.focusOutHandle);
         }
 
-        if(this.focusInHandle !== undefined) {
+        if (this.focusInHandle !== undefined) {
             this.self.removeEventListener('focusin', this.focusInHandle);
         }
     }

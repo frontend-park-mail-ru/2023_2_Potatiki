@@ -4,7 +4,7 @@
  */
 export default function renderServerError(msg) {
     const serverError = document.createElement('div');
-    serverError.setAttribute('server-error');
+    serverError.setAttribute('id', 'server-error');
     serverError.textContent = msg;
     document.body.appendChild(serverError);
     setTimeout(() => {
