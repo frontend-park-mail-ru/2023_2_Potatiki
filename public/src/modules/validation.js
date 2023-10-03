@@ -33,7 +33,7 @@ export function checkPassword(pass) {
 /**
      * Валидация логина
      * @param {String} login Логин пользователя
-     * @return {String} Описание ошибки
+     * @return
      */
 export function checkLogin(login) {
     if (login.length < 6) {

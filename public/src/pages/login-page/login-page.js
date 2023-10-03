@@ -2,6 +2,7 @@ import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
+import {checkPassword, checkLogin} from '../../modules/validation.js';
 import '../templates.js';
 
 /**
@@ -34,22 +35,6 @@ export default class LoginPage {
     }
 
     /**
-     *
-     * @param {*} login
-     * @param {*} password
-     * @returns
-     */
-    checkInput(login, password) {
-        if (login.length < 6) {
-            return false;
-        }
-        if (password.length < 8) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
    * Обработка отправки формы авторизации
    * @param {Object} event Событие отправки формы
    */
@@ -60,9 +45,12 @@ export default class LoginPage {
         const password = form.elements.password.value;
         form.elements.password.value = '';
 
-        if (!this.checkInput(login, password)) {
+        const [, isValidLogin] = checkLogin(login);
+
+        const [, isValidPassword] = checkPassword(password);
+
+        if (!(isValidLogin && isValidPassword)) {
             this.renderLoginError('Неверный логин или пароль');
-            console.log('err input');
             return;
         }
         Ajax.prototype.postRequest(
