@@ -78,9 +78,9 @@ export default class LoginPage {
     // add removeListeners
 
     /**
-     *
-     * @param {*} event
-     * @param {*} error
+     * Удаление ошибки с формы авторизации
+     * @param {Element} error
+     * @param {Object} event
      */
     removeError(error, event) {
         event.preventDefault();
@@ -98,7 +98,6 @@ export default class LoginPage {
         login.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
         const password = document.getElementsByName('password')[0];
         password.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
-        // const input = document.getElementsByClassName('login-form__input')[0];
     }
 
     /**
@@ -117,7 +116,7 @@ export default class LoginPage {
     }
 
     /**
-   * Отрисовки страницы авторизации
+   * Отрисовка страницы авторизации
    */
     render() {
         this.#parent.innerHTML = '';

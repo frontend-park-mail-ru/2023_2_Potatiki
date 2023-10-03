@@ -15,6 +15,8 @@ export default class MainPage {
 
     #router;
 
+    #carousels;
+
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
@@ -24,21 +26,32 @@ export default class MainPage {
     constructor(parent, config, router) {
         this.#parent = parent;
         this.#config = config;
-        this.#router = router; // пока не нужен?
+        this.#router = router;
+        this.#carousels = [];
+    }
+
+    /**
+     * Получение элемента страницы
+     */
+    get self() {
+        return document.getElementById('main-page');
     }
 
     /**
    * Получение и отрисовка карусели товаров
    * @param {Number} offset Сдвиг в списке товаров
    * @param {Number} count Количество запрашиваемых товаров
+   * @param {Object} config Конфиг карусели
    */
     getProducts(offset=0, count=5, config) {
-        Ajax.getRequest(`products/get_all?paging=${offset}&count=${count}`).then((result) => {
+        Ajax.prototype.getRequest(
+            `products/get_all?paging=${offset}&count=${count}`).then((result) => {
             const [statusCode, body] = result;
             switch (statusCode) {
             case 200:
-                const carousel = new Carousel(self, config, body.body);
+                const carousel = new Carousel(this.self, config, body);
                 carousel.render();
+                this.#carousels.push(carousel);
                 break;
             case 429:
                 renderServerError(body.error);
@@ -46,8 +59,7 @@ export default class MainPage {
             default:
                 break;
             }
-        })
-        
+        });
     }
 
     /**
@@ -56,8 +68,8 @@ export default class MainPage {
    */
     searchFormListener(event) {
         e.preventDefault();
-        const form = document.forms['search-form'];
-        const search = form.elements.search.value;
+        // const form = document.forms['search-form'];
+        // const search = form.elements.search.value;
     }
 
     /**
@@ -67,6 +79,9 @@ export default class MainPage {
         const buttonId = this.#config.mainPage.header.search.submit.id;
         const button = document.getElementById(buttonId);
         button.removeEventListener('click', this.searchFormListener);
+        this.#carousels.forEach((elem) => {
+            elem.removeListeners();
+        });
     }
 
     /**
@@ -80,20 +95,16 @@ export default class MainPage {
             window.Handlebars.templates['main-page.hbs'](),
         );
 
-        const self = document.getElementById('main-page');
         const header = new Header(
-            self,
+            this.self,
             this.#config.mainPage.header,
             this.searchFormListener.bind(this),
             this.#config.isAuthorized,
         );
         header.render();
 
-        // this.getProducts(0, 5);
-        const carousel1 = new Carousel(self, this.#config.mainPage.newCarousel);
-        carousel1.render();
+        this.getProducts(0, 10, this.#config.mainPage.newCarousel);
 
-        const carousel2 = new Carousel(self, this.#config.mainPage.popularCarousel);
-        carousel2.render();
+        this.getProducts(0, 10, this.#config.mainPage.popularCarousel);
     }
 }

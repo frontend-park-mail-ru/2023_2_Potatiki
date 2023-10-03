@@ -24,10 +24,17 @@ export default class Input {
         this.#config = config;
     }
 
+    /**
+     * Получение элемента инпута
+     */
     get self() {
         return document.getElementsByName(this.#config.inputName)[0];
     }
 
+    /**
+     * Добавление обработчика на событие 'focusout'
+     * @param {Function} callback Функция вызываемая при событии 'focusout'
+     */
     addFocusOutListener(callback) {
         this.focusOutHandle = (event) => {
             this.value = this.self.value;
@@ -41,6 +48,9 @@ export default class Input {
         this.self.addEventListener('focusout', this.focusOutHandle);
     }
 
+    /**
+     * Добавление обработчика на событие 'focusin'
+     */
     addFocusInListener() {
         this.focusInHandle = (event) => {
             this.self.style.borderColor = '#babfff';
@@ -49,18 +59,26 @@ export default class Input {
         this.self.addEventListener('focusin', this.focusInHandle);
     }
 
+    /**
+     * Отрисовка ошибки
+     * @param {Object} error Ошибка
+     */
     renderError(error) {
         const errorDiv = document.getElementById(this.#config.errorId);
         errorDiv.insertAdjacentHTML('beforeend', error);
-        console.log('error', error);
     }
 
+    /**
+     * Удаление ошибки
+     */
     removeError() {
         const errorDiv = document.getElementById(this.#config.errorId);
         errorDiv.innerHTML = '';
-        console.log('no error');
     }
 
+    /**
+     * Удаление обработчиков событий
+     */
     removeListeners() {
         if (this.focusOutHandle !== undefined) {
             this.self.removeEventListener('focusout', this.focusOutHandle);

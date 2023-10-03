@@ -24,10 +24,17 @@
     flex-direction: row;
 }
 
-.product-card__img {
+.product-card__img-place {
     margin-top: 16px;
     margin-left: auto;
     margin-right: auto;
+    width: 180px;
+    height: 120px;
+}
+
+.product-card__img {
+    max-width: 180px;
+    max-height: 120px;
 }
 
 .product-card__name {

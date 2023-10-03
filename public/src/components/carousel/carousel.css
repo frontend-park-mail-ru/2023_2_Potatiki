@@ -30,3 +30,14 @@
     width: 24px;
     height: 24px;
 }
+
+.carousel__container {
+    display: flex;
+    gap: 42px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    /* overflow: scroll; */
+    /* padding-left: 120px;
+    padding-right: 30px; */
+}

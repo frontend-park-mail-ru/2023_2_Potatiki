@@ -1,6 +1,7 @@
 import Link from '../../components/link/link.js';
 import SignupForm from '../../components/signupForm/signupForm.js';
 import Ajax from '../../modules/ajax.js';
+import renderServerError from '../../modules/server-error.js';
 import {checkLogin, checkPassword} from '../../modules/validation.js';
 import '../templates.js';
 
@@ -52,7 +53,6 @@ export default class SignupPage {
                 {'login': login, 'password': password}).then((result) => {
                 const [statusCode, body] = result;
                 this.signupForm.removeError();
-
                 switch (statusCode) {
                 case 200:
                     this.#router('main', true);
@@ -61,10 +61,10 @@ export default class SignupPage {
                     this.signupForm.renderError('Такой логин уже существует');
                     break;
                 case 429:
-                    this.signupForm.renderError('Такой логин уже существует'); // почему
+                    renderServerError(body);
                     break;
                 default:
-                    console.log('undefined status code:', statusCode);
+                    break;
                 }
             });
         }
@@ -83,7 +83,7 @@ export default class SignupPage {
 
     /**
      * Валидация пароля
-     * @param {String} pass Пароль пользователя
+     * @param {String} password Пароль пользователя
      * @return {String} Описание ошибки
      */
     validatePassword(password) {
@@ -92,19 +92,28 @@ export default class SignupPage {
         return message;
     }
 
-
+    /**
+     * Проверка идентичности паролей
+     * @param {String} pass Пароль пользователя
+     * @return {String} Сообщение об ошибке
+     */
     checkEqualityPassword(pass) {
         return function(reapeatPass) {
-            if (pass.value !== reapeatPass) {
+            if (pass.valueOf !== reapeatPass) {
+                // eslint-disable-next-line no-invalid-this
                 this.isValidForm = false;
                 return 'Пароли не совпадают';
             }
 
+            // eslint-disable-next-line no-invalid-this
             this.isValidForm = true;
             return '';
         };
     }
 
+    /**
+     * Удаление прослушивателей событий
+     */
     removeListeners() {
         this.signupForm.removeListeners();
     }
