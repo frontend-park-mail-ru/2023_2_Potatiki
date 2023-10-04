@@ -71,7 +71,7 @@ export default class Header {
             const logout = new Link(self, this.#config.logout);
             logout.render();
         } else {
-            
+
         }
     }
 }

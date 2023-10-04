@@ -50,18 +50,18 @@ export default class SignupPage {
         console.log(repeatPassword, password);
 
         let err = this.validateLogin(login);
-        if(err) {
+        if (err) {
             this.signupForm.login.renderError(err);
             return;
         }
 
         err = this.validatePassword(password);
-        if(err) {
+        if (err) {
             this.signupForm.password.renderError(err);
             return;
         }
 
-        if(password !== repeatPassword) {
+        if (password !== repeatPassword) {
             this.signupForm.reapeatPassword.renderError('Пароли не совпадают');
             return;
         }

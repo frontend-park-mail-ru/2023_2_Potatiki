@@ -68,8 +68,9 @@ export default class MainPage {
    */
     searchFormListener(event) {
         e.preventDefault();
-        // const form = document.forms['search-form'];
-        // const search = form.elements.search.value;
+        const form = document.forms['search-form'];
+        // eslint-disable-next-line no-unused-vars
+        const search = form.elements.search.value;
     }
 
     /**

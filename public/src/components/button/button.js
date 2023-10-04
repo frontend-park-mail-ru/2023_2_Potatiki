@@ -30,7 +30,7 @@ export default class Button {
     }
 
     /**
-   * Добавление лисенера на событие 'click'
+   * Добавление прослушивателя на событие 'click'
    */
     addListeners() {
         document
@@ -38,6 +38,9 @@ export default class Button {
             .addEventListener('click', this.#submitHandle);
     }
 
+    /**
+     * Удаление прослушивателя
+     */
     removeListeners() {
         document
             .getElementById(this.#config.id)

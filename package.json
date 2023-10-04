@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && node server/index.js",
+    "deploy": "screen -d -m -S frontend sudo npm start",
+    "openDemon": "screen -r \"$(screen -ls | grep -Eo '[0-9]{1,}.sudo')\"",
+    "check": "npx eslint --fix public",
     "build": "handlebars -m public/src/components/*/*.hbs -f public/src/components/templates.js && handlebars -m public/src/pages/*/*.hbs -f public/src/pages/templates.js"
   },
   "author": "",
