@@ -46,9 +46,24 @@ export default class SignupPage {
         const form = document.forms['signup-form'];
         const login = form.elements.login.value;
         const password = form.elements.password.value;
+        const repeatPassword = this.signupForm.reapeatPassword.value;
+        console.log(repeatPassword, password);
 
-        if(login === '' || password === '') {
-            this.signupForm.renderError('Не все поля заполнены');
+        let err = this.validateLogin(login);
+        if(err) {
+            this.signupForm.login.renderError(err);
+            return;
+        }
+
+        err = this.validatePassword(password);
+        if(err) {
+            this.signupForm.password.renderError(err);
+            return;
+        }
+
+        if(password !== repeatPassword) {
+            this.signupForm.reapeatPassword.renderError('Пароли не совпадают');
+            return;
         }
 
         if (this.isValidForm) {

@@ -66,7 +66,9 @@ export default class Input {
      */
     renderError(error) {
         const errorDiv = document.getElementById(this.#config.errorId);
-        errorDiv.insertAdjacentHTML('beforeend', error);
+        if(errorDiv.innerHTML === '') {
+            errorDiv.insertAdjacentHTML('beforeend', error);
+        }
     }
 
     /**
