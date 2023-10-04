@@ -46,6 +46,10 @@ export default class SignupPage {
         const login = form.elements.login.value;
         const password = form.elements.password.value;
 
+        if(login === '' || password === '') {
+            this.signupForm.renderError('Не все поля заполнены');
+        }
+
         if (this.isValidForm) {
             Ajax.prototype.postRequest(
                 'auth/signup',

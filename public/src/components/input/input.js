@@ -22,6 +22,7 @@ export default class Input {
     constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
+        this.value = '';
     }
 
     get self() {

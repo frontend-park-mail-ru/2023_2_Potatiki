@@ -70,6 +70,8 @@ export default class Header {
         if (this.#isAuth) {
             const logout = new Link(self, this.#config.logout);
             logout.render();
+        } else {
+            
         }
     }
 }

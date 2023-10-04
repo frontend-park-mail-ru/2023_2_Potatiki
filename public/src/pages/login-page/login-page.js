@@ -53,6 +53,7 @@ export default class LoginPage {
             this.renderLoginError('Неверный логин или пароль');
             return;
         }
+        
         Ajax.prototype.postRequest(
             'auth/signin',
             {login, password},
