@@ -47,7 +47,6 @@ export default class SignupPage {
         const login = form.elements.login.value;
         const password = form.elements.password.value;
         const repeatPassword = this.signupForm.reapeatPassword.value;
-        console.log(repeatPassword, password);
 
         let err = this.validateLogin(login);
         if (err) {
