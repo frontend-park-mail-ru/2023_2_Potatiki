@@ -18,3 +18,7 @@ a {
     width: 24px;
     height: 24px;
 }
+
+.link-disabled {
+    cursor: not-allowed;
+}

@@ -103,7 +103,7 @@ export default class SignupPage {
      */
     checkEqualityPassword(pass) {
         return function(reapeatPass) {
-            if (pass.valueOf !== reapeatPass) {
+            if (pass.value !== reapeatPass) {
                 // eslint-disable-next-line no-invalid-this
                 this.isValidForm = false;
                 return 'Пароли не совпадают';

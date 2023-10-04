@@ -50,9 +50,11 @@ export default class LoginPage {
         const [, isValidPassword] = checkPassword(password);
 
         if (!(isValidLogin && isValidPassword)) {
+            console.log("!!!!");
             this.renderLoginError('Неверный логин или пароль');
             return;
         }
+        
         
         Ajax.prototype.postRequest(
             'auth/signin',

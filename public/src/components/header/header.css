@@ -1,13 +1,21 @@
-.header {
+.container-header {
     display: flex;
     height: 70px;
     flex-direction: row;
     align-items: center;
-    gap: 32px;
+    justify-content: center;
     background-color: var(--color-background-auth);
 }
 
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 1400px;
+    gap: 32px;
+}
+
 .header__button_size_catalog {
-    width: 120px;
+    width: 132px;
     gap: 10px;
 }

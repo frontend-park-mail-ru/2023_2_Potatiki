@@ -12,7 +12,7 @@ const header = {
     },
 
     catalog: {
-        class: 'header__button_size_catalog',
+        class: 'header__button_size_catalog button-disabled',
         type: 'button',
         text: 'Каталог',
         id: 'catalog-button',
@@ -32,7 +32,7 @@ const header = {
             label: false,
         },
         submit: {
-            class: 'button search-form__button_size_search',
+            class: 'button-disabled search-form__button_size_search',
             type: '',
             text: '',
             id: 'search-button',
@@ -45,7 +45,7 @@ const header = {
 
     orders: {
         id: 'orders-button',
-        class: 'link__icon',
+        class: 'link__icon link-disabled',
         href: '#',
         withImg: true,
         withText: true,
@@ -55,7 +55,7 @@ const header = {
 
     favorite: {
         id: 'favorite-button',
-        class: 'link__icon',
+        class: 'link__icon link-disabled',
         text: 'Избранное',
         href: '#',
         withImg: true,
@@ -65,7 +65,7 @@ const header = {
 
     basket: {
         id: 'basket-button',
-        class: 'link__icon',
+        class: 'link__icon  link-disabled',
         href: '#',
         withImg: true,
         withText: true,
@@ -85,7 +85,7 @@ const header = {
 
     profile: {
         id: 'profile-button',
-        class: 'link__icon',
+        class: 'link__icon link-disabled',
         href: 'profile',
         text: 'Профиль',
         withImg: true,
