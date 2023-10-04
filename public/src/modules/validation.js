@@ -1,7 +1,7 @@
 /**
- *
- * @param {*} pass
- * @returns
+ * Валидация пароля
+ * @param {String} pass Пароль пользователя
+ * @return {[String, Boolean]} Сообщение об ошибке и статус проверки
  */
 export function checkPassword(pass) {
     if (pass.length < 8) {
@@ -31,10 +31,10 @@ export function checkPassword(pass) {
 }
 
 /**
-     * Валидация логина
-     * @param {String} login Логин пользователя
-     * @return
-     */
+ * Валидация логина
+ * @param {String} login Логин пользователя
+ * @return {[String, Boolean]} Сообщение об ошибке и статус проверки
+ */
 export function checkLogin(login) {
     if (login.length < 6) {
         return ['Минимальная длина 6 символов', false];

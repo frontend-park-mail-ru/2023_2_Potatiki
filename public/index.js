@@ -43,7 +43,6 @@ const renderSignupPage = () => {
  * @param {Boolean} isAuth статус авторизации
  */
 const changePage = (href, isAuth) => {
-    console.log(config.page, href);
     switch (href) {
     case 'main':
         if (config.page !== 'main') {
@@ -102,7 +101,7 @@ const checkSession = () => {
             renderServerError(body.error);
             break;
         default:
-            console.log('undefined status code:', statusCode);
+            break;
         }
     });
 };

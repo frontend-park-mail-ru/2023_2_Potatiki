@@ -22,7 +22,7 @@ export default class SearchForm {
         this.#submitHandle = submitHandle;
     }
 
-    
+
     /**
    * Отрисовка компонента формы поиска
    */

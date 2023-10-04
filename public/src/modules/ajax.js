@@ -24,8 +24,6 @@ export default class Ajax {
         try {
             const response = await fetch(baseURL + url, options);
             const body = await response.json();
-            console.log('body', body);
-            console.log(response.status);
             return [response.status, body];
         } catch (error) {
             return [500, error];
@@ -51,7 +49,6 @@ export default class Ajax {
         try {
             const response = await fetch(baseURL + url, options);
             const body = await response.json();
-            console.log(response.status);
             return [response.status, body];
         } catch (error) {
             return [500, error];
