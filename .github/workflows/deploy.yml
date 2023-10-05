@@ -1,22 +1,17 @@
 name: CI
 run-name: Deploy
-on: 
-  push:
-    branches:
-      "deploy"
+on: push
 jobs:
-  Deploy:
+  Build-and-Deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Run command on remote server
-      uses: D3rHase/ssh-command-action@v0.2.2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
-        host: ${{secrets.SSH_HOST}}
-        user: ${{secrets.SSH_USER}}
-        private_key: ${{secrets.SSH_PRIVATE_KEY}}
-        command: |
-          sudo bash
-          cd frontend_deploy/2023_2_Potatiki
-          git pull
-          npm run check
-          npm run deploy
+        node-version: 20
+    - name: Install npm deps
+      working-directory: .
+      run: npm i
+    - name: Start app
+      working-directory: .
+      run: npm start
