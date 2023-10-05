@@ -54,7 +54,7 @@ export default class Carousel {
                 text: data.name,
             },
             button: {
-                class: 'button product-card__button_size_in-cart',
+                class: 'product-card__button_size_in-cart',
                 type: 'button',
                 id: `product-${data.id}-button`,
                 text: 'В корзину',
@@ -90,8 +90,8 @@ export default class Carousel {
      */
     slideRight(event) {
         event.preventDefault();
-        const parent = this.self.getElementsByClassName('carousel__container')[0];
-        const cards = this.self.getElementsByClassName('product-card');
+        const parent = this.self.querySelector('.carousel__container');
+        const cards = this.self.querySelectorAll('.product-card');
         parent.removeChild(cards[0]);
         this.#rightBorder = this.getIndex(this.#rightBorder, 1);
         this.#leftBorder = this.getIndex(this.#leftBorder, 1);
@@ -105,8 +105,8 @@ export default class Carousel {
      */
     slideLeft(event) {
         event.preventDefault();
-        const parent = this.self.getElementsByClassName('carousel__container')[0];
-        const cards = this.self.getElementsByClassName('product-card');
+        const parent = this.self.querySelector('.carousel__container');
+        const cards = this.self.querySelectorAll('.product-card');
         parent.removeChild(cards[this.#cardCount - 1]);
         this.#leftBorder = this.getIndex(this.#leftBorder, -1);
         this.#rightBorder = this.getIndex(this.#rightBorder, -1);
@@ -133,11 +133,11 @@ export default class Carousel {
     removeListeners() {
         document
             .getElementById(this.#config.buttonRight.id)
-            .removeEventListener('click', this.slideRight);
+            .removeEventListener('click', this.slideRight.bind(this));
 
         document
             .getElementById(this.#config.buttonLeft.id)
-            .removeEventListener('click', this.slideLeft);
+            .removeEventListener('click', this.slideLeft.bind(this));
     }
 
     /**
@@ -150,7 +150,7 @@ export default class Carousel {
         );
 
         const buttonLeft = new Button(
-            this.self.getElementsByClassName('left-button')[0],
+            this.self.querySelector('.left-button'),
             this.#config.buttonLeft,
         );
         buttonLeft.render();
@@ -161,14 +161,14 @@ export default class Carousel {
 
         for (let i = 0; i < this.#cardCount; i++) {
             const product = new ProductCard(
-                this.self.getElementsByClassName('carousel__container')[0],
+                this.self.querySelector('.carousel__container'),
                 this.getConfig(this.#data[i]),
             );
             product.render();
         }
 
         const buttonRight = new Button(
-            this.self.getElementsByClassName('right-button')[0],
+            this.self.querySelector('.right-button'),
             this.#config.buttonRight,
         );
         buttonRight.render();

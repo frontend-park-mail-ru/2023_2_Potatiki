@@ -19,13 +19,11 @@ export default class Header {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    * @param {Object} config Конфиг для отрисовки класса
-   * @param {Function} searchHandle Функция, вызываемая при нажатии кнопки поиска
    * @param {Bool} isAuth Данные об авторизации пользователя
    */
-    constructor(parent, config, searchHandle, isAuth) {
+    constructor(parent, config, isAuth) {
         this.#parent = parent;
         this.#config = config;
-        this.#searchHandle = searchHandle;
         this.#isAuth = isAuth;
     }
 
@@ -49,7 +47,6 @@ export default class Header {
         const search = new SearchForm(
             self,
             this.#config.search,
-            this.#searchHandle,
         );
         search.render();
 
@@ -70,8 +67,6 @@ export default class Header {
         if (this.#isAuth) {
             const logout = new Link(self, this.#config.logout);
             logout.render();
-        } else {
-
         }
     }
 }

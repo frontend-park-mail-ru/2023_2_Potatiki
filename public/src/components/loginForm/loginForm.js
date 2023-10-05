@@ -37,13 +37,13 @@ export default class LoginForm {
         const self = document.getElementById('login-form');
 
         const login = new Input(
-            document.getElementsByClassName('login-form__login')[0],
+            document.querySelector('.login-form__login'),
             this.#config.login,
         );
         login.render();
 
         const password = new Input(
-            document.getElementsByClassName('login-form__password')[0],
+            document.querySelector('.login-form__password'),
             this.#config.password,
         );
         password.render();

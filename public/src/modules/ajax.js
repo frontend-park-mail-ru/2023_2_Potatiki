@@ -16,8 +16,8 @@ export default class Ajax {
             mode: 'cors',
             credentials: 'include',
             headers: {
-                // 'Content-Type': 'application/json',
-                // 'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
             },
             body: JSON.stringify(data),
         };
@@ -41,8 +41,8 @@ export default class Ajax {
             mode: 'cors',
             credentials: 'include',
             headers: {
-                // 'Content-Type': 'application/json',
-                // 'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
                 'Access-Control-Request-Method': 'GET',
             },
         };

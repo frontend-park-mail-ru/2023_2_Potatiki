@@ -39,7 +39,7 @@ export default class SignupPage {
 
     /**
    * Обработка формы регистрации
-   * @param {Object} event Событие отправки формы
+   * @param {Event} event Событие отправки формы
    */
     formListener(event) {
         event.preventDefault();

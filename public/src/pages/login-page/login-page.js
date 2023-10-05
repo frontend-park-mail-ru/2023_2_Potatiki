@@ -36,7 +36,7 @@ export default class LoginPage {
 
     /**
    * Обработка отправки формы авторизации
-   * @param {Object} event Событие отправки формы
+   * @param {Event} event Событие отправки формы
    */
     formListener(event) {
         event.preventDefault();
@@ -76,9 +76,6 @@ export default class LoginPage {
         });
     }
 
-
-    // add removeListeners
-
     /**
      * Удаление ошибки с формы авторизации
      * @param {Element} error
@@ -90,30 +87,30 @@ export default class LoginPage {
     }
 
     /**
-     *
-     * @param {*} errorText
+     * Отрисовка ошибки формы
+     * @param {String} errorText Текст ошибки
      */
     renderLoginError(errorText) {
         const error = document.getElementById('login-form-error');
         error.textContent = errorText;
-        const login = document.getElementsByName('login')[0];
+        const login = document.querySelector('[name=login]');
         login.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
-        const password = document.getElementsByName('password')[0];
+        const password = document.querySelector('[name=password]');
         password.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
     }
 
     /**
-     *
+     * Удаление прослушивателей событий
      */
     removeListeners() {
         const id = this.#config.loginPage.form.submit.id;
         const button = document.getElementById(id);
         button.removeEventListener('click', this.formListener);
 
-        const loginInput = document.getElementsByName('login')[0];
+        const loginInput = document.querySelector('[name=login]');
         loginInput.removeEventListener('focusin', this.removeError);
 
-        const passwordInput = document.getElementsByName('password')[0];
+        const passwordInput = document.querySelector('[name=password]');
         passwordInput.removeEventListener('focusin', this.removeError);
     }
 

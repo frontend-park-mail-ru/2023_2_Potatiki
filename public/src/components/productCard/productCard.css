@@ -11,15 +11,11 @@
 .product-card__reviews {
     display: flex;
     flex-direction: row;
+    margin-top: 18px;
+    padding-left: 16px;
 }
 
 .product-card__reviews > a {
-    display: flex;
-    flex-direction: row;
-    gap: 28px;
-}
-
-.product-card__reviews {
     display: flex;
     flex-direction: row;
 }
@@ -41,11 +37,6 @@
     margin-top: 12px;
     padding-left: 16px;
     height: 30px;
-}
-
-.product-card__reviews {
-    margin-top: 18px;
-    padding-left: 16px;
 }
 
 .product-card__rate {
@@ -83,4 +74,16 @@
     width: 164px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.product-card__reviews-link {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.product-card__count-reviews {
+    padding-right: 20px;
+    text-wrap: nowrap;
+    font-size: 14px;
 }

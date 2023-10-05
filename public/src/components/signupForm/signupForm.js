@@ -16,10 +16,10 @@ export default class SignupForm {
     submit;
 
     /**
-     *
-     * @param {*} parent
-     * @param {*} config
-     * @param {*} submitHandle
+     * Конструктор
+     * @param {Element} parent Родительский элемент
+     * @param {Object} config Конфиг отрисовки
+     * @param {Function} submitHandle Функция вызываемая при отправке формы
      */
     constructor(parent, config, submitHandle) {
         this.#parent = parent;

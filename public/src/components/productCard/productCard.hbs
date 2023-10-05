@@ -6,16 +6,14 @@
     <div class="product-card__name"></div>
 
     <div class="product-card__reviews">
-        <a href="{{reviewsHref}}">
-                    <div class="product-card__rate">
-                        <img src="{{starHref}}" class="{{starClass}}">
-                        <span class="{{productRateClass}}">{{productRate}}</span> 
-                    </div>
-                    <div>
-                        <span class="product-card__cout-reviews">
-                            {{reviewsCount}}
-                        </span>
-                    </div>
+        <a href="{{reviewsHref}}" class="product-card__reviews-link">
+            <div class="product-card__rate">
+                <img src="{{starHref}}" class="{{starClass}}">
+                <span class="{{productRateClass}}">{{productRate}}</span> 
+            </div>
+            <span class="product-card__count-reviews">
+                {{reviewsCount}}
+            </span>
         </a>
     </div>
 

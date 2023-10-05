@@ -17,24 +17,27 @@ const renderMainPage = (isAuth) => {
     pageObject?.removeListeners();
     pageObject = new MainPage(root, config, changePage);
     pageObject.render();
+    config.page = 'main';
 };
 
 /**
- * Отрисовка страницы авторизации
+ *  Отрисовка страницы
+ * @param {String} page Название страницы
  */
-const renderLoginPage = () => {
+const renderPage = (page) => {
     pageObject.removeListeners();
-    pageObject = new LoginPage(root, config, changePage);
+    switch (page) {
+    case 'login':
+        pageObject = new LoginPage(root, config, changePage);
+        break;
+    case 'signup':
+        pageObject = new SignupPage(root, config, changePage);
+        break;
+    default:
+        break;
+    }
     pageObject.render();
-};
-
-/**
- * Отрисовка страницы регистрации
- */
-const renderSignupPage = () => {
-    pageObject.removeListeners();
-    pageObject = new SignupPage(root, config, changePage);
-    pageObject.render();
+    config.page = page;
 };
 
 /**
@@ -47,19 +50,16 @@ const changePage = (href, isAuth) => {
     case 'main':
         if (config.page !== 'main') {
             renderMainPage(isAuth);
-            config.page = 'main';
         }
         break;
     case 'login':
         if (config.page !== 'login') {
-            renderLoginPage();
-            config.page = 'login';
+            renderPage('login');
         }
         break;
     case 'signup':
         if (config.page !== 'signup') {
-            renderSignupPage();
-            config.page = 'signup';
+            renderPage('signup');
         }
         break;
     case 'logout':
@@ -106,4 +106,4 @@ const checkSession = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', checkSession);
+document.addEventListener('DOMContentLoaded', checkSession, {once: true});

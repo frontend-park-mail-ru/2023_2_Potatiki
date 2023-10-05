@@ -29,7 +29,7 @@ export default class Input {
      * Получение элемента инпута
      */
     get self() {
-        return document.getElementsByName(this.#config.inputName)[0];
+        return document.querySelector(`[name=${this.#config.inputName}]`);
     }
 
     /**

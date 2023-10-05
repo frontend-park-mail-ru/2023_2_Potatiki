@@ -14,12 +14,10 @@ export default class SearchForm {
      * Конструктор класса
      * @param {Element} parent Родительский компонент
      * @param {Object} config Конфиг для отрисовки класса
-     * @param {Function} submitHandle Функция, вызываемая при отправке формы
      */
-    constructor(parent, config, submitHandle) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.#submitHandle = submitHandle;
     }
 
 
@@ -37,7 +35,7 @@ export default class SearchForm {
         const input = new Input(self, this.#config.input);
         input.render();
 
-        const submit = new Button(self, this.#config.submit, this.#submitHandle);
+        const submit = new Button(self, this.#config.submit);
         submit.render();
     }
 }

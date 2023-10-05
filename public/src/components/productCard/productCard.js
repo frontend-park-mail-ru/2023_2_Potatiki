@@ -37,13 +37,13 @@ export default class ProductCard {
         const self = document.getElementById(this.#config.id);
 
         const img = new Link(
-            self.getElementsByClassName('product-card__img-place')[0],
+            self.querySelector('.product-card__img-place'),
             this.#config.img,
         );
         img.render();
 
         const name = new Link(
-            self.getElementsByClassName('product-card__name')[0],
+            self.querySelector('.product-card__name'),
             this.#config.name,
         );
         name.render();

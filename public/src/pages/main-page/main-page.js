@@ -63,17 +63,6 @@ export default class MainPage {
     }
 
     /**
-   * Обработка формы поиска по странице
-   * @param {Object} event
-   */
-    searchFormListener(event) {
-        e.preventDefault();
-        const form = document.forms['search-form'];
-        // eslint-disable-next-line no-unused-vars
-        const search = form.elements.search.value;
-    }
-
-    /**
      *
      */
     removeListeners() {
@@ -99,7 +88,6 @@ export default class MainPage {
         const header = new Header(
             this.self,
             this.#config.mainPage.header,
-            this.searchFormListener.bind(this),
             this.#config.isAuthorized,
         );
         header.render();
