@@ -65,7 +65,7 @@ export default class LoginPage {
                 this.#router('main', true);
                 break;
             case 400:
-                this.renderLoginError('Неверный логин или пароль'); // на сервере на русском?
+                this.renderLoginError('Неверный логин или пароль');
                 break;
             case 429:
                 renderServerError(body.error);
@@ -118,12 +118,7 @@ export default class LoginPage {
    * Отрисовка страницы авторизации
    */
     render() {
-        this.#parent.innerHTML = '';
-
-        this.#parent.insertAdjacentHTML(
-            'beforeend',
-            window.Handlebars.templates['login-page.hbs'](),
-        );
+        this.#parent.innerHTML = window.Handlebars.templates['login-page.hbs']();
 
         const logo = new Link(this.self, this.#config.loginPage.logo);
         logo.render();
