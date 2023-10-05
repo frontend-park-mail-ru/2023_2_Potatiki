@@ -1,0 +1,40 @@
+.carousel {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.carousel__cards {
+    display: flex;
+    gap: 42px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.carousel__name {
+    padding-left: 80px;
+    color: var(--color-headline);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+}
+
+.carousel__button {
+    width: 42px;
+    height: 42px;
+    background-color: var(--color-button-text);
+}
+
+.carousel__button > img {
+    width: 24px;
+    height: 24px;
+}
+
+.carousel__container {
+    display: flex;
+    gap: 42px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+}
