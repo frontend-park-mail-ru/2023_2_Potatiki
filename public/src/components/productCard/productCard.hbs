@@ -1,0 +1,25 @@
+
+<div class="product-card" id="{{id}}" {{data}}>
+
+    <div class="product-card__img-place"></div>
+
+    <div class="product-card__name"></div>
+
+    <div class="product-card__reviews">
+        <a href="{{reviewsHref}}" class="product-card__reviews-link">
+            <div class="product-card__rate">
+                <img src="{{starHref}}" class="{{starClass}}">
+                <span class="product-card__rate__text">{{productRate}}</span> 
+            </div>
+            <span class="product-card__count-reviews">
+                {{reviewsCount}}
+            </span>
+        </a>
+    </div>
+
+    <div class="product-card__price">
+        <span class="product-card__price-value">
+            {{price}}
+        </span>
+    </div>
+</div>

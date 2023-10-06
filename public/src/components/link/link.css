@@ -1,0 +1,24 @@
+a {
+    text-decoration: none;
+    color: var(--color-headline);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; 
+}
+
+.link_icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.link_icon__img{
+    width: 24px;
+    height: 24px;
+}
+
+.link_disabled {
+    cursor: not-allowed;
+}

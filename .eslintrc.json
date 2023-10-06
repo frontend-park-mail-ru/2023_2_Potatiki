@@ -1,0 +1,17 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "google",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+        "max-len": ["error", {"code": 100}],
+        "indent": ["error", 4],
+        "no-invalid-this": "off"
+    }
+}

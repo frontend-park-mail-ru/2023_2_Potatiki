@@ -1,0 +1,72 @@
+@import './src/components/button/button.css';
+@import './src/components/header/header.css';
+@import './src/components/link/link.css';
+@import './src/components/input/input.css';
+@import './src/components/searchForm/searchForm.css';
+@import './src/components/productCard/productCard.css';
+@import './src/components/carousel/carousel.css';
+@import './src/pages/main-page/main-page.css';
+@import './src/pages/login-page/login-page.css';
+@import './src/pages/signup-page/signup-page.css';
+@import './src/components/loginForm/loginForm.css';
+@import './src/components/signupForm/signupForm.css';
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
+
+
+
+html, body {
+    height: 100%;
+} 
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-secondary: #34D1BF;
+    --color-highlight: #5E64FF;
+    --color-card-background: #F5F5FF;
+    --color-background: #FFFFFE;
+    --color-headline: #181818;
+    --color-paragraph: #2E2E2E;
+    --color-button-text: #F5F5FF;
+    --color-background-auth: #EEEFFF;
+    --color-background-header: #FBF9FF;
+    --color-incorrect: #ED7777;;
+    --color-correct: #18D988;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+@keyframes errorSurface {
+    from {
+        opacity: 0%;
+    }
+
+    10% {
+        opacity: 100%;
+    }
+
+    40% {
+        opacity: 100%;
+    }
+
+    to {
+        opacity: 0%;
+    }
+}
+
+#server-error {
+    color: var(--color-background);
+    position: absolute;
+    margin-left: 40%;
+    margin-right: 40%;
+    bottom: 20%;
+    background-color: var(--color-incorrect);
+    padding: 10px 30px 10px 30px;
+    border-radius: 20px;
+    animation-name: errorSurface;
+    animation-duration: 5100ms;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+}
