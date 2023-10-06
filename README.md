@@ -12,7 +12,7 @@
 
 * [Vladislav Pinevich](https://github.com/tUnknownLegend) — frontend mentor;
 * [Leila Kochkarova](https://github.com/k-t-l-h) — backend mentor;
-* [Valeria Kuritsyna] — interface design mentor.
+* Valeria Kuritsyna — interface design mentor.
 
 ### Backend repository
 [Link to backend repository](https://github.com/go-park-mail-ru/2023_2_potatiki).
