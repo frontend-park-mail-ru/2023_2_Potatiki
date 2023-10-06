@@ -118,17 +118,17 @@ export default class Carousel {
      * Прослушиватели событий для кнопки карусели
      */
     addListeners() {
-        document
-            .querySelector(`#${this.#config.buttonRight.id}`)
-            .addEventListener('click', this.slideRight.bind(this));
-
         this.slideRightListener = this.slideRight.bind(this);
 
         document
-            .querySelector(`#${this.#config.buttonLeft.id}`)
-            .addEventListener('click', this.slideLeft.bind(this));
+            .querySelector(`#${this.#config.buttonRight.id}`)
+            .addEventListener('click', this.slideRightListener);
 
         this.slideLeftListener = this.slideLeft.bind(this);
+
+        document
+            .querySelector(`#${this.#config.buttonLeft.id}`)
+            .addEventListener('click', this.slideLeftListener);
     }
 
     /**
