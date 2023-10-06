@@ -56,7 +56,7 @@ export default class LoginPage {
 
 
         Ajax.prototype.postRequest(
-            'auth/signin',
+            this.#config.requests.login,
             {login, password},
         ).then((result) => {
             const [statusCode, body] = result;

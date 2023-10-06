@@ -1,6 +1,13 @@
 
 export const baseURL = 'http://84.23.52.212:8082/api/';
 
+const requests = {
+    signup: 'auth/signup',
+    login: 'auth/signin',
+    checkSession: 'auth/check_auth',
+    getProducts: 'products/get_all',
+};
+
 const header = {
     logo: {
         id: 'logo-link',
@@ -241,4 +248,5 @@ export const config = {
     mainPage: mainPage,
     signupPage: signupPage,
     loginPage: loginPage,
+    requests: requests,
 };

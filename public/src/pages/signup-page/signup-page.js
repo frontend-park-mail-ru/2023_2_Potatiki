@@ -67,7 +67,7 @@ export default class SignupPage {
 
         if (this.isValidForm) {
             Ajax.prototype.postRequest(
-                'auth/signup',
+                this.#config.requests.signup,
                 {'login': login, 'password': password}).then((result) => {
                 const [statusCode, body] = result;
                 this.signupForm.removeError();

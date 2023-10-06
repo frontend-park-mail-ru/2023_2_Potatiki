@@ -45,21 +45,22 @@ export default class MainPage {
    */
     getProducts(offset=0, count=5, config) {
         Ajax.prototype.getRequest(
-            `products/get_all?paging=${offset}&count=${count}`).then((result) => {
-            const [statusCode, body] = result;
-            switch (statusCode) {
-            case 200:
-                const carousel = new Carousel(this.self, config, body);
-                carousel.render();
-                this.#carousels.push(carousel);
-                break;
-            case 429:
-                renderServerError(body.error);
-                break;
-            default:
-                break;
-            }
-        });
+            `${this.#config.requests.getProducts}?paging=${offset}&count=${count}`)
+            .then((result) => {
+                const [statusCode, body] = result;
+                switch (statusCode) {
+                case 200:
+                    const carousel = new Carousel(this.self, config, body);
+                    carousel.render();
+                    this.#carousels.push(carousel);
+                    break;
+                case 429:
+                    renderServerError(body.error);
+                    break;
+                default:
+                    break;
+                }
+            });
     }
 
     /**

@@ -88,7 +88,7 @@ window.addEventListener('click', listenClick);
  * отображает соответствующий вид страницы
  */
 const checkSession = () => {
-    Ajax.prototype.getRequest('auth/check_auth').then((result) => {
+    Ajax.prototype.getRequest(config.requests.checkSession).then((result) => {
         const [statusCode, body] = result;
         switch (statusCode) {
         case 200:
