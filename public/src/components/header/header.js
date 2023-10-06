@@ -19,7 +19,7 @@ export default class Header {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    * @param {Object} config Конфиг для отрисовки класса
-   * @param {Bool} isAuth Данные об авторизации пользователя
+   * @param {Boolean} isAuth Данные об авторизации пользователя
    */
     constructor(parent, config, isAuth) {
         this.#parent = parent;

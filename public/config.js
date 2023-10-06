@@ -6,7 +6,7 @@ const header = {
         id: 'logo-link',
         class: 'header__link_size_logo',
         href: 'main',
-        altText: 'ZuZu',
+        altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
     },
 

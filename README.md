@@ -18,10 +18,7 @@
 [Link to backend repository](https://github.com/go-park-mail-ru/2023_2_potatiki).
 
 ### API
-[Link to API].
+[Link to API](http://84.23.52.212:8082/api/swagger/).
 
 ### Deploy
 [Link to deploy](http://84.23.52.212:8083/).
-
-### UI/UX
-[Figma].
