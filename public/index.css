@@ -16,9 +16,7 @@
 
 html, body {
     height: 100%;
-    overflow: scroll;
-    overflow-x: hidden;
-}
+} 
 
 * {
     margin: 0;
@@ -61,7 +59,8 @@ html, body {
 #server-error {
     color: var(--color-background);
     position: absolute;
-    left: 44%;
+    margin-left: 40%;
+    margin-right: 40%;
     bottom: 20%;
     background-color: var(--color-incorrect);
     padding: 10px 30px 10px 30px;

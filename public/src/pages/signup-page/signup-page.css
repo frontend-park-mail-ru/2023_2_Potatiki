@@ -13,3 +13,7 @@
     width: 200;
     height: 66px;
 }
+
+#root {
+    height: 100%;
+}

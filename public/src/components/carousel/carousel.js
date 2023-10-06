@@ -86,7 +86,7 @@ export default class Carousel {
 
     /**
      * Прокуручивание карусели вправо
-     * @param {Object} event Событие
+     * @param {Event} event Событие
      */
     slideRight(event) {
         event.preventDefault();
@@ -101,7 +101,7 @@ export default class Carousel {
 
     /**
      * Прокуручивание карусели влево
-     * @param {Object} event Событие
+     * @param {Event} event Событие
      */
     slideLeft(event) {
         event.preventDefault();
@@ -122,9 +122,13 @@ export default class Carousel {
             .querySelector(`#${this.#config.buttonRight.id}`)
             .addEventListener('click', this.slideRight.bind(this));
 
+        this.slideRightListener = this.slideRight.bind(this);
+
         document
             .querySelector(`#${this.#config.buttonLeft.id}`)
             .addEventListener('click', this.slideLeft.bind(this));
+
+        this.slideLeftListener = this.slideLeft.bind(this);
     }
 
     /**
@@ -133,11 +137,11 @@ export default class Carousel {
     removeListeners() {
         document
             .querySelector(`#${this.#config.buttonRight.id}`)
-            .removeEventListener('click', this.slideRight.bind(this));
+            .removeEventListener('click', this.slideRightListener);
 
         document
             .querySelector(`#${this.#config.buttonLeft.id}`)
-            .removeEventListener('click', this.slideLeft.bind(this));
+            .removeEventListener('click', this.slideLeftListener);
     }
 
     /**

@@ -72,7 +72,7 @@ const changePage = (href, isAuth) => {
 
 /**
  * Listener для нажатий по ссылкам
- * @param {Object} event Событие нажатия по ссылке
+ * @param {Event} event Событие нажатия по ссылке
  */
 const listenClick = (event) => {
     event.preventDefault();

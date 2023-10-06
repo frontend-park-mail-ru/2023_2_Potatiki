@@ -77,6 +77,7 @@ export default class Input {
      */
     removeError() {
         const errorDiv = document.querySelector(`#${this.#config.errorId}`);
+        if (!errorDiv) return;
         errorDiv.innerHTML = '';
     }
 
