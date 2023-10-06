@@ -1,8 +1,6 @@
 # 2023_2_Potatiki
 Проект Ozon команды "Potatiki"
 
-### Base
-
 * [Ruslan Khalikov](https://github.com/fitzplsr);
 * [Khristina Kirillova](https://github.com/khristina455);
 * [Dmitriy Belozerov](https://github.com/Belozerovmsk);
