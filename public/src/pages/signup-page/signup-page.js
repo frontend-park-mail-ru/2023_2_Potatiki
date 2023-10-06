@@ -140,12 +140,7 @@ export default class SignupPage {
    * Отрисовка страницы
    */
     render() {
-        this.#parent.innerHTML = '';
-
-        this.#parent.insertAdjacentHTML(
-            'beforeend',
-            window.Handlebars.templates['signup-page.hbs'](),
-        );
+        this.#parent.innerHTML = window.Handlebars.templates['signup-page.hbs']();
 
         const logo = new Link(this.self, this.#config.loginPage.logo);
         logo.render();

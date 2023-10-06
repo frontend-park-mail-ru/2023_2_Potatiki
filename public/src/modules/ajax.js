@@ -26,7 +26,7 @@ export default class Ajax {
             const body = await response.json();
             return [response.status, body];
         } catch (error) {
-            return [500, error];
+            return [429, error];
         }
     }
 
@@ -51,7 +51,7 @@ export default class Ajax {
             const body = await response.json();
             return [response.status, body];
         } catch (error) {
-            return [500, error];
+            return [429, error];
         }
     }
 }

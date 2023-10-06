@@ -78,12 +78,7 @@ export default class MainPage {
    * Отрисовка страницы регистрации
    */
     render() {
-        this.#parent.innerHTML = '';
-
-        this.#parent.insertAdjacentHTML(
-            'beforeend',
-            window.Handlebars.templates['main-page.hbs'](),
-        );
+        this.#parent.innerHTML = window.Handlebars.templates['main-page.hbs']();
 
         const header = new Header(
             this.self,
