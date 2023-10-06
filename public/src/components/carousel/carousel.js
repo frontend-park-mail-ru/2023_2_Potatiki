@@ -34,7 +34,7 @@ export default class Carousel {
      * Получение элемента класса
      */
     get self() {
-        return document.getElementById(this.#config.id);
+        return document.querySelector(`#${this.#config.id}`);
     }
 
     /**
@@ -119,11 +119,11 @@ export default class Carousel {
      */
     addListeners() {
         document
-            .getElementById(this.#config.buttonRight.id)
+            .querySelector(`#${this.#config.buttonRight.id}`)
             .addEventListener('click', this.slideRight.bind(this));
 
         document
-            .getElementById(this.#config.buttonLeft.id)
+            .querySelector(`#${this.#config.buttonLeft.id}`)
             .addEventListener('click', this.slideLeft.bind(this));
     }
 
@@ -132,11 +132,11 @@ export default class Carousel {
      */
     removeListeners() {
         document
-            .getElementById(this.#config.buttonRight.id)
+            .querySelector(`#${this.#config.buttonRight.id}`)
             .removeEventListener('click', this.slideRight.bind(this));
 
         document
-            .getElementById(this.#config.buttonLeft.id)
+            .querySelector(`#${this.#config.buttonLeft.id}`)
             .removeEventListener('click', this.slideLeft.bind(this));
     }
 

@@ -26,7 +26,7 @@ export default class Button {
    * Получение элемента компонента кнопик
    */
     get self() {
-        return document.getElementById(this.#config.id);
+        return document.querySelector(`#${this.#config.id}`);
     }
 
     /**
@@ -34,7 +34,7 @@ export default class Button {
    */
     addListeners() {
         document
-            .getElementById(this.#config.id)
+            .querySelector(`#${this.#config.id}`)
             .addEventListener('click', this.#submitHandle);
     }
 
@@ -43,7 +43,7 @@ export default class Button {
      */
     removeListeners() {
         document
-            .getElementById(this.#config.id)
+            .querySelector(`#${this.#config.id}`)
             .removeEventListener('click', this.#submitHandle);
     }
 

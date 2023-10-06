@@ -34,7 +34,7 @@ export default class SignupPage {
    * Получение элемента страницы из документа
    */
     get self() {
-        return document.getElementById('signup-page');
+        return document.querySelector('#signup-page');
     }
 
     /**

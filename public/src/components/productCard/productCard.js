@@ -34,7 +34,7 @@ export default class ProductCard {
             window.Handlebars.templates['productCard.hbs'](this.#config),
         );
 
-        const self = document.getElementById(this.#config.id);
+        const self = document.querySelector(`#${this.#config.id}`);
 
         const img = new Link(
             self.querySelector('.product-card__img-place'),

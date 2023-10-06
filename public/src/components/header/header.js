@@ -36,7 +36,7 @@ export default class Header {
             window.Handlebars.templates['header.hbs'](),
         );
 
-        const self = document.getElementById('header');
+        const self = document.querySelector('#header');
 
         const logo = new Link(self, this.#config.logo);
         logo.render();

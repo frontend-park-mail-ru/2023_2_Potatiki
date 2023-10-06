@@ -34,7 +34,7 @@ export default class LoginForm {
             window.Handlebars.templates['loginForm.hbs'](this.#config),
         );
 
-        const self = document.getElementById('login-form');
+        const self = document.querySelector('#login-form');
 
         const login = new Input(
             document.querySelector('.login-form__login'),

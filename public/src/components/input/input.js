@@ -65,7 +65,8 @@ export default class Input {
      * @param {Object} error Ошибка
      */
     renderError(error) {
-        const errorDiv = document.getElementById(this.#config.errorId);
+        const errorDiv = document.querySelector(`#${this.#config.errorId}`);
+
         if (errorDiv.innerHTML === '') {
             errorDiv.insertAdjacentHTML('beforeend', error);
         }
@@ -75,7 +76,7 @@ export default class Input {
      * Удаление ошибки
      */
     removeError() {
-        const errorDiv = document.getElementById(this.#config.errorId);
+        const errorDiv = document.querySelector(`#${this.#config.errorId}`);
         errorDiv.innerHTML = '';
     }
 
