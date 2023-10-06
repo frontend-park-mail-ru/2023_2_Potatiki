@@ -98,7 +98,7 @@ const checkSession = () => {
             renderMainPage(false);
             break;
         case 429:
-            renderServerError(body.error);
+            renderServerError(body.error || 'Ошибка. Попробуйте позже');
             break;
         default:
             break;
