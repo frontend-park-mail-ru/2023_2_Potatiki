@@ -11,11 +11,12 @@ const header = {
     },
 
     catalog: {
-        class: 'header__button_size_catalog button-disabled',
+        class: 'header__button_size_catalog button_disabled',
         type: 'button',
         text: 'Каталог',
         id: 'catalog-button',
         imgSrc: './static/images/burger.svg',
+        imgClass: 'button__img_size_s',
     },
 
     search: {
@@ -30,62 +31,69 @@ const header = {
             label: false,
         },
         submit: {
-            class: 'button-disabled search-form__button_size_search',
+            class: 'button_disabled search-form__button_size_search',
             type: '',
             text: '',
             id: 'search-button',
             altText: 'Поиск',
             imgSrc: './static/images/search.svg',
+            imgClass: 'button__img_size_s',
         },
 
     },
 
     orders: {
         id: 'orders-button',
-        class: 'link__icon link-disabled',
+        class: 'link_icon link_disabled',
         href: '#',
         text: 'Заказы',
         imgSrc: './static/images/order-box.svg',
+        imgClass: 'link_icon__img',
     },
 
     favorite: {
         id: 'favorite-button',
-        class: 'link__icon link-disabled',
+        class: 'link_icon link_disabled',
         text: 'Избранное',
         href: '#',
         imgSrc: './static/images/like-icon.svg',
+        imgClass: 'link_icon__img',
     },
 
     basket: {
         id: 'basket-button',
-        class: 'link__icon  link-disabled',
+        class: 'link_icon  link_disabled',
         href: '#',
         text: 'Корзина',
         imgSrc: './static/images/cart-icon.svg',
+        imgClass: 'link_icon__img',
     },
 
     login: {
         id: 'login-button',
-        class: 'link__icon',
+        class: 'link_icon',
         text: 'Войти',
         href: 'login',
         imgSrc: './static/images/login.svg',
+        imgClass: 'link_icon__img',
     },
 
     profile: {
         id: 'profile-button',
-        class: 'link__icon link-disabled',
+        class: 'link_icon link_disabled',
         href: 'profile',
         text: 'Профиль',
         imgSrc: './static/images/user.svg',
+        imgClass: 'link_icon__img',
     },
 
     logout: {
         id: 'logout-button',
-        class: 'link__icon',
+        class: 'link_icon',
         href: 'logout',
         text: 'Выйти',
         imgSrc: './static/images/login.svg',
+        imgClass: 'link_icon__img',
     },
 };
 
@@ -98,12 +106,14 @@ const newCarousel = {
         type: 'button',
         id: 'new-carousel-button-left',
         imgSrc: './static/images/arrow-left.svg',
+        imgClass: 'button__img_size_m',
     },
     buttonRight: {
         class: 'button carousel__button',
         type: 'button',
         id: 'new-carousel-button-right',
         imgSrc: './static/images/arrow-right.svg',
+        imgClass: 'button__img_size_m',
     },
 };
 
@@ -115,12 +125,14 @@ const popularCarousel = {
         type: 'button',
         id: 'popular-carousel-button-left',
         imgSrc: './static/images/arrow-left.svg',
+        imgClass: 'button__img_size_m',
     },
     buttonRight: {
         class: 'button carousel__button',
         type: 'button',
         id: 'popular-carousel-button-right',
         imgSrc: './static/images/arrow-right.svg',
+        imgClass: 'button__img_size_m',
     },
 };
 

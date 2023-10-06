@@ -10,9 +10,14 @@
     cursor: pointer;
 }
 
-.button__img {
+.button__img_size_s {
     width: 10px;
     height: 10px; 
+}
+
+.button__img_size_m {
+    width: 24px;
+    height: 24px; 
 }
 
 .button__text {
@@ -23,6 +28,6 @@
     line-height: normal; 
 }
 
-.button-disabled {
+.button_disabled {
     cursor: not-allowed;
 }

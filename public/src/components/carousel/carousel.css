@@ -26,11 +26,6 @@
     background-color: var(--color-button-text);
 }
 
-.carousel__button > img {
-    width: 24px;
-    height: 24px;
-}
-
 .carousel__container {
     display: flex;
     gap: 42px;

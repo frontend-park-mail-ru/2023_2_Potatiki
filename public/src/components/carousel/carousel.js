@@ -54,7 +54,7 @@ export default class Carousel {
                 text: data.name,
             },
             button: {
-                class: 'product-card__button_size_in-cart',
+                class: 'product-card__button_size_in-cart button_disabled',
                 type: 'button',
                 id: `product-${data.id}-button`,
                 text: 'В корзину',
