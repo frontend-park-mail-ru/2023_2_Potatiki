@@ -2,6 +2,7 @@ import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
+import { loginURL } from '../../../config.js';
 import {checkPassword, checkLogin} from '../../modules/validation.js';
 import '../templates.js';
 
@@ -56,7 +57,7 @@ export default class LoginPage {
 
 
         Ajax.prototype.postRequest(
-            'auth/signin',
+            loginURL,
             {login, password},
         ).then((result) => {
             const [statusCode, body] = result;

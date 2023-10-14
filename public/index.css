@@ -12,14 +12,6 @@
 @import './src/components/signupForm/signupForm.css';
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
 
-
-
-html, body {
-    height: 100%;
-    overflow: scroll;
-    overflow-x: hidden;
-}
-
 * {
     margin: 0;
     padding: 0;
