@@ -73,7 +73,7 @@ const changePage = (href, isAuth) => {
 
 /**
  * Listener для нажатий по ссылкам
- * @param {Object} event Событие нажатия по ссылке
+ * @param {Event} event Событие нажатия по ссылке
  */
 const listenClick = (event) => {
     event.preventDefault();
@@ -89,7 +89,7 @@ window.addEventListener('click', listenClick);
  * отображает соответствующий вид страницы
  */
 const checkSession = () => {
-    Ajax.prototype.getRequest('auth/check_auth').then((result) => {
+    Ajax.prototype.getRequest(config.requests.checkSession).then((result) => {
         const [statusCode, body] = result;
         switch (statusCode) {
         case 200:
@@ -99,7 +99,7 @@ const checkSession = () => {
             renderMainPage(false);
             break;
         case 429:
-            renderServerError(body.error);
+            renderServerError(body.error || 'Ошибка. Попробуйте позже');
             break;
         default:
             break;

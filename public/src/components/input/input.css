@@ -10,7 +10,7 @@
 
 .input__error {
     padding-left: 12px;
-    padding-top: 5px;
+    padding-top: 6px;
     font-size: 14px;
     color: var(--color-incorrect);
 }

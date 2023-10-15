@@ -23,9 +23,11 @@ export function checkPassword(pass) {
     let isHasDigit = false;
 
     for (let i = 0; i < pass.length; ++i) {
-        if (pass.codePointAt(i) >= UNICODE_OF_UPPERCASE_A && pass.codePointAt(i) <= UNICODE_OF_UPPERCASE_Z) {
+        if (pass.codePointAt(i) >= UNICODE_OF_UPPERCASE_A &&
+        pass.codePointAt(i) <= UNICODE_OF_UPPERCASE_Z) {
             isHasUpperLetter = true;
-        } else if (pass.codePointAt(i) >= UNICODE_OF_LOWERCASE_A && pass.codePointAt(i) <= UNICODE_OF_LOWERCASE_Z) {
+        } else if (pass.codePointAt(i) >= UNICODE_OF_LOWERCASE_A &&
+        pass.codePointAt(i) <= UNICODE_OF_LOWERCASE_Z) {
             isHasLowerLetter = true;
         } else if (pass.codePointAt(i) >= UNICODE_OF_0 && pass.codePointAt(i) <= UNICODE_OF_9) {
             isHasDigit = true;

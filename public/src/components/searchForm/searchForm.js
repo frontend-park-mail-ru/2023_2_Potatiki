@@ -30,7 +30,7 @@ export default class SearchForm {
             template(this.#config),
         );
 
-        const self = document.getElementById('search-form');
+        const self = document.querySelector('#search-form');
 
         const input = new Input(self, this.#config.input);
         input.render();

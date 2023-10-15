@@ -11,6 +11,7 @@
     "rules": {
         "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
         "max-len": ["error", {"code": 100}],
-        "indent": ["error", 4]
+        "indent": ["error", 4],
+        "no-invalid-this": "off"
     }
 }

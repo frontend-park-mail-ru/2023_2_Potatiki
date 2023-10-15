@@ -36,7 +36,7 @@ export default class Header {
             template(),
         );
 
-        const self = document.getElementById('header');
+        const self = document.querySelector('#header');
 
         const logo = new Link(self, this.#config.logo);
         logo.render();
