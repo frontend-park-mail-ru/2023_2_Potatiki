@@ -1,6 +1,7 @@
 import Button from '../button/button.js';
 import Link from '../link/link.js';
-import '../templates.js';
+//import '../templates.js';
+import template from './productCard.hbs';
 
 /**
  * Класс компонента карточки товара
@@ -31,7 +32,7 @@ export default class ProductCard {
         const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(
             destination,
-            window.Handlebars.templates['productCard.hbs'](this.#config),
+            template(this.#config),
         );
 
         const self = document.getElementById(this.#config.id);

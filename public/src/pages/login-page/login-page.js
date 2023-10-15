@@ -4,7 +4,8 @@ import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
 import { loginURL } from '../../../config.js';
 import {checkPassword, checkLogin} from '../../modules/validation.js';
-import '../templates.js';
+//import '../templates.js';
+import template from './login-page.hbs';
 
 /**
  * Класс страницы авторизации
@@ -119,7 +120,7 @@ export default class LoginPage {
    * Отрисовка страницы авторизации
    */
     render() {
-        this.#parent.innerHTML = window.Handlebars.templates['login-page.hbs']();
+        this.#parent.innerHTML = template();
 
         const logo = new Link(this.self, this.#config.loginPage.logo);
         logo.render();

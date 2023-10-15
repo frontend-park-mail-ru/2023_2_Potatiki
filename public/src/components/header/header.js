@@ -1,7 +1,8 @@
 import Button from '../button/button.js';
 import Link from '../link/link.js';
 import SearchForm from '../searchForm/searchForm.js';
-import '../templates.js';
+//import '../templates.js';
+import template from './header.hbs';
 
 /**
  * Класс хедера страницы
@@ -33,7 +34,7 @@ export default class Header {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['header.hbs'](),
+            template(),
         );
 
         const self = document.getElementById('header');

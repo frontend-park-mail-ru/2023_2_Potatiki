@@ -1,6 +1,7 @@
 import Button from '../button/button.js';
 import Input from '../input/input.js';
-import '../templates.js';
+//import '../templates.js';
+import template from './searchForm.hbs';
 
 /**
  * Класс компонента формы поиска
@@ -27,7 +28,7 @@ export default class SearchForm {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['searchForm.hbs'](this.#config),
+            template(this.#config),
         );
 
         const self = document.getElementById('search-form');

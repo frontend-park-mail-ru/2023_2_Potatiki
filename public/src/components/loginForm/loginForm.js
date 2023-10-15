@@ -1,7 +1,8 @@
 import Button from '../button/button.js';
 import Input from '../input/input.js';
 import Link from '../link/link.js';
-import '../templates.js';
+//import '../templates.js';
+import template from './loginForm.hbs';
 
 /**
  * Класс формы авторизации
@@ -31,7 +32,7 @@ export default class LoginForm {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['loginForm.hbs'](this.#config),
+            template(this.#config),
         );
 
         const self = document.getElementById('login-form');

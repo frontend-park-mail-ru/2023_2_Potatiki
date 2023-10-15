@@ -1,4 +1,5 @@
-import '../templates.js';
+//import '../templates.js';
+import template from './button.hbs';
 
 /**
  * Класс кнопки
@@ -53,7 +54,7 @@ export default class Button {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['button.hbs'](this.#config),
+            template(this.#config),
         );
         this.addListeners();
     }

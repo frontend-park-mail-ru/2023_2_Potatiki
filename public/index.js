@@ -1,3 +1,4 @@
+import './index.css'
 import MainPage from './src/pages/main-page/main-page.js';
 import LoginPage from './src/pages/login-page/login-page.js';
 import SignupPage from './src/pages/signup-page/signup-page.js';
@@ -106,4 +107,5 @@ const checkSession = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', checkSession, {once: true});
+//document.addEventListener('DOMContentLoaded', checkSession, {once: true});
+renderMainPage(false);

@@ -1,5 +1,5 @@
 
-export const baseURL = 'http://84.23.52.212:8082/api/';
+export const baseURL = 'http://84.23.52.212:8096/api/';
 export const signupURL = 'auth/signup'
 export const loginURL = 'auth/login'
 export const logoutURL = 'auth/logout'
