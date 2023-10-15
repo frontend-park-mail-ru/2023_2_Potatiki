@@ -1,6 +1,5 @@
 import Button from '../button/button.js';
 import ProductCard from '../productCard/productCard.js';
-//import '../templates.js';
 import template from './carousel.hbs';
 
 /**

@@ -6,14 +6,13 @@
   "scripts": {
     "build": "npx webpack && npm run server",
     "server": "npx webpack serve",
-    "deploy": "screen -d -m -S frontend sudo npm start",
+    "deploy": "screen -d -m -S frontend sudo npm build",
     "openDemon": "screen -r \"$(screen -ls | grep -Eo '[0-9]{1,}.frontend')\"",
     "check": "npx eslint --fix public"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
     "handlebars": "^4.7.8"
   },
   "devDependencies": {

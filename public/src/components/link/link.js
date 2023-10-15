@@ -1,4 +1,3 @@
-//import '../templates.js';
 import template from './link.hbs';
 
 /**

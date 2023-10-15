@@ -1,7 +1,6 @@
 import Button from '../button/button.js';
 import Link from '../link/link.js';
 import SearchForm from '../searchForm/searchForm.js';
-//import '../templates.js';
 import template from './header.hbs';
 
 /**

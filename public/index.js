@@ -107,5 +107,4 @@ const checkSession = () => {
     });
 };
 
-//document.addEventListener('DOMContentLoaded', checkSession, {once: true});
-renderMainPage(false);
+document.addEventListener('DOMContentLoaded', checkSession, {once: true});

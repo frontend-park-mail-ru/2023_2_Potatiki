@@ -1,7 +1,6 @@
 import Button from '../button/button.js';
 import Input from '../input/input.js';
 import Link from '../link/link.js';
-//import '../templates.js';
 import template from './signupForm.hbs';
 
 /**
