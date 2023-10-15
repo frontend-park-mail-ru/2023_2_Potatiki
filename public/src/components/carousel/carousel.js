@@ -1,6 +1,6 @@
 import Button from '../button/button.js';
 import ProductCard from '../productCard/productCard.js';
-import '../templates.js';
+import template from './carousel.hbs';
 
 /**
  * Класс карусели продуктов
@@ -150,7 +150,7 @@ export default class Carousel {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['carousel.hbs'](this.#config),
+            template(this.#config),
         );
 
         const buttonLeft = new Button(

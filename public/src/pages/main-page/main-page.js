@@ -2,8 +2,7 @@ import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
-
-import '../templates.js';
+import template from './main-page.hbs';
 
 /**
  * Класс главной страницы
@@ -79,7 +78,7 @@ export default class MainPage {
    * Отрисовка страницы регистрации
    */
     render() {
-        this.#parent.innerHTML = window.Handlebars.templates['main-page.hbs']();
+        this.#parent.innerHTML = template();
 
         const header = new Header(
             this.self,

@@ -3,7 +3,8 @@ import SignupForm from '../../components/signupForm/signupForm.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
 import {checkLogin, checkPassword} from '../../modules/validation.js';
-import '../templates.js';
+import { signupURL } from '../../../config.js';
+import template from './signup-page.hbs';
 
 /**
  * Класс страницы регистрации
@@ -67,7 +68,7 @@ export default class SignupPage {
 
         if (this.isValidForm) {
             Ajax.prototype.postRequest(
-                this.#config.requests.signup,
+                signupURL,
                 {'login': login, 'password': password}).then((result) => {
                 const [statusCode, body] = result;
                 this.signupForm.removeError();
@@ -137,7 +138,7 @@ export default class SignupPage {
    * Отрисовка страницы
    */
     render() {
-        this.#parent.innerHTML = window.Handlebars.templates['signup-page.hbs']();
+        this.#parent.innerHTML = template();
 
         const logo = new Link(this.self, this.#config.loginPage.logo);
         logo.render();

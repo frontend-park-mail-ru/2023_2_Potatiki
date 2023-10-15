@@ -1,7 +1,7 @@
 import Button from '../button/button.js';
 import Input from '../input/input.js';
 import Link from '../link/link.js';
-import '../templates.js';
+import template from './signupForm.hbs';
 
 /**
  * Класс формы регистрации
@@ -73,7 +73,7 @@ export default class SignupForm {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['signupForm.hbs'](this.#config),
+            template(this.#config),
         );
 
         const self = document.querySelector('#signup-form');

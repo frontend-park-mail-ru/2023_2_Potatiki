@@ -1,4 +1,4 @@
-import '../templates.js';
+import template from './input.hbs';
 
 /**
  * Класса компонента инпута
@@ -99,7 +99,7 @@ export default class Input {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['input.hbs'](this.#config),
+            template(this.#config),
         );
     }
 }

@@ -1,5 +1,9 @@
 
-export const baseURL = 'http://84.23.52.212:8082/api/';
+export const baseURL = 'http://84.23.52.212:8096/api/';
+export const signupURL = 'auth/signup'
+export const loginURL = 'auth/login'
+export const logoutURL = 'auth/logout'
+export const checkURL = 'auth/check_auth'
 
 const requests = {
     signup: 'auth/signup',
@@ -154,7 +158,7 @@ const loginPage = {
         id: 'logo-button',
         class: 'login-page__logo',
         href: 'main',
-        altText: 'ZuZu',
+        altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
     },
 
@@ -195,7 +199,7 @@ const signupPage = {
         id: 'logo-button',
         class: 'login-page__logo',
         href: 'main',
-        altText: 'ZuZu',
+        altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
     },
 

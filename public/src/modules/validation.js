@@ -52,12 +52,16 @@ export function checkLogin(login) {
         return ['Минимальная длина 6 символов', false];
     }
 
-    for (let i = 0; i < login.length; ++i) {
-        if (!(login.codePointAt(i) >= UNICODE_OF_UPPERCASE_A && login.codePointAt(i) <= 0x5A ||
-      login.codePointAt(i) >= 0x61 && login.codePointAt(i) <= 0x7A ||
-      login.codePointAt(i) >= 0x30 && login.codePointAt(i) <= 0x39)) {
-            return ['Разрешена только латиница и цифры', false];
-        }
+    const isValid = [...login].every((_, index) => {
+        return login.codePointAt(index) >= UNICODE_OF_UPPERCASE_A && login.codePointAt(index) <= UNICODE_OF_UPPERCASE_Z ||
+        login.codePointAt(index) >= UNICODE_OF_LOWERCASE_A && login.codePointAt(index) <= UNICODE_OF_LOWERCASE_Z ||
+        login.codePointAt(index) >= UNICODE_OF_0 && login.codePointAt(index) <= UNICODE_OF_9;
+    });
+    console.log(isValid);
+
+    if(isValid) {
+        return ['', true];
     }
-    return ['', true];
+
+    return ['Разрешена только латиница и цифры', false];
 }

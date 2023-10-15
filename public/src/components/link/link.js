@@ -1,4 +1,4 @@
-import '../templates.js';
+import template from './link.hbs';
 
 /**
  * Класс компонента ссылки
@@ -24,7 +24,7 @@ export default class Link {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['link.hbs'](this.#config),
+            template(this.#config),
         );
     }
 }
