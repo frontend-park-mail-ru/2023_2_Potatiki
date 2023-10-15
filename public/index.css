@@ -53,13 +53,14 @@
 #server-error {
     color: var(--color-background);
     position: absolute;
-    left: 50%;
+    margin-left: 40%;
+    margin-right: 40%;
     bottom: 20%;
     background-color: var(--color-incorrect);
     padding: 10px 30px 10px 30px;
     border-radius: 20px;
     animation-name: errorSurface;
-    animation-duration: 4100ms;
+    animation-duration: 5100ms;
     animation-timing-function: linear;
     animation-iteration-count: 1;
 }

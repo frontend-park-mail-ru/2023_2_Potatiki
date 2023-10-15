@@ -34,7 +34,7 @@ export default class Carousel {
      * Получение элемента класса
      */
     get self() {
-        return document.getElementById(this.#config.id);
+        return document.querySelector(`#${this.#config.id}`);
     }
 
     /**
@@ -86,7 +86,7 @@ export default class Carousel {
 
     /**
      * Прокуручивание карусели вправо
-     * @param {Object} event Событие
+     * @param {Event} event Событие
      */
     slideRight(event) {
         event.preventDefault();
@@ -101,7 +101,7 @@ export default class Carousel {
 
     /**
      * Прокуручивание карусели влево
-     * @param {Object} event Событие
+     * @param {Event} event Событие
      */
     slideLeft(event) {
         event.preventDefault();
@@ -118,13 +118,17 @@ export default class Carousel {
      * Прослушиватели событий для кнопки карусели
      */
     addListeners() {
-        document
-            .getElementById(this.#config.buttonRight.id)
-            .addEventListener('click', this.slideRight.bind(this));
+        this.slideRightListener = this.slideRight.bind(this);
 
         document
-            .getElementById(this.#config.buttonLeft.id)
-            .addEventListener('click', this.slideLeft.bind(this));
+            .querySelector(`#${this.#config.buttonRight.id}`)
+            .addEventListener('click', this.slideRightListener);
+
+        this.slideLeftListener = this.slideLeft.bind(this);
+
+        document
+            .querySelector(`#${this.#config.buttonLeft.id}`)
+            .addEventListener('click', this.slideLeftListener);
     }
 
     /**
@@ -132,12 +136,12 @@ export default class Carousel {
      */
     removeListeners() {
         document
-            .getElementById(this.#config.buttonRight.id)
-            .removeEventListener('click', this.slideRight.bind(this));
+            .querySelector(`#${this.#config.buttonRight.id}`)
+            .removeEventListener('click', this.slideRightListener);
 
         document
-            .getElementById(this.#config.buttonLeft.id)
-            .removeEventListener('click', this.slideLeft.bind(this));
+            .querySelector(`#${this.#config.buttonLeft.id}`)
+            .removeEventListener('click', this.slideLeftListener);
     }
 
     /**

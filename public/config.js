@@ -5,6 +5,13 @@ export const loginURL = 'auth/login'
 export const logoutURL = 'auth/logout'
 export const checkURL = 'auth/check_auth'
 
+const requests = {
+    signup: 'auth/signup',
+    login: 'auth/signin',
+    checkSession: 'auth/check_auth',
+    getProducts: 'products/get_all',
+};
+
 const header = {
     logo: {
         id: 'logo-link',
@@ -245,4 +252,5 @@ export const config = {
     mainPage: mainPage,
     signupPage: signupPage,
     loginPage: loginPage,
+    requests: requests,
 };

@@ -32,7 +32,7 @@ export default class SignupForm {
      * @param {String} error Текст ошибки
      */
     renderError(error) {
-        const errorDiv = document.getElementById(this.#config.errorId);
+        const errorDiv = document.querySelector(`#${this.#config.errorId}`);
         errorDiv.textContent = error;
     }
 
@@ -40,7 +40,7 @@ export default class SignupForm {
      * Удаление ошибки с формы
      */
     removeError() {
-        const errorDiv = document.getElementById(this.#config.errorId);
+        const errorDiv = document.querySelector(`#${this.#config.errorId}`);
         errorDiv.textContent = '';
     }
 
@@ -76,23 +76,23 @@ export default class SignupForm {
             template(this.#config),
         );
 
-        const self = document.getElementById('signup-form');
+        const self = document.querySelector('#signup-form');
 
         this.login = new Input(
-            document.getElementsByClassName('signup-form__login')[0],
+            document.querySelector('.signup-form__login'),
             this.#config.login,
         );
         this.login.render();
 
         this.password = new Input(
-            document.getElementsByClassName('signup-form__password')[0],
+            document.querySelector('.signup-form__password'),
             this.#config.password,
         );
         this.password.render();
 
 
         this.reapeatPassword = new Input(
-            document.getElementsByClassName('signup-form__repeat-password')[0],
+            document.querySelector('.signup-form__repeat-password'),
             this.#config.repeatPassword,
         );
         this.reapeatPassword.render();

@@ -33,7 +33,7 @@ export default class MainPage {
      * Получение элемента страницы
      */
     get self() {
-        return document.getElementById('main-page');
+        return document.querySelector('#main-page');
     }
 
     /**
@@ -44,21 +44,22 @@ export default class MainPage {
    */
     getProducts(offset=0, count=5, config) {
         Ajax.prototype.getRequest(
-            `products/get_all?paging=${offset}&count=${count}`).then((result) => {
-            const [statusCode, body] = result;
-            switch (statusCode) {
-            case 200:
-                const carousel = new Carousel(this.self, config, body);
-                carousel.render();
-                this.#carousels.push(carousel);
-                break;
-            case 429:
-                renderServerError(body.error);
-                break;
-            default:
-                break;
-            }
-        });
+            `${this.#config.requests.getProducts}?paging=${offset}&count=${count}`)
+            .then((result) => {
+                const [statusCode, body] = result;
+                switch (statusCode) {
+                case 200:
+                    const carousel = new Carousel(this.self, config, body);
+                    carousel.render();
+                    this.#carousels.push(carousel);
+                    break;
+                case 429:
+                    renderServerError(body.error);
+                    break;
+                default:
+                    break;
+                }
+            });
     }
 
     /**
@@ -66,7 +67,7 @@ export default class MainPage {
      */
     removeListeners() {
         const buttonId = this.#config.mainPage.header.search.submit.id;
-        const button = document.getElementById(buttonId);
+        const button = document.querySelector(`#${buttonId}`);
         button.removeEventListener('click', this.searchFormListener);
         this.#carousels.forEach((elem) => {
             elem.removeListeners();

@@ -32,7 +32,7 @@ export default class LoginPage {
    * Получение элемента страницы из документа
    */
     get self() {
-        return document.getElementById('login-page');
+        return document.querySelector('#login-page');
     }
 
     /**
@@ -92,7 +92,7 @@ export default class LoginPage {
      * @param {String} errorText Текст ошибки
      */
     renderLoginError(errorText) {
-        const error = document.getElementById('login-form-error');
+        const error = document.querySelector('#login-form-error');
         error.textContent = errorText;
         const login = document.querySelector('[name=login]');
         login.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
@@ -105,7 +105,7 @@ export default class LoginPage {
      */
     removeListeners() {
         const id = this.#config.loginPage.form.submit.id;
-        const button = document.getElementById(id);
+        const button = document.querySelector(`#${id}`);
         button.removeEventListener('click', this.formListener);
 
         const loginInput = document.querySelector('[name=login]');
