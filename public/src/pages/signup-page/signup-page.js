@@ -4,7 +4,6 @@ import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
 import {checkLogin, checkPassword} from '../../modules/validation.js';
 import { signupURL } from '../../../config.js';
-//import '../templates.js';
 import template from './signup-page.hbs';
 
 /**
