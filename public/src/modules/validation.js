@@ -57,9 +57,8 @@ export function checkLogin(login) {
         login.codePointAt(index) >= UNICODE_OF_LOWERCASE_A && login.codePointAt(index) <= UNICODE_OF_LOWERCASE_Z ||
         login.codePointAt(index) >= UNICODE_OF_0 && login.codePointAt(index) <= UNICODE_OF_9;
     });
-    console.log(isValid);
 
-    if(isValid) {
+    if (isValid) {
         return ['', true];
     }
 

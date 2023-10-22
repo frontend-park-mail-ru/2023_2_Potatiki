@@ -3,8 +3,9 @@ import SignupForm from '../../components/signupForm/signupForm.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
 import {checkLogin, checkPassword} from '../../modules/validation.js';
-import { signupURL } from '../../../config.js';
+import {mainROUTE, signupURL} from '../../../config.js';
 import template from './signup-page.hbs';
+import router from '../../modules/router.js';
 
 /**
  * Класс страницы регистрации
@@ -14,8 +15,6 @@ export default class SignupPage {
 
     #config;
 
-    #router;
-
     signupForm;
     isValidForm = false;
 
@@ -23,12 +22,10 @@ export default class SignupPage {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    * @param {Object} config Конфиг для отрисовки страницы
-   * @param {Function} router Функция осуществляющая переход на другую страницу
    */
-    constructor(parent, config, router) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.#router = router;
     }
 
     /**
@@ -74,13 +71,13 @@ export default class SignupPage {
                 this.signupForm.removeError();
                 switch (statusCode) {
                 case 200:
-                    this.#router('main', true);
+                    router.go({url: mainROUTE, param: {auth: true}});
                     break;
                 case 400:
                     this.signupForm.renderError('Такой логин уже существует');
                     break;
                 case 429:
-                    renderServerError(body);
+                    renderServerError(body || 'Ошибка');
                     break;
                 default:
                     break;
