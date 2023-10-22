@@ -49,4 +49,6 @@ router.register({view: LoginPage, url: loginROUTE, name: 'login'});
 router.register({view: SignupPage, url: signupROUTE, name: 'signup'});
 router.start(root, config);
 window.addEventListener('click', listenClick);
-document.addEventListener('DOMContentLoaded', checkSession, {once: true});
+router.go({url: location.pathname});
+// to action?
+// document.addEventListener('DOMContentLoaded', checkSession, {once: true});

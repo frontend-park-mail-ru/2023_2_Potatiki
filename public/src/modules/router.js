@@ -50,14 +50,7 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
-        const [baseUrl, param] = this.#splitUrl(state.url);
-        if (param) {
-            if (!state.param) {
-                state.param = {};
-            }
-            state.param.queryParam = param;
-        }
-        const baseState = this.#states.find((s) => s.url === baseUrl);
+        const baseState = this.#states.find((s) => s.url === state.url);
         if (!baseState) {
             return;
         }
@@ -91,21 +84,6 @@ class Router {
      */
     forward() {
         this.#history.go();
-    }
-
-    /**
-     * Выделение параметра из пути
-     * @param {String} rawUrl Входной url
-     * @return {[String, String]} Путь и выделенный параметр
-     */
-    #splitUrl(rawUrl) {
-        if (rawUrl.substring(rawUrl.length - 1) !== '/') {
-            return ([
-                rawUrl.substring(0, rawUrl.length - rawUrl.lastIndexOf('/')),
-                rawUrl.substring(rawUrl.length - rawUrl.lastIndexOf('/'))]
-            );
-        }
-        return [rawUrl, ''];
     }
 }
 
