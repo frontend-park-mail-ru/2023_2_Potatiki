@@ -4,7 +4,7 @@ import LoginPage from './src/pages/login-page/login-page.js';
 import SignupPage from './src/pages/signup-page/signup-page.js';
 import Ajax from './src/modules/ajax.js';
 import renderServerError from './src/modules/server-error.js';
-import {checkURL, config, loginROUTE, mainROUTE, signupROUTE} from './config.js';
+import {checkUrl, config, loginRoute, mainRoute, signupRoute} from './config.js';
 import router from './src/modules/router';
 
 /**
@@ -23,15 +23,15 @@ const listenClick = (event) => {
  * отображает соответствующий вид страницы
  */
 const checkSession = () => {
-    Ajax.prototype.getRequest(checkURL).then((result) => {
+    Ajax.prototype.getRequest(checkUrl).then((result) => {
         const [statusCode, body] = result;
         switch (statusCode) {
         case 200:
-            router.go({url: mainROUTE, param: {auth: true}});
+            router.go({url: mainRoute, param: {auth: true}});
             break;
         case 401:
             config.isAuthorized = false;
-            router.go({url: mainROUTE, param: {auth: false}});
+            router.go({url: mainRoute, param: {auth: false}});
             break;
         case 429:
             renderServerError(body.error || 'Ошибка. Попробуйте позже');
@@ -44,9 +44,7 @@ const checkSession = () => {
 
 const root = document.getElementById('root');
 // add logout
-router.register({view: MainPage, url: mainROUTE, name: 'main'});
-router.register({view: LoginPage, url: loginROUTE, name: 'login'});
-router.register({view: SignupPage, url: signupROUTE, name: 'signup'});
+router.register();
 router.start(root, config);
 window.addEventListener('click', listenClick);
 router.go({url: location.pathname});

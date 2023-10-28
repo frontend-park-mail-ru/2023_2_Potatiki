@@ -1,14 +1,14 @@
 
-export const baseURL = 'https://www.zuzu-market.ru/api/';
-export const signupURL = 'auth/signup';
-export const loginURL = 'auth/signin';
-export const logoutURL = 'auth/logout';
-export const checkURL = 'auth/check_auth';
-export const getProductsURL = 'products/get_all';
-export const mainROUTE = '/';
-export const loginROUTE = '/login';
-export const signupROUTE = '/signup';
-export const logoutROUTE = '/logout';
+export const baseUrl = 'https://www.zuzu-market.ru/api/';
+export const signupUrl = 'auth/signup';
+export const loginUrl = 'auth/signin';
+export const logoutUrl = 'auth/logout';
+export const checkUrl = 'auth/check_auth';
+export const getProductsUrl = 'products/get_all';
+export const mainRoute = '/';
+export const loginRoute = '/login';
+export const signupRoute = '/signup';
+export const logoutRoute = '/logout';
 
 const header = {
     logo: {

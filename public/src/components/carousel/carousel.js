@@ -12,11 +12,10 @@ export default class Carousel {
 
     #cardCount;
 
-    #cardWidth;
-
     #currentPos;
 
     #data;
+
     /**
      * Конструктор класса
      * @param {Element} parent Родительский элемент
@@ -67,12 +66,28 @@ export default class Carousel {
     }
 
     /**
+     * Рассчитывает количество видимых карточек
+     */
+    calcCardCount() {
+        const containerWidth = document
+            .querySelector('.carousel__container')
+            .getBoundingClientRect().width;
+        const cardWidth = document
+            .querySelector('.product-card').getBoundingClientRect().width;
+        this.#cardCount = Math.min(Math.round(containerWidth / cardWidth) - 1,
+            this.#data.length,
+        );
+        console.log(this.#cardCount, this.#currentPos);
+    }
+
+    /**
      * Прокуручивание карусели вправо
      * @param {Event} event Событие
      */
     slideRight(event) {
         event.preventDefault();
         const newCard = this.self.querySelectorAll('.product-card');
+        this.calcCardCount();
         this.#currentPos = Math.min(
             this.#data.length - 1,
             this.#currentPos + this.#cardCount * 2 - 1,
@@ -90,6 +105,7 @@ export default class Carousel {
     slideLeft(event) {
         event.preventDefault();
         const newCard = this.self.querySelectorAll('.product-card');
+        this.calcCardCount();
         this.#currentPos = Math.max(
             0,
             this.#currentPos - this.#cardCount * 2 + 1,
@@ -145,11 +161,6 @@ export default class Carousel {
         );
         buttonLeft.render();
 
-        this.#cardWidth = 300;
-        this.#cardCount = Math.min(
-            Math.round(window.innerWidth / this.#cardWidth),
-            this.#data.length,
-        );
         this.#currentPos = 0;
 
         this.#data.forEach((element) => {

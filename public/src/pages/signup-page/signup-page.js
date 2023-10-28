@@ -3,7 +3,7 @@ import SignupForm from '../../components/signupForm/signupForm.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
 import {checkLogin, checkPassword} from '../../modules/validation.js';
-import {mainROUTE, signupURL} from '../../../config.js';
+import {mainRoute, signupUrl} from '../../../config.js';
 import template from './signup-page.hbs';
 import router from '../../modules/router.js';
 
@@ -65,13 +65,13 @@ export default class SignupPage {
 
         if (this.isValidForm) {
             Ajax.prototype.postRequest(
-                signupURL,
+                signupUrl,
                 {'login': login, 'password': password}).then((result) => {
                 const [statusCode, body] = result;
                 this.signupForm.removeError();
                 switch (statusCode) {
                 case 200:
-                    router.go({url: mainROUTE, param: {auth: true}});
+                    router.go({url: mainRoute, param: {auth: true}});
                     break;
                 case 400:
                     this.signupForm.renderError('Такой логин уже существует');

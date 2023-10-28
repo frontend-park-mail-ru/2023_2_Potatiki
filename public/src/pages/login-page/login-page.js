@@ -2,7 +2,7 @@ import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
-import {loginURL, mainROUTE} from '../../../config.js';
+import {loginUrl, mainRoute} from '../../../config.js';
 import {checkPassword, checkLogin} from '../../modules/validation.js';
 import template from './login-page.hbs';
 import router from '../../modules/router.js';
@@ -54,13 +54,13 @@ export default class LoginPage {
 
 
         Ajax.prototype.postRequest(
-            loginURL,
+            loginUrl,
             {login, password},
         ).then((result) => {
             const [statusCode, body] = result;
             switch (statusCode) {
             case 200:
-                router.go({url: mainROUTE, param: {auth: true}});
+                router.go({url: mainRoute, param: {auth: true}});
                 break;
             case 400:
                 this.renderLoginError('Неверный логин или пароль');

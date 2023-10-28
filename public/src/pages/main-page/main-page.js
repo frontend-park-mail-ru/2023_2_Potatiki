@@ -1,4 +1,4 @@
-import {getProductsURL} from '../../../config.js';
+import {getProductsUrl} from '../../../config.js';
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
 import Ajax from '../../modules/ajax.js';
@@ -45,7 +45,7 @@ export default class MainPage {
    */
     getProducts(offset=0, count=5, config) {
         Ajax.prototype.getRequest(
-            `${getProductsURL}?paging=${offset}&count=${count}`)
+            `${getProductsUrl}?paging=${offset}&count=${count}`)
             .then((result) => {
                 const [statusCode, body] = result;
                 switch (statusCode) {

@@ -1,3 +1,8 @@
+import MainPage from '../pages/main-page/main-page';
+import {loginRoute, mainRoute, signupRoute} from '../../config';
+import LoginPage from '../pages/login-page/login-page';
+import SignupPage from '../pages/signup-page/signup-page';
+
 /**
  * Класс роутера
  */
@@ -13,27 +18,24 @@ class Router {
      */
     constructor() {
         this.#history = window.history;
-        this.#states = [];
+        // this.#states = [];
     }
 
     /**
      * Добавление состояния для представления
-     * @param {String} name Название представления
-     * @param {String} url Путь
-     * @param {ObjectConstructor} view Представление
      */
-    register({name, url, view}) {
-        this.#states.push({
-            name: name,
-            url: url,
-            view: view,
-        });
+    register() {
+        this.#states = [
+            {view: MainPage, url: mainRoute, name: 'main'},
+            {view: LoginPage, url: loginRoute, name: 'login'},
+            {view: SignupPage, url: signupRoute, name: 'signup'},
+        ];
     }
 
     /**
      * Запуск роутера
      * @param {Element} root Корневой компонент
-     * @param {*} config Конфиг для отрисовки представлений
+     * @param {Object} config Конфиг для отрисовки представлений
      */
     start(root, config) {
         this.#root = root;
