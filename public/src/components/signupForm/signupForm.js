@@ -2,6 +2,7 @@ import Button from '../button/button.js';
 import Input from '../input/input.js';
 import Link from '../link/link.js';
 import template from './signupForm.hbs';
+import { UserActions } from '../../actions/user.js';
 
 /**
  * Класс формы регистрации
@@ -9,7 +10,6 @@ import template from './signupForm.hbs';
 export default class SignupForm {
     #parent;
     #config;
-    #submitHandle;
     login;
     password;
     repeatPassword;
@@ -21,10 +21,64 @@ export default class SignupForm {
      * @param {Object} config Конфиг отрисовки
      * @param {Function} submitHandle Функция вызываемая при отправке формы
      */
-    constructor(parent, config, submitHandle) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.#submitHandle = submitHandle;
+    }
+
+    submitHandle = (event) => {
+        event.preventDefault();
+        UserActions.login(this.login.self.value, this.password.self.value);
+    }
+
+    submitHandle = this.submitHandle.bind(this);
+
+    inputLoginHandle(event) {
+        event.preventDefault();
+        console.log('login out');
+        UserActions.validateLogin(this.login.self.value);
+    }
+
+    inputLoginHandle = this.inputLoginHandle.bind(this);
+
+    inputPasswordHandle(event) {
+        event.preventDefault();
+        UserActions.validatePassword(this.password.self.value);
+    }
+
+    inputPasswordHandle = this.inputPasswordHandle.bind(this);
+
+    inputRepeatPasswordHandle(event) {
+        event.preventDefault();
+        UserActions.validateRepeatPassword(this.password.self.value, this.reapeatPassword.self.value);
+    }
+
+    inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
+
+    addListeners() {
+        this.submit.self.addEventListener('click', this.submitHandle);
+        this.login.self.addEventListener('focusout', this.inputLoginHandle);
+        this.password.self.addEventListener('focusout', this.inputPasswordHandle);
+        this.repeatPassword.self.addEventListener('focusout', this.inputRepeatPasswordHandle);
+    }
+
+     /**
+     * Удаление прослушивателей событий
+     */
+     removeListeners() {
+        this.submit.self.removeEventListener('click', this.submitHandle);
+        this.login.self.removeEventListener('focusout', this.inputLoginHandle);
+        this.password.self.removeEventListener('focusout', this.inputPasswordHandle);
+        this.repeatPassword.self.removeEventListener('focusout', this.inputRepeatPasswordHandle);
+    }
+
+
+    subscribeToEvents() {
+
+    }
+
+    unsubscribeToEvents() {
+        
     }
 
     /**
@@ -44,28 +98,6 @@ export default class SignupForm {
         errorDiv.textContent = '';
     }
 
-    /**
-     * Удаление прослушивателей событий
-     */
-    removeListeners() {
-        this.login.removeListeners();
-        this.password.removeListeners();
-        this.reapeatPassword.removeListeners();
-        this.submit.removeListeners();
-    }
-
-
-    /**
-     * Валидация логина
-     * @param {String} login Логин пользователя
-     * @return {Boolean} Результат проверки
-     */
-    checkLogin(login) {
-        if (login.length < 6) {
-            return false;
-        }
-        return true;
-    }
 
     /**
      * Отрисовка компонента формы регистрации
@@ -91,16 +123,18 @@ export default class SignupForm {
         this.password.render();
 
 
-        this.reapeatPassword = new Input(
+        this.repeatPassword = new Input(
             document.querySelector('.signup-form__repeat-password'),
             this.#config.repeatPassword,
         );
-        this.reapeatPassword.render();
+        this.repeatPassword.render();
 
-        this.submit = new Button(self, this.#config.submit, this.#submitHandle);
+        this.submit = new Button(self, this.#config.submit);
         this.submit.render();
 
         const loginLink = new Link(self, this.#config.loginLink);
         loginLink.render();
+
+        this.addListeners();
     }
 }

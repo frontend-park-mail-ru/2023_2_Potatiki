@@ -5,6 +5,7 @@ import SignupPage from './src/pages/signup-page/signup-page.js';
 import Ajax from './src/modules/ajax.js';
 import renderServerError from './src/modules/server-error.js';
 import {config} from './config.js';
+import UserStore from './src/stores/user';
 
 const root = document.getElementById('root');
 let pageObject;
@@ -16,7 +17,7 @@ let pageObject;
 const renderMainPage = (isAuth) => {
     config.isAuthorized = isAuth;
     pageObject?.removeListeners();
-    pageObject = new MainPage(root, config, changePage);
+    pageObject = new MainPage(root, config);
     pageObject.render();
     config.page = 'main';
 };
@@ -29,10 +30,10 @@ const renderPage = (page) => {
     pageObject.removeListeners();
     switch (page) {
     case 'login':
-        pageObject = new LoginPage(root, config, changePage);
+        pageObject = new LoginPage(root, config);
         break;
     case 'signup':
-        pageObject = new SignupPage(root, config, changePage);
+        pageObject = new SignupPage(root, config);
         break;
     default:
         break;
@@ -108,3 +109,4 @@ const checkSession = () => {
 };
 
 document.addEventListener('DOMContentLoaded', checkSession, {once: true});
+userStore = new UserStore();

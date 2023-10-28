@@ -8,7 +8,6 @@ export default class Button {
 
     #config;
 
-    #submitHandle;
 
     /**
    * Конструктор класса
@@ -16,10 +15,9 @@ export default class Button {
    * @param {Object} config Конфиг для отрисовки класса
    * @param {Function} submitHandle Функция, вызываемая при нажатии на кнопку
    */
-    constructor(parent, config, submitHandle) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.#submitHandle = submitHandle;
     }
 
     /**
@@ -30,24 +28,6 @@ export default class Button {
     }
 
     /**
-   * Добавление прослушивателя на событие 'click'
-   */
-    addListeners() {
-        document
-            .querySelector(`#${this.#config.id}`)
-            .addEventListener('click', this.#submitHandle);
-    }
-
-    /**
-     * Удаление прослушивателя
-     */
-    removeListeners() {
-        document
-            .querySelector(`#${this.#config.id}`)
-            .removeEventListener('click', this.#submitHandle);
-    }
-
-    /**
    * Отрисовка компонента кнопки
    */
     render() {
@@ -55,6 +35,5 @@ export default class Button {
             'beforeend',
             template(this.#config),
         );
-        this.addListeners();
     }
 }

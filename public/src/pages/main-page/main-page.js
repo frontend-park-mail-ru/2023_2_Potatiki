@@ -12,8 +12,6 @@ export default class MainPage {
 
     #config;
 
-    #router;
-
     #carousels;
 
     /**
@@ -22,10 +20,9 @@ export default class MainPage {
    * @param {Object} config Конфиг для отрисовки страницы
    * @param {Function} router Функция осуществляющая переход на другую страницу
    */
-    constructor(parent, config, router) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.#router = router;
         this.#carousels = [];
     }
 
