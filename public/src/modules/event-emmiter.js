@@ -16,7 +16,10 @@ class EventEmmiter{
     }
 
     unsubscribe(event, handler) {
-        this._events[event].push(handler);
+        const idx = this._events[event].indexOf(handler);
+        if (idx > -1) {
+          this._events[event].splice(idx, 1);
+        }
     }
 }
 
