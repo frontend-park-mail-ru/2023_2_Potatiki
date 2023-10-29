@@ -1,7 +1,8 @@
 import MainPage from '../pages/main-page/main-page';
-import {loginRoute, mainRoute, signupRoute} from '../../config';
+import {loginRoute, mainRoute, notFoundRoute, signupRoute} from '../../config';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
+import NotFoundPage from '../pages/not-found-page/not-found-page';
 
 /**
  * Класс роутера
@@ -45,6 +46,7 @@ class Router {
             [mainRoute, {view: MainPage, url: mainRoute, name: 'main'}],
             [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
             [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
+            [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
         ]);
     }
 
@@ -57,9 +59,12 @@ class Router {
     go(state, replaceState) {
         const baseState = this.#states.get(state.url);
         if (!baseState) {
+            this.go({url: notFoundRoute});
             return;
         }
-        this.#currentView?.removeListeners();
+        if (this.#currentView?.removeListeners) {
+            this.#currentView?.removeListeners();
+        }
         this.#currentView = new baseState.view(this.#root, this.#config, state.param);
         this.#currentView.render();
         if (replaceState) {

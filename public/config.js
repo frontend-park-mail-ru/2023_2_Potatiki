@@ -9,6 +9,7 @@ export const mainRoute = '/';
 export const loginRoute = '/login';
 export const signupRoute = '/signup';
 export const logoutRoute = '/logout';
+export const notFoundRoute = '/not_found';
 
 const header = {
     logo: {
@@ -158,6 +159,7 @@ const loginPage = {
         href: '/',
         altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
+        imgClass: 'login-page__logo-img',
     },
 
     form: {
@@ -199,6 +201,7 @@ const signupPage = {
         href: '/',
         altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
+        imgClass: 'login-page__logo-img',
     },
 
     form: {
