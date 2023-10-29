@@ -6,6 +6,7 @@ import template from './main-page.hbs';
 import { config } from '../../../config.js';
 import { getProducts } from '../../config/urls.js';
 
+
 /**
  * Класс главной страницы
  */

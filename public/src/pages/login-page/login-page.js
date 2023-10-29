@@ -33,6 +33,7 @@ export default class LoginPage {
     }
 
     /**
+
      * Удаление прослушивателей событий
      */
     removeListeners() {
