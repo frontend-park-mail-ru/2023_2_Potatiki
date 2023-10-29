@@ -1,12 +1,3 @@
-export const baseURL = 'http://84.23.52.212:8096/api/';
-export const signupURL = 'auth/signup'
-export const loginURL = 'auth/login'
-export const logoutURL = 'auth/logout'
-export const checkURL = 'auth/check_auth'
-export const mainROUTE = '/';
-export const loginROUTE = '/login';
-export const signupROUTE = '/signup';
-export const logoutROUTE = '/logout';
 
 const requests = {
     signup: 'auth/signup',
