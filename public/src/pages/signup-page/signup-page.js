@@ -1,10 +1,7 @@
 import Link from '../../components/link/link.js';
 import SignupForm from '../../components/signupForm/signupForm.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerError from '../../modules/server-error.js';
-import {checkLogin, checkPassword} from '../../modules/validation.js';
-import { signupURL } from '../../../config.js';
 import template from './signup-page.hbs';
+import { config } from '../../../config.js';
 
 /**
  * Класс страницы регистрации
@@ -23,9 +20,9 @@ export default class SignupPage {
    * @param {Object} config Конфиг для отрисовки страницы
    * @param {Function} router Функция осуществляющая переход на другую страницу
    */
-    constructor(parent, config) {
+    constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
+        this.#config = config.signupPage;
     }
 
     /**
@@ -42,18 +39,21 @@ export default class SignupPage {
         this.signupForm.removeListeners();
     }
 
+    unsubscribeToEvents() {
+        this.signupForm.unsubscribeToEvents();
+    }
+
     /**
    * Отрисовка страницы
    */
     render() {
         this.#parent.innerHTML = template();
 
-        const logo = new Link(this.self, this.#config.loginPage.logo);
+        const logo = new Link(this.self, this.#config.logo);
         logo.render();
 
         this.signupForm = new SignupForm(
-            this.self,
-            this.#config.signupPage.form,
+            this.self
         );
 
         this.signupForm.render();

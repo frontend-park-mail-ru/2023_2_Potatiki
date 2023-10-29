@@ -50,7 +50,7 @@ export const UserActions = {
 
   validateRepeatPassword(password, reapeatPassword) {
     AppDispatcher.dispatch({
-      type: UserActionsType.VALIDATE_PASSWORD,
+      type: UserActionsType.VALIDATE_REPEAT_PASSWORD,
       payload: {
         password: password,
         reapeatPassword: reapeatPassword,

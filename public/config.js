@@ -1,9 +1,12 @@
-
 export const baseURL = 'http://84.23.52.212:8096/api/';
 export const signupURL = 'auth/signup'
 export const loginURL = 'auth/login'
 export const logoutURL = 'auth/logout'
 export const checkURL = 'auth/check_auth'
+export const mainROUTE = '/';
+export const loginROUTE = '/login';
+export const signupROUTE = '/signup';
+export const logoutROUTE = '/logout';
 
 const requests = {
     signup: 'auth/signup',
@@ -16,7 +19,7 @@ const header = {
     logo: {
         id: 'logo-link',
         class: 'header__link_size_logo',
-        href: 'main',
+        href: '/',
         altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
     },
@@ -84,7 +87,7 @@ const header = {
         id: 'login-button',
         class: 'link_icon',
         text: 'Войти',
-        href: 'login',
+        href: '/login',
         imgSrc: './static/images/login.svg',
         imgClass: 'link_icon__img',
     },
@@ -101,7 +104,7 @@ const header = {
     logout: {
         id: 'logout-button',
         class: 'link_icon',
-        href: 'logout',
+        href: '/logout',
         text: 'Выйти',
         imgSrc: './static/images/login.svg',
         imgClass: 'link_icon__img',
@@ -157,7 +160,7 @@ const loginPage = {
     logo: {
         id: 'logo-button',
         class: 'login-page__logo',
-        href: 'main',
+        href: '/',
         altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
     },
@@ -189,7 +192,7 @@ const loginPage = {
             id: 'signup-link',
             class: 'link login-form__link',
             text: 'Зарегистрироваться',
-            href: 'signup',
+            href: '/signup',
         },
     },
 };
@@ -198,7 +201,7 @@ const signupPage = {
     logo: {
         id: 'logo-button',
         class: 'login-page__logo',
-        href: 'main',
+        href: '/',
         altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
     },
@@ -241,7 +244,7 @@ const signupPage = {
             id: 'login-link',
             class: 'link signup-form__link',
             text: 'Уже есть аккаунт?',
-            href: 'login',
+            href: '/login',
         },
     },
 };

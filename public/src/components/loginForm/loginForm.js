@@ -4,6 +4,9 @@ import Link from '../link/link.js';
 import template from './loginForm.hbs';
 import { UserActions } from '../../actions/user.js';
 import { eventEmmiter } from '../../modules/event-emmiter.js';
+import { config } from '../../../config.js';
+import router from '../../modules/router.js';
+import { Events } from '../../config/events.js';
 
 /**
  * Класс формы авторизации
@@ -25,9 +28,9 @@ export default class LoginForm {
    * @param {Object} config Конфиг для отрисовки класса
    * @param {Function} submitHandle Функция, вызываемая при отправке формы
    */
-    constructor(parent, config) {
+    constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
+        this.#config = config.loginPage.form;
     }
 
     get self() {
@@ -42,29 +45,31 @@ export default class LoginForm {
 
     submitHandle = this.submitHandle.bind(this);
 
+    renderError(errorText) {
+        const error = document.querySelector('#login-form-error');
+        error.textContent = errorText;
+    }
+
+    redirectOnMain() {
+        router.go({url : '/'});
+    }
+
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
     }
 
     subscribeToEvents() {
-        eventEmmiter.subscribe('error-input', this.login.renderError);
-        eventEmmiter.subscribe('error-input', this.password.renderError);
+        eventEmmiter.subscribe(Events.LOGIN_FORM_ERROR, this.renderError);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.redirectOnMain);
     }
 
     unsubscribeToEvents() {
-        eventEmmiter.unsubscribe('error-input', this.login.renderError);
-        eventEmmiter.unsubscribe('error-input', this.password.renderError);
+        eventEmmiter.unsubscribe(Events.LOGIN_FORM_ERROR, this.renderError);
+        eventEmmiter.unsubscribe(Events.SUCCESSFUL_LOGIN, this.redirectOnMain);
     }
 
     removeListeners() {
-        console.log('remove login lis');
         this.submit.self.removeEventListener('click', this.submitHandle);
-
-        // const loginInput = document.querySelector('[name=login]');
-        // loginInput.removeEventListener('focusin', this.removeError);
-
-        // const passwordInput = document.querySelector('[name=password]');
-        // passwordInput.removeEventListener('focusin', this.removeError);
     }
 
     /**
@@ -95,6 +100,6 @@ export default class LoginForm {
         signupLink.render();
 
         this.addListeners();
-        //this.subscribeToEvents();
+        this.subscribeToEvents();
     }
 }

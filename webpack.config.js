@@ -47,6 +47,9 @@ module.exports = {
         compress: true,
         static: {
             directory: path.join(__dirname, 'dist')
-        }
+        },
+        client: {
+          reconnect: true
+        },
     }
 };

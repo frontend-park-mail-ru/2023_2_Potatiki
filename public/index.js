@@ -1,76 +1,12 @@
-import './index.css'
+import './index.css';
 import MainPage from './src/pages/main-page/main-page.js';
 import LoginPage from './src/pages/login-page/login-page.js';
 import SignupPage from './src/pages/signup-page/signup-page.js';
-import Ajax from './src/modules/ajax.js';
-import renderServerError from './src/modules/server-error.js';
-import {config} from './config.js';
-import UserStore from './src/stores/user';
-
-const root = document.getElementById('root');
-let pageObject;
-
-/**
- * Отрисовка главной страницы
- * @param {Boolean} isAuth Статус авторизации
- */
-const renderMainPage = (isAuth) => {
-    config.isAuthorized = isAuth;
-    pageObject?.removeListeners();
-    pageObject = new MainPage(root, config);
-    pageObject.render();
-    config.page = 'main';
-};
-
-/**
- *  Отрисовка страницы
- * @param {String} page Название страницы
- */
-const renderPage = (page) => {
-    pageObject.removeListeners();
-    switch (page) {
-    case 'login':
-        pageObject = new LoginPage(root, config);
-        break;
-    case 'signup':
-        pageObject = new SignupPage(root, config);
-        break;
-    default:
-        break;
-    }
-    pageObject.render();
-    config.page = page;
-};
-
-/**
- * Функция осуществляющая переход на нужную страницу
- * @param {String} href Путь к странице
- * @param {Boolean} isAuth статус авторизации
- */
-const changePage = (href, isAuth) => {
-    switch (href) {
-    case 'main':
-        if (config.page !== 'main') {
-            renderMainPage(isAuth);
-        }
-        break;
-    case 'login':
-        if (config.page !== 'login') {
-            renderPage('login');
-        }
-        break;
-    case 'signup':
-        if (config.page !== 'signup') {
-            renderPage('signup');
-        }
-        break;
-    case 'logout':
-        renderMainPage(false);
-        Ajax.prototype.getRequest('auth/logout');
-        break;
-    default:
-    }
-};
+import {loginROUTE, mainROUTE, signupROUTE} from './src/config/urls';
+import router from './src/modules/router';
+import { UserActions } from './src/actions/user';
+import { eventEmmiter } from './src/modules/event-emmiter';
+import { Events } from './src/config/events';
 
 /**
  * Listener для нажатий по ссылкам
@@ -80,33 +16,15 @@ const listenClick = (event) => {
     event.preventDefault();
     const anchor = event.target.closest('a');
     if (!anchor) return;
-    changePage(anchor.getAttribute('href'));
+    router.go({url: anchor.getAttribute('href')});
 };
 
+document.addEventListener('DOMContentLoaded', UserActions.start());
+eventEmmiter.subscribe(Events.USER_IS_AUTH, router.go.bind(router));
+eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
+const root = document.getElementById('root');
+router.register({view: MainPage, url: mainROUTE, name: 'main'});
+router.register({view: LoginPage, url: loginROUTE, name: 'login'});
+router.register({view: SignupPage, url: signupROUTE, name: 'signup'});
+router.start(root);
 window.addEventListener('click', listenClick);
-
-/**
- * Функция проверяет авторизован ли пользователь и
- * отображает соответствующий вид страницы
- */
-const checkSession = () => {
-    Ajax.prototype.getRequest(config.requests.checkSession).then((result) => {
-        const [statusCode, body] = result;
-        switch (statusCode) {
-        case 200:
-            renderMainPage(true);
-            break;
-        case 401:
-            renderMainPage(false);
-            break;
-        case 429:
-            renderServerError(body.error || 'Ошибка. Попробуйте позже');
-            break;
-        default:
-            break;
-        }
-    });
-};
-
-document.addEventListener('DOMContentLoaded', checkSession, {once: true});
-userStore = new UserStore();

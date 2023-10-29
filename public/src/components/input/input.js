@@ -27,6 +27,10 @@ export default class Input {
         return document.querySelector(`[name=${this.#config.inputName}]`);
     }
 
+    get config() {
+        return this.#config;
+    }
+
     /**
      * Отрисовка ошибки
      * @param {Object} error Ошибка

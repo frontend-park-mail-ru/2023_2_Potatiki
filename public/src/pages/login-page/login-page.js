@@ -1,10 +1,7 @@
 import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerError from '../../modules/server-error.js';
-import { loginURL } from '../../../config.js';
-import {checkPassword, checkLogin} from '../../modules/validation.js';
 import template from './login-page.hbs';
+import { config } from '../../../config.js';
 
 /**
  * Класс страницы авторизации
@@ -22,9 +19,10 @@ export default class LoginPage {
    * @param {Object} config Конфиг для отрисовки страницы
    * @param {Function} router Функция осуществляющая переход на другую страницу
    */
-    constructor(parent, config) {
+    constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
+        console.log( config.loginPage);
+        this.#config = config.loginPage;
     }
 
     /**
@@ -41,18 +39,21 @@ export default class LoginPage {
         this.loginForm.removeListeners();
     }
 
+    unsubscribeToEvents() {
+        this.loginForm.unsubscribeToEvents();
+    }
+
     /**
    * Отрисовка страницы авторизации
    */
     render() {
         this.#parent.innerHTML = template();
 
-        const logo = new Link(this.self, this.#config.loginPage.logo);
+        const logo = new Link(this.self, this.#config.logo);
         logo.render();
 
         this.loginForm = new LoginForm(
-            this.self,
-            this.#config.loginPage.form,
+            this.self
         );
 
         this.loginForm.render();

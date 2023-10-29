@@ -1,7 +1,9 @@
+import {userStore} from '../../stores/user.js';
 import Button from '../button/button.js';
 import Link from '../link/link.js';
 import SearchForm from '../searchForm/searchForm.js';
 import template from './header.hbs';
+import { config } from '../../../config.js';
 
 /**
  * Класс хедера страницы
@@ -11,9 +13,6 @@ export default class Header {
 
     #config;
 
-    #searchHandle;
-
-    #isAuth;
 
     /**
    * Конструктор класса
@@ -21,10 +20,9 @@ export default class Header {
    * @param {Object} config Конфиг для отрисовки класса
    * @param {Boolean} isAuth Данные об авторизации пользователя
    */
-    constructor(parent, config, isAuth) {
+    constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
-        this.#isAuth = isAuth;
+        this.#config = config.mainPage.header;
     }
 
     /**
@@ -59,14 +57,15 @@ export default class Header {
         const basket = new Link(self, this.#config.basket);
         basket.render();
 
-        const profileState = this.#isAuth ? this.#config.profile : this.#config.login;
+        const profileState = userStore.state.isAuth ? this.#config.profile : this.#config.login;
 
         const user = new Link(self, profileState);
         user.render();
 
-        if (this.#isAuth) {
+        if (userStore.state.isAuth) {
             const logout = new Link(self, this.#config.logout);
             logout.render();
         }
+
     }
 }

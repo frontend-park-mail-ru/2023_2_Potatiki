@@ -3,10 +3,10 @@ import { UserActionsType } from "../actions/user";
 import Ajax from "../modules/ajax";
 import { eventEmmiter } from "../modules/event-emmiter";
 import { checkLogin, checkPassword } from "../modules/validation";
-import { loginURL, signupURL } from "../../config";
+import { loginURL, signupURL, checkURL } from "../config/urls";
 import { Events } from "../config/events";
 
-export default class UserStore {
+class UserStore {
   state = {
     login: '',
     password: '',
@@ -20,7 +20,6 @@ export default class UserStore {
 
   registerEvents() {
     AppDispatcher.register((action) => {
-        console.log(action);
       switch (action.type) {
         case UserActionsType.START:
           this.checkSession();
@@ -29,16 +28,16 @@ export default class UserStore {
             this.login(action.payload.login, action.payload.password);
           break;
         case UserActionsType.SIGNUP:
-          this.signup(action.playload.login, action.payload.password, action.payload.repeatPassword);
+          this.signup(action.payload.login, action.payload.password, action.payload.repeatPassword);
           break;
         case UserActionsType.VALIDATE_LOGIN:
-           this.validateLogin(action.playload.login);
+           this.validateLogin(action.payload.login);
            break;
         case UserActionsType.VALIDATE_PASSWORD:
             this.validatePassword(action.payload.password);
             break;
         case UserActionsType.VALIDATE_REPEAT_PASSWORD:
-            this.validateRepeatPassword(action.payload.repeatPassword);
+            this.validateRepeatPassword(action.payload.password, action.payload.repeatPassword);
              break;
         case UserActionsType.LOGOUT:
             this.logout();
@@ -53,17 +52,18 @@ export default class UserStore {
   }
 
   async checkSession() {
-    [statusCode,] = await Ajax.prototype.getRequest(config.requests.checkSession);
+    const [statusCode, body] = await Ajax.prototype.getRequest(checkURL);
     switch (statusCode) {
         case 200:
-          eventEmmiter.emit(Events.USER_IS_AUTH);
+          this.state.isAuth = true;
+          eventEmmiter.emit(Events.USER_IS_AUTH, {url : '/'});
           break;
         case 401:
-          eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
-          renderMainPage(false);
+          this.state.isAuth = false;
+          eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url : '/'});
           break;
         case 429:
-          eventEmmiter.emit(Events.SERVER_ERROR, body.error || 'Ошибка. Попробуйте позже');
+          eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
           break;
         default:
           break;
@@ -72,9 +72,12 @@ export default class UserStore {
   }
 
   async login(login, password) {
-    [statusCode, body] = await Ajax.prototype.postRequest(loginURL, { login, password });
+    const [statusCode, body] = await Ajax.prototype.postRequest(loginURL, { login, password });
     switch (statusCode) {
         case 200:
+            this.state.login = login;
+            this.state.password = password;
+            this.state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_LOGIN);
             break;
         case 400:
@@ -95,9 +98,12 @@ export default class UserStore {
         return;
     }
 
-    [statusCode, body] = await Ajax.prototype.postRequest(signupURL, { login, password });
+    const [statusCode, body] = await Ajax.prototype.postRequest(signupURL, { login, password });
     switch (statusCode) {
         case 200:
+            this.state.login = login;
+            this.state.password = password;
+            this.state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
             break;
         case 400:
@@ -114,7 +120,8 @@ export default class UserStore {
     if (!(isValidLogin)) {
         eventEmmiter.emit(Events.LOGIN_INPUT_ERROR, error);
         return false;
-    }
+    } 
+    eventEmmiter.emit(Events.LOGIN_INPUT_ERROR, error);
     return true;
   }
 
@@ -124,6 +131,7 @@ export default class UserStore {
         eventEmmiter.emit(Events.PASSWORD_INPUT_ERROR, error);
         return false;
     }
+    eventEmmiter.emit(Events.PASSWORD_INPUT_ERROR, error);
     return true;
   }
 
@@ -132,6 +140,15 @@ export default class UserStore {
         eventEmmiter.emit(Events.REPEAT_PASSWORD_INPUT_ERROR, 'Пароли не совпадают');
         return false;
     }
+    eventEmmiter.emit(Events.REPEAT_PASSWORD_INPUT_ERROR, 'Пароли не совпадают');
     return true;
   }
+
+  async logout() {
+    this.state.login = '';
+    this.state.password = '';
+    this.state.isAuth = false;
+  }
 }
+
+export const userStore = new UserStore();

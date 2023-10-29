@@ -3,6 +3,8 @@ import Header from '../../components/header/header.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
 import template from './main-page.hbs';
+import { config } from '../../../config.js';
+import { getProducts } from '../../config/urls.js';
 
 /**
  * Класс главной страницы
@@ -20,9 +22,9 @@ export default class MainPage {
    * @param {Object} config Конфиг для отрисовки страницы
    * @param {Function} router Функция осуществляющая переход на другую страницу
    */
-    constructor(parent, config) {
+    constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
+        this.#config = config.mainPage;
         this.#carousels = [];
     }
 
@@ -41,7 +43,7 @@ export default class MainPage {
    */
     getProducts(offset=0, count=5, config) {
         Ajax.prototype.getRequest(
-            `${this.#config.requests.getProducts}?paging=${offset}&count=${count}`)
+            `${getProducts}?paging=${offset}&count=${count}`)
             .then((result) => {
                 const [statusCode, body] = result;
                 switch (statusCode) {
@@ -63,12 +65,11 @@ export default class MainPage {
      *
      */
     removeListeners() {
-        const buttonId = this.#config.mainPage.header.search.submit.id;
-        const button = document.querySelector(`#${buttonId}`);
-        button.removeEventListener('click', this.searchFormListener);
-        this.#carousels.forEach((elem) => {
-            elem.removeListeners();
-        });
+        
+    }
+
+    unsubscribeToEvents() {
+        
     }
 
     /**
@@ -78,14 +79,12 @@ export default class MainPage {
         this.#parent.innerHTML = template();
 
         const header = new Header(
-            this.self,
-            this.#config.mainPage.header,
-            this.#config.isAuthorized,
+            this.self
         );
         header.render();
 
-        this.getProducts(0, 10, this.#config.mainPage.newCarousel);
+        this.getProducts(0, 10, this.#config.newCarousel);
 
-        this.getProducts(0, 10, this.#config.mainPage.popularCarousel);
+        this.getProducts(0, 10,  this.#config.popularCarousel);
     }
 }
