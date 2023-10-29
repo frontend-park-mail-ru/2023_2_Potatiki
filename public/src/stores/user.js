@@ -3,7 +3,7 @@ import { UserActionsType } from "../actions/user";
 import Ajax from "../modules/ajax";
 import { eventEmmiter } from "../modules/event-emmiter";
 import { checkLogin, checkPassword } from "../modules/validation";
-import { loginURL, signupURL, checkURL } from "../config/urls";
+import { loginURL, signupURL, checkURL, logoutURL } from "../config/urls";
 import { Events } from "../config/events";
 
 class UserStore {
@@ -148,6 +148,8 @@ class UserStore {
     this.state.login = '';
     this.state.password = '';
     this.state.isAuth = false;
+    Ajax.prototype.getRequest(logoutURL);
+    eventEmmiter.emit(LOGOUT,  {url : '/'});
   }
 }
 

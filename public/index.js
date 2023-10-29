@@ -22,6 +22,7 @@ const listenClick = (event) => {
 document.addEventListener('DOMContentLoaded', UserActions.start());
 eventEmmiter.subscribe(Events.USER_IS_AUTH, router.go.bind(router));
 eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
+eventEmmiter.subscribe(Events.LOGOUT, router.go.bind(router));
 const root = document.getElementById('root');
 router.register({view: MainPage, url: mainROUTE, name: 'main'});
 router.register({view: LoginPage, url: loginROUTE, name: 'login'});

@@ -10,4 +10,5 @@ export const Events = {
     SERVER_ERROR: 'SERVER_ERROR',
     USER_IS_AUTH: 'USER_IS_AUTH',
     USER_IS_NOT_AUTH: 'USER_IS_NOT_AUTH',
+    LOGOUT: 'LOGOUT',
 }
