@@ -77,7 +77,6 @@ export default class Carousel {
         this.#cardCount = Math.min(Math.round(containerWidth / cardWidth) - 1,
             this.#data.length,
         );
-        console.log(this.#cardCount, this.#currentPos);
     }
 
     /**

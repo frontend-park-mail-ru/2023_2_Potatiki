@@ -18,18 +18,16 @@ class Router {
      */
     constructor() {
         this.#history = window.history;
-        // this.#states = [];
     }
 
     /**
      * Добавление состояния для представления
      */
-    register() {
-        this.#states = [
-            {view: MainPage, url: mainRoute, name: 'main'},
-            {view: LoginPage, url: loginRoute, name: 'login'},
-            {view: SignupPage, url: signupRoute, name: 'signup'},
-        ];
+    register({name, url, view}) {
+        this.#states.set(
+            url,
+            {name, url, state},
+        );
     }
 
     /**
@@ -43,6 +41,11 @@ class Router {
         window.onpopstate = (event) => {
             this.go(event.state, true);
         };
+        this.#states = new Map([
+            [mainRoute, {view: MainPage, url: mainRoute, name: 'main'}],
+            [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
+            [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
+        ]);
     }
 
     /**
@@ -52,7 +55,7 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
-        const baseState = this.#states.find((s) => s.url === state.url);
+        const baseState = this.#states.get(state.url);
         if (!baseState) {
             return;
         }

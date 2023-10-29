@@ -48,8 +48,6 @@ module.exports = {
         static: {
             directory: path.join(__dirname, 'dist'),
         },
-        historyApiFallback: {
-            index: 'index.html',
-        },
+        historyApiFallback: true,
     },
 };
