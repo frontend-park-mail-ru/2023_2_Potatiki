@@ -1,8 +1,9 @@
 import MainPage from '../pages/main-page/main-page';
-import {loginRoute, mainRoute, notFoundRoute, signupRoute} from '../../config';
+import {checkUrl, loginRoute, mainRoute, notFoundRoute, signupRoute} from '../../config';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
+import Ajax from './ajax';
 
 /**
  * Класс роутера
@@ -39,15 +40,26 @@ class Router {
     start(root, config) {
         this.#root = root;
         this.#config = config;
+
         window.onpopstate = (event) => {
             this.go(event.state, true);
         };
+
         this.#states = new Map([
             [mainRoute, {view: MainPage, url: mainRoute, name: 'main'}],
             [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
             [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
             [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
         ]);
+
+        const listenClick = (event) => {
+            event.preventDefault();
+            const anchor = event.target.closest('a');
+            if (!anchor) return;
+            this.go({url: anchor.getAttribute('href')});
+        };
+
+        window.addEventListener('click', listenClick);
     }
 
     /**
@@ -57,6 +69,27 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
+        if (!state.param) {
+            state.param = {};
+        }
+
+        Ajax.prototype.getRequest(checkUrl).then((result) => {
+            const [statusCode, body] = result;
+            switch (statusCode) {
+            case 200:
+                state.param.auth = true;
+                break;
+            case 401:
+                state.param.auth = false;
+                break;
+            case 429:
+                renderServerError(body.error);
+                return;
+            default:
+                break;
+            }
+        });
+
         const baseState = this.#states.get(state.url);
         if (!baseState) {
             this.go({url: notFoundRoute});
