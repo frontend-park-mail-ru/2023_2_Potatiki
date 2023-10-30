@@ -1,11 +1,10 @@
 .product-card {
     display: flex;
     flex-direction: column;
-   
     width: 196px;
     height: 338px;
     border-radius: 16px;
-    background: var(--color-card-background); 
+    background: var(--color-card-background);
 }
 
 .product-card__reviews {
@@ -24,12 +23,13 @@
     margin-top: 16px;
     margin-left: auto;
     margin-right: auto;
-    width: 180px;
+    width: 170px;
     height: 120px;
+    padding: 0 10px 0 10px;
 }
 
 .product-card__img {
-    max-width: 180px;
+    max-width: 170px;
     max-height: 120px;
 }
 
@@ -50,7 +50,7 @@
     font-size: 12px;
     font-style: normal;
     font-weight: 800;
-    line-height: normal; 
+    line-height: normal;
 }
 
 .product-card__price {
@@ -65,7 +65,7 @@
     font-size: 20px;
     font-style: normal;
     font-weight: 800;
-    line-height: normal; 
+    line-height: normal;
 }
 
 .product-card__button_size_in-cart {
@@ -79,11 +79,12 @@
 .product-card__reviews-link {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 }
 
 .product-card__count-reviews {
     padding-right: 20px;
     text-wrap: nowrap;
-    font-size: 14px;
+    font-size: 12px;
 }

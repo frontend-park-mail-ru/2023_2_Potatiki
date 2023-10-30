@@ -2,9 +2,10 @@ import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
-import { loginURL } from '../../../config.js';
+import {loginUrl, mainRoute} from '../../../config.js';
 import {checkPassword, checkLogin} from '../../modules/validation.js';
 import template from './login-page.hbs';
+import router from '../../modules/router.js';
 
 /**
  * Класс страницы авторизации
@@ -14,18 +15,14 @@ export default class LoginPage {
 
     #config;
 
-    #router;
-
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    * @param {Object} config Конфиг для отрисовки страницы
-   * @param {Function} router Функция осуществляющая переход на другую страницу
    */
-    constructor(parent, config, router) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.#router = router;
     }
 
     /**
@@ -57,19 +54,19 @@ export default class LoginPage {
 
 
         Ajax.prototype.postRequest(
-            loginURL,
+            loginUrl,
             {login, password},
         ).then((result) => {
             const [statusCode, body] = result;
             switch (statusCode) {
             case 200:
-                this.#router('main', true);
+                router.go({url: mainRoute, param: {auth: true}});
                 break;
             case 400:
                 this.renderLoginError('Неверный логин или пароль');
                 break;
             case 429:
-                renderServerError(body.error);
+                renderServerError(body.error || 'Ошибка');
                 break;
             default:
                 break;

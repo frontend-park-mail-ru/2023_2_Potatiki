@@ -1,13 +1,11 @@
 .carousel {
-    margin-top: 16px;
-    margin-bottom: 16px;
+    margin: 16px 50px 16px 50px;
 }
 
 .carousel__cards {
     display: flex;
     gap: 42px;
     align-items: center;
-    justify-content: center;
     margin-top: 16px;
 }
 
@@ -29,6 +27,7 @@
     display: flex;
     gap: 42px;
     align-items: center;
-    justify-content: center;
     margin-top: 16px;
+    max-width: 80vw;
+    overflow-x: scroll;
 }

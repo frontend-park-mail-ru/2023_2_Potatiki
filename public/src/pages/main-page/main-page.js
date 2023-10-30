@@ -1,3 +1,4 @@
+import {getProductsUrl} from '../../../config.js';
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
 import Ajax from '../../modules/ajax.js';
@@ -12,21 +13,21 @@ export default class MainPage {
 
     #config;
 
-    #router;
-
     #carousels;
 
     /**
-   * Конструктор класса
-   * @param {Element} parent Родительский элемент
-   * @param {Object} config Конфиг для отрисовки страницы
-   * @param {Function} router Функция осуществляющая переход на другую страницу
-   */
-    constructor(parent, config, router) {
+     * Конструктор класса
+     * @param {Element} parent Родительский элемент
+     * @param {Object} config Конфиг для отрисовки страницы
+     * @param {Object} params Параметры для изменения конфигурации
+     */
+    constructor(parent, config, params) {
         this.#parent = parent;
         this.#config = config;
-        this.#router = router;
         this.#carousels = [];
+        if (params?.auth) {
+            this.#config.isAuthorized = true;
+        }
     }
 
     /**
@@ -44,7 +45,7 @@ export default class MainPage {
    */
     getProducts(offset=0, count=5, config) {
         Ajax.prototype.getRequest(
-            `${this.#config.requests.getProducts}?paging=${offset}&count=${count}`)
+            `${getProductsUrl}?paging=${offset}&count=${count}`)
             .then((result) => {
                 const [statusCode, body] = result;
                 switch (statusCode) {
@@ -54,7 +55,7 @@ export default class MainPage {
                     this.#carousels.push(carousel);
                     break;
                 case 429:
-                    renderServerError(body.error);
+                    renderServerError(body.error || 'Ошибка');
                     break;
                 default:
                     break;

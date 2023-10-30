@@ -10,13 +10,12 @@ export default class Carousel {
 
     #config;
 
-    #leftBorder;
-
-    #rightBorder;
-
     #cardCount;
 
+    #currentPos;
+
     #data;
+
     /**
      * Конструктор класса
      * @param {Element} parent Родительский элемент
@@ -27,7 +26,6 @@ export default class Carousel {
         this.#parent = parent;
         this.#config = config;
         this.#data = data;
-        this.#leftBorder = 0;
     }
 
     /**
@@ -68,20 +66,17 @@ export default class Carousel {
     }
 
     /**
-     * Получение индекса элемента из карусели
-     * @param {Number} index Текущий индекс
-     * @param {Number} diff Величина изменения
-     * @return {Number} Новый  индекс
+     * Рассчитывает количество видимых карточек
      */
-    getIndex(index, diff) {
-        const newIndex = index + diff;
-        if (newIndex < 0) {
-            return this.#data.length - 1;
-        }
-        if (newIndex > this.#data.length - 1) {
-            return 0;
-        }
-        return newIndex;
+    calcCardCount() {
+        const containerWidth = document
+            .querySelector('.carousel__container')
+            .getBoundingClientRect().width;
+        const cardWidth = document
+            .querySelector('.product-card').getBoundingClientRect().width;
+        this.#cardCount = Math.min(Math.round(containerWidth / cardWidth) - 1,
+            this.#data.length,
+        );
     }
 
     /**
@@ -90,13 +85,16 @@ export default class Carousel {
      */
     slideRight(event) {
         event.preventDefault();
-        const parent = this.self.querySelector('.carousel__container');
-        const cards = this.self.querySelectorAll('.product-card');
-        parent.removeChild(cards[0]);
-        this.#rightBorder = this.getIndex(this.#rightBorder, 1);
-        this.#leftBorder = this.getIndex(this.#leftBorder, 1);
-        const product = new ProductCard(parent, this.getConfig(this.#data[this.#rightBorder]));
-        product.render();
+        const newCard = this.self.querySelectorAll('.product-card');
+        this.calcCardCount();
+        this.#currentPos = Math.min(
+            this.#data.length - 1,
+            this.#currentPos + this.#cardCount * 2 - 1,
+        );
+        newCard[this.#currentPos].scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+        });
     }
 
     /**
@@ -105,13 +103,16 @@ export default class Carousel {
      */
     slideLeft(event) {
         event.preventDefault();
-        const parent = this.self.querySelector('.carousel__container');
-        const cards = this.self.querySelectorAll('.product-card');
-        parent.removeChild(cards[this.#cardCount - 1]);
-        this.#leftBorder = this.getIndex(this.#leftBorder, -1);
-        this.#rightBorder = this.getIndex(this.#rightBorder, -1);
-        const product = new ProductCard(parent, this.getConfig(this.#data[this.#leftBorder]), true);
-        product.render();
+        const newCard = this.self.querySelectorAll('.product-card');
+        this.calcCardCount();
+        this.#currentPos = Math.max(
+            0,
+            this.#currentPos - this.#cardCount * 2 + 1,
+        );
+        newCard[this.#currentPos].scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+        });
     }
 
     /**
@@ -159,17 +160,15 @@ export default class Carousel {
         );
         buttonLeft.render();
 
-        const cardWidth = 300;
-        this.#cardCount = Math.min(Math.round(window.innerWidth / cardWidth), this.#data.length);
-        this.#rightBorder = this.#cardCount - 1;
+        this.#currentPos = 0;
 
-        for (let i = 0; i < this.#cardCount; i++) {
+        this.#data.forEach((element) => {
             const product = new ProductCard(
                 this.self.querySelector('.carousel__container'),
-                this.getConfig(this.#data[i]),
+                this.getConfig(element),
             );
             product.render();
-        }
+        });
 
         const buttonRight = new Button(
             this.self.querySelector('.right-button'),
