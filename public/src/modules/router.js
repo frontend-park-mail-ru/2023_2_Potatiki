@@ -101,12 +101,12 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
-        if (!state.param) {
-            state.param = {auth: this.#isAuth};
+        if (state.param && state.param.auth) {
+            this.#isAuth = state.param.auth;
         }
 
-        if (state.param.auth) {
-            this.#isAuth = state.param.auth;
+        if (!state.param) {
+            state.param = {auth: this.#isAuth};
         }
 
         const baseState = this.#states.get(state.url);
