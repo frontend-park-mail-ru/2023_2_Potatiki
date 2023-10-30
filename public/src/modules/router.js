@@ -105,6 +105,10 @@ class Router {
             state.param = {auth: this.#isAuth};
         }
 
+        if (state.param.auth) {
+            this.#isAuth = state.param.auth;
+        }
+
         const baseState = this.#states.get(state.url);
         if (!baseState) {
             this.go({url: notFoundRoute});
