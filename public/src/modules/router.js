@@ -60,7 +60,7 @@ class Router {
 
     /**
      * Listener для нажатий по ссылкам
-     * @param {Object} event Событие нажатия по ссылке
+     * @param {Event} event Событие нажатия по ссылке
      */
     listenClick(event) {
         event.preventDefault();
