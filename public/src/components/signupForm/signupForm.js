@@ -31,7 +31,7 @@ export default class SignupForm {
 
     submitHandle = (event) => {
         event.preventDefault();
-        UserActions.login(this.login.self.value, this.password.self.value);
+        UserActions.signup(this.login.self.value, this.password.self.value);
     };
 
     submitHandle = this.submitHandle.bind(this);
@@ -42,7 +42,6 @@ export default class SignupForm {
      */
     inputLoginHandle(event) {
         event.preventDefault();
-        console.log('login out');
         UserActions.validateLogin(this.login.self.value);
     }
 

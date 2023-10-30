@@ -45,7 +45,6 @@ export default class LoginForm {
      */
     submitHandle(event) {
         event.preventDefault();
-        console.log('login handle');
         UserActions.login(this.login.self.value, this.password.self.value);
     }
 

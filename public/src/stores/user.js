@@ -124,9 +124,9 @@ class UserStore {
      *@param {String} repeatPassword
      */
     async signup(login, password, repeatPassword) {
-        isValidLogin = this.validateLogin(login);
-        isValidPassword = this.validatePassword(password);
-        isValidRepeatPassword = this.validateRepeatPassword(
+        const isValidLogin = this.validateLogin(login);
+        const isValidPassword = this.validatePassword(password);
+        const isValidRepeatPassword = this.validateRepeatPassword(
             password,
             repeatPassword,
         );
@@ -199,10 +199,6 @@ class UserStore {
             );
             return false;
         }
-        eventEmmiter.emit(
-            Events.REPEAT_PASSWORD_INPUT_ERROR,
-            'Пароли не совпадают',
-        );
         return true;
     }
 
