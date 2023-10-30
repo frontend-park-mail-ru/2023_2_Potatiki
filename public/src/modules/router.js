@@ -14,6 +14,7 @@ class Router {
     #states;
     #currentView;
     #config;
+    #isAuth;
 
     /**
      * Конструктор для класса роутера
@@ -52,15 +53,46 @@ class Router {
             [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
         ]);
 
-        const listenClick = (event) => {
-            event.preventDefault();
-            const anchor = event.target.closest('a');
-            if (!anchor) return;
-            this.go({url: anchor.getAttribute('href')});
-        };
+        window.addEventListener('click', this.listenClick.bind(this));
 
-        window.addEventListener('click', listenClick);
+        window.addEventListener('DOMContentLoaded', this.checkSession.bind(this));
     }
+
+    /**
+     * Listener для нажатий по ссылкам
+     * @param {Object} event Событие нажатия по ссылке
+     */
+    listenClick(event) {
+        event.preventDefault();
+        const anchor = event.target.closest('a');
+        if (!anchor) {
+            return;
+        }
+        this.go({url: anchor.getAttribute('href')});
+    };
+
+    /**
+     * Метод проверяет авторизован ли пользователь и
+     * отображает соответствующий вид страницы
+     */
+    checkSession = () => {
+        Ajax.prototype.getRequest(checkUrl).then((result) => {
+            const [statusCode, body] = result;
+            switch (statusCode) {
+            case 200:
+                this.#isAuth = true;
+                break;
+            case 401:
+                this.#isAuth = false;
+                break;
+            case 429:
+                renderServerError(body.error);
+                break;
+            default:
+                break;
+            }
+        });
+    };
 
     /**
      * Метод осуществляющий переход на страницу
@@ -70,25 +102,8 @@ class Router {
      */
     go(state, replaceState) {
         if (!state.param) {
-            state.param = {};
+            state.param = {auth: this.#isAuth};
         }
-
-        Ajax.prototype.getRequest(checkUrl).then((result) => {
-            const [statusCode, body] = result;
-            switch (statusCode) {
-            case 200:
-                state.param.auth = true;
-                break;
-            case 401:
-                state.param.auth = false;
-                break;
-            case 429:
-                renderServerError(body.error);
-                return;
-            default:
-                break;
-            }
-        });
 
         const baseState = this.#states.get(state.url);
         if (!baseState) {
