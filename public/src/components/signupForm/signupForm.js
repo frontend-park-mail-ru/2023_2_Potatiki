@@ -7,6 +7,7 @@ import {config} from '../../../config.js';
 import router from '../../modules/router.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
+import {mainROUTE} from '../../config/urls.js';
 
 /**
  *
@@ -22,8 +23,6 @@ export default class SignupForm {
     /**
      * Конструктор
      * @param {Element} parent Родительский элемент
-     * @param {Object} config Конфиг отрисовки
-     * @param {Function} submitHandle Функция вызываемая при отправке формы
      */
     constructor(parent) {
         this.#parent = parent;
@@ -76,7 +75,7 @@ export default class SignupForm {
      *
      */
     redirectOnMain() {
-        router.go({url: '/'});
+        router.go({url: mainROUTE});
     }
 
     /**

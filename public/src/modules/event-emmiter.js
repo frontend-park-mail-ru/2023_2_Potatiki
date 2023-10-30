@@ -2,11 +2,13 @@
  *
  */
 class EventEmmiter {
+    #events;
+
     /**
      *
      */
     constructor() {
-        this._events = {};
+        this.#events = {};
     }
 
     /**
@@ -14,12 +16,11 @@ class EventEmmiter {
      *@param {...*} args
      */
     emit(event, ...args) {
-        if (!(event in this._events)) {
+        if (!(event in this.#events)) {
             return;
         }
-        if (typeof this._events[event] === 'object') {
-            this._events[event].forEach((listener) => listener.apply(this, args));
-        }
+
+        this.#events[event].forEach((listener) => listener.apply(this, args));
     }
 
     /**
@@ -27,12 +28,12 @@ class EventEmmiter {
      *@param {Function} handler
      */
     subscribe(event, handler) {
-        if (event in this._events) {
-            this._events[event].push(handler);
+        if (event in this.#events) {
+            this.#events[event].add(handler);
             return;
         }
 
-        this._events[event] = [handler];
+        this.#events[event] = new Set([handler]);
     }
 
     /**
@@ -40,11 +41,8 @@ class EventEmmiter {
      *@param {Function} handler
      */
     unsubscribe(event, handler) {
-        if (event in this._events) {
-            const idx = this._events[event].indexOf(handler);
-            if (idx > -1) {
-                this._events[event].splice(idx, 1);
-            }
+        if (event in this.#events) {
+            this.#events[event].delete(handler);
         }
     }
 }

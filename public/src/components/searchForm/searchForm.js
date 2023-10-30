@@ -8,7 +8,6 @@ import template from './searchForm.hbs';
 export default class SearchForm {
     #parent;
     #config;
-    #submitHandle;
 
     /**
      * Конструктор класса

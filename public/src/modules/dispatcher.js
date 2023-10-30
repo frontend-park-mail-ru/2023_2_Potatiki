@@ -2,32 +2,30 @@
  *
  */
 class Dispatcher {
-    _callbacks;
-    _isDispatching;
+    #callbacks;
+    #isDispatching;
 
     /**
      *
      */
     constructor() {
-        this._callbacks = [];
+        this.#callbacks = [];
     }
 
     /**
      *@param {Function} callback
      */
     register(callback) {
-        this._callbacks.push(callback);
+        this.#callbacks.push(callback);
     }
 
     /**
      *@param {Object} action
      */
     dispatch(action) {
-        for (const ind in this._callbacks) {
-            if (typeof this._callbacks[ind] === 'function') {
-                this._callbacks[ind](action);
-            }
-        }
+        this.#callbacks.forEach((callback) => {
+            callback(action);
+        });
     }
 }
 

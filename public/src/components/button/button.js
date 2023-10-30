@@ -13,7 +13,6 @@ export default class Button {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    * @param {Object} config Конфиг для отрисовки класса
-   * @param {Function} submitHandle Функция, вызываемая при нажатии на кнопку
    */
     constructor(parent, config) {
         this.#parent = parent;

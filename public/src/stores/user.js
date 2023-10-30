@@ -3,14 +3,14 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword} from '../modules/validation';
-import {loginURL, signupURL, checkURL, logoutURL} from '../config/urls';
+import {loginURL, signupURL, checkURL, logoutURL, mainROUTE} from '../config/urls';
 import {Events} from '../config/events';
 
 /**
  * Класс
  */
 class UserStore {
-    state = {
+    #state = {
         login: '',
         password: '',
         imgSrc: '',
@@ -27,10 +27,17 @@ class UserStore {
     /**
      *
      */
+    get isAuth() {
+        return this.#state.isAuth;
+    }
+
+    /**
+     *
+     */
     registerEvents() {
         AppDispatcher.register((action) => {
             switch (action.type) {
-            case UserActionsType.START:
+            case UserActionsType.CHECK_SESSION:
                 this.checkSession();
                 break;
             case UserActionsType.LOGIN:
@@ -58,9 +65,6 @@ class UserStore {
             case UserActionsType.LOGOUT:
                 this.logout();
                 break;
-            case UserActionsType.GET_PROFILE:
-                this.getProfile();
-                break;
             default:
                 break;
             }
@@ -74,12 +78,12 @@ class UserStore {
         const [statusCode,] = await Ajax.prototype.getRequest(checkURL);
         switch (statusCode) {
         case 200:
-            this.state.isAuth = true;
-            eventEmmiter.emit(Events.USER_IS_AUTH, {url: '/'});
+            this.#state.isAuth = true;
+            eventEmmiter.emit(Events.USER_IS_AUTH, {url: mainROUTE});
             break;
         case 401:
-            this.state.isAuth = false;
-            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: '/'});
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: mainROUTE});
             break;
         case 429:
             eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
@@ -100,9 +104,9 @@ class UserStore {
         });
         switch (statusCode) {
         case 200:
-            this.state.login = login;
-            this.state.password = password;
-            this.state.isAuth = true;
+            this.#state.login = login;
+            this.#state.password = password;
+            this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_LOGIN);
             break;
         case 400:
@@ -137,9 +141,9 @@ class UserStore {
         });
         switch (statusCode) {
         case 200:
-            this.state.login = login;
-            this.state.password = password;
-            this.state.isAuth = true;
+            this.#state.login = login;
+            this.#state.password = password;
+            this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
             break;
         case 400:
@@ -206,11 +210,11 @@ class UserStore {
      *
      */
     async logout() {
-        this.state.login = '';
-        this.state.password = '';
-        this.state.isAuth = false;
+        this.#state.login = '';
+        this.#state.password = '';
+        this.#state.isAuth = false;
         Ajax.prototype.getRequest(logoutURL);
-        eventEmmiter.emit(LOGOUT, {url: '/'});
+        eventEmmiter.emit(LOGOUT, {url: mainROUTE});
     }
 }
 

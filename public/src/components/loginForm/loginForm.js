@@ -7,6 +7,7 @@ import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {config} from '../../../config.js';
 import router from '../../modules/router.js';
 import {Events} from '../../config/events.js';
+import {mainROUTE} from '../../config/urls.js';
 
 /**
  * Класс формы авторизации
@@ -25,8 +26,6 @@ export default class LoginForm {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский компонент
-   * @param {Object} config Конфиг для отрисовки класса
-   * @param {Function} submitHandle Функция, вызываемая при отправке формы
    */
     constructor(parent) {
         this.#parent = parent;
@@ -65,7 +64,7 @@ export default class LoginForm {
      *
      */
     redirectOnMain() {
-        router.go({url: '/'});
+        router.go({url: mainROUTE});
     }
 
     /**

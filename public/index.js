@@ -19,7 +19,7 @@ const listenClick = (event) => {
     router.go({url: anchor.getAttribute('href')});
 };
 
-document.addEventListener('DOMContentLoaded', UserActions.start());
+document.addEventListener('DOMContentLoaded', UserActions.checkSession());
 eventEmmiter.subscribe(Events.USER_IS_AUTH, router.go.bind(router));
 eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
 eventEmmiter.subscribe(Events.LOGOUT, router.go.bind(router));

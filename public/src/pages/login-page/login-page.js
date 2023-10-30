@@ -16,8 +16,6 @@ export default class LoginPage {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
-   * @param {Object} config Конфиг для отрисовки страницы
-   * @param {Function} router Функция осуществляющая переход на другую страницу
    */
     constructor(parent) {
         this.#parent = parent;

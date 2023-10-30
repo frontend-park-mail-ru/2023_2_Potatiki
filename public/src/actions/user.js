@@ -1,20 +1,19 @@
 import {AppDispatcher} from '../modules/dispatcher';
 
 export const UserActionsType = {
-    START: 'START',
+    CHECK_SESSION: 'CHECK_SESSION',
     LOGIN: 'LOGIN',
     SIGNUP: 'SIGNUP',
     LOGOUT: 'LOGOUT',
-    GET_PROFILE: 'GET_PROFILE',
     VALIDATE_LOGIN: 'VALIDATE_LOGIN',
     VALIDATE_PASSWORD: 'VALIDATE_PASSWORD',
     VALIDATE_REPEAT_PASSWORD: 'VALIDATE_REPEAT_PASSWORD',
 };
 
 export const UserActions = {
-    start() {
+    checkSession() {
         AppDispatcher.dispatch({
-            type: UserActionsType.START,
+            type: UserActionsType.CHECK_SESSION,
             payload: {},
         });
     },
@@ -69,23 +68,10 @@ export const UserActions = {
         });
     },
 
-    getProfile(login, password) {
-        AppDispatcher.dispatch({
-            type: UserActionsType.GET_PROFILE,
-            payload: {
-                login: login,
-                password: password,
-            },
-        });
-    },
-
     logout() {
         AppDispatcher.dispatch({
             type: UserActionsType.LOGOUT,
-            payload: {
-                login: login,
-                password: password,
-            },
+            payload: {},
         });
     },
 };

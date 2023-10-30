@@ -17,8 +17,6 @@ export default class Header {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
-   * @param {Object} config Конфиг для отрисовки класса
-   * @param {Boolean} isAuth Данные об авторизации пользователя
    */
     constructor(parent) {
         this.#parent = parent;
@@ -57,12 +55,12 @@ export default class Header {
         const basket = new Link(self, this.#config.basket);
         basket.render();
 
-        const profileState = userStore.state.isAuth ? this.#config.profile : this.#config.login;
+        const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
 
         const user = new Link(self, profileState);
         user.render();
 
-        if (userStore.state.isAuth) {
+        if (userStore.isAuth) {
             const logout = new Link(self, this.#config.logout);
             logout.render();
         }
