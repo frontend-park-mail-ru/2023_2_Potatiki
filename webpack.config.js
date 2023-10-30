@@ -1,31 +1,31 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: 'development',
     entry: './public/index.js',
 
     output: {
-      filename: '[name].[contenthash].js',
-      path: path.resolve(__dirname, 'dist'),
-      clean: true
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, 'dist'),
+        clean: true,
     },
 
     module: {
         rules: [
-          {
-            test: /\.css$/i,
-            use: ['style-loader', 'css-loader'],
-          },
-          {
-            test: /\.hbs$/, 
-            loader: 'handlebars-loader'
-          },
-          {
-            test: /\.(png|svg|jpg|jpeg|gif)$/i,
-            type: 'asset/resource',
-          },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.hbs$/,
+                loader: 'handlebars-loader',
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            },
         ],
     },
 
@@ -36,7 +36,7 @@ module.exports = {
 
         new CopyPlugin({
             patterns: [
-              { from: path.resolve(__dirname, 'public/static/images'), to: "static/images" },
+                {from: path.resolve(__dirname, 'public/static/images'), to: 'static/images'},
             ],
         }),
     ],
@@ -46,7 +46,8 @@ module.exports = {
         hot: true,
         compress: true,
         static: {
-            directory: path.join(__dirname, 'dist')
-        }
-    }
+            directory: path.join(__dirname, 'dist'),
+        },
+        historyApiFallback: true,
+    },
 };

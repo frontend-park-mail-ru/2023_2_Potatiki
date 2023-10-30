@@ -22,7 +22,7 @@ export default class Ajax {
             body: JSON.stringify(data),
         };
         try {
-            const response = await fetch(baseURL + url, options);
+            const response = await fetch(baseUrl + url, options);
             const body = await response.json();
             return [response.status, body];
         } catch (error) {
@@ -47,7 +47,7 @@ export default class Ajax {
             },
         };
         try {
-            const response = await fetch(baseURL + url, options);
+            const response = await fetch(baseUrl + url, options);
             const body = await response.json();
             return [response.status, body];
         } catch (error) {

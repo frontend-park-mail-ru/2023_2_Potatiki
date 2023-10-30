@@ -1,3 +1,4 @@
+import {getProductsUrl} from '../../../config.js';
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
 import Ajax from '../../modules/ajax.js';
@@ -24,6 +25,9 @@ export default class MainPage {
         this.#parent = parent;
         this.#config = config.mainPage;
         this.#carousels = [];
+        if (params?.auth) {
+            this.#config.isAuthorized = true;
+        }
     }
 
     /**
@@ -51,7 +55,7 @@ export default class MainPage {
                     this.#carousels.push(carousel);
                     break;
                 case 429:
-                    renderServerError(body.error);
+                    renderServerError(body.error || 'Ошибка');
                     break;
                 default:
                     break;

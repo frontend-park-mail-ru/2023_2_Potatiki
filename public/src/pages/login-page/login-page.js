@@ -19,7 +19,6 @@ export default class LoginPage {
    */
     constructor(parent) {
         this.#parent = parent;
-        console.log( config.loginPage);
         this.#config = config.loginPage;
     }
 

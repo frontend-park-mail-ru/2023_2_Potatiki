@@ -153,6 +153,7 @@ const loginPage = {
         href: '/',
         altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
+        imgClass: 'login-page__logo-img',
     },
 
     form: {
@@ -194,6 +195,7 @@ const signupPage = {
         href: '/',
         altText: 'ZuZu logo',
         imgSrc: './static/images/logo.svg',
+        imgClass: 'login-page__logo-img',
     },
 
     form: {
@@ -245,5 +247,4 @@ export const config = {
     mainPage: mainPage,
     signupPage: signupPage,
     loginPage: loginPage,
-    requests: requests,
 };
