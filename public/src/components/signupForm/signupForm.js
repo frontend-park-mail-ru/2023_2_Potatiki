@@ -2,14 +2,14 @@ import Button from '../button/button.js';
 import Input from '../input/input.js';
 import Link from '../link/link.js';
 import template from './signupForm.hbs';
-import { UserActions } from '../../actions/user.js';
-import { config } from '../../../config.js';
+import {UserActions} from '../../actions/user.js';
+import {config} from '../../../config.js';
 import router from '../../modules/router.js';
-import { eventEmmiter } from '../../modules/event-emmiter.js';
-import { Events } from '../../config/events.js';
+import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {Events} from '../../config/events.js';
 
 /**
- * Класс формы регистрации
+ *
  */
 export default class SignupForm {
     #parent;
@@ -33,10 +33,14 @@ export default class SignupForm {
     submitHandle = (event) => {
         event.preventDefault();
         UserActions.login(this.login.self.value, this.password.self.value);
-    }
+    };
 
     submitHandle = this.submitHandle.bind(this);
 
+    /**
+     *
+     * @param {Event} event
+     */
     inputLoginHandle(event) {
         event.preventDefault();
         console.log('login out');
@@ -45,6 +49,10 @@ export default class SignupForm {
 
     inputLoginHandle = this.inputLoginHandle.bind(this);
 
+    /**
+     *
+     * @param {Event} event
+     */
     inputPasswordHandle(event) {
         event.preventDefault();
         UserActions.validatePassword(this.password.self.value);
@@ -52,22 +60,38 @@ export default class SignupForm {
 
     inputPasswordHandle = this.inputPasswordHandle.bind(this);
 
+    /**
+     *
+     * @param {Event} event
+     */
     inputRepeatPasswordHandle(event) {
         event.preventDefault();
-        UserActions.validateRepeatPassword(this.password.self.value, this.repeatPassword.self.value);
+        UserActions.validateRepeatPassword(this.password.self.value,
+            this.repeatPassword.self.value);
     }
 
     inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
 
+    /**
+     *
+     */
     redirectOnMain() {
-        router.go({url : '/'});
+        router.go({url: '/'});
     }
 
+    /**
+     *
+     * @param {String} errorText
+     */
     renderError(errorText) {
         const error = document.querySelector('#signup-form-error');
         error.textContent = errorText;
     }
 
+    /**
+     *
+     * @param {String} errorText
+     */
     renderLoginError(errorText) {
         this.login.removeError();
         this.login.renderError(errorText);
@@ -75,6 +99,10 @@ export default class SignupForm {
 
     renderLoginError = this.renderLoginError.bind(this);
 
+    /**
+     *
+     * @param {String} errorText
+     */
     renderPasswordError(errorText) {
         this.password.removeError();
         this.password.renderError(errorText);
@@ -82,6 +110,10 @@ export default class SignupForm {
 
     renderPasswordError = this.renderPasswordError.bind(this);
 
+    /**
+     *
+     * @param {String} errorText
+     */
     renderRepeatPasswordError(errorText) {
         this.repeatPassword.removeError();
         this.repeatPassword.renderError(errorText);
@@ -89,6 +121,9 @@ export default class SignupForm {
 
     renderRepeatPasswordError = this.renderRepeatPasswordError.bind(this);
 
+    /**
+     *
+     */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
         this.login.self.addEventListener('focusout', this.inputLoginHandle);
@@ -96,17 +131,19 @@ export default class SignupForm {
         this.repeatPassword.self.addEventListener('focusout', this.inputRepeatPasswordHandle);
     }
 
-     /**
+    /**
      * Удаление прослушивателей событий
      */
-     removeListeners() {
+    removeListeners() {
         this.submit.self.removeEventListener('click', this.submitHandle);
         this.login.self.removeEventListener('focusout', this.inputLoginHandle);
         this.password.self.removeEventListener('focusout', this.inputPasswordHandle);
         this.repeatPassword.self.removeEventListener('focusout', this.inputRepeatPasswordHandle);
     }
 
-
+    /**
+     *
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.SIGNUP_FORM_ERROR, this.renderError);
         eventEmmiter.subscribe(Events.SUCCESSFUL_SIGNUP, this.redirectOnMain);
@@ -115,12 +152,16 @@ export default class SignupForm {
         eventEmmiter.subscribe(Events.REPEAT_PASSWORD_INPUT_ERROR, this.renderRepeatPasswordError);
     }
 
+    /**
+     *
+     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.SIGNUP_FORM_ERROR, this.renderError);
         eventEmmiter.unsubscribe(Events.SUCCESSFUL_SIGNUP, this.redirectOnMain);
         eventEmmiter.unsubscribe(Events.LOGIN_INPUT_ERROR, this.renderLoginError);
         eventEmmiter.unsubscribe(Events.PASSWORD_INPUT_ERROR, this.renderPasswordError);
-        eventEmmiter.unsubscribe(Events.REPEAT_PASSWORD_INPUT_ERROR, this.renderRepeatPasswordError);
+        eventEmmiter.unsubscribe(Events.REPEAT_PASSWORD_INPUT_ERROR,
+            this.renderRepeatPasswordError);
     }
 
     /**

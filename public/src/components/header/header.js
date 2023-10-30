@@ -3,7 +3,7 @@ import Button from '../button/button.js';
 import Link from '../link/link.js';
 import SearchForm from '../searchForm/searchForm.js';
 import template from './header.hbs';
-import { config } from '../../../config.js';
+import {config} from '../../../config.js';
 
 /**
  * Класс хедера страницы
@@ -66,6 +66,5 @@ export default class Header {
             const logout = new Link(self, this.#config.logout);
             logout.render();
         }
-
     }
 }

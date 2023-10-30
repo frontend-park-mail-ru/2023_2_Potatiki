@@ -3,9 +3,8 @@ import Header from '../../components/header/header.js';
 import Ajax from '../../modules/ajax.js';
 import renderServerError from '../../modules/server-error.js';
 import template from './main-page.hbs';
-import { config } from '../../../config.js';
-import { getProducts } from '../../config/urls.js';
-
+import {config} from '../../../config.js';
+import {getProducts} from '../../config/urls.js';
 
 /**
  * Класс главной страницы
@@ -20,8 +19,6 @@ export default class MainPage {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
-   * @param {Object} config Конфиг для отрисовки страницы
-   * @param {Function} router Функция осуществляющая переход на другую страницу
    */
     constructor(parent) {
         this.#parent = parent;
@@ -30,8 +27,8 @@ export default class MainPage {
     }
 
     /**
-     * Получение элемента страницы
-     */
+    * Получение элемента страницы
+    */
     get self() {
         return document.querySelector('#main-page');
     }
@@ -42,9 +39,9 @@ export default class MainPage {
    * @param {Number} count Количество запрашиваемых товаров
    * @param {Object} config Конфиг карусели
    */
-    getProducts(offset=0, count=5, config) {
-        Ajax.prototype.getRequest(
-            `${getProducts}?paging=${offset}&count=${count}`)
+    getProducts(offset = 0, count = 5, config) {
+        Ajax.prototype
+            .getRequest(`${getProducts}?paging=${offset}&count=${count}`)
             .then((result) => {
                 const [statusCode, body] = result;
                 switch (statusCode) {
@@ -63,29 +60,26 @@ export default class MainPage {
     }
 
     /**
-     *
-     */
-    removeListeners() {
-        
-    }
-
-    unsubscribeToEvents() {
-        
-    }
+    *
+    */
+    removeListeners() {}
 
     /**
-   * Отрисовка страницы регистрации
-   */
+    *
+    */
+    unsubscribeToEvents() {}
+
+    /**
+    * Отрисовка страницы регистрации
+    */
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header(
-            this.self
-        );
+        const header = new Header(this.self);
         header.render();
 
         this.getProducts(0, 10, this.#config.newCarousel);
 
-        this.getProducts(0, 10,  this.#config.popularCarousel);
+        this.getProducts(0, 10, this.#config.popularCarousel);
     }
 }

@@ -1,7 +1,7 @@
 import Link from '../../components/link/link.js';
 import SignupForm from '../../components/signupForm/signupForm.js';
 import template from './signup-page.hbs';
-import { config } from '../../../config.js';
+import {config} from '../../../config.js';
 
 /**
  * Класс страницы регистрации
@@ -12,7 +12,6 @@ export default class SignupPage {
     #config;
 
     signupForm;
-    
 
     /**
    * Конструктор класса
@@ -39,6 +38,9 @@ export default class SignupPage {
         this.signupForm.removeListeners();
     }
 
+    /**
+     *
+     */
     unsubscribeToEvents() {
         this.signupForm.unsubscribeToEvents();
     }
@@ -53,7 +55,7 @@ export default class SignupPage {
         logo.render();
 
         this.signupForm = new SignupForm(
-            this.self
+            this.self,
         );
 
         this.signupForm.render();

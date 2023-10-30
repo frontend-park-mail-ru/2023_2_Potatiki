@@ -1,7 +1,7 @@
 import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import template from './login-page.hbs';
-import { config } from '../../../config.js';
+import {config} from '../../../config.js';
 
 /**
  * Класс страницы авторизации
@@ -33,13 +33,15 @@ export default class LoginPage {
     }
 
     /**
-
      * Удаление прослушивателей событий
      */
     removeListeners() {
         this.loginForm.removeListeners();
     }
 
+    /**
+     *
+     */
     unsubscribeToEvents() {
         this.loginForm.unsubscribeToEvents();
     }
@@ -54,7 +56,7 @@ export default class LoginPage {
         logo.render();
 
         this.loginForm = new LoginForm(
-            this.self
+            this.self,
         );
 
         this.loginForm.render();

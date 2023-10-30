@@ -2,11 +2,11 @@ import Button from '../button/button.js';
 import Input from '../input/input.js';
 import Link from '../link/link.js';
 import template from './loginForm.hbs';
-import { UserActions } from '../../actions/user.js';
-import { eventEmmiter } from '../../modules/event-emmiter.js';
-import { config } from '../../../config.js';
+import {UserActions} from '../../actions/user.js';
+import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {config} from '../../../config.js';
 import router from '../../modules/router.js';
-import { Events } from '../../config/events.js';
+import {Events} from '../../config/events.js';
 
 /**
  * Класс формы авторизации
@@ -33,10 +33,17 @@ export default class LoginForm {
         this.#config = config.loginPage.form;
     }
 
+    /**
+     *
+     */
     get self() {
         return document.querySelector('#login-form');
     }
 
+    /**
+     *
+     * @param {Evnt} event
+     */
     submitHandle(event) {
         event.preventDefault();
         console.log('login handle');
@@ -45,29 +52,48 @@ export default class LoginForm {
 
     submitHandle = this.submitHandle.bind(this);
 
+    /**
+     *
+     * @param {String} errorText
+     */
     renderError(errorText) {
         const error = document.querySelector('#login-form-error');
         error.textContent = errorText;
     }
 
+    /**
+     *
+     */
     redirectOnMain() {
-        router.go({url : '/'});
+        router.go({url: '/'});
     }
 
+    /**
+     *
+     */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
     }
 
+    /**
+     *
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.LOGIN_FORM_ERROR, this.renderError);
         eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.redirectOnMain);
     }
 
+    /**
+     *
+     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.LOGIN_FORM_ERROR, this.renderError);
         eventEmmiter.unsubscribe(Events.SUCCESSFUL_LOGIN, this.redirectOnMain);
     }
 
+    /**
+     *
+     */
     removeListeners() {
         this.submit.self.removeEventListener('click', this.submitHandle);
     }

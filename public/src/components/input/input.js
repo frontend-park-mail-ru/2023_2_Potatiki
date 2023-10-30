@@ -23,12 +23,7 @@ export default class Input {
      * Получение элемента инпута
      */
     get self() {
-        console.log(this.#config.inputName);
         return document.querySelector(`[name=${this.#config.inputName}]`);
-    }
-
-    get config() {
-        return this.#config;
     }
 
     /**

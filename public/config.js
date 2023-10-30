@@ -1,4 +1,3 @@
-
 const requests = {
     signup: 'auth/signup',
     login: 'auth/signin',

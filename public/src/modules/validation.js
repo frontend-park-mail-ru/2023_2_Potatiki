@@ -53,13 +53,15 @@ export function checkLogin(login) {
     }
 
     const isValid = [...login].every((_, index) => {
-        return login.codePointAt(index) >= UNICODE_OF_UPPERCASE_A && login.codePointAt(index) <= UNICODE_OF_UPPERCASE_Z ||
-        login.codePointAt(index) >= UNICODE_OF_LOWERCASE_A && login.codePointAt(index) <= UNICODE_OF_LOWERCASE_Z ||
+        return login.codePointAt(index) >= UNICODE_OF_UPPERCASE_A &&
+        login.codePointAt(index) <= UNICODE_OF_UPPERCASE_Z ||
+        login.codePointAt(index) >= UNICODE_OF_LOWERCASE_A &&
+        login.codePointAt(index) <= UNICODE_OF_LOWERCASE_Z ||
         login.codePointAt(index) >= UNICODE_OF_0 && login.codePointAt(index) <= UNICODE_OF_9;
     });
     console.log(isValid);
 
-    if(isValid) {
+    if (isValid) {
         return ['', true];
     }
 

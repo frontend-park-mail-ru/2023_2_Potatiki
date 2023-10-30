@@ -4,9 +4,9 @@ import LoginPage from './src/pages/login-page/login-page.js';
 import SignupPage from './src/pages/signup-page/signup-page.js';
 import {loginROUTE, mainROUTE, signupROUTE} from './src/config/urls';
 import router from './src/modules/router';
-import { UserActions } from './src/actions/user';
-import { eventEmmiter } from './src/modules/event-emmiter';
-import { Events } from './src/config/events';
+import {UserActions} from './src/actions/user';
+import {eventEmmiter} from './src/modules/event-emmiter';
+import {Events} from './src/config/events';
 
 /**
  * Listener для нажатий по ссылкам

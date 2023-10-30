@@ -18,6 +18,9 @@ export default class Link {
         this.#config = config;
     }
 
+    /**
+     *
+     */
     get self() {
         return document.querySelector(`#${this.#config.id}`);
     }

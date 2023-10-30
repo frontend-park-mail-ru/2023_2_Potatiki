@@ -53,7 +53,7 @@ class Router {
         if (!baseState) {
             return;
         }
-        
+
         this.#currentView?.removeListeners();
         this.#currentView?.unsubscribeToEvents();
         this.#currentView = new baseState.view(this.#root);
