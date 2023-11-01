@@ -6,6 +6,9 @@ import renderServerError from '../../modules/server-error.js';
 import template from './main-page.hbs';
 import {config} from '../../../config.js';
 import {getProducts} from '../../config/urls.js';
+import {UserActions} from '../../actions/user.js';
+import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {Events} from '../../config/events.js';
 
 /**
  * Класс главной страницы
@@ -21,7 +24,7 @@ export default class MainPage {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    */
-    constructor(parent) {
+    constructor(parent, params) {
         this.#parent = parent;
         this.#config = config.mainPage;
         this.#carousels = [];
@@ -37,30 +40,17 @@ export default class MainPage {
         return document.querySelector('#main-page');
     }
 
-    /**
-   * Получение и отрисовка карусели товаров
-   * @param {Number} offset Сдвиг в списке товаров
-   * @param {Number} count Количество запрашиваемых товаров
-   * @param {Object} config Конфиг карусели
-   */
-    getProducts(offset = 0, count = 5, config) {
-        Ajax.prototype
-            .getRequest(`${getProducts}?paging=${offset}&count=${count}`)
-            .then((result) => {
-                const [statusCode, body] = result;
-                switch (statusCode) {
-                case 200:
-                    const carousel = new Carousel(this.self, config, body);
-                    carousel.render();
-                    this.#carousels.push(carousel);
-                    break;
-                case 429:
-                    renderServerError(body.error || 'Ошибка');
-                    break;
-                default:
-                    break;
-                }
-            });
+    renderProducts(body, config) {
+        // console.log(body);
+        const carousel = new Carousel(this.self, config, body);
+        carousel.render();
+        this.#carousels.push(carousel);
+    }
+
+    renderProducts = this.renderProducts.bind(this);
+
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
     }
 
     /**
@@ -71,7 +61,9 @@ export default class MainPage {
     /**
     *
     */
-    unsubscribeToEvents() {}
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
+    }
 
     /**
     * Отрисовка страницы регистрации
@@ -81,9 +73,14 @@ export default class MainPage {
 
         const header = new Header(this.self);
         header.render();
+        this.subscribeToEvents();
 
-        this.getProducts(0, 10, this.#config.newCarousel);
+        UserActions.getProducts(0, 10, this.#config.newCarousel);
+        UserActions.getProducts(0, 10, this.#config.popularCarousel);
 
-        this.getProducts(0, 10, this.#config.popularCarousel);
+
+        // this.getProducts(0, 10, this.#config.newCarousel);
+
+        // this.getProducts(0, 10, this.#config.popularCarousel);
     }
 }

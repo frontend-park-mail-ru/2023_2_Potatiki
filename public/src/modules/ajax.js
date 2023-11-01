@@ -1,4 +1,4 @@
-import {baseURL} from '../config/urls';
+import {baseUrl} from '../config/urls';
 
 /**
  * Методы для отправки сетевых запросов

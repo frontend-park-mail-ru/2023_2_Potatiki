@@ -67,10 +67,11 @@ const header = {
     basket: {
         id: 'basket-button',
         class: 'link_icon  link_disabled',
-        href: '#',
+        href: '/cart',
         text: 'Корзина',
         imgSrc: './static/images/cart-icon.svg',
         imgClass: 'link_icon__img',
+        textClass: 'cart-count',
     },
 
     login: {

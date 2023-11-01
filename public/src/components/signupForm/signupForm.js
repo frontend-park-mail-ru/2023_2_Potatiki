@@ -7,7 +7,7 @@ import {config} from '../../../config.js';
 import router from '../../modules/router.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import {mainROUTE} from '../../config/urls.js';
+import {mainRoute} from '../../config/urls.js';
 
 /**
  *
@@ -31,7 +31,11 @@ export default class SignupForm {
 
     submitHandle = (event) => {
         event.preventDefault();
-        UserActions.login(this.login.self.value, this.password.self.value);
+        UserActions.signup(
+            this.login.self.value,
+            this.password.self.value,
+            this.repeatPassword.self.value,
+        );
     };
 
     submitHandle = this.submitHandle.bind(this);
@@ -75,7 +79,7 @@ export default class SignupForm {
      *
      */
     redirectOnMain() {
-        router.go({url: mainROUTE});
+        router.go({url: mainRoute});
     }
 
     /**

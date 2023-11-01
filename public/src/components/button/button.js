@@ -8,15 +8,19 @@ export default class Button {
 
     #config;
 
+    #isAfterBegin;
+
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    * @param {Object} config Конфиг для отрисовки класса
+   * @param {Boolean} isAfterBegin Флаг при котором элемент вставляется в начало
    */
-    constructor(parent, config) {
+    constructor(parent, config, isAfterBegin) {
         this.#parent = parent;
         this.#config = config;
+        this.#isAfterBegin = isAfterBegin;
     }
 
     /**
@@ -30,8 +34,9 @@ export default class Button {
    * Отрисовка компонента кнопки
    */
     render() {
+        const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(
-            'beforeend',
+            destination,
             template(this.#config),
         );
     }

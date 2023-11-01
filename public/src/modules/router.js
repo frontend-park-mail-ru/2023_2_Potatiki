@@ -1,9 +1,12 @@
 import MainPage from '../pages/main-page/main-page';
-import {checkUrl, loginRoute, mainRoute, notFoundRoute, signupRoute} from '../../config';
+import {cartRoute, checkUrl, loginRoute, mainRoute, notFoundRoute, signupRoute} from '../config/urls';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
+import CartPage from '../pages/cart-page/cart-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import Ajax from './ajax';
+import renderServerError from './server-error';
+import {UserActions} from '../actions/user';
 
 /**
  * Класс роутера
@@ -13,6 +16,7 @@ class Router {
     #root;
     #states;
     #currentView;
+    #isAuth;
 
     /**
      * Конструктор для класса роутера
@@ -27,14 +31,13 @@ class Router {
     register({name, url, view}) {
         this.#states.set(
             url,
-            {name, url, state},
+            {name, url, view},
         );
     }
 
     /**
      * Запуск роутера
      * @param {Element} root Корневой компонент
-     * @param {Object} config Конфиг для отрисовки представлений
      */
     start(root) {
         this.#root = root;
@@ -48,11 +51,12 @@ class Router {
             [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
             [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
             [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
+            [cartRoute, {view: CartPage, url: cartRoute, name: 'cart'}],
         ]);
 
         window.addEventListener('click', this.listenClick.bind(this));
 
-        window.addEventListener('DOMContentLoaded', this.checkSession.bind(this));
+        // window.addEventListener('DOMContentLoaded', this.checkSession.bind(this));
     }
 
     /**
@@ -83,12 +87,13 @@ class Router {
                 this.#isAuth = false;
                 break;
             case 429:
-                renderServerError(body.error);
+                renderServerError(body.error || 'Ошибка');
                 break;
             default:
                 break;
             }
         });
+        this.go({url: location.pathname});
     };
 
     /**
@@ -98,14 +103,26 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
+        UserActions.removeListeners();
+        if (state.param && state.param.auth) {
+            this.#isAuth = state.param.auth;
+        }
+
+        if (!state.param) {
+            state.param = {auth: this.#isAuth};
+        }
+
         const baseState = this.#states.get(state.url);
         if (!baseState) {
             this.go({url: notFoundRoute});
             return;
         }
-        if (this.#currentView?.removeListeners) {
-            this.#currentView?.removeListeners();
+
+        if (this.#currentView && this.#currentView.removeListeners) {
+            this.#currentView.removeListeners();
+            this.#currentView.unsubscribeToEvents();
         }
+
         this.#currentView = new baseState.view(this.#root);
         this.#currentView.render();
         if (replaceState) {

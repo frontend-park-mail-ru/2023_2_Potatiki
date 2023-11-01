@@ -1,0 +1,17 @@
+#cart-page {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-background);
+}
+
+.page-title {
+    margin: 80px 120px 0 120px;
+    font-size: 40px;
+}
+
+.order-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 30px 120px 30px 120px;
+}

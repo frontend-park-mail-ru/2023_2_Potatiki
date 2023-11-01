@@ -4,6 +4,9 @@ import Link from '../link/link.js';
 import SearchForm from '../searchForm/searchForm.js';
 import template from './header.hbs';
 import {config} from '../../../config.js';
+import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {Events} from '../../config/events.js';
+import {UserActions} from '../../actions/user.js';
 
 /**
  * Класс хедера страницы
@@ -12,6 +15,8 @@ export default class Header {
     #parent;
 
     #config;
+
+    cart;
 
 
     /**
@@ -23,12 +28,27 @@ export default class Header {
         this.#config = config.mainPage.header;
     }
 
+    updateCartCount(count) {
+        console.log('count', count);
+        this.cart.self.querySelector('.cart-count').textContent = count;
+    }
+
+    updateCartCount = this.updateCartCount.bind(this);
+
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
+    }
+
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
+    }
+
     /**
    * Отрисовка компонента хедера
    */
     render() {
         this.#parent.insertAdjacentHTML(
-            'beforeend',
+            'afterbegin',
             template(),
         );
 
@@ -52,8 +72,8 @@ export default class Header {
         const favorite = new Link(self, this.#config.favorite);
         favorite.render();
 
-        const basket = new Link(self, this.#config.basket);
-        basket.render();
+        this.cart = new Link(self, this.#config.basket);
+        this.cart.render();
 
         const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
 
@@ -64,5 +84,8 @@ export default class Header {
             const logout = new Link(self, this.#config.logout);
             logout.render();
         }
+
+        this.subscribeToEvents();
+        UserActions.getCartCount();
     }
 }

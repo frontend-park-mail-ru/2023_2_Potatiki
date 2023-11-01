@@ -43,7 +43,8 @@ export default class Carousel {
     getConfig(data) {
         return {
             id: `${this.#config.id}-product-${data.id}`,
-            data: `data-id=${data.id}`,
+            data: data,
+            quantity: data.quantity,
             img: {
                 imgSrc: './static/images/' + data.img,
                 imgClass: 'product-card__img',
