@@ -15,7 +15,8 @@
     padding-top: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    /* justify-content: flex-start; */
+    justify-content: space-between;
     margin-left: 20px;
 }
 
@@ -32,10 +33,19 @@
 }
 
 .cart-product__name {
-    padding-top: 10px;
+    padding: 10px 20px 0 0;
 }
 
 .cart-product__management-link {
     color: var(--color-stroke);
     margin-top: 16px;
+}
+
+.cart-product__management-button {
+    background-color: inherit;
+    justify-content: start;
+}
+
+.cart-product__management-button-text {
+    color: black;
 }

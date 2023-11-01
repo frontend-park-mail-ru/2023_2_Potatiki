@@ -73,45 +73,12 @@ class Router {
     };
 
     /**
-     * Метод проверяет авторизован ли пользователь и
-     * отображает соответствующий вид страницы
-     */
-    checkSession = () => {
-        Ajax.prototype.getRequest(checkUrl).then((result) => {
-            const [statusCode, body] = result;
-            switch (statusCode) {
-            case 200:
-                this.#isAuth = true;
-                break;
-            case 401:
-                this.#isAuth = false;
-                break;
-            case 429:
-                renderServerError(body.error || 'Ошибка');
-                break;
-            default:
-                break;
-            }
-        });
-        this.go({url: location.pathname});
-    };
-
-    /**
      * Метод осуществляющий переход на страницу
      * @param {Object} state Состояние представленя
      * @param {Boolean} replaceState Если true заменяем текущее состояние
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
-        UserActions.removeListeners();
-        if (state.param && state.param.auth) {
-            this.#isAuth = state.param.auth;
-        }
-
-        if (!state.param) {
-            state.param = {auth: this.#isAuth};
-        }
-
         const baseState = this.#states.get(state.url);
         if (!baseState) {
             this.go({url: notFoundRoute});
@@ -121,6 +88,7 @@ class Router {
         if (this.#currentView && this.#currentView.removeListeners) {
             this.#currentView.removeListeners();
             this.#currentView.unsubscribeToEvents();
+            UserActions.removeListeners();
         }
 
         this.#currentView = new baseState.view(this.#root);

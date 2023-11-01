@@ -12,6 +12,7 @@ import {getProducts} from '../../config/urls.js';
 import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {CartActions} from '../../actions/cart.js';
 
 /**
  * Класс страницы корзины
@@ -54,14 +55,13 @@ export default class CartPage {
             },
             price: data.price.toLocaleString() + ' ₽',
             del: {
+                id: `count-management-del-${data.id}`,
                 text: 'Удалить',
                 href: '#',
-                spanClass: 'cart-product__management-link',
-            },
-            fav: {
-                text: 'В избранное',
-                href: '#',
-                spanClass: 'cart-product__management-link',
+                class: 'cart-product__management-button',
+                spanClass: 'cart-product__management-button-text',
+                imgClass: 'count-management__img',
+                imgSrc: './static/images/' + 'garbage.svg',
             },
             management: {
                 id: `count-management-${data.id}`,
@@ -82,23 +82,23 @@ export default class CartPage {
         };
     }
 
+    renderEmptyCartMessage() {
+        this.self.querySelector('.cart-container__products').textContent = 'Корзина пуста';
+    }
+
     renderProducts(body) {
         if (!body.products.length) {
-            const emptyCart = new Link(
-                this.self.querySelector('.cart-container__products'),
-                {text: 'Корзина пуста'},
-            );
-            emptyCart.render();
+            this.renderEmptyCartMessage();
             return;
         }
         body.products.forEach((element) => {
-            console.log('render');
             const product = new CartProduct(
                 this.self.querySelector('.cart-container__products'),
                 this.getConfig(element),
             );
             product.render();
         });
+        this.renderCartResult();
     }
 
     renderCartResult() {
@@ -113,26 +113,21 @@ export default class CartPage {
         this.orderResults.render();
     }
 
-    updateOrderResult(count, price) {
-        price = price.toLocaleString('ru') + ' ₽';
-        this.orderResults.count.textContent = `Товары(${count})`;
-        this.orderResults.subprice.textContent = price;
-        this.orderResults.result.textContent = price;
-    }
 
-    updateOrderResult = this.updateOrderResult.bind(this);
     renderProducts = this.renderProducts.bind(this);
+    renderEmptyCartMessage = this.renderEmptyCartMessage.bind(this);
+
     /**
      *
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CART_PRODUCTS, this.renderProducts);
-        eventEmmiter.subscribe(Events.UPDATE_CART_RESULT, this.updateOrderResult);
+        eventEmmiter.subscribe(Events.EMPTY_CART, this.renderEmptyCartMessage);
     }
 
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.CART_PRODUCTS, this.renderProducts);
-        eventEmmiter.unsubscribe(Events.UPDATE_CART_RESULT, this.updateOrderResult);
+        eventEmmiter.unsubscribe(Events.EMPTY_CART, this.renderEmptyCartMessage);
     }
 
     removeListeners() {
@@ -142,7 +137,6 @@ export default class CartPage {
      * Отрисовка страницы авторизации
      */
     render() {
-        console.log(this.#parent);
         this.#parent.innerHTML = template();
         const header = new Header(
             this.#parent,
@@ -150,10 +144,9 @@ export default class CartPage {
             this.#config.isAuthorized,
         );
         header.render();
-        this.renderCartResult();
+
         this.subscribeToEvents();
 
-        // this.getProducts();
-        UserActions.getCartProducts();
+        CartActions.getCartProducts();
     }
 }

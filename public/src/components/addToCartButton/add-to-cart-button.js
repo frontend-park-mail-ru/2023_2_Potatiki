@@ -1,6 +1,6 @@
 import Button from '../button/button.js';
 import template from './add-to-cart-button.hbs';
-import {UserActions} from '../../actions/user.js';
+import {CartActions} from '../../actions/cart.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import CountManagement from '../countManagement/count-management.js';
@@ -110,17 +110,17 @@ export default class AddToCartButton {
 
     addToCart(event) {
         event.preventDefault();
-        UserActions.addProductLocal(this.#data);
+        CartActions.addProductLocal(this.#data);
     }
 
     decreaseQuantity(event) {
         event.preventDefault();
-        UserActions.changeQuantityLocal(this.#data, true);
+        CartActions.changeQuantityLocal(this.#data, true);
     }
 
     increaseQuantity(event) {
         event.preventDefault();
-        UserActions.changeQuantityLocal(this.#data);
+        CartActions.changeQuantityLocal(this.#data);
     }
 
 
@@ -176,14 +176,12 @@ export default class AddToCartButton {
             template({id: this.#data.id, parentId: this.#parentId}),
         );
 
-        // UserActions.addCartButton(this.#id);
-        // console.log(this.#data);
         if (this.#data.quantity) {
             this.renderCountManagement(this.#data);
         } else {
             this.renderButton(this.#data);
         }
-        // this.addListeners();
+
         this.subscribeToEvents();
     }
 }

@@ -1,4 +1,3 @@
-import Link from '../link/link.js';
 import template from './count-management.hbs';
 import './count-management.css';
 import Button from '../button/button';
@@ -49,8 +48,6 @@ export default class CountManagement {
             destination,
             template(this.#config),
         );
-        // console.log(this.#config.id);
-        // const self = document.querySelector(`#${this.#config.id}`);
 
         const minus = new Button(
             this.self,

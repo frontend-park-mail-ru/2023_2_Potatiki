@@ -1,6 +1,4 @@
 import AddToCartButton from '../addToCartButton/add-to-cart-button.js';
-import Button from '../button/button.js';
-import CountManagement from '../countManagement/count-management.js';
 import Link from '../link/link.js';
 import template from './productCard.hbs';
 
@@ -13,6 +11,7 @@ export default class ProductCard {
     #config;
 
     #isAfterBegin;
+
     button;
 
     /**
@@ -25,10 +24,6 @@ export default class ProductCard {
         this.#parent = parent;
         this.#config = config;
         this.#isAfterBegin = isAfterBegin;
-    }
-
-    unsubscribeToEvents() {
-        this.button.unsubscribeToEvents();
     }
 
     /**
@@ -55,8 +50,12 @@ export default class ProductCard {
         );
         name.render();
 
-
-        this.button = new AddToCartButton(self, this.#config.data, this.#config.id, this.#config.quantity);
-        this.button.render();
+        const button = new AddToCartButton(
+            self,
+            this.#config.data,
+            this.#config.id,
+            this.#config.quantity,
+        );
+        button.render();
     }
 }

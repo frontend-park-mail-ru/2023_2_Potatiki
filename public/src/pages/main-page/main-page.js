@@ -1,11 +1,7 @@
-import {getProductsUrl} from '../../../config.js';
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerError from '../../modules/server-error.js';
 import template from './main-page.hbs';
 import {config} from '../../../config.js';
-import {getProducts} from '../../config/urls.js';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
@@ -41,7 +37,6 @@ export default class MainPage {
     }
 
     renderProducts(body, config) {
-        // console.log(body);
         const carousel = new Carousel(this.self, config, body);
         carousel.render();
         this.#carousels.push(carousel);
@@ -56,7 +51,11 @@ export default class MainPage {
     /**
     *
     */
-    removeListeners() {}
+    removeListeners() {
+        this.#carousels.forEach((cl) => {
+            cl.removeListeners();
+        });
+    }
 
     /**
     *
@@ -77,10 +76,5 @@ export default class MainPage {
 
         UserActions.getProducts(0, 10, this.#config.newCarousel);
         UserActions.getProducts(0, 10, this.#config.popularCarousel);
-
-
-        // this.getProducts(0, 10, this.#config.newCarousel);
-
-        // this.getProducts(0, 10, this.#config.popularCarousel);
     }
 }

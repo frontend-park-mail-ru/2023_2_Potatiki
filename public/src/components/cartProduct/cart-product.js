@@ -5,6 +5,8 @@ import CountManagement from '../countManagement/count-management';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
+import {CartActions} from '../../actions/cart.js';
+import Button from '../button/button.js';
 
 /**
  * Класс компонента карточки товара
@@ -18,6 +20,8 @@ export default class CartProduct {
 
     #management;
 
+    deleteProductButton;
+
     /**
      * Конструктор класса
      * @param {Element} parent Родительский элемент
@@ -27,7 +31,10 @@ export default class CartProduct {
         this.#parent = parent;
         this.#config = config;
         this.#data = this.#config.data;
-        console.log(this.#data);
+    }
+
+    get self() {
+        return document.querySelector(`#${this.#config.id}`);
     }
 
     getManagmentConfig(quantity) {
@@ -61,43 +68,53 @@ export default class CartProduct {
         this.management.right.addEventListener('click', this.increaseQuantity);
     }
 
+    renderDeleteButton() {
+        this.deleteProductButton = new Button(
+            this.self.querySelector('.cart-product__management'),
+            this.#config.del,
+        );
+        this.deleteProductButton.render();
+        this.deleteProductButton.self.addEventListener('click', this.deleteProduct);
+    }
 
+    deleteProduct = this.deleteProduct.bind(this);
+    renderDeleteButton = this.renderDeleteButton.bind(this);
     renderCountManagement = this.renderCountManagement.bind(this);
     decreaseQuantity = this.decreaseQuantity.bind(this);
     increaseQuantity = this.increaseQuantity.bind(this);
-    delProduct = this.delProduct.bind(this);
+    deleteSelf = this.deleteSelf.bind(this);
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
 
     decreaseQuantity(event) {
-        console.log('cart decrease');
         event.preventDefault();
-        UserActions.changeQuantityLocal(this.#data, true);
+        CartActions.changeQuantityLocal(this.#data, true);
     }
 
     increaseQuantity(event) {
         event.preventDefault();
-        UserActions.changeQuantityLocal(this.#data);
+        CartActions.changeQuantityLocal(this.#data);
     }
 
-    delProduct(data) {
+    deleteSelf(data) {
         if (data.id !== this.#data.id || !this.self) {
             return;
         }
         this.unsubscribeToEvents();
-        console.log(this.#parent, this.self);
+        this.removeListeners();
         this.removeListeners();
         this.self.remove();
-        // this.#parent.removeChild(this.self);
     }
 
-    get self() {
-        return document.querySelector(`#${this.#config.id}`);
+    deleteProduct(event) {
+        event.preventDefault();
+        CartActions.deleteProductFromCart(this.#data);
     }
+
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CHG_PRODUCT_SUCCESS, this.renderCountManagement);
-        eventEmmiter.subscribe(Events.DEL_PRODUCT_SUCCESS, this.delProduct);
+        eventEmmiter.subscribe(Events.DEL_PRODUCT_SUCCESS, this.deleteSelf);
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
@@ -115,6 +132,7 @@ export default class CartProduct {
     removeListeners() {
         this.management.left.removeEventListener('click', this.decreaseQuantity);
         this.management.right.removeEventListener('click', this.increaseQuantity);
+        this.deleteProductButton.self.removeEventListener('click', this.deleteProduct);
     }
 
     /**
@@ -125,8 +143,6 @@ export default class CartProduct {
             'beforeend',
             template(this.#config),
         );
-
-        // const self = document.querySelector(`#${this.#config.id}`);
 
         const name = new Link(
             this.self,
@@ -142,18 +158,7 @@ export default class CartProduct {
         );
         img.render();
 
-        const addToFavourite = new Link(
-            this.self.querySelector('.cart-product__management'),
-            this.#config.fav,
-        );
-        addToFavourite.render();
-
-        const deleteProduct = new Link(
-            this.self.querySelector('.cart-product__management'),
-            this.#config.del,
-        );
-        deleteProduct.render();
-
+        this.renderDeleteButton();
         this.renderCountManagement(this.#data);
         this.subscribeToEvents();
     }

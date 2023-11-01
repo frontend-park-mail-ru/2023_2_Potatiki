@@ -82,14 +82,14 @@ export default class SignupForm {
         router.go({url: mainRoute});
     }
 
-    /**
-     *
-     * @param {String} errorText
-     */
-    renderError(errorText) {
-        const error = document.querySelector('#signup-form-error');
-        error.textContent = errorText;
-    }
+    // /**
+    //  *
+    //  * @param {String} errorText
+    //  */
+    // renderError(errorText) {
+    //     const error = document.querySelector('#signup-form-error');
+    //     error.textContent = errorText;
+    // }
 
     /**
      *
@@ -176,6 +176,8 @@ export default class SignupForm {
         errorDiv.textContent = error;
     }
 
+    renderError = this.renderError.bind(this);
+
     /**
      * Удаление ошибки с формы
      */
@@ -183,6 +185,8 @@ export default class SignupForm {
         const errorDiv = document.querySelector(`#${this.#config.errorId}`);
         errorDiv.textContent = '';
     }
+
+    removeError = this.removeError.bind(this);
 
 
     /**

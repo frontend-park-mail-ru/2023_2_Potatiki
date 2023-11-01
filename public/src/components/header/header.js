@@ -7,6 +7,7 @@ import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
+import {CartActions} from '../../actions/cart.js';
 
 /**
  * Класс хедера страницы
@@ -29,7 +30,6 @@ export default class Header {
     }
 
     updateCartCount(count) {
-        console.log('count', count);
         this.cart.self.querySelector('.cart-count').textContent = count;
     }
 
@@ -86,6 +86,6 @@ export default class Header {
         }
 
         this.subscribeToEvents();
-        UserActions.getCartCount();
+        CartActions.getCartCount();
     }
 }
