@@ -35,10 +35,6 @@
 
 @keyframes errorSurface {
     from {
-        opacity: 0%;
-    }
-
-    10% {
         opacity: 100%;
     }
 
@@ -52,10 +48,13 @@
 }
 
 #server-error {
+    display: block;
     color: var(--color-background);
     position: absolute;
-    margin-left: 40%;
-    margin-right: 40%;
+    left: 45%;
+    margin-left: auto;
+    margin-right: auto;
+    align-self: center;
     bottom: 20%;
     background-color: var(--color-incorrect);
     padding: 10px 30px 10px 30px;

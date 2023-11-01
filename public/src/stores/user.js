@@ -6,6 +6,7 @@ import {checkLogin, checkPassword} from '../modules/validation';
 import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProducts} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
+import renderServerError from '../modules/server-error';
 
 /**
  * Класс
