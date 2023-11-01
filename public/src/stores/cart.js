@@ -177,11 +177,11 @@ class CartStore {
         eventEmmiter.emit(Events.UPDATE_CART_ICON, count);
     }
 
-    addProductLocal(data) {
+    async addProductLocal(data) {
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
         data.quantity += 1;
         if (this.isAuth) {
-            if (!this.simpleAjax(addProductUrl, {id: data.id, quantity: data.quantity})) {
+            if (!await this.simpleAjax(addProductUrl, {id: data.id, quantity: data.quantity})) {
                 return;
             }
         }
@@ -203,7 +203,7 @@ class CartStore {
         eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
     }
 
-    changeProductCountLocal(data, isDecrease) {
+    async changeProductCountLocal(data, isDecrease) {
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
         const product = productsMap.get(data.id);
         if (!product) {
@@ -215,7 +215,7 @@ class CartStore {
             return;
         }
         if (this.isAuth) {
-            if (!this.simpleAjax(addProductUrl, {id: data.id, quantity: product.quantity})) {
+            if (!await this.simpleAjax(addProductUrl, {id: data.id, quantity: product.quantity})) {
                 return;
             }
         }
@@ -227,14 +227,14 @@ class CartStore {
         eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
     }
 
-    deleteProduct(data) {
+    async deleteProduct(data) {
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
         const product = productsMap.get(data.id);
         if (!product) {
             return;
         }
         if (this.isAuth) {
-            if (!this.simpleAjax(delProductUrl, {id: data.id})) {
+            if (!await this.simpleAjax(delProductUrl, {id: data.id})) {
                 return;
             }
         }
@@ -270,6 +270,7 @@ class CartStore {
             .postRequest(url, data)
             .then((result) => {
                 const [statusCode, body] = result;
+                console.log(statusCode);
                 switch (statusCode) {
                 case 200:
                     return true;
