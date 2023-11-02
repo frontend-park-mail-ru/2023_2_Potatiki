@@ -210,6 +210,12 @@ const signupPage = {
             errorId: 'login-error',
         },
 
+        phone: {
+            inputClass: 'input login-form__input',
+            inputName: 'phone',
+            inputPlaceholder: 'Введите номер телефона',
+        },
+
         password: {
             inputClass: 'input signup-form__input',
             inputName: 'password',

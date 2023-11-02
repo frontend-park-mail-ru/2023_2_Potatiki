@@ -17,6 +17,8 @@ export default class LoginForm {
 
     #config;
 
+    #redirectUrl;
+
     login;
 
     password;
@@ -27,9 +29,10 @@ export default class LoginForm {
    * Конструктор класса
    * @param {Element} parent Родительский компонент
    */
-    constructor(parent) {
+    constructor(parent, redirectUrl) {
         this.#parent = parent;
         this.#config = config.loginPage.form;
+        this.#redirectUrl = redirectUrl;
     }
 
     /**
@@ -63,9 +66,15 @@ export default class LoginForm {
     /**
      *
      */
-    redirectOnMain() {
+    redirect() {
+        if (this.#redirectUrl) {
+            router.go({url: this.#redirectUrl});
+            return;
+        }
         router.go({url: mainRoute});
     }
+
+    redirect = this.redirect.bind(this);
 
     /**
      *
@@ -79,7 +88,7 @@ export default class LoginForm {
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.LOGIN_FORM_ERROR, this.renderError);
-        eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.redirectOnMain);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.redirect);
     }
 
     /**
@@ -87,7 +96,7 @@ export default class LoginForm {
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.LOGIN_FORM_ERROR, this.renderError);
-        eventEmmiter.unsubscribe(Events.SUCCESSFUL_LOGIN, this.redirectOnMain);
+        eventEmmiter.unsubscribe(Events.SUCCESSFUL_LOGIN, this.redirect);
     }
 
     /**

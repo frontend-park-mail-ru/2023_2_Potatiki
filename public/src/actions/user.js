@@ -10,6 +10,7 @@ export const UserActionsType = {
     VALIDATE_REPEAT_PASSWORD: 'VALIDATE_REPEAT_PASSWORD',
     GET_PRODUCTS: 'GET_PRODUCTS',
     REMOVE_LISTENERS: 'REMOVE_LISTENERS',
+    VALIDATE_PHONE: 'VALIDATE_PHONE',
 };
 
 export const UserActions = {
@@ -49,23 +50,24 @@ export const UserActions = {
         });
     },
 
-    validateRepeatPassword(password, reapeatPassword) {
+    validateRepeatPassword(password, repeatPassword) {
         AppDispatcher.dispatch({
             type: UserActionsType.VALIDATE_REPEAT_PASSWORD,
             payload: {
                 password: password,
-                reapeatPassword: reapeatPassword,
+                repeatPassword: repeatPassword,
             },
         });
     },
 
-    signup(login, password, repeatPassword) {
+    signup(login, password, repeatPassword, phone) {
         AppDispatcher.dispatch({
             type: UserActionsType.SIGNUP,
             payload: {
                 login: login,
                 password: password,
                 repeatPassword: repeatPassword,
+                phone,
             },
         });
     },
@@ -87,6 +89,13 @@ export const UserActions = {
     removeListeners() {
         AppDispatcher.dispatch({
             type: UserActionsType.REMOVE_LISTENERS,
+        });
+    },
+
+    validatePhone(phone) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.VALIDATE_PHONE,
+            payload: {phone},
         });
     },
 };

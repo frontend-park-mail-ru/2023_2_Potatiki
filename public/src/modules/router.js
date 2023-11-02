@@ -1,5 +1,5 @@
 import MainPage from '../pages/main-page/main-page';
-import {cartRoute, checkUrl, loginRoute, mainRoute, notFoundRoute, signupRoute} from '../config/urls';
+import {cartRoute, checkUrl, loginRoute, mainRoute, notFoundRoute, orderRoute, signupRoute} from '../config/urls';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import CartPage from '../pages/cart-page/cart-page';
@@ -7,6 +7,7 @@ import NotFoundPage from '../pages/not-found-page/not-found-page';
 import Ajax from './ajax';
 import renderServerError from './server-error';
 import {UserActions} from '../actions/user';
+import OrderPage from '../pages/orderPage/order-page';
 
 /**
  * Класс роутера
@@ -52,11 +53,10 @@ class Router {
             [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
             [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
             [cartRoute, {view: CartPage, url: cartRoute, name: 'cart'}],
+            [cartRoute, {view: OrderPage, url: orderRoute, name: 'order'}],
         ]);
 
         window.addEventListener('click', this.listenClick.bind(this));
-
-        // window.addEventListener('DOMContentLoaded', this.checkSession.bind(this));
     }
 
     /**
@@ -91,7 +91,7 @@ class Router {
             UserActions.removeListeners();
         }
 
-        this.#currentView = new baseState.view(this.#root);
+        this.#currentView = new baseState.view(this.#root, state.continue);
         this.#currentView.render();
         if (replaceState) {
             this.#history.replaceState(

@@ -11,15 +11,18 @@ export default class LoginPage {
 
     #config;
 
+    #continueUrl;
+
     loginForm;
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    */
-    constructor(parent) {
+    constructor(parent, continueUrl) {
         this.#parent = parent;
         this.#config = config.loginPage;
+        this.#continueUrl = continueUrl;
     }
 
     /**
@@ -54,6 +57,7 @@ export default class LoginPage {
 
         this.loginForm = new LoginForm(
             this.self,
+            this.#continueUrl,
         );
 
         this.loginForm.render();

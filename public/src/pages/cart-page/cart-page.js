@@ -8,7 +8,7 @@ import CartProduct from '../../components/cartProduct/cart-product';
 import {config, getProductsUrl} from '../../../config';
 import './cart-page.css';
 import OrderResults from '../../components/orderResults/order-results';
-import {getProducts} from '../../config/urls.js';
+import {cartRoute, getProducts} from '../../config/urls.js';
 import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -87,7 +87,7 @@ export default class CartPage {
     }
 
     renderProducts(body) {
-        if (!body.products.length) {
+        if (!body.products || !body.products.length) {
             this.renderEmptyCartMessage();
             return;
         }
@@ -105,6 +105,7 @@ export default class CartPage {
         this.orderResults = new OrderResults(
             this.self.querySelector('.order-container'),
             {
+                page: cartRoute,
                 text: 'Перейти к оформлению',
                 id: 'go-to-making-order-btn',
                 class: 'order-results__make-result-btn',

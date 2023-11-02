@@ -1,11 +1,12 @@
 import {AppDispatcher} from '../modules/dispatcher';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
-import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl} from '../config/urls';
+import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl, loginRoute, cartRoute, createOrderUrl, orderRoute} from '../config/urls';
 import {Events} from '../config/events';
 import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
 import renderServerError from '../modules/server-error';
+import router from '../modules/router';
 
 /**
  * Класс
@@ -63,6 +64,9 @@ class CartStore {
             case CartActionsType.DEL_PRODUCT:
                 this.deleteProduct(action.payload.data);
                 break;
+            case CartActionsType.UPDATE_ORDER:
+                this.updateOrder(action.payload.page);
+                break;
             default:
                 break;
             }
@@ -76,17 +80,23 @@ class CartStore {
 
     userNotAuth() {
         this.#state.isAuth = false;
+    }
+
+    userLogout() {
+        this.#state.isAuth = false;
         this.cleanCart();
     }
 
     userAuth = this.userAuth.bind(this);
     userNotAuth = this.userNotAuth.bind(this);
+    userLogout = this.userLogout.bind(this);
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.userAuth);
+        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.userNotAuth);
         eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.userAuth);
         eventEmmiter.subscribe(Events.SUCCESSFUL_SIGNUP, this.userAuth);
-        eventEmmiter.subscribe(Events.LOGOUT, this.userNotAuth);
+        eventEmmiter.subscribe(Events.LOGOUT, this.userLogout);
     }
 
     cleanCart() {
@@ -107,7 +117,6 @@ class CartStore {
             switch (statusCode) {
             case 200:
                 const productsMap = new Map();
-
                 body.products.forEach((product) => {
                     productsMap.set(product.id, product);
                 });
@@ -115,6 +124,9 @@ class CartStore {
                 const [productCount, productsPrice] = this.getProductsInfo();
                 eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
                 eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
+                break;
+            case 401:
+                eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                 break;
             case 429:
                 renderServerError(body.error || 'Ошибка обновления корзины');
@@ -131,11 +143,11 @@ class CartStore {
      */
     getCartProducts() {
         if (!this.isAuth) {
-            const isCartExist = JSON.parse(localStorage.getItem('cart_status'));
-            if (!isCartExist) {
-                return {};
-            }
             const currentCart = JSON.parse(localStorage.getItem('products_map'), reviver);
+            if (!currentCart) {
+                eventEmmiter.emit(Events.EMPTY_CART);
+                return;
+            }
             const products = [];
             if (currentCart) {
                 currentCart.forEach((product) => {
@@ -151,6 +163,7 @@ class CartStore {
         Ajax.prototype.getRequest(getCartProductsUrl)
             .then((result) => {
                 const [statusCode, body] = result;
+                console.log(statusCode);
                 switch (statusCode) {
                 case 200:
                     eventEmmiter.emit(Events.CART_PRODUCTS, body);
@@ -162,6 +175,9 @@ class CartStore {
                     const [productCount, productsPrice] = this.getProductsInfo();
                     eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
                     eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
+                    break;
+                case 401:
+                    eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                     break;
                 case 429:
                     renderServerError(body.error || 'Ошибка');
@@ -247,6 +263,38 @@ class CartStore {
         return;
     }
 
+    updateOrder(page) {
+        if (!this.isAuth) {
+            router.go({url: loginRoute, continue: page});
+            return;
+        }
+        switch (page) {
+        case cartRoute:
+            Ajax.prototype
+                .postRequest(createOrderUrl)
+                .then((result) => {
+                    const [statusCode, body] = result;
+                    switch (statusCode) {
+                    case 200:
+                        router.go({url: orderRoute});
+                        break;
+                    case 401:
+                        eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
+                        router.go({url: loginRoute, continue: page});
+                        break;
+                    case 429:
+                        renderServerError(body.error || 'Ошибка');
+                        break;
+                    default:
+                        break;
+                    }
+                });
+            break;
+        default:
+            break;
+        }
+    }
+
     getProductsInfo() {
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
         let price = 0;
@@ -270,10 +318,12 @@ class CartStore {
             .postRequest(url, data)
             .then((result) => {
                 const [statusCode, body] = result;
-                console.log(statusCode);
                 switch (statusCode) {
                 case 200:
                     return true;
+                case 401:
+                    eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
+                    return false;
                 case 429:
                     renderServerError(body.error || 'Ошибка');
                     return false;

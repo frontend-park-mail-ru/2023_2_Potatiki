@@ -62,9 +62,9 @@ export default class AddToCartButton {
         if (data.id !== this.#data.id || !this.self) {
             return;
         }
-        if (this.self.innerHTML) {
-            this.management.left.removeEventListener('click', this.decreaseQuantity);
-            this.management.right.removeEventListener('click', this.increaseQuantity);
+        if (this.management) {
+            this.management.left?.removeEventListener('click', this.decreaseQuantity);
+            this.management.right?.removeEventListener('click', this.increaseQuantity);
             this.management = undefined;
         }
         this.self.innerHTML = '';
@@ -98,8 +98,9 @@ export default class AddToCartButton {
         if (data.id !== this.#data.id || !this.self) {
             return;
         }
-        if (this.self.innerHTML) {
-            this.button.self.removeEventListener('click', this.addToCart);
+        if (this.button) {
+            this.button?.self.removeEventListener('click', this.addToCart);
+            this.button = undefined;
         }
         this.self.innerHTML = '';
         this.management = new CountManagement(this.self, this.getManagmentConfig(data.quantity));

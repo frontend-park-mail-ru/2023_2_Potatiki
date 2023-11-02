@@ -6,6 +6,7 @@ export const CartActionsType = {
     DEL_PRODUCT: 'DEL_PRODUCT',
     CHANGE_PRODUCT_COUNT_LOCAL: 'CHANGE_PRODUCT_COUNT_LOCAL',
     GET_CART_COUNT: 'GET_CART_COUNT',
+    UPDATE_ORDER: 'UPDATE_ORDER',
 };
 
 export const CartActions = {
@@ -41,6 +42,13 @@ export const CartActions = {
         AppDispatcher.dispatch({
             type: CartActionsType.DEL_PRODUCT,
             payload: {data},
+        });
+    },
+
+    updateOrder(page) {
+        AppDispatcher.dispatch({
+            type: CartActionsType.UPDATE_ORDER,
+            payload: {page},
         });
     },
 };

@@ -3,10 +3,11 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword} from '../modules/validation';
-import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProducts} from '../config/urls';
+import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
 import renderServerError from '../modules/server-error';
+import router from '../modules/router';
 
 /**
  * Класс
@@ -24,6 +25,7 @@ class UserStore {
      */
     constructor() {
         this.registerEvents();
+        this.subscribeToEvents();
     }
 
     /**
@@ -50,6 +52,7 @@ class UserStore {
                     action.payload.login,
                     action.payload.password,
                     action.payload.repeatPassword,
+                    action.payload.phone,
                 );
                 break;
             case UserActionsType.VALIDATE_LOGIN:
@@ -77,16 +80,29 @@ class UserStore {
             case UserActionsType.REMOVE_LISTENERS:
                 this.removeListeners();
                 break;
+            case UserActionsType.VALIDATE_PHONE:
+                this.validatePhone(action.payload.phone);
+                break;
             default:
                 break;
             }
         });
     }
 
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.userNotAuth);
+    }
+
     removeListeners() {
         eventEmmiter.emit(Events.REMOVE_SUBSCRIBES);
         eventEmmiter.emit(Events.REMOVE_LISTENERS);
     }
+
+    userNotAuth() {
+        this.#state.isAuth = false;
+    }
+
+    userNotAuth = this.userNotAuth.bind(this);
 
     /**
      *
@@ -100,10 +116,12 @@ class UserStore {
             break;
         case 401:
             this.#state.isAuth = false;
+            router.go({url: location.pathname});
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
             break;
         case 429:
             eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            router.go({url: ''});
             break;
         default:
             break;
@@ -149,13 +167,15 @@ class UserStore {
      *@param {String} password
      *@param {String} repeatPassword
      */
-    async signup(login, password, repeatPassword) {
+    async signup(login, password, repeatPassword, phone) {
         const isValidLogin = this.validateLogin(login);
         const isValidPassword = this.validatePassword(password);
         const isValidRepeatPassword = this.validateRepeatPassword(
             password,
             repeatPassword,
         );
+
+        console.log(password, repeatPassword);
 
         if (!(isValidLogin && isValidPassword && isValidRepeatPassword)) {
             return;
@@ -164,6 +184,7 @@ class UserStore {
         const [statusCode, body] = await Ajax.prototype.postRequest(signupUrl, {
             login,
             password,
+            phone,
         });
         switch (statusCode) {
         case 200:
@@ -219,6 +240,7 @@ class UserStore {
      *@return {Boolean}
      */
     validateRepeatPassword(password, repeatPassword) {
+        console.log(password, repeatPassword);
         if (password !== repeatPassword) {
             eventEmmiter.emit(
                 Events.REPEAT_PASSWORD_INPUT_ERROR,
@@ -248,7 +270,7 @@ class UserStore {
    */
     getProducts(offset, count, config) {
         Ajax.prototype
-            .getRequest(`${getProducts}?paging=${offset}&count=${count}`)
+            .getRequest(`${getProductsUrl}?paging=${offset}&count=${count}`)
             .then((result) => {
                 const [statusCode, body] = result;
                 switch (statusCode) {
@@ -303,6 +325,10 @@ class UserStore {
             count += product.quantity;
         });
         return [count, price];
+    }
+
+    validatePhone() {
+
     }
 }
 

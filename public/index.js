@@ -8,7 +8,7 @@ import {cartStore} from './src/stores/cart';
 const store = cartStore;
 document.addEventListener('DOMContentLoaded', UserActions.checkSession());
 eventEmmiter.subscribe(Events.USER_IS_AUTH, router.go.bind(router));
-eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
+// eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
 eventEmmiter.subscribe(Events.LOGOUT, router.go.bind(router));
 const root = document.getElementById('root');
 router.start(root);
