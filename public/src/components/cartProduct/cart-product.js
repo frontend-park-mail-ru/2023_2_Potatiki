@@ -39,16 +39,16 @@ export default class CartProduct {
 
     getManagmentConfig(quantity) {
         return {
-            id: `cart-page-count-management-${this.#data.id}`,
+            id: `cart-page-count-management-${this.#data.productId}`,
             quantity: quantity,
             minus: {
-                id: `minus-${this.#data.id}`,
+                id: `minus-${this.#data.productId}`,
                 class: 'count-management__button',
                 imgClass: 'count-management__img',
                 imgSrc: './static/images/' + 'minus.svg',
             },
             plus: {
-                id: `plus-${this.#data.id}`,
+                id: `plus-${this.#data.productId}`,
                 imgSrc: './static/images/' + 'plus.svg',
                 imgClass: 'count-management__img',
                 class: 'count-management__button count-management__button-right',
@@ -57,7 +57,7 @@ export default class CartProduct {
     }
 
     renderCountManagement(data) {
-        if (data.id !== this.#data.id || !this.self?.querySelector('.cart-product__count-management')) {
+        if (data.productId !== this.#data.productId || !this.self?.querySelector('.cart-product__count-management')) {
             return;
         }
         this.self.querySelector('.cart-product__count-management').innerHTML = '';
@@ -97,7 +97,7 @@ export default class CartProduct {
     }
 
     deleteSelf(data) {
-        if (data.id !== this.#data.id || !this.self) {
+        if (data.productId !== this.#data.productId || !this.self) {
             return;
         }
         this.unsubscribeToEvents();

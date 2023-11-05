@@ -22,6 +22,10 @@ export default class OrderInfo {
         this.#config = config;
     }
 
+    get self() {
+        return this.#parent.querySelector(`#${this.#config.id}`);
+    }
+
     /**
      * Отрисовка компонента
      */

@@ -27,5 +27,7 @@
 }
 
 .count-management__big {
+    max-width: 150px;
+    width: 100%;
     margin: 30px 20px 10px 20px;
 }

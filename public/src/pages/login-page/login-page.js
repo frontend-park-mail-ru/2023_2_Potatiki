@@ -2,6 +2,8 @@ import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import template from './login-page.hbs';
 import {config} from '../../../config.js';
+import {UserActions} from '../../actions/user.js';
+import {loginRoute} from '../../config/urls.js';
 
 /**
  * Класс страницы авторизации
@@ -19,10 +21,10 @@ export default class LoginPage {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    */
-    constructor(parent, continueUrl) {
+    constructor(parent, params) {
         this.#parent = parent;
         this.#config = config.loginPage;
-        this.#continueUrl = continueUrl;
+        this.#continueUrl = params.continue;
     }
 
     /**
@@ -51,6 +53,7 @@ export default class LoginPage {
    */
     render() {
         this.#parent.innerHTML = template();
+        UserActions.getCSRFToken(loginRoute);
 
         const logo = new Link(this.self, this.#config.logo);
         logo.render();

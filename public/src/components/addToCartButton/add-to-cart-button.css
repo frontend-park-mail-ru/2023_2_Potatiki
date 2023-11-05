@@ -1,0 +1,6 @@
+.add-to-cart-container {
+    align-self: flex-end;
+    display: flex;
+    align-items: end;
+    width: 180px;
+}

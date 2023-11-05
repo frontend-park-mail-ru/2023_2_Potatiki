@@ -1,6 +1,6 @@
 import Link from '../../components/link/link.js';
 import Ajax from '../../modules/ajax.js';
-import renderServerError from '../../modules/server-error.js';
+import renderServerMessage from '../../modules/server-message.js';
 import template from './cart-page.hbs';
 import router from '../../modules/router.js';
 import Header from '../../components/header/header';
@@ -8,7 +8,7 @@ import CartProduct from '../../components/cartProduct/cart-product';
 import {config, getProductsUrl} from '../../../config';
 import './cart-page.css';
 import OrderResults from '../../components/orderResults/order-results';
-import {cartRoute, getProducts} from '../../config/urls.js';
+import {cartRoute, getProducts, productRoute} from '../../config/urls.js';
 import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -42,20 +42,22 @@ export default class CartPage {
 
     getConfig(data) {
         return {
-            id: `cart-product-${data.id}`,
+            id: `cart-product-${data.productId}`,
             data: data,
             quantity: data.quantity,
             img: {
                 imgSrc: './static/images/' + data.img,
                 imgClass: 'cart-product__img',
+                href: productRoute + '/' + data.productId,
             },
             name: {
-                text: data.name,
+                text: data.productName,
                 spanClass: 'cart-product__name',
+                href: productRoute + '/' + data.productId,
             },
             price: data.price.toLocaleString() + ' ₽',
             del: {
-                id: `count-management-del-${data.id}`,
+                id: `count-management-del-${data.productId}`,
                 text: 'Удалить',
                 href: '#',
                 class: 'cart-product__management-button',
@@ -64,16 +66,16 @@ export default class CartPage {
                 imgSrc: './static/images/' + 'garbage.svg',
             },
             management: {
-                id: `count-management-${data.id}`,
+                id: `count-management-${data.productId}`,
                 quantity: data.quantity,
                 minus: {
-                    id: `minus-${data.id}`,
+                    id: `minus-${data.productId}`,
                     class: 'count-management__button',
                     imgClass: 'count-management__img',
                     imgSrc: './static/images/' + 'minus.svg',
                 },
                 plus: {
-                    id: `plus-${data.id}`,
+                    id: `plus-${data.productId}`,
                     imgSrc: './static/images/' + 'plus.svg',
                     imgClass: 'count-management__img',
                     class: 'count-management__button count-management__button-right',

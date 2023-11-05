@@ -5,6 +5,10 @@
     align-items: center;
     justify-content: center;
     background-color: var(--color-background-auth);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
 }
 
 .header {
@@ -18,4 +22,12 @@
 .header__button_size_catalog {
     width: 132px;
     gap: 10px;
+}
+
+.fake-button {
+    background-color: inherit;
+}
+
+.dark-text {
+    color: var(--color-headline);
 }

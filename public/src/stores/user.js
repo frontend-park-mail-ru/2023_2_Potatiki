@@ -3,10 +3,10 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword} from '../modules/validation';
-import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl} from '../config/urls';
+import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
-import renderServerError from '../modules/server-error';
+import renderServerMessage from '../modules/server-message';
 import router from '../modules/router';
 
 /**
@@ -18,6 +18,7 @@ class UserStore {
         password: '',
         imgSrc: '',
         isAuth: false,
+        csrfToken: '',
     };
 
     /**
@@ -70,18 +71,20 @@ class UserStore {
             case UserActionsType.LOGOUT:
                 this.logout();
                 break;
-            case UserActionsType.GET_PRODUCTS:
-                this.getProducts(
-                    action.payload.offset,
-                    action.payload.count,
-                    action.payload.config,
-                );
-                break;
             case UserActionsType.REMOVE_LISTENERS:
                 this.removeListeners();
                 break;
             case UserActionsType.VALIDATE_PHONE:
                 this.validatePhone(action.payload.phone);
+                break;
+            case UserActionsType.CHECK_AUTH:
+                this.checkAuth();
+                break;
+            case UserActionsType.GET_PROFILE_DATA:
+                this.getProfileData();
+                break;
+            case UserActionsType.GET_CSRF_TOKEN:
+                this.getCsrfToken(action.payload.page);
                 break;
             default:
                 break;
@@ -104,11 +107,23 @@ class UserStore {
 
     userNotAuth = this.userNotAuth.bind(this);
 
+    checkAuth() {
+        console.log('checkAuth', this.isAuth);
+        if (!this.isAuth) {
+            console.log('page forbidden');
+            eventEmmiter.emit(Events.PAGE_FORBIDDEN);
+            return;
+        }
+        console.log('page allowed');
+        eventEmmiter.emit(Events.PAGE_ALLOWED);
+    }
+
     /**
      *
      */
     async checkSession() {
         const [statusCode] = await Ajax.prototype.getRequest(checkUrl);
+        console.log('check auth', statusCode);
         switch (statusCode) {
         case 200:
             this.#state.isAuth = true;
@@ -116,12 +131,14 @@ class UserStore {
             break;
         case 401:
             this.#state.isAuth = false;
-            router.go({url: location.pathname});
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
+            router.go({url: location.pathname});
+
             break;
         case 429:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
-            router.go({url: ''});
+            renderServerMessage('Ошибка. Попробуйте позже');
+            // eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            router.go({url: location.pathname});
             break;
         default:
             break;
@@ -145,13 +162,18 @@ class UserStore {
         const [statusCode, body] = await Ajax.prototype.postRequest(loginUrl, {
             login,
             password,
-        });
+        },
+        this.#state.csrfToken,
+        );
         switch (statusCode) {
         case 200:
             this.#state.login = login;
             this.#state.password = password;
             this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_LOGIN);
+            break;
+        case 403:
+            renderServerMessage('Ошибка доступа');
             break;
         case 400:
             eventEmmiter.emit(Events.LOGIN_FORM_ERROR, 'Неверный логин или пароль');
@@ -259,76 +281,44 @@ class UserStore {
         this.#state.password = '';
         this.#state.isAuth = false;
         Ajax.prototype.getRequest(logoutUrl);
-        eventEmmiter.emit(Events.LOGOUT, {url: mainRoute});
+        eventEmmiter.emit(Events.LOGOUT, {url: location.pathname});
     }
 
-    /**
-   * Получение и отрисовка карусели товаров
-   * @param {Number} offset Сдвиг в списке товаров
-   * @param {Number} count Количество запрашиваемых товаров
-   * @param {Object} config Конфиг карусели
-   */
-    getProducts(offset, count, config) {
-        Ajax.prototype
-            .getRequest(`${getProductsUrl}?paging=${offset}&count=${count}`)
-            .then((result) => {
-                const [statusCode, body] = result;
-                switch (statusCode) {
-                case 200:
-                    const products = this.isProductInCart(body);
-                    eventEmmiter.emit(Events.PRODUCTS, products, config);
-                    break;
-                case 429:
-                    renderServerError(body.error || 'Ошибка');
-                    break;
-                default:
-                    break;
-                }
-            });
-    }
-
-    isProductInCart(products) {
-        const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
-        if (!productsMap) {
-            return products;
-        }
-        products.forEach((product) => {
-            if (!productsMap) {
-                product.quantity = 0;
-            } else {
-                const data = productsMap.get(product.id);
-                if (data) {
-                    product.quantity = data.quantity;
-                } else {
-                    product.quantity = 0;
-                }
-            }
-        });
-        return products;
-    }
-
-    getCartCount() {
-        const [count] = this.getProductsInfo();
-        eventEmmiter.emit(Events.UPDATE_CART_ICON, count);
-    }
-
-    getProductsInfo() {
-        const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
-        let price = 0;
-        let count = 0;
-        if (!productsMap) {
-            return [count, price];
-        }
-        // count = productsMap.size;
-        productsMap.forEach((product) => {
-            price += product.price * product.quantity;
-            count += product.quantity;
-        });
-        return [count, price];
-    }
 
     validatePhone() {
 
+    }
+
+    async getProfileData() {
+        const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.PROFILE_DATA, body);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        case 429:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            break;
+        default:
+            break;
+        }
+    }
+
+    async getCsrfToken(page) {
+        switch (page) {
+        case loginRoute:
+            const [statusCode, token] = await Ajax.prototype.getCSRFRequest(loginUrl);
+        case 200:
+            // eventEmmiter.emit(Events.CSRF_TOKEN, token);
+            console.log(token);
+            this.#state.csrfToken = token;
+            break;
+        default:
+            break;
+        }
     }
 }
 

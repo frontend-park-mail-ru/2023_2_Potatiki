@@ -51,4 +51,5 @@ export const CartActions = {
             payload: {page},
         });
     },
+
 };

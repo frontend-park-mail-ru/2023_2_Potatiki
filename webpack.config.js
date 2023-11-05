@@ -4,12 +4,14 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './public/index.js',
+    entry: '/public/index.js',
+
 
     output: {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
+        publicPath: '/',
     },
 
     module: {
@@ -31,7 +33,7 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-            template: './public/index.hbs',
+            template: '/public/index.hbs',
         }),
 
         new CopyPlugin({

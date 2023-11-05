@@ -1,5 +1,7 @@
 .carousel {
     margin: 16px 50px 16px 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .carousel__cards {
@@ -31,3 +33,7 @@
     max-width: 80vw;
     overflow-x: scroll;
 }
+
+.carousel__container::-webkit-scrollbar {
+    display: none;
+  }

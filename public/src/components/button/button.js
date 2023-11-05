@@ -30,6 +30,10 @@ export default class Button {
         return document.querySelector(`#${this.#config.id}`);
     }
 
+    get img() {
+        return this.self.querySelector(`.${this.#config.imgClass}`);
+    }
+
     /**
    * Отрисовка компонента кнопки
    */

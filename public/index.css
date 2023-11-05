@@ -47,20 +47,31 @@
     }
 }
 
-#server-error {
-    display: block;
-    color: var(--color-background);
-    position: absolute;
-    left: 45%;
-    margin-left: auto;
-    margin-right: auto;
-    align-self: center;
+#msg-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
     bottom: 20%;
-    background-color: var(--color-incorrect);
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+}
+
+.server-msg {
+    text-align: center;
+    margin-top: 20px;
+    width: auto;
+    color: var(--color-background); 
     padding: 10px 30px 10px 30px;
     border-radius: 20px;
     animation-name: errorSurface;
     animation-duration: 5100ms;
     animation-timing-function: linear;
     animation-iteration-count: 1;
+    background-color: var(--color-correct);
+}
+
+.server-error {
+    background-color: var(--color-incorrect);
 }

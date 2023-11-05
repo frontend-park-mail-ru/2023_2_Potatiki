@@ -4,7 +4,7 @@ import {CartActions} from '../../actions/cart.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import CountManagement from '../countManagement/count-management.js';
-
+import './add-to-cart-button.css';
 /**
  * Класс формы авторизации
  */
@@ -19,36 +19,39 @@ export default class AddToCartButton {
 
     management;
 
+    #elClass;
+
     /**
    * Конструктор класса
    * @param {Element} parent Родительский компонент
    */
-    constructor(parent, data, parentId, quantity) {
+    constructor(parent, data, parentId, elClass) {
         this.#parent = parent;
         this.#data = data;
         this.#parentId = parentId;
+        this.#elClass = elClass;
     }
 
     /**
      *
      */
     get self() {
-        return document.querySelector(`#add-to-cart-item-${this.#parentId}-${this.#data.id}`);
+        return document.querySelector(`#add-to-cart-item-${this.#parentId}-${this.#data.productId}`);
     }
 
     getButtonConfig() {
         return {
-            id: `add-to-cart-btn-${this.#parentId}-${this.#data.id}`,
-            data: this.#data.id,
+            id: `add-to-cart-btn-${this.#parentId}-${this.#data.productId}`,
+            data: this.#data.productId,
             class: 'product-card__button_size_in-cart',
             type: 'button',
             text: 'В корзину',
-            imgSrc: './static/images/cart.svg',
+            imgSrc: '/static/images/cart.svg',
         };
     }
 
     updateManagement(data) {
-        if (data.id !== this.#data.id || !this.self) {
+        if (data.productId !== this.#data.productId || !this.self) {
             return;
         }
         if (!this.management) {
@@ -59,7 +62,7 @@ export default class AddToCartButton {
     }
 
     renderButton(data) {
-        if (data.id !== this.#data.id || !this.self) {
+        if (data.productId !== this.#data.productId || !this.self) {
             return;
         }
         if (this.management) {
@@ -76,18 +79,18 @@ export default class AddToCartButton {
 
     getManagmentConfig(quantity) {
         return {
-            id: `${this.#parentId}-count-management-${this.#data.id}`,
+            id: `${this.#parentId}-count-management-${this.#data.productId}`,
             class: 'count-management__big',
             quantity: quantity,
             minus: {
-                id: `minus-${this.#data.id}`,
+                id: `minus-${this.#data.productId}`,
                 class: 'count-management__button',
                 imgClass: 'count-management__img',
-                imgSrc: './static/images/' + 'minus.svg',
+                imgSrc: '/static/images/' + 'minus.svg',
             },
             plus: {
-                id: `plus-${this.#data.id}`,
-                imgSrc: './static/images/' + 'plus.svg',
+                id: `plus-${this.#data.productId}`,
+                imgSrc: '/static/images/' + 'plus.svg',
                 imgClass: 'count-management__img',
                 class: 'count-management__button count-management__button-right',
             },
@@ -95,7 +98,7 @@ export default class AddToCartButton {
     }
 
     renderCountManagement(data) {
-        if (data.id !== this.#data.id || !this.self) {
+        if (data.productId !== this.#data.productId || !this.self) {
             return;
         }
         if (this.button) {
@@ -174,7 +177,7 @@ export default class AddToCartButton {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            template({id: this.#data.id, parentId: this.#parentId}),
+            template({id: this.#data.productId, parentId: this.#parentId, class: this.#elClass}),
         );
 
         if (this.#data.quantity) {

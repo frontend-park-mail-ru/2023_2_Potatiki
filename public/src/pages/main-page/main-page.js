@@ -5,6 +5,7 @@ import {config} from '../../../config.js';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
+import {ProductsActions} from '../../actions/products.js';
 
 /**
  * Класс главной страницы
@@ -20,13 +21,10 @@ export default class MainPage {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    */
-    constructor(parent, params) {
+    constructor(parent) {
         this.#parent = parent;
         this.#config = config.mainPage;
         this.#carousels = [];
-        if (params?.auth) {
-            this.#config.isAuthorized = true;
-        }
     }
 
     /**
@@ -74,7 +72,7 @@ export default class MainPage {
         header.render();
         this.subscribeToEvents();
 
-        UserActions.getProducts(0, 10, this.#config.newCarousel);
-        UserActions.getProducts(0, 10, this.#config.popularCarousel);
+        ProductsActions.getProducts(0, 20, this.#config.newCarousel);
+        ProductsActions.getProducts(0, 20, this.#config.popularCarousel);
     }
 }

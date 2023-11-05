@@ -2,6 +2,7 @@ import Link from '../link/link.js';
 import template from './order-products.hbs';
 import './order-products.css';
 import Button from '../button/button';
+import {productRoute} from '../../config/urls.js';
 
 /**
  * Класс компонента карточки товара в заказе
@@ -23,13 +24,14 @@ export default class OrderProducts {
 
     getConfig(data) {
         return {
-            id: `${this.#config.id}-order-product-${data.id}`,
-            data: `data-id=${data.id}`,
+            id: `${this.#config.id}-order-product-${data.productId}`,
+            data: `data-id=${data.productId}`,
             imgSrc: './static/images/' + data.img,
             imgClass: 'order-product__img',
             textClass: 'order-product__text',
             class: 'order-product',
-            text: data.rating % 2 == 0 ? '' : 'x2',
+            text: `x${data.quantity}`,
+            href: productRoute + '/' + data.productId,
         };
     }
 

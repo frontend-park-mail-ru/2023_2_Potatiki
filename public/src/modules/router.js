@@ -1,13 +1,15 @@
 import MainPage from '../pages/main-page/main-page';
-import {cartRoute, checkUrl, loginRoute, mainRoute, notFoundRoute, orderRoute, signupRoute} from '../config/urls';
+import {cartRoute, categoryRoute, checkUrl, loginRoute, mainRoute, notFoundRoute, orderRoute, productRoute, signupRoute} from '../config/urls';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import CartPage from '../pages/cart-page/cart-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import Ajax from './ajax';
-import renderServerError from './server-error';
+import renderServerMessage from './server-message';
 import {UserActions} from '../actions/user';
 import OrderPage from '../pages/orderPage/order-page';
+import CategoryPage from '../pages/category-page/category-page';
+import ProductPage from '../pages/product-page/product-page';
 
 /**
  * Класс роутера
@@ -48,12 +50,15 @@ class Router {
         };
 
         this.#states = new Map([
+            ['', {view: MainPage, url: mainRoute, name: 'main'}],
             [mainRoute, {view: MainPage, url: mainRoute, name: 'main'}],
             [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
             [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
             [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
             [cartRoute, {view: CartPage, url: cartRoute, name: 'cart'}],
-            [cartRoute, {view: OrderPage, url: orderRoute, name: 'order'}],
+            [orderRoute, {view: OrderPage, url: orderRoute, name: 'order'}],
+            [categoryRoute, {view: CategoryPage, url: categoryRoute, name: 'category'}],
+            [productRoute, {view: ProductPage, url: productRoute, name: 'product'}],
         ]);
 
         window.addEventListener('click', this.listenClick.bind(this));
@@ -79,10 +84,24 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
-        const baseState = this.#states.get(state.url);
+        console.log(state);
+        let baseState = this.#states.get(state.url);
+        let idParam;
         if (!baseState) {
-            this.go({url: notFoundRoute});
-            return;
+            const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('/'));
+            // const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('?'));
+
+            baseState = this.#states.get(urlWithoutParams);
+            if (!baseState) {
+                console.log('not view');
+                this.go({url: notFoundRoute});
+                return;
+            }
+            // const param = state.url.substring(state.url.lastIndexOf('/') + 1);
+            // const params = new URLSearchParams(state.url.substring(state.url.lastIndexOf('?') + 1));
+            // idParam = params.get('id');
+            // nameParam = params.get('name');
+            idParam = state.url.substring(state.url.lastIndexOf('/') + 1);
         }
 
         if (this.#currentView && this.#currentView.removeListeners) {
@@ -91,7 +110,7 @@ class Router {
             UserActions.removeListeners();
         }
 
-        this.#currentView = new baseState.view(this.#root, state.continue);
+        this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
         this.#currentView.render();
         if (replaceState) {
             this.#history.replaceState(
@@ -119,7 +138,7 @@ class Router {
      * Переход вперед по истории браузера
      */
     forward() {
-        this.#history.go();
+        this.#history.forward();
     }
 }
 

@@ -8,9 +8,11 @@ export const UserActionsType = {
     VALIDATE_LOGIN: 'VALIDATE_LOGIN',
     VALIDATE_PASSWORD: 'VALIDATE_PASSWORD',
     VALIDATE_REPEAT_PASSWORD: 'VALIDATE_REPEAT_PASSWORD',
-    GET_PRODUCTS: 'GET_PRODUCTS',
     REMOVE_LISTENERS: 'REMOVE_LISTENERS',
     VALIDATE_PHONE: 'VALIDATE_PHONE',
+    CHECK_AUTH: 'CHECK_AUTH',
+    GET_PROFILE_DATA: 'GET_PROFILE_DATA',
+    GET_CSRF_TOKEN: 'GET_CSRF_TOKEN',
 };
 
 export const UserActions = {
@@ -79,13 +81,6 @@ export const UserActions = {
         });
     },
 
-    getProducts(offset = 0, count = 5, config) {
-        AppDispatcher.dispatch({
-            type: UserActionsType.GET_PRODUCTS,
-            payload: {offset, count, config},
-        });
-    },
-
     removeListeners() {
         AppDispatcher.dispatch({
             type: UserActionsType.REMOVE_LISTENERS,
@@ -96,6 +91,25 @@ export const UserActions = {
         AppDispatcher.dispatch({
             type: UserActionsType.VALIDATE_PHONE,
             payload: {phone},
+        });
+    },
+
+    checkAuth() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.CHECK_AUTH,
+        });
+    },
+
+    getProfileData() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.GET_PROFILE_DATA,
+        });
+    },
+
+    getCSRFToken(page) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.GET_CSRF_TOKEN,
+            payload: {page},
         });
     },
 };

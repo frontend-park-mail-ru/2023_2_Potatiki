@@ -1,0 +1,45 @@
+.catalog {
+    position: absolute;
+    top: 10%;
+    width: 46vw;
+    height: auto;
+    background-color: var(--color-background-auth);
+    left: 12%;
+    position: fixed;
+    padding: 50px 100px 70px 100px;
+    border-radius: 26px;
+}
+
+.catalog-title {
+    font-size: 26px;
+}
+
+.category-container {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.category-child {
+    margin-left: 10%;
+    margin-bottom: 10px;
+}
+
+.category-leaf {
+    margin-left: 20%;
+    margin-bottom: 10px;
+}
+
+.child-text {
+    color: var(--color-stroke);
+}
+
+.category-parent {
+    font-size: 16px;
+    padding: 20px 30px 20px 0px;
+    margin-right: 30px;
+    /* margin-bottom: 30px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
