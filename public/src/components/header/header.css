@@ -4,7 +4,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-background-auth);
+    background-color: var(--color-background-header);
 }
 
 .header {

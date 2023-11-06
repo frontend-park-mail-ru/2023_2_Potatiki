@@ -11,8 +11,8 @@ import {Events} from '../config/events';
  */
 class UserStore {
     #state = {
-        login: '',
-        password: '',
+        loginName: 'login',
+        number: '+7(999)000-00-00',
         imgSrc: '',
         isAuth: false,
     };
@@ -29,6 +29,20 @@ class UserStore {
      */
     get isAuth() {
         return this.#state.isAuth;
+    }
+
+    /**
+     *
+     */
+    get loginName() {
+        return this.#state.loginName;
+    }
+
+    /**
+     *
+     */
+    get number() {
+        return this.#state.number;
     }
 
     /**
@@ -65,6 +79,8 @@ class UserStore {
             case UserActionsType.LOGOUT:
                 this.logout();
                 break;
+            case UserActionsType.GET_ADDRESSES:
+                this.getAddresses();
             default:
                 break;
             }
@@ -104,8 +120,7 @@ class UserStore {
         });
         switch (statusCode) {
         case 200:
-            this.#state.login = login;
-            this.#state.password = password;
+            this.#state.loginName = login;
             this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_LOGIN);
             break;
@@ -141,8 +156,7 @@ class UserStore {
         });
         switch (statusCode) {
         case 200:
-            this.#state.login = login;
-            this.#state.password = password;
+            this.#state.loginName = login;
             this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
             break;
@@ -206,11 +220,23 @@ class UserStore {
      *
      */
     async logout() {
-        this.#state.login = '';
-        this.#state.password = '';
+        this.#state.loginName = '';
         this.#state.isAuth = false;
         Ajax.prototype.getRequest(logoutURL);
         eventEmmiter.emit(LOGOUT, {url: mainROUTE});
+    }
+
+    /**
+     *
+     */
+    async getAddresses() {
+        // Ajax
+        console.log('addresses get');
+        const addresses = [
+            {id: 1, city: 'Москва', street: 'ул. Малая', house: '87', flat: '356', isCurrent: true},
+            {id: 2, city: 'Москва', street: 'ул. Большая', house: '89', flat: '12',
+                isCurrent: false}];
+        eventEmmiter.emit(Events.SUCCESSFUL_GET_ADDRESSES, addresses);
     }
 }
 

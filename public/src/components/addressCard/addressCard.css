@@ -1,0 +1,53 @@
+.address-card{
+    display: grid;
+    grid-template-columns: 462px auto 80px 80px;
+    grid-template-rows: 24px auto;
+    grid-template-areas:
+    "title _ edit delete"
+    "data . current current";
+    justify-content: stretch;
+    align-items: center;
+    border: 0.5px solid #E5E2EB;
+    border-radius: 24px;
+    width: 942px;
+    height: 140px; 
+    font-size: 24px;
+    row-gap: 24px;
+    padding-left: 42px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    padding-right: 16px;
+    box-sizing: border-box;
+}
+
+.address-title {
+    grid-area: title;
+}
+
+.address-data {
+    grid-area: data;
+    font-size: 24px;
+    color: #999AAD;
+}
+
+.address-edit {
+    grid-area: edit;
+    cursor: pointer;
+    font-size: 15px;
+    color: #5E64FF;
+}
+
+.address-delete {
+    grid-area: delete;
+    cursor: pointer;
+    font-size: 15px;
+    color: #ED7777;;
+}
+
+.address-current {
+    grid-area: current;
+    cursor: pointer;
+    font-size: 15px;
+    color: #999AAD;
+    text-align: center;
+}

@@ -1,0 +1,11 @@
+<div class="address-card" id="{{id}}">
+    <div class="address-title">
+        Адрес
+    </div>
+    <div class="address-data">
+        г.{{city}}, {{street}}, д.{{house}}, кв.{{flat}}
+    </div> 
+    <span class="address-edit" id="edit-{{id}}">Изменить</span>
+    {{#unless isCurrent}}<span class="address-delete" id="delete-{{id}}">Удалить</span>{{/unless}}
+    {{#unless isCurrent}}<span class="address-current" id="currrent-{{id}}">Выбрать текущим</span>{{/unless}}
+</div>

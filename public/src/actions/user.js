@@ -8,6 +8,7 @@ export const UserActionsType = {
     VALIDATE_LOGIN: 'VALIDATE_LOGIN',
     VALIDATE_PASSWORD: 'VALIDATE_PASSWORD',
     VALIDATE_REPEAT_PASSWORD: 'VALIDATE_REPEAT_PASSWORD',
+    GET_ADDRESSES: 'GET_ADDRESSES',
 };
 
 export const UserActions = {
@@ -71,6 +72,13 @@ export const UserActions = {
     logout() {
         AppDispatcher.dispatch({
             type: UserActionsType.LOGOUT,
+            payload: {},
+        });
+    },
+
+    getAddresses() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.GET_ADDRESSES,
             payload: {},
         });
     },

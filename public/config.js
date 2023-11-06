@@ -239,11 +239,78 @@ const signupPage = {
     },
 };
 
+const profilePage = {
+    title: 'Мой профиль',
+    profile: {
+        navElem1: 'Мои данные',
+        navElem2: 'Мои адреса',
+        infoCard: {
+        },
+        passwordEditForm: {
+            oldPassword: {
+                inputName: 'old-password',
+                inputPlaceholder: 'Старый пароль',
+                errorId: 'old-password-error',
+            },
+            newPassword: {
+                inputName: 'new-password',
+                inputPlaceholder: 'Новый пароль',
+                errorId: 'new-password-error',
+            },
+            repeatPassword: {
+                inputName: 'repeat-password',
+                inputPlaceholder: 'Повторите пароль',
+                errorId: 'repeat-password-error',
+            },
+            submit: {
+                id: 'save-button',
+                text: 'Сохранить',
+            },
+        },
+        numberEditForm: {
+            number: {
+                inputName: 'number',
+                inputPlaceholder: 'Номер телефона',
+                errorId: 'number-error',
+            },
+            submit: {
+                id: 'save-button',
+                text: 'Сохранить',
+            },
+        },
+
+        addressForm: {
+            city: {
+                inputName: 'number',
+                inputPlaceholder: 'Город',
+            },
+            street: {
+                inputName: 'street',
+                inputPlaceholder: 'Улица',
+            },
+            house: {
+                inputName: 'house',
+                inputPlaceholder: 'Дом',
+            },
+            flat: {
+                inputName: 'flat',
+                inputPlaceholder: 'Квартира',
+            },
+            submit: {
+                class: 'address-form__submit',
+                id: 'save-button',
+                text: 'Сохранить',
+            },
+        },
+    },
+};
+
 export const config = {
     isAuthorized: false,
     page: 'main',
     mainPage: mainPage,
     signupPage: signupPage,
     loginPage: loginPage,
+    profilePage: profilePage,
     requests: requests,
 };

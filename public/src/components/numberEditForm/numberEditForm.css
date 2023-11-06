@@ -1,0 +1,7 @@
+.number-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 316px;
+    margin-top: 20px;
+}

@@ -1,0 +1,39 @@
+.info-card{
+    display: flex;
+    flex-direction: row;
+    border: 0.5px solid #E5E2EB;
+    border-radius: 24px;
+    width: 942px;
+    height: 186px; 
+    font-size: 24px;
+}
+
+.number-edit {
+    cursor: pointer;
+}
+
+.password-edit {
+    cursor: pointer;
+    font-size: 15px;
+    color: #5E64FF;
+}
+
+.info-card__avatar {
+    display: flex;
+    width: 176px;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-card__number {
+    color: #999AAD;
+}
+
+.info-card__data {
+    display: flex;
+    flex-direction: column;
+    padding-left: 24px;
+    padding-top: 38px;
+    gap: 16px;
+    justify-items: center;
+}

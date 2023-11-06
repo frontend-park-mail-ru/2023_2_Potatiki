@@ -8,8 +8,15 @@
 @import './src/pages/main-page/main-page.css';
 @import './src/pages/login-page/login-page.css';
 @import './src/pages/signup-page/signup-page.css';
+@import './src/pages/profile-page/profile-page.css';
 @import './src/components/loginForm/loginForm.css';
 @import './src/components/signupForm/signupForm.css';
+@import './src/components/passwordEditForm/passwordEditForm.css';
+@import './src/components/numberEditForm/numberEditForm.css';
+@import './src/components/addressForm/addressForm.css';
+@import './src/components/profile/profile.css';
+@import './src/components/infoCard/infoCard.css';
+@import './src/components/addressCard/addressCard.css';
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
 
 * {
@@ -26,7 +33,7 @@
     --color-paragraph: #2E2E2E;
     --color-button-text: #F5F5FF;
     --color-background-auth: #EEEFFF;
-    --color-background-header: #FBF9FF;
+    --color-background-header: #FFFFFE;
     --color-incorrect: #ED7777;;
     --color-correct: #18D988;
     font-family: 'Nanum Gothic', sans-serif;

@@ -1,0 +1,25 @@
+#profile-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: #FBF9FF;
+    height: 100vh;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 44px;
+}
+
+#profile__card {
+    height: 100%;
+}
+
+.title_size_l {
+    font-size: 36px;
+    color: #181818;
+
+}
+
+.title_size_m {
+    font-size: 32px;
+    color: #181818;
+}
