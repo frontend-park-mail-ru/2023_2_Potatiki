@@ -5,7 +5,7 @@
 
 * [Ruslan Khalikov](https://github.com/fitzplsr);
 * [Khristina Kirillova](https://github.com/khristina455);
-* [Dmitriy Belozerov](https://github.com/Belozerovmsk);
+* [Dmitriy Belozerov](https://github.com/scremyda);
 * [Gleb Pankin](https://github.com/MrDjeb).
 
 ### Mentors
