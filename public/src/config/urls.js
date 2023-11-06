@@ -25,3 +25,4 @@ export const cartRoute = '/cart';
 export const orderRoute = '/order';
 export const categoryRoute = '/category';
 export const productRoute = '/product';
+export const profileRoute = '/my-profile';

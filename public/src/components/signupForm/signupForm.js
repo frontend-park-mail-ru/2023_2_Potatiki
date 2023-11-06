@@ -76,6 +76,10 @@ export default class SignupForm {
 
     inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
 
+    /**
+     *
+     * @param {*} event
+     */
     inputPhoneHandle(event) {
         event.preventDefault();
         UserActions.validatePhone(this.phone.self.value);

@@ -4,15 +4,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-<<<<<<< HEAD
-    background-color: var(--color-background-header);
-=======
     background-color: var(--color-background-auth);
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
->>>>>>> origin/Potatiki-1.8.-Cart
 }
 
 .header {

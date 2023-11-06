@@ -15,6 +15,7 @@ export default class Ajax {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
+            exposedHeaders: '*',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
