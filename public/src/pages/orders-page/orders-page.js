@@ -46,6 +46,10 @@ export default class OrdersPage {
         };
     }
 
+    noOrders() {
+        this.self.querySelector('.orders-container').textContent = 'Заказы не найдены';
+    }
+
     renderOrders(body) {
         console.log(body);
         if (!body) {
@@ -55,6 +59,7 @@ export default class OrdersPage {
             const product = new OrderItem(this.self.querySelector('.orders-container'), this.getConfig(element));
             product.render();
         });
+        console.log('no rders');
     }
 
     renderAll() {
@@ -75,11 +80,13 @@ export default class OrdersPage {
     redirectToLogin = this.redirectToLogin.bind(this);
     renderOrders = this.renderOrders.bind(this);
     renderAll = this.renderAll.bind(this);
+    noOrders = this.noOrders.bind(this);
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.ALL_ORDERS, this.renderOrders);
         eventEmmiter.subscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
         eventEmmiter.subscribe(Events.PAGE_ALLOWED, this.renderAll);
+        eventEmmiter.subscribe(Events.NOT_FOUND, this.noOrders);
     }
 
     addListeners() {
@@ -97,6 +104,7 @@ export default class OrdersPage {
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.ALL_ORDERS, this.renderOrders);
         eventEmmiter.unsubscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
+        eventEmmiter.unsubscribe(Events.NOT_FOUND, this.noOrders);
         eventEmmiter.unsubscribe(Events.PAGE_ALLOWED, this.renderAll);
     }
 

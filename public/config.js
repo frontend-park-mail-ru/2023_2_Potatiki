@@ -66,7 +66,7 @@ const header = {
 
     basket: {
         id: 'basket-button',
-        class: 'link_icon',
+        class: 'link_icon cart-icon',
         href: '/cart',
         text: 'Корзина',
         imgSrc: '/static/images/cart-icon.svg',

@@ -349,6 +349,9 @@ class CartStore {
             console.log(location.pathname);
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
             break;
+        case 404:
+            eventEmmiter.emit(Events.NOT_FOUND);
+            break;
         case 429:
             renderServerMessage('Возникла ошибка при создании заказа');
             break;

@@ -11,18 +11,19 @@
 
 .product__data {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
 }
 
 .product__img {
     height: 100%;
 
-    width: 100%;
+    /* width: 100%; */
     object-fit: cover;
 }
 
 .product__img-place {
     /* max-height: 350px; */
+    margin-top: 20px;
 }
 
 .product__text-place {
