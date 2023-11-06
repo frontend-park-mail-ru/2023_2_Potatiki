@@ -7,7 +7,7 @@ import {config} from '../../../config.js';
 import router from '../../modules/router.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import {mainROUTE} from '../../config/urls.js';
+import {mainRoute} from '../../config/urls.js';
 
 /**
  *
@@ -19,6 +19,7 @@ export default class SignupForm {
     password;
     repeatPassword;
     submit;
+    phone;
 
     /**
      * Конструктор
@@ -31,7 +32,12 @@ export default class SignupForm {
 
     submitHandle = (event) => {
         event.preventDefault();
-        UserActions.signup(this.login.self.value, this.password.self.value);
+        UserActions.signup(
+            this.login.self.value,
+            this.password.self.value,
+            this.repeatPassword.self.value,
+            this.phone.self.value,
+        );
     };
 
     submitHandle = this.submitHandle.bind(this);
@@ -70,21 +76,28 @@ export default class SignupForm {
 
     inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
 
+    inputPhoneHandle(event) {
+        event.preventDefault();
+        UserActions.validatePhone(this.phone.self.value);
+    }
+
+    inputPhoneHandle = this.inputPhoneHandle.bind(this);
+
     /**
      *
      */
     redirectOnMain() {
-        router.go({url: mainROUTE});
+        router.go({url: mainRoute});
     }
 
-    /**
-     *
-     * @param {String} errorText
-     */
-    renderError(errorText) {
-        const error = document.querySelector('#signup-form-error');
-        error.textContent = errorText;
-    }
+    // /**
+    //  *
+    //  * @param {String} errorText
+    //  */
+    // renderError(errorText) {
+    //     const error = document.querySelector('#signup-form-error');
+    //     error.textContent = errorText;
+    // }
 
     /**
      *
@@ -119,6 +132,13 @@ export default class SignupForm {
 
     renderRepeatPasswordError = this.renderRepeatPasswordError.bind(this);
 
+    renderPhoneError(errorText) {
+        this.phone.removeError();
+        this.phone.renderError(errorText);
+    }
+
+    renderPhoneError = this.renderPhoneError.bind(this);
+
     /**
      *
      */
@@ -127,6 +147,7 @@ export default class SignupForm {
         this.login.self.addEventListener('focusout', this.inputLoginHandle);
         this.password.self.addEventListener('focusout', this.inputPasswordHandle);
         this.repeatPassword.self.addEventListener('focusout', this.inputRepeatPasswordHandle);
+        this.phone.self.addEventListener('focusout', this.inputPhoneHandle);
     }
 
     /**
@@ -137,6 +158,7 @@ export default class SignupForm {
         this.login.self.removeEventListener('focusout', this.inputLoginHandle);
         this.password.self.removeEventListener('focusout', this.inputPasswordHandle);
         this.repeatPassword.self.removeEventListener('focusout', this.inputRepeatPasswordHandle);
+        this.phone.self.removeEventListener('focusout', this.inputPhoneHandle);
     }
 
     /**
@@ -148,6 +170,7 @@ export default class SignupForm {
         eventEmmiter.subscribe(Events.LOGIN_INPUT_ERROR, this.renderLoginError);
         eventEmmiter.subscribe(Events.PASSWORD_INPUT_ERROR, this.renderPasswordError);
         eventEmmiter.subscribe(Events.REPEAT_PASSWORD_INPUT_ERROR, this.renderRepeatPasswordError);
+        eventEmmiter.subscribe(Events.PHONE_INPUT_ERROR, this.renderPhoneError);
     }
 
     /**
@@ -160,6 +183,7 @@ export default class SignupForm {
         eventEmmiter.unsubscribe(Events.PASSWORD_INPUT_ERROR, this.renderPasswordError);
         eventEmmiter.unsubscribe(Events.REPEAT_PASSWORD_INPUT_ERROR,
             this.renderRepeatPasswordError);
+        eventEmmiter.unsubscribe(Events.PHONE_INPUT_ERROR, this.renderPhoneError);
     }
 
     /**
@@ -171,6 +195,8 @@ export default class SignupForm {
         errorDiv.textContent = error;
     }
 
+    renderError = this.renderError.bind(this);
+
     /**
      * Удаление ошибки с формы
      */
@@ -179,6 +205,7 @@ export default class SignupForm {
         errorDiv.textContent = '';
     }
 
+    removeError = this.removeError.bind(this);
 
     /**
      * Отрисовка компонента формы регистрации
@@ -196,6 +223,12 @@ export default class SignupForm {
             this.#config.login,
         );
         this.login.render();
+
+        this.phone = new Input(
+            document.querySelector('.signup-form__phone'),
+            this.#config.phone,
+        );
+        this.phone.render();
 
         this.password = new Input(
             document.querySelector('.signup-form__password'),

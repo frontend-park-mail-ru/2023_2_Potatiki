@@ -1,4 +1,4 @@
-import './index.css';
+// import './index.css';
 // import MainPage from './src/pages/main-page/main-page.js';
 // import LoginPage from './src/pages/login-page/login-page.js';
 // import SignupPage from './src/pages/signup-page/signup-page.js';
@@ -30,8 +30,19 @@ import './index.css';
 // router.start(root);
 // window.addEventListener('click', listenClick);
 
-import ProfilePage from './src/pages/profile-page/profile-page';
+import router from './src/modules/router';
+import {UserActions} from './src/actions/user';
+import {eventEmmiter} from './src/modules/event-emmiter';
+import {Events} from './src/config/events';
+import {cartStore} from './src/stores/cart';
+import {productsStore} from './src/stores/products';
+
+const cstore = cartStore;
+const pstore = productsStore;
+document.addEventListener('DOMContentLoaded', UserActions.checkSession());
+eventEmmiter.subscribe(Events.USER_IS_AUTH, router.go.bind(router));
+// eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
+eventEmmiter.subscribe(Events.LOGOUT, router.go.bind(router));
 const root = document.getElementById('root');
-const profile = new ProfilePage(root);
-profile.render();
+router.start(root);
 

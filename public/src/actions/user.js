@@ -8,6 +8,11 @@ export const UserActionsType = {
     VALIDATE_LOGIN: 'VALIDATE_LOGIN',
     VALIDATE_PASSWORD: 'VALIDATE_PASSWORD',
     VALIDATE_REPEAT_PASSWORD: 'VALIDATE_REPEAT_PASSWORD',
+    REMOVE_LISTENERS: 'REMOVE_LISTENERS',
+    VALIDATE_PHONE: 'VALIDATE_PHONE',
+    CHECK_AUTH: 'CHECK_AUTH',
+    GET_PROFILE_DATA: 'GET_PROFILE_DATA',
+    GET_CSRF_TOKEN: 'GET_CSRF_TOKEN',
     GET_ADDRESSES: 'GET_ADDRESSES',
 };
 
@@ -48,23 +53,24 @@ export const UserActions = {
         });
     },
 
-    validateRepeatPassword(password, reapeatPassword) {
+    validateRepeatPassword(password, repeatPassword) {
         AppDispatcher.dispatch({
             type: UserActionsType.VALIDATE_REPEAT_PASSWORD,
             payload: {
                 password: password,
-                reapeatPassword: reapeatPassword,
+                repeatPassword: repeatPassword,
             },
         });
     },
 
-    signup(login, password, repeatPassword) {
+    signup(login, password, repeatPassword, phone) {
         AppDispatcher.dispatch({
             type: UserActionsType.SIGNUP,
             payload: {
                 login: login,
                 password: password,
                 repeatPassword: repeatPassword,
+                phone,
             },
         });
     },
@@ -73,6 +79,38 @@ export const UserActions = {
         AppDispatcher.dispatch({
             type: UserActionsType.LOGOUT,
             payload: {},
+        });
+    },
+
+    removeListeners() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.REMOVE_LISTENERS,
+        });
+    },
+
+    validatePhone(phone) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.VALIDATE_PHONE,
+            payload: {phone},
+        });
+    },
+
+    checkAuth() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.CHECK_AUTH,
+        });
+    },
+
+    getProfileData() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.GET_PROFILE_DATA,
+        });
+    },
+
+    getCSRFToken(page) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.GET_CSRF_TOKEN,
+            payload: {page},
         });
     },
 

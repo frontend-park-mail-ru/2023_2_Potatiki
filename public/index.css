@@ -36,15 +36,12 @@
     --color-background-header: #FFFFFE;
     --color-incorrect: #ED7777;;
     --color-correct: #18D988;
+    --color-stroke: #a5a5b3;
     font-family: 'Nanum Gothic', sans-serif;
 }
 
 @keyframes errorSurface {
     from {
-        opacity: 0%;
-    }
-
-    10% {
         opacity: 100%;
     }
 
@@ -57,17 +54,31 @@
     }
 }
 
-#server-error {
-    color: var(--color-background);
-    position: absolute;
-    margin-left: 40%;
-    margin-right: 40%;
+#msg-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
     bottom: 20%;
-    background-color: var(--color-incorrect);
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+}
+
+.server-msg {
+    text-align: center;
+    margin-top: 20px;
+    width: auto;
+    color: var(--color-background); 
     padding: 10px 30px 10px 30px;
     border-radius: 20px;
     animation-name: errorSurface;
     animation-duration: 5100ms;
     animation-timing-function: linear;
     animation-iteration-count: 1;
+    background-color: var(--color-correct);
+}
+
+.server-error {
+    background-color: var(--color-incorrect);
 }

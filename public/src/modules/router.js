@@ -1,3 +1,16 @@
+import MainPage from '../pages/main-page/main-page';
+import {cartRoute, categoryRoute, checkUrl, loginRoute, mainRoute, notFoundRoute, orderRoute, productRoute, signupRoute} from '../config/urls';
+import LoginPage from '../pages/login-page/login-page';
+import SignupPage from '../pages/signup-page/signup-page';
+import CartPage from '../pages/cart-page/cart-page';
+import NotFoundPage from '../pages/not-found-page/not-found-page';
+import Ajax from './ajax';
+import renderServerMessage from './server-message';
+import {UserActions} from '../actions/user';
+import OrderPage from '../pages/orderPage/order-page';
+import CategoryPage from '../pages/category-page/category-page';
+import ProductPage from '../pages/product-page/product-page';
+
 /**
  * Класс роутера
  */
@@ -6,40 +19,63 @@ class Router {
     #root;
     #states;
     #currentView;
+    #isAuth;
 
     /**
      * Конструктор для класса роутера
      */
     constructor() {
         this.#history = window.history;
-        this.#states = [];
     }
 
     /**
      * Добавление состояния для представления
-     * @param {String} name Название представления
-     * @param {String} url Путь
-     * @param {ObjectConstructor} view Представление
      */
     register({name, url, view}) {
-        this.#states.push({
-            name: name,
-            url: url,
-            view: view,
-        });
+        this.#states.set(
+            url,
+            {name, url, view},
+        );
     }
 
     /**
      * Запуск роутера
      * @param {Element} root Корневой компонент
-     * @param {*} config Конфиг для отрисовки представлений
      */
     start(root) {
         this.#root = root;
+
         window.onpopstate = (event) => {
             this.go(event.state, true);
         };
+
+        this.#states = new Map([
+            ['', {view: MainPage, url: mainRoute, name: 'main'}],
+            [mainRoute, {view: MainPage, url: mainRoute, name: 'main'}],
+            [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
+            [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
+            [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
+            [cartRoute, {view: CartPage, url: cartRoute, name: 'cart'}],
+            [orderRoute, {view: OrderPage, url: orderRoute, name: 'order'}],
+            [categoryRoute, {view: CategoryPage, url: categoryRoute, name: 'category'}],
+            [productRoute, {view: ProductPage, url: productRoute, name: 'product'}],
+        ]);
+
+        window.addEventListener('click', this.listenClick.bind(this));
     }
+
+    /**
+     * Listener для нажатий по ссылкам
+     * @param {Event} event Событие нажатия по ссылке
+     */
+    listenClick(event) {
+        event.preventDefault();
+        const anchor = event.target.closest('a');
+        if (!anchor) {
+            return;
+        }
+        this.go({url: anchor.getAttribute('href')});
+    };
 
     /**
      * Метод осуществляющий переход на страницу
@@ -48,15 +84,33 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
-        console.log(state.url);
-        const baseState = this.#states.find((s) => s.url === state.url);
+        console.log(state);
+        let baseState = this.#states.get(state.url);
+        let idParam;
         if (!baseState) {
-            return;
+            const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('/'));
+            // const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('?'));
+
+            baseState = this.#states.get(urlWithoutParams);
+            if (!baseState) {
+                console.log('not view');
+                this.go({url: notFoundRoute});
+                return;
+            }
+            // const param = state.url.substring(state.url.lastIndexOf('/') + 1);
+            // const params = new URLSearchParams(state.url.substring(state.url.lastIndexOf('?') + 1));
+            // idParam = params.get('id');
+            // nameParam = params.get('name');
+            idParam = state.url.substring(state.url.lastIndexOf('/') + 1);
         }
 
-        this.#currentView?.removeListeners();
-        this.#currentView?.unsubscribeToEvents();
-        this.#currentView = new baseState.view(this.#root);
+        if (this.#currentView && this.#currentView.removeListeners) {
+            this.#currentView.removeListeners();
+            this.#currentView.unsubscribeToEvents();
+            UserActions.removeListeners();
+        }
+
+        this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
         this.#currentView.render();
         if (replaceState) {
             this.#history.replaceState(
@@ -84,7 +138,7 @@ class Router {
      * Переход вперед по истории браузера
      */
     forward() {
-        this.#history.go();
+        this.#history.forward();
     }
 }
 

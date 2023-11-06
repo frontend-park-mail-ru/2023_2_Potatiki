@@ -1,0 +1,38 @@
+<div class="product" id="{{id}}" {{data}}>
+
+    
+
+    <div class="category-card__info product__info">
+        <div class="product__name"></div>
+
+        <div class="product-card__reviews product__reviews">
+            <a href="{{reviewsHref}}" class="product-card__reviews-link category-card__reviews-link">
+                <div class="product-card__rate">
+                    <img src="{{starHref}}" class="{{starClass}}">
+                    <span class="product-card__rate__text">{{productRate}}</span> 
+                </div>
+                <span class="product-card__count-reviews">
+                    {{reviewsCount}}
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="product__data">
+        <div class="product__img-place"></div>
+        <div class="product__category">
+            <span>Тип:</span>
+            <a href="{{categoryHref}}">{{category}}</a>
+        </div>
+        <div class="product__management">
+            <div class="product-card__price category-card__price">
+                <span class="product-card__price-value category-card__price">
+                    {{price}}
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+</div>

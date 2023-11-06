@@ -1,0 +1,13 @@
+.info-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+}
+
+.info-row__name-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

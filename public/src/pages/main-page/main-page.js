@@ -1,10 +1,11 @@
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerError from '../../modules/server-error.js';
 import template from './main-page.hbs';
 import {config} from '../../../config.js';
-import {getProducts} from '../../config/urls.js';
+import {UserActions} from '../../actions/user.js';
+import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {Events} from '../../config/events.js';
+import {ProductsActions} from '../../actions/products.js';
 
 /**
  * Класс главной страницы
@@ -33,41 +34,33 @@ export default class MainPage {
         return document.querySelector('#main-page');
     }
 
-    /**
-   * Получение и отрисовка карусели товаров
-   * @param {Number} offset Сдвиг в списке товаров
-   * @param {Number} count Количество запрашиваемых товаров
-   * @param {Object} config Конфиг карусели
-   */
-    getProducts(offset = 0, count = 5, config) {
-        Ajax.prototype
-            .getRequest(`${getProducts}?paging=${offset}&count=${count}`)
-            .then((result) => {
-                const [statusCode, body] = result;
-                switch (statusCode) {
-                case 200:
-                    const carousel = new Carousel(this.self, config, body);
-                    carousel.render();
-                    this.#carousels.push(carousel);
-                    break;
-                case 429:
-                    renderServerError(body.error);
-                    break;
-                default:
-                    break;
-                }
-            });
+    renderProducts(body, config) {
+        const carousel = new Carousel(this.self, config, body);
+        carousel.render();
+        this.#carousels.push(carousel);
+    }
+
+    renderProducts = this.renderProducts.bind(this);
+
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
     }
 
     /**
     *
     */
-    removeListeners() {}
+    removeListeners() {
+        this.#carousels.forEach((cl) => {
+            cl.removeListeners();
+        });
+    }
 
     /**
     *
     */
-    unsubscribeToEvents() {}
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
+    }
 
     /**
     * Отрисовка страницы регистрации
@@ -77,9 +70,9 @@ export default class MainPage {
 
         const header = new Header(this.self);
         header.render();
+        this.subscribeToEvents();
 
-        this.getProducts(0, 10, this.#config.newCarousel);
-
-        this.getProducts(0, 10, this.#config.popularCarousel);
+        ProductsActions.getProducts(0, 20, this.#config.newCarousel);
+        ProductsActions.getProducts(0, 20, this.#config.popularCarousel);
     }
 }

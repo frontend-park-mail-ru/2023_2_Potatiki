@@ -7,7 +7,7 @@ import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {config} from '../../../config.js';
 import router from '../../modules/router.js';
 import {Events} from '../../config/events.js';
-import {mainROUTE} from '../../config/urls.js';
+import {mainRoute} from '../../config/urls.js';
 
 /**
  * Класс формы авторизации
@@ -16,6 +16,8 @@ export default class LoginForm {
     #parent;
 
     #config;
+
+    #redirectUrl;
 
     login;
 
@@ -27,9 +29,10 @@ export default class LoginForm {
    * Конструктор класса
    * @param {Element} parent Родительский компонент
    */
-    constructor(parent) {
+    constructor(parent, redirectUrl) {
         this.#parent = parent;
         this.#config = config.loginPage.form;
+        this.#redirectUrl = redirectUrl;
     }
 
     /**
@@ -62,9 +65,15 @@ export default class LoginForm {
     /**
      *
      */
-    redirectOnMain() {
-        router.go({url: mainROUTE});
+    redirect() {
+        if (this.#redirectUrl) {
+            router.go({url: this.#redirectUrl});
+            return;
+        }
+        router.go({url: mainRoute});
     }
+
+    redirect = this.redirect.bind(this);
 
     /**
      *
@@ -78,7 +87,7 @@ export default class LoginForm {
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.LOGIN_FORM_ERROR, this.renderError);
-        eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.redirectOnMain);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.redirect);
     }
 
     /**
@@ -86,7 +95,7 @@ export default class LoginForm {
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.LOGIN_FORM_ERROR, this.renderError);
-        eventEmmiter.unsubscribe(Events.SUCCESSFUL_LOGIN, this.redirectOnMain);
+        eventEmmiter.unsubscribe(Events.SUCCESSFUL_LOGIN, this.redirect);
     }
 
     /**

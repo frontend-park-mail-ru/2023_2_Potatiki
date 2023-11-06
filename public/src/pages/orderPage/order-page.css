@@ -1,0 +1,11 @@
+#order-page {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-background);
+}
+
+.order-info-container__payment-and-user {
+    display: flex;
+    flex-direction: row;
+}
+
