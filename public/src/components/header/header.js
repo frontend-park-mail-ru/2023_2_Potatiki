@@ -50,7 +50,6 @@ export default class Header {
     renderCatalog() {
         this.catalog = new Catalog();
         this.catalog.render();
-        console.log(this.catalogButton.img);
         this.catalogButton.img.src = '/static/images/cross.svg';
         this.catalogButton.self.removeEventListener('click', this.renderCatalog);
         this.catalogButton.self.addEventListener('click', this.hideCatalog);

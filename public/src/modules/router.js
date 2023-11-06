@@ -1,11 +1,9 @@
 import MainPage from '../pages/main-page/main-page';
-import {cartRoute, categoryRoute, checkUrl, loginRoute, mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute, signupRoute} from '../config/urls';
+import {cartRoute, categoryRoute, loginRoute, mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute, signupRoute} from '../config/urls';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import CartPage from '../pages/cart-page/cart-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
-import Ajax from './ajax';
-import renderServerMessage from './server-message';
 import {UserActions} from '../actions/user';
 import OrderPage from '../pages/orderPage/order-page';
 import CategoryPage from '../pages/category-page/category-page';
@@ -20,7 +18,6 @@ class Router {
     #root;
     #states;
     #currentView;
-    #isAuth;
 
     /**
      * Конструктор для класса роутера
@@ -85,23 +82,16 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
-        console.log(state);
         let baseState = this.#states.get(state.url);
         let idParam;
         if (!baseState) {
             const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('/'));
-            // const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('?'));
 
             baseState = this.#states.get(urlWithoutParams);
             if (!baseState) {
-                console.log('not view');
                 this.go({url: notFoundRoute});
                 return;
             }
-            // const param = state.url.substring(state.url.lastIndexOf('/') + 1);
-            // const params = new URLSearchParams(state.url.substring(state.url.lastIndexOf('?') + 1));
-            // idParam = params.get('id');
-            // nameParam = params.get('name');
             idParam = state.url.substring(state.url.lastIndexOf('/') + 1);
         }
 

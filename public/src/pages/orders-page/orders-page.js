@@ -51,7 +51,6 @@ export default class OrdersPage {
     }
 
     renderOrders(body) {
-        console.log(body);
         if (!body) {
             return;
         }
@@ -59,7 +58,6 @@ export default class OrdersPage {
             const product = new OrderItem(this.self.querySelector('.orders-container'), this.getConfig(element));
             product.render();
         });
-        console.log('no rders');
     }
 
     renderAll() {

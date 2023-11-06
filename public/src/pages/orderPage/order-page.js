@@ -159,7 +159,6 @@ export default class OrderPage {
                 data: date,
             });
         }
-        console.log(dates);
         const dateSelect = new Select(
             this.delivery.time,
             {
@@ -197,7 +196,6 @@ export default class OrderPage {
         CartActions.getCartProducts();
         UserActions.getProfileData();
         UserActions.getCurrentAddress();
-        console.log('get address call');
     }
 
     addressNotFound = this.addressNotFound.bind(this);

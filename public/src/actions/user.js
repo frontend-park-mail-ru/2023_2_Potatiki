@@ -25,7 +25,6 @@ export const UserActions = {
     },
 
     login(login, password) {
-        console.log('dispatch');
         AppDispatcher.dispatch({
             type: UserActionsType.LOGIN,
             payload: {

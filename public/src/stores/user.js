@@ -105,20 +105,16 @@ class UserStore {
     }
 
     userNotAuth() {
-        console.log('store user not auth');
         this.#state.isAuth = false;
     }
 
     userNotAuth = this.userNotAuth.bind(this);
 
     checkAuth() {
-        console.log('checkAuth', this.isAuth);
         if (!this.isAuth) {
-            console.log('page forbidden');
             eventEmmiter.emit(Events.PAGE_FORBIDDEN);
             return;
         }
-        console.log('page allowed');
         eventEmmiter.emit(Events.PAGE_ALLOWED);
     }
 
@@ -127,7 +123,6 @@ class UserStore {
      */
     async checkSession() {
         const [statusCode] = await Ajax.prototype.getRequest(checkUrl);
-        console.log('check auth', statusCode);
         switch (statusCode) {
         case 200:
             this.#state.isAuth = true;
@@ -141,7 +136,6 @@ class UserStore {
             break;
         case 429:
             renderServerMessage('Ошибка. Попробуйте позже');
-            // eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
             router.go({url: location.pathname});
             break;
         default:
@@ -200,8 +194,6 @@ class UserStore {
             password,
             repeatPassword,
         );
-
-        console.log(password, repeatPassword);
 
         if (!(isValidLogin && isValidPassword && isValidRepeatPassword)) {
             return;
@@ -268,7 +260,6 @@ class UserStore {
      *@return {Boolean}
      */
     validateRepeatPassword(password, repeatPassword) {
-        console.log(password, repeatPassword);
         if (password !== repeatPassword) {
             eventEmmiter.emit(
                 Events.REPEAT_PASSWORD_INPUT_ERROR,
@@ -317,7 +308,6 @@ class UserStore {
         const [statusCode, token] = await Ajax.prototype.getCSRFRequest(url);
         switch (statusCode) {
         case 200:
-            console.log(token);
             this.#state.csrfToken = token;
             break;
         default:
@@ -330,7 +320,6 @@ class UserStore {
         case loginRoute:
             this.recordCSRFToken(loginUrl);
         case signupRoute:
-            console.log('signup');
             this.recordCSRFToken(signupUrl);
         default:
             break;
@@ -341,7 +330,6 @@ class UserStore {
         const [statusCode, body] = await Ajax.prototype.getRequest(getCurrentAddressUrl);
         switch (statusCode) {
         case 200:
-            console.log('get current address');
             eventEmmiter.emit(Events.CURRENT_ADDRESS, body);
             break;
         case 401:

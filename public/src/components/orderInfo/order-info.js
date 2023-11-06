@@ -1,7 +1,6 @@
 import Link from '../link/link.js';
 import template from './order-info.hbs';
 import './order-info.css';
-import Button from '../button/button';
 import InfoRow from '../infoRow/info-row';
 
 /**

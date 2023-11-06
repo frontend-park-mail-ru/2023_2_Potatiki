@@ -48,7 +48,6 @@ export default class SignupForm {
      */
     inputLoginHandle(event) {
         event.preventDefault();
-        console.log('login out');
         UserActions.validateLogin(this.login.self.value);
     }
 

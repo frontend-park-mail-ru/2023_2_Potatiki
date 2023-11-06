@@ -108,7 +108,6 @@ class CartStore {
     cleanCart() {
         const EmptyCart = new Map();
         localStorage.setItem('products_map', JSON.stringify(EmptyCart, replacer));
-        // что-то еще мб
     }
 
     updateCart() {
@@ -128,9 +127,7 @@ class CartStore {
                     productsMap.set(product.productId, product);
                 });
                 localStorage.setItem('products_map', JSON.stringify(productsMap, replacer));
-                const [productCount, productsPrice] = this.getProductsInfo();
-                eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
-                eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
+                this.cartEvents();
                 break;
             case 401:
                 eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
@@ -162,15 +159,12 @@ class CartStore {
                 });
             }
             eventEmmiter.emit(Events.CART_PRODUCTS, {products});
-            const [productCount, productsPrice] = this.getProductsInfo();
-            eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
-            eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
+            this.cartEvents();
             return;
         }
         Ajax.prototype.getRequest(getCartProductsUrl)
             .then((result) => {
                 const [statusCode, body] = result;
-                console.log(statusCode, body);
                 switch (statusCode) {
                 case 200:
                     eventEmmiter.emit(Events.CART_PRODUCTS, body);
@@ -179,12 +173,9 @@ class CartStore {
                         productsMap.set(product.productId, product);
                     });
                     localStorage.setItem('products_map', JSON.stringify(productsMap, replacer));
-                    const [productCount, productsPrice] = this.getProductsInfo();
-                    eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
-                    eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
+                    this.cartEvents();
                     break;
                 case 401:
-                    console.log(location.pathname);
                     eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                     break;
                 case 429:
@@ -216,17 +207,13 @@ class CartStore {
             eventEmmiter.emit(Events.ADD_PRODUCT_SUCCESS, data);
             eventEmmiter.emit(Events.UPDATE_CART_ICON, 1);
             eventEmmiter.emit(Events.UPDATE_CART_RESULT, 1, data.price);
-            // renderServerMessage('Товар добавлен в корзину', true);
             return;
         }
 
         productsMap.set(data.productId, data);
         localStorage.setItem('products_map', JSON.stringify(productsMap, replacer));
-        const [productCount, productsPrice] = this.getProductsInfo();
         eventEmmiter.emit(Events.ADD_PRODUCT_SUCCESS, data);
-        eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
-        eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
-        // renderServerMessage('Товар добавлен в корзину', true);
+        this.cartEvents();
     }
 
     async changeProductCountLocal(data, isDecrease) {
@@ -248,10 +235,7 @@ class CartStore {
         productsMap.set(data.productId, product);
         localStorage.setItem('products_map', JSON.stringify(productsMap, replacer));
         eventEmmiter.emit(Events.CHG_PRODUCT_SUCCESS, product);
-        const [productCount, productsPrice] = this.getProductsInfo();
-        eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
-        eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
-        // renderServerMessage('Изменено количество товара в корзине', true);
+        this.cartEvents();
     }
 
     async deleteProduct(data) {
@@ -274,17 +258,11 @@ class CartStore {
             default:
                 return;
             }
-            // if (!await this.simpleAjax(delProductUrl, {productId: data.productId})) {
-            //     return;
-            // }
         }
         productsMap.delete(data.productId);
         localStorage.setItem('products_map', JSON.stringify(productsMap, replacer));
         eventEmmiter.emit(Events.DEL_PRODUCT_SUCCESS, product);
-        const [productCount, productsPrice] = this.getProductsInfo();
-        eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
-        eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
-        // renderServerMessage('Товар удалён из корзины', true);
+        this.cartEvents();
     }
 
     updateOrder(page) {
@@ -312,18 +290,14 @@ class CartStore {
             Ajax.prototype.postRequest(createOrderUrl)
                 .then((result) => {
                     const [statusCode, body] = result;
-                    console.log(statusCode, body);
                     switch (statusCode) {
                     case 200:
                         router.go({url: mainRoute});
                         renderServerMessage('Заказ успешно оформлен', true);
                         this.cleanCart();
-                        const [productCount, productsPrice] = this.getProductsInfo();
-                        eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
-                        eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
+                        this.cartEvents();
                         break;
                     case 401:
-                        console.log(location.pathname);
                         eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                         break;
                     case 429:
@@ -346,7 +320,6 @@ class CartStore {
             eventEmmiter.emit(Events.ALL_ORDERS, body);
             break;
         case 401:
-            console.log(location.pathname);
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
             break;
         case 404:
@@ -396,6 +369,12 @@ class CartStore {
                     return false;
                 }
             });
+    }
+
+    cartEvents() {
+        const [productCount, productsPrice] = this.getProductsInfo();
+        eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
+        eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
     }
 }
 
