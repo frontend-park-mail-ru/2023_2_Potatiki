@@ -1,9 +1,10 @@
-import template from './button.hbs';
+import template from './select.hbs';
+import './select.css';
 
 /**
  * Класс кнопки
  */
-export default class Button {
+export default class Select {
     #parent;
 
     #config;
@@ -28,10 +29,6 @@ export default class Button {
    */
     get self() {
         return document.querySelector(`#${this.#config.id}`);
-    }
-
-    get img() {
-        return this.self.querySelector(`.${this.#config.imgClass}`);
     }
 
     /**

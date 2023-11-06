@@ -3,6 +3,7 @@
  * @param {String} msg сообщение об ошибке
  */
 export default async function renderServerMessage(msg, isCorrect) {
+    console.log(msg, isCorrect);
     const msgClass = isCorrect ? 'server-msg' : 'server-msg server-error';
     const serverMsg = document.createElement('div');
     serverMsg.setAttribute('class', msgClass);

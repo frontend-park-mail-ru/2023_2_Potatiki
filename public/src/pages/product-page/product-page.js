@@ -52,6 +52,7 @@ export default class ProductPage {
             categoryHref: `/category/${data.categoryId}`,
             data: data,
             quantity: data.quantity,
+            description: data.description,
             img: {
                 imgSrc: '/static/images/' + data.img,
                 imgClass: 'product__img',

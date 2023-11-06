@@ -15,6 +15,8 @@ import {Events} from '../../config/events.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
+import Select from '../../components/select/select.js';
+import {formatDate} from '../../modules/utils.js';
 
 /**
  * Класс страницы оформления заказа
@@ -63,6 +65,18 @@ export default class OrderPage {
     updateUserInfo(data) {
         this.userInfo.self.querySelector('.name').textContent = data.login;
         this.userInfo.self.querySelector('.value').textContent = data.phone;
+        this.userInfo.self.querySelector('.order-info__img').src = '/static/' + data.img;
+    }
+
+    updateAddress(data) {
+        const address = `${data.city}, ${data.street}, ${data.house}, ${data.flat}`;
+        this.delivery.self.querySelector('#address-row').querySelector('.value').textContent = address;
+    }
+
+    addressNotFound() {
+        this.delivery.self.querySelector('.order-info__time-container').innerHTML = '';
+        this.delivery.self.querySelector('.order-info__bottom-container').innerHTML = 'Адрес не найден. Для оформления заказа установите адрес в профиле';
+        this.delivery.self.querySelector('.order-info__bottom-container').setAttribute('class', 'error');
     }
 
     renderAll() {
@@ -115,7 +129,7 @@ export default class OrderPage {
         );
         this.userInfo.render();
 
-        const delivery = new OrderInfo(
+        this.delivery = new OrderInfo(
             this.self.querySelector('.order-info-container'),
             {
                 id: 'delivery-info-card',
@@ -124,8 +138,8 @@ export default class OrderPage {
                 infoRows: [
                     {
                         id: 'address-row',
+                        class: 'info-row-grid',
                         name: 'Адрес',
-                        value: 'Рубцовская наб., 2/18, Москва, 105082',
                     },
                 ],
                 changeLink: {
@@ -134,7 +148,40 @@ export default class OrderPage {
                 },
             },
         );
-        delivery.render();
+        this.delivery.render();
+        const today = new Date();
+        const dates = [];
+        for (let i = 0; i < 4; i++) {
+            let date = new Date();
+            date.setDate(today.getDate() + i + 1);
+            date = formatDate(date);
+            dates.push({
+                data: date,
+            });
+        }
+        console.log(dates);
+        const dateSelect = new Select(
+            this.delivery.time,
+            {
+                name: 'Дата',
+                options: dates,
+            },
+        );
+        dateSelect.render();
+        const timeSelect = new Select(
+            this.delivery.time,
+            {
+                name: 'Время',
+                options: [
+                    {data: '10:00 - 12:00'},
+                    {data: '12:00 - 14:00'},
+                    {data: '14:00 - 16:00', selected: true},
+                    {data: '16:00 - 18:00'},
+                ],
+            },
+        );
+        timeSelect.render();
+
 
         const orderResults = new OrderResults(
             this.self.querySelector('.order-container'),
@@ -149,8 +196,12 @@ export default class OrderPage {
 
         CartActions.getCartProducts();
         UserActions.getProfileData();
+        UserActions.getCurrentAddress();
+        console.log('get address call');
     }
 
+    addressNotFound = this.addressNotFound.bind(this);
+    updateAddress = this.updateAddress.bind(this);
     updateUserInfo = this.updateUserInfo.bind(this);
     renderProducts = this.renderProducts.bind(this);
     redirectToLogin = this.redirectToLogin.bind(this);
@@ -164,12 +215,17 @@ export default class OrderPage {
         eventEmmiter.subscribe(Events.PROFILE_DATA, this.updateUserInfo);
         eventEmmiter.subscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
         eventEmmiter.subscribe(Events.PAGE_ALLOWED, this.renderAll);
+        eventEmmiter.subscribe(Events.CURRENT_ADDRESS, this.updateAddress);
+        eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
     }
 
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
         eventEmmiter.unsubscribe(Events.CART_PRODUCTS, this.renderProducts);
         eventEmmiter.unsubscribe(Events.PAGE_ALLOWED, this.renderAll);
+        eventEmmiter.unsubscribe(Events.CURRENT_ADDRESS, this.updateAddress);
+        eventEmmiter.unsubscribe(Events.PROFILE_DATA, this.updateUserInfo);
+        eventEmmiter.unsubscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
     }
 
     /**

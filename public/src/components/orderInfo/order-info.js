@@ -26,6 +26,10 @@ export default class OrderInfo {
         return this.#parent.querySelector(`#${this.#config.id}`);
     }
 
+    get time() {
+        return this.self.querySelector('.order-info__time-container');
+    }
+
     /**
      * Отрисовка компонента
      */

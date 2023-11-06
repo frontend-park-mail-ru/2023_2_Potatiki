@@ -6,6 +6,11 @@
     height: 40px;
 }
 
+.info-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
 .info-row__name-container {
     display: flex;
     flex-direction: row;

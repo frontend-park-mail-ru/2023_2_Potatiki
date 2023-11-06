@@ -50,7 +50,6 @@ class Router {
         };
 
         this.#states = new Map([
-            ['', {view: MainPage, url: mainRoute, name: 'main'}],
             [mainRoute, {view: MainPage, url: mainRoute, name: 'main'}],
             [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
             [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],

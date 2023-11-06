@@ -1,5 +1,5 @@
-// export const baseUrl = 'https://www.zuzu-market.ru/api/';
-export const baseUrl = 'http://localhost:8096/api/';
+export const baseUrl = 'https://www.zuzu-market.ru/api/';
+// export const baseUrl = 'http://localhost:8096/api/';
 
 export const signupUrl = 'auth/signup';
 export const loginUrl = 'auth/signin';
@@ -16,6 +16,7 @@ export const getAllOrdersUrl = 'order/get_all';
 export const getAllCategoriesUrl = 'category/get_all';
 export const getCurrentOrderUrl = 'order/get_current';
 export const categoryProductsUrl = 'products/category';
+export const getCurrentAddressUrl = 'address/get_current';
 export const mainRoute = '/';
 export const loginRoute = '/login';
 export const signupRoute = '/signup';

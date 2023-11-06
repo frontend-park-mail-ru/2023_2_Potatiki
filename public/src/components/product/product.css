@@ -6,11 +6,14 @@
 
 .product__data {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr 0.7fr;
 }
 
 .product__img {
-    height: 35vh;
+    max-height: 35vh;
+    min-height: 25vh;
+    max-width: 30vw;
+    min-width: 25vw;
 }
 
 .product__img-place {
@@ -39,7 +42,13 @@
     border-bottom: 1px solid var(--color-stroke);
 }
 
-.product__category {
+.product__info-rows {
     padding-top: 12px;
     padding-left: 20px;
+}
+
+.product__info-row {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
 }

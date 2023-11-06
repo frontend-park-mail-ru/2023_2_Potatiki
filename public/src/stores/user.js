@@ -3,7 +3,7 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword} from '../modules/validation';
-import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute} from '../config/urls';
+import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, getCurrentAddressUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
 import renderServerMessage from '../modules/server-message';
@@ -85,6 +85,9 @@ class UserStore {
                 break;
             case UserActionsType.GET_CSRF_TOKEN:
                 this.getCsrfToken(action.payload.page);
+                break;
+            case UserActionsType.GET_CURRENT_ADDRESS:
+                this.getCurrentAddress();
                 break;
             default:
                 break;
@@ -328,6 +331,28 @@ class UserStore {
         case signupRoute:
             console.log('signup');
             this.recordCSRFToken(signupUrl);
+        default:
+            break;
+        }
+    }
+
+    async getCurrentAddress() {
+        const [statusCode, body] = await Ajax.prototype.getRequest(getCurrentAddressUrl);
+        switch (statusCode) {
+        case 200:
+            console.log('get current address');
+            eventEmmiter.emit(Events.CURRENT_ADDRESS, body);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        case 404:
+            eventEmmiter.emit(Events.ADDRESS_NOT_FOUND, body);
+            break;
+        case 429:
+            renderServerMessage('Возникла ошибка при получении адреса');
+            break;
         default:
             break;
         }

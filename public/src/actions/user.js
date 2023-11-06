@@ -13,6 +13,7 @@ export const UserActionsType = {
     CHECK_AUTH: 'CHECK_AUTH',
     GET_PROFILE_DATA: 'GET_PROFILE_DATA',
     GET_CSRF_TOKEN: 'GET_CSRF_TOKEN',
+    GET_CURRENT_ADDRESS: 'GET_CURRENT_ADDRESS',
 };
 
 export const UserActions = {
@@ -110,6 +111,12 @@ export const UserActions = {
         AppDispatcher.dispatch({
             type: UserActionsType.GET_CSRF_TOKEN,
             payload: {page},
+        });
+    },
+
+    getCurrentAddress() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.GET_CURRENT_ADDRESS,
         });
     },
 };
