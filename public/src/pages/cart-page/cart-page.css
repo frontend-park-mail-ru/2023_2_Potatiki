@@ -12,6 +12,6 @@
 .order-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     margin: 30px 120px 30px 120px;
 }
