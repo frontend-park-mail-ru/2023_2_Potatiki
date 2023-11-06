@@ -162,7 +162,7 @@ export default class CategoryPage {
     render() {
         this.#parent.innerHTML = template({category: this.#categoryName});
 
-        const header = new Header(this.self);
+        const header = new Header(this.#parent);
         header.render();
         this.subscribeToEvents();
         this.loadedProducts = 0;

@@ -105,6 +105,7 @@ class UserStore {
     }
 
     userNotAuth() {
+        console.log('store user not auth');
         this.#state.isAuth = false;
     }
 

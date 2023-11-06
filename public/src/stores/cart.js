@@ -1,7 +1,7 @@
 import {AppDispatcher} from '../modules/dispatcher';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
-import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl, loginRoute, cartRoute, createOrderUrl, orderRoute, mainRoute} from '../config/urls';
+import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl, loginRoute, cartRoute, createOrderUrl, orderRoute, mainRoute, getAllOrdersUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
@@ -69,6 +69,9 @@ class CartStore {
                 break;
             case CartActionsType.GET_CATEGORIES:
                 this.getCategories();
+                break;
+            case CartActionsType.GET_ALL_ORDERS:
+                this.getALlOrders();
                 break;
             default:
                 break;
@@ -330,6 +333,24 @@ class CartStore {
                         break;
                     }
                 });
+            break;
+        default:
+            break;
+        }
+    }
+
+    async getALlOrders() {
+        const [statusCode, body] = await Ajax.prototype.getRequest(getAllOrdersUrl);
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.ALL_ORDERS, body);
+            break;
+        case 401:
+            console.log(location.pathname);
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
+            break;
+        case 429:
+            renderServerMessage('Возникла ошибка при создании заказа');
             break;
         default:
             break;

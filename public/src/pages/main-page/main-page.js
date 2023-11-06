@@ -68,7 +68,7 @@ export default class MainPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header(this.self);
+        const header = new Header(this.#parent);
         header.render();
         this.subscribeToEvents();
 

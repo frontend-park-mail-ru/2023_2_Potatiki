@@ -7,6 +7,7 @@ export const CartActionsType = {
     CHANGE_PRODUCT_COUNT_LOCAL: 'CHANGE_PRODUCT_COUNT_LOCAL',
     GET_CART_COUNT: 'GET_CART_COUNT',
     UPDATE_ORDER: 'UPDATE_ORDER',
+    GET_ALL_ORDERS: 'GET_ALL_ORDERS',
 };
 
 export const CartActions = {
@@ -52,4 +53,9 @@ export const CartActions = {
         });
     },
 
+    getAllOrders() {
+        AppDispatcher.dispatch({
+            type: CartActionsType.GET_ALL_ORDERS,
+        });
+    },
 };

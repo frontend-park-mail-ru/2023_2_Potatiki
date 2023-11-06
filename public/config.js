@@ -49,7 +49,7 @@ const header = {
     orders: {
         id: 'orders-button',
         class: 'link_icon link_disabled',
-        href: '#',
+        href: '/orders',
         text: 'Заказы',
         imgSrc: '/static/images/order-box.svg',
         imgClass: 'link_icon__img',
