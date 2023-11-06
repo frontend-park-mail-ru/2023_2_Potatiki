@@ -3,7 +3,7 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword} from '../modules/validation';
-import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute} from '../config/urls';
+import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
 import renderServerMessage from '../modules/server-message';
@@ -207,7 +207,9 @@ class UserStore {
             login,
             password,
             phone,
-        });
+        },
+        this.#state.csrfToken,
+        );
         switch (statusCode) {
         case 200:
             this.#state.login = login;
@@ -307,15 +309,25 @@ class UserStore {
         }
     }
 
-    async getCsrfToken(page) {
-        switch (page) {
-        case loginRoute:
-            const [statusCode, token] = await Ajax.prototype.getCSRFRequest(loginUrl);
+    async recordCSRFToken(url) {
+        const [statusCode, token] = await Ajax.prototype.getCSRFRequest(url);
+        switch (statusCode) {
         case 200:
-            // eventEmmiter.emit(Events.CSRF_TOKEN, token);
             console.log(token);
             this.#state.csrfToken = token;
             break;
+        default:
+            break;
+        }
+    }
+
+    async getCsrfToken(page) {
+        switch (page) {
+        case loginRoute:
+            this.recordCSRFToken(loginUrl);
+        case signupRoute:
+            console.log('signup');
+            this.recordCSRFToken(signupUrl);
         default:
             break;
         }

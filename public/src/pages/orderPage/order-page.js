@@ -86,10 +86,6 @@ export default class OrderPage {
                         name: 'Оплата наличными',
                     },
                 ],
-                changeLink: {
-                    text: 'Изменить',
-                    class: 'order-info__change-btn',
-                },
             },
         );
         payment.render();
