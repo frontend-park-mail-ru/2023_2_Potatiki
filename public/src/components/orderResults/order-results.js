@@ -4,6 +4,7 @@ import './order-results.css';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {CartActions} from '../../actions/cart.js';
+import renderServerMessage from '../../modules/server-message.js';
 
 /**
  * Класс компонента итога заказа
@@ -54,6 +55,8 @@ export default class OrderResults {
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
     deleteSelf = this.deleteSelf.bind(this);
+    addressNotFound = this.addressNotFound.bind(this);
+    serverMessage = this.serverMessage.bind(this);
 
     deleteSelf() {
         this.removeListeners();
@@ -74,6 +77,15 @@ export default class OrderResults {
         CartActions.updateOrder(this.#page);
     }
 
+    addressNotFound() {
+        this.removeListeners();
+        this.button.self.addEventListener('click', this.serverMessage);
+    }
+
+    serverMessage() {
+        renderServerMessage('Для оформления заказа установите адрес в профиле', false);
+    }
+
 
     /**
      *
@@ -83,6 +95,7 @@ export default class OrderResults {
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.subscribe(Events.EMPTY_CART, this.deleteSelf);
+        eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
     }
 
     unsubscribeToEvents() {
@@ -90,6 +103,7 @@ export default class OrderResults {
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.EMPTY_CART, this.deleteSelf);
+        eventEmmiter.unsubscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
     }
 
 
@@ -98,6 +112,7 @@ export default class OrderResults {
      */
     removeListeners() {
         this.button.self.removeEventListener('click', this.updateOrder);
+        this.button.self.removeEventListener('click', this.serverMessage);
     }
 
     /**

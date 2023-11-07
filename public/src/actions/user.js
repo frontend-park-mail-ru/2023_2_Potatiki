@@ -13,6 +13,7 @@ export const UserActionsType = {
     CHECK_AUTH: 'CHECK_AUTH',
     GET_PROFILE_DATA: 'GET_PROFILE_DATA',
     GET_CSRF_TOKEN: 'GET_CSRF_TOKEN',
+    GET_CURRENT_ADDRESS: 'GET_CURRENT_ADDRESS',
     GET_ADDRESSES: 'GET_ADDRESSES',
     UPDATE_NUMBER: 'UPDATE_NUMBER',
     UPDATE_PASSWORD: 'UPDATE_PASSWORD',
@@ -31,7 +32,6 @@ export const UserActions = {
     },
 
     login(login, password) {
-        console.log('dispatch');
         AppDispatcher.dispatch({
             type: UserActionsType.LOGIN,
             payload: {
@@ -117,6 +117,12 @@ export const UserActions = {
         AppDispatcher.dispatch({
             type: UserActionsType.GET_CSRF_TOKEN,
             payload: {page},
+        });
+    },
+
+    getCurrentAddress() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.GET_CURRENT_ADDRESS,
         });
     },
 

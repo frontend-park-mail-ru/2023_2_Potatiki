@@ -1,12 +1,13 @@
 import Link from '../link/link.js';
-import template from './order-products.hbs';
-import './order-products.css';
+import template from './order-item.hbs';
+import './order-item.css';
+import Button from '../button/button';
 import {productRoute} from '../../config/urls.js';
 
 /**
  * Класс компонента карточки товара в заказе
  */
-export default class OrderProducts {
+export default class OrderItem {
     #parent;
 
     #config;
@@ -20,6 +21,7 @@ export default class OrderProducts {
         this.#parent = parent;
         this.#config = config;
     }
+
 
     getConfig(data) {
         return {
@@ -43,9 +45,9 @@ export default class OrderProducts {
             template(this.#config),
         );
 
-        const self = document.querySelector(`.order-info__products`);
+        const self = document.querySelector(`#${this.#config.id}`);
 
-        this.#config.forEach((element) => {
+        this.#config.products.forEach((element) => {
             const product = new Link(
                 self.querySelector('.order-info__products-container'),
                 this.getConfig(element),

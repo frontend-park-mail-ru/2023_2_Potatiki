@@ -1,0 +1,15 @@
+.select {
+    margin-top: 30px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #999;
+    font-size: 14px;
+    padding: 5px 15px;
+    background-color: var(--color-background);
+    border-radius: 10px;
+}
+
+.select-title {
+    margin-right: 10%;
+}

@@ -25,7 +25,6 @@ export default class Ajax {
         if (token) {
             options.headers['X-Csrf-Token'] = token;
         }
-        console.log(token, options);
         try {
             const response = await fetch(baseUrl + url, options);
             const body = await response.text();
@@ -83,9 +82,6 @@ export default class Ajax {
         };
         try {
             const response = await fetch(baseUrl + url, options);
-            console.log(response);
-            console.log(response.headers);
-            console.log(response.headers.get('Content-type'));
             return [response.status, response.headers.get('X-Csrf-Token')];
         } catch (error) {
             return [429, error];
@@ -112,7 +108,6 @@ export default class Ajax {
         if (token) {
             options.headers['X-Csrf-Token'] = token;
         }
-        console.log(token, options);
         try {
             const response = await fetch(baseUrl + url, options);
             const body = await response.text();

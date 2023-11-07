@@ -18,6 +18,10 @@ export function checkPassword(pass) {
         return ['Минимальная длина 8 символов', false];
     }
 
+    if (pass.length > 32) {
+        return ['Максимальная длина 32 символа', false];
+    }
+
     let isHasUpperLetter = false;
     let isHasLowerLetter = false;
     let isHasDigit = false;
@@ -50,6 +54,10 @@ export function checkPassword(pass) {
 export function checkLogin(login) {
     if (login.length < 6) {
         return ['Минимальная длина 6 символов', false];
+    }
+
+    if (login.length > 30) {
+        return ['Максимальная длина 30 символов', false];
     }
 
     const isValid = [...login].every((_, index) => {

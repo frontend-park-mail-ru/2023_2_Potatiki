@@ -82,3 +82,7 @@
 .server-error {
     background-color: var(--color-incorrect);
 }
+
+.error {
+    color: var(--color-incorrect);
+}

@@ -4,7 +4,7 @@ import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword} from '../modules/validation';
 import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
-    addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl} from '../config/urls';
+    addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
 import renderServerMessage from '../modules/server-message';
@@ -102,6 +102,9 @@ class UserStore {
             case UserActionsType.GET_CSRF_TOKEN:
                 this.getCsrfToken(action.payload.page);
                 break;
+            case UserActionsType.GET_CURRENT_ADDRESS:
+                this.getCurrentAddress();
+                break;
             case UserActionsType.GET_ADDRESSES:
                 this.getAddresses();
                 break;
@@ -148,13 +151,10 @@ class UserStore {
     userNotAuth = this.userNotAuth.bind(this);
 
     checkAuth() {
-        console.log('checkAuth', this.isAuth);
         if (!this.isAuth) {
-            console.log('page forbidden');
             eventEmmiter.emit(Events.PAGE_FORBIDDEN);
             return;
         }
-        console.log('page allowed');
         eventEmmiter.emit(Events.PAGE_ALLOWED);
     }
 
@@ -180,7 +180,6 @@ class UserStore {
             break;
         case 429:
             renderServerMessage('Ошибка. Попробуйте позже');
-            // eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
             router.go({url: location.pathname});
             break;
         default:
@@ -239,8 +238,6 @@ class UserStore {
             repeatPassword,
         );
 
-        console.log(password, repeatPassword);
-
         if (!(isValidLogin && isValidPassword && isValidRepeatPassword)) {
             return;
         }
@@ -257,7 +254,6 @@ class UserStore {
             this.#state.loginName = login;
             this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
-            // this.updateCart();
             break;
         case 400:
             eventEmmiter.emit(
@@ -305,7 +301,6 @@ class UserStore {
      *@return {Boolean}
      */
     validateRepeatPassword(password, repeatPassword) {
-        console.log(password, repeatPassword);
         if (password !== repeatPassword) {
             eventEmmiter.emit(
                 Events.REPEAT_PASSWORD_INPUT_ERROR,
@@ -353,7 +348,6 @@ class UserStore {
         const [statusCode, token] = await Ajax.prototype.getCSRFRequest(url);
         switch (statusCode) {
         case 200:
-            console.log(token);
             this.#state.csrfToken = token;
             break;
         default:
@@ -366,11 +360,31 @@ class UserStore {
         case loginRoute:
             this.recordCSRFToken(loginUrl);
         case signupRoute:
-            console.log('signup');
             this.recordCSRFToken(signupUrl);
         case profileUpdateDataRoute:
             console.log('signup');
             this.recordCSRFToken(updateDataUrl);
+        default:
+            break;
+        }
+    }
+
+    async getCurrentAddress() {
+        const [statusCode, body] = await Ajax.prototype.getRequest(getCurrentAddressUrl);
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.CURRENT_ADDRESS, body);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        case 404:
+            eventEmmiter.emit(Events.ADDRESS_NOT_FOUND, body);
+            break;
+        case 429:
+            renderServerMessage('Возникла ошибка при получении адреса');
+            break;
         default:
             break;
         }

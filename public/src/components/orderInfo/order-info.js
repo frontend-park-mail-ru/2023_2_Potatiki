@@ -1,7 +1,6 @@
 import Link from '../link/link.js';
 import template from './order-info.hbs';
 import './order-info.css';
-import Button from '../button/button';
 import InfoRow from '../infoRow/info-row';
 
 /**
@@ -24,6 +23,10 @@ export default class OrderInfo {
 
     get self() {
         return this.#parent.querySelector(`#${this.#config.id}`);
+    }
+
+    get time() {
+        return this.self.querySelector('.order-info__time-container');
     }
 
     /**
