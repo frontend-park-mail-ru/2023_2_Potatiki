@@ -212,7 +212,6 @@ class UserStore {
             this.#state.password = password;
             this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
-            // this.updateCart();
             break;
         case 400:
             eventEmmiter.emit(

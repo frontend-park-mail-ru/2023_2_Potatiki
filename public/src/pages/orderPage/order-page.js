@@ -112,6 +112,7 @@ export default class OrderPage {
                 class: 'small-card order-card',
                 infoRows: [
                     {
+                        nameClass: 'info-row__name',
                         img: {
                             imgSrc: './static/images/' + 'user.svg',
                             imgClass: 'order-info__img',
