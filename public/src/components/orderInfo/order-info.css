@@ -38,6 +38,7 @@
     width: 50px;
     height: 40px;
     margin-right: 10px;
+    object-fit: scale-down;
 }
 
 .order-info__time-container {
