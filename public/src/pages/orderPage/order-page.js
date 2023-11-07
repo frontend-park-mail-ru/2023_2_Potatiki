@@ -199,7 +199,7 @@ export default class OrderPage {
         CartActions.getCartProducts();
         UserActions.getProfileData();
         UserActions.getCurrentAddress();
-        UserActions.getCSRFToken();
+        UserActions.getCSRFToken(orderRoute);
     }
 
     addressNotFound = this.addressNotFound.bind(this);

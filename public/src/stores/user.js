@@ -4,7 +4,7 @@ import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword, checkPhone, cleanPhone, formatPhone} from '../modules/validation';
 import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
-    addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl} from '../config/urls';
+    addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl, orderRoute, createOrderUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
 import renderServerMessage from '../modules/server-message';
@@ -358,6 +358,7 @@ class UserStore {
         switch (statusCode) {
         case 200:
             this.#state.csrfToken = token;
+            console.log(token);
             eventEmmiter.emit(Events.CSRF_TOKEN, token);
             break;
         default:
@@ -369,11 +370,17 @@ class UserStore {
         switch (page) {
         case loginRoute:
             this.recordCSRFToken(loginUrl);
+            break;
         case signupRoute:
             this.recordCSRFToken(signupUrl);
+            break;
+        case orderRoute:
+            this.recordCSRFToken(createOrderUrl);
+            break;
         case profileUpdateDataRoute:
             console.log('signup');
             this.recordCSRFToken(updateDataUrl);
+            break;
         default:
             break;
         }
