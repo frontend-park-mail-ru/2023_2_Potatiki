@@ -22,6 +22,7 @@ export default class Ajax {
             },
             body: JSON.stringify(data),
         };
+        console.log(token, url);
         if (token) {
             options.headers['X-Csrf-Token'] = token;
         }

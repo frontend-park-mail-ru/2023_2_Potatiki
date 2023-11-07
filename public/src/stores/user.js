@@ -382,7 +382,6 @@ class UserStore {
             this.recordCSRFToken(createOrderUrl);
             break;
         case profileUpdateDataRoute:
-            console.log('signup');
             this.recordCSRFToken(updateDataUrl);
             break;
         default:
@@ -654,7 +653,7 @@ class UserStore {
         switch (statusCode) {
         case 200:
             let indCurrent;
-            this.#state.addresses[0].isCurrent = false;
+            this.#state.addresses[0].addressIsCurrent = false;
             this.#state.addresses.forEach((element, ind) => {
                 if (element.addressId === addressId) {
                     element.addressIsCurrent = true;

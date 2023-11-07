@@ -94,7 +94,7 @@ export default class Profile {
      * @param {*} event
      */
     addAddress(event) {
-        UserActions.getCSRFToken(profileAddAddressRoute);
+        UserActions.getCSRFToken(profileUpdateDataRoute);
         event.preventDefault();
         document.querySelector('#profile-data-card').innerHTML = '';
         this.addressAddForm.render(true);
@@ -108,7 +108,7 @@ export default class Profile {
      */
     deleteAddress(event) {
         event.preventDefault();
-        UserActions.getCSRFToken(profileAddAddressRoute);
+        UserActions.getCSRFToken(profileUpdateDataRoute);
         const currentId = event.target.parentElement.id;
         UserActions.deleteAddress(currentId);
     }
@@ -121,7 +121,7 @@ export default class Profile {
      */
     editAddress(event) {
         event.preventDefault();
-        UserActions.getCSRFToken(profileAddAddressRoute);
+        UserActions.getCSRFToken(profileUpdateDataRoute);
         const currentId = event.target.parentElement.id;
         const address = this.addresses.find((address) => address.addressId == currentId);
         document.querySelector('#profile-data-card').innerHTML = '';
@@ -136,7 +136,7 @@ export default class Profile {
      */
     currentAddress(event) {
         event.preventDefault();
-        UserActions.getCSRFToken(profileAddAddressRoute);
+        UserActions.getCSRFToken(profileUpdateDataRoute);
         const currentId = event.target.parentElement.id;
         UserActions.makeCurrentAddress(currentId);
     }
@@ -167,6 +167,7 @@ export default class Profile {
 
         const addLink = document.createElement('span');
         addLink.id = 'add-address';
+        addLink.className = 'add-address';
         addLink.innerHTML = 'Добавить';
         parent.appendChild(addLink);
         this.addAddressesEventListeners();
