@@ -578,7 +578,17 @@ class UserStore {
 
         switch (statusCode) {
         case 200:
-            eventEmmiter.emit(Events.SUCCESSFUL_DELETE_ADDRESS);
+            let index;
+            this.#state.addresses.forEach((element, ind) => {
+                if (element.addressId === addressId) {
+                    element.isCurrent = true;
+                    index = ind;
+                }
+            });
+            if (index > -1) {
+                this.#state.addresses.splice(index, 1);
+            }
+            eventEmmiter.emit(Events.SUCCESSFUL_DELETE_ADDRESS, this.#state.addresses);
             break;
         case 401:
             this.#state.isAuth = false;
