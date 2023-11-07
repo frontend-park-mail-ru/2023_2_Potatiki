@@ -213,7 +213,8 @@ const signupPage = {
         phone: {
             inputClass: 'input login-form__input',
             inputName: 'phone',
-            inputPlaceholder: 'Введите номер телефона',
+            inputPlaceholder: '+7(___)-___-__-__',
+            errorId: 'number-error',
         },
 
         password: {

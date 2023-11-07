@@ -233,14 +233,17 @@ class UserStore {
     async signup(login, password, repeatPassword, phone) {
         const isValidLogin = this.validateLogin(login);
         const isValidPassword = this.validatePassword(password);
+        const isValidNumber = this.validatePhone(phone);
         const isValidRepeatPassword = this.validateRepeatPassword(
             password,
             repeatPassword,
         );
 
-        if (!(isValidLogin && isValidPassword && isValidRepeatPassword)) {
+        if (!(isValidLogin && isValidPassword && isValidRepeatPassword && isValidNumber)) {
             return;
         }
+
+        phone = cleanPhone(phone);
 
         const [statusCode, body] = await Ajax.prototype.postRequest(signupUrl, {
             login,
@@ -252,6 +255,7 @@ class UserStore {
         switch (statusCode) {
         case 200:
             this.#state.loginName = login;
+            this.#state.number = formatPhone(phone);
             this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
             break;
