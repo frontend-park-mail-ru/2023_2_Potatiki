@@ -17,6 +17,7 @@ class CartStore {
         password: '',
         imgSrc: '',
         isAuth: false,
+        csrfToken: '',
     };
 
     /**
@@ -96,6 +97,7 @@ class CartStore {
     userAuth = this.userAuth.bind(this);
     userNotAuth = this.userNotAuth.bind(this);
     userLogout = this.userLogout.bind(this);
+    setCSRFToken = this.setCSRFToken.bind(this);
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.userAuth);
@@ -103,6 +105,11 @@ class CartStore {
         eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.userAuth);
         eventEmmiter.subscribe(Events.SUCCESSFUL_SIGNUP, this.userAuth);
         eventEmmiter.subscribe(Events.LOGOUT, this.userLogout);
+        eventEmmiter.subscribe(Events.CSRF_TOKEN, this.setCSRFToken);
+    }
+
+    setCSRFToken(token) {
+        this.#state.csrfToken = token;
     }
 
     cleanCart() {
@@ -118,7 +125,7 @@ class CartStore {
                 data.push(product);
             });
         }
-        Ajax.prototype.postRequest(updateCartUrl, {products: data}).then((result) => {
+        Ajax.prototype.postRequest(updateCartUrl, {products: data}, this.#state.csrfToken).then((result) => {
             const [statusCode, body] = result;
             switch (statusCode) {
             case 200:
@@ -228,7 +235,7 @@ class CartStore {
             return;
         }
         if (this.isAuth) {
-            if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: product.quantity})) {
+            if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: product.quantity}, this.#state.setCSRFToken)) {
                 return;
             }
         }
@@ -245,7 +252,7 @@ class CartStore {
             return;
         }
         if (this.isAuth) {
-            const [statusCode, body] = await Ajax.prototype.deleteRequest(delProductUrl, {productId: data.productId});
+            const [statusCode, body] = await Ajax.prototype.deleteRequest(delProductUrl, {productId: data.productId}, this.#state.setCSRFToken);
             switch (statusCode) {
             case 200:
                 break;
@@ -287,7 +294,7 @@ class CartStore {
             router.go({url: orderRoute});
             break;
         case orderRoute:
-            Ajax.prototype.postRequest(createOrderUrl)
+            Ajax.prototype.postRequest(createOrderUrl, {}, this.#state.csrfToken)
                 .then((result) => {
                     const [statusCode, body] = result;
                     switch (statusCode) {

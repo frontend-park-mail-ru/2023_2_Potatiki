@@ -358,6 +358,7 @@ class UserStore {
         switch (statusCode) {
         case 200:
             this.#state.csrfToken = token;
+            eventEmmiter.emit(Events.CSRF_TOKEN, token);
             break;
         default:
             break;
@@ -445,18 +446,17 @@ class UserStore {
         );
 
         switch (statusCode) {
-            case 200:
-                this.#state.number = formatPhone(number);
-                eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_DATA);
-                break;
-            case 401:
-                this.#state.isAuth = false;
-                eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
-                break;
-            default:
-                eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
-                break;
-
+        case 200:
+            this.#state.number = formatPhone(number);
+            eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_DATA);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        default:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            break;
         }
     }
 
@@ -500,7 +500,7 @@ class UserStore {
             break;
         }
     }
-    
+
     /**
      *
      * @param {*} city
