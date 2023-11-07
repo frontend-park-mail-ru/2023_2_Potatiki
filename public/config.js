@@ -279,7 +279,8 @@ const profilePage = {
         numberEditForm: {
             number: {
                 inputName: 'number',
-                inputPlaceholder: 'Номер телефона',
+                inputClass: 'number-edit-form__input',
+                inputPlaceholder: '+7(___)-___-__-__',
                 errorId: 'number-error',
             },
             submit: {

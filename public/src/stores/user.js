@@ -2,7 +2,7 @@ import {AppDispatcher} from '../modules/dispatcher';
 import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
-import {checkLogin, checkPassword} from '../modules/validation';
+import {checkLogin, checkPassword, checkPhone, cleanPhone, formatPhone} from '../modules/validation';
 import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
     addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl} from '../config/urls';
 import {Events} from '../config/events';
@@ -321,9 +321,18 @@ class UserStore {
         eventEmmiter.emit(Events.LOGOUT, {url: '/'});
     }
 
-
-    validatePhone() {
-
+    /**
+     *
+     * @param {*} number
+     * @returns
+     */
+    validatePhone(number) {
+        const [error, isValidNumber] = checkPhone(number);
+        if (!isValidNumber) {
+            eventEmmiter.emit(Events.PHONE_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
     }
 
     async getProfileData() {
@@ -419,6 +428,13 @@ class UserStore {
      * @param {*} number
      */
     async updateNuber(number) {
+        const isValidNumber = this.validatePhone(number);
+        if (!isValidNumber) {
+            return;
+        }
+
+        number = cleanPhone(number);
+        console.log(number);
         const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
             'passwords': {
                 'newPass': '',
@@ -430,7 +446,7 @@ class UserStore {
 
         switch (statusCode) {
             case 200:
-                this.#state.number = number;
+                this.#state.number = formatPhone(number);
                 eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_DATA);
                 break;
             case 401:
