@@ -6,6 +6,6 @@
         г.{{city}}, {{street}}, д.{{house}}, кв.{{flat}}
     </div> 
     <span class="address-edit" id="edit-{{addressId}}">Изменить</span>
-    {{#unless isCurrent}}<span class="address-delete" id="delete-{{addressId}}">Удалить</span>{{/unless}}
-    {{#unless isCurrent}}<span class="address-current" id="current-{{addressId}}">Выбрать текущим</span>{{/unless}}
+    {{#unless addressIsCurrent}}<span class="address-delete" id="delete-{{addressId}}">Удалить</span>{{/unless}}
+    {{#unless addressIsCurrent}}<span class="address-current" id="current-{{addressId}}">Выбрать текущим</span>{{/unless}}
 </div>

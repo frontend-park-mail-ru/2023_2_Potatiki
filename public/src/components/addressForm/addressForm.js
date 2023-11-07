@@ -48,7 +48,7 @@ export default class AddressForm {
             UserActions.addAddress(this.city.self.value, this.street.self.value,
                 this.house.self.value, this.flat.self.value);
         } else {
-            UserActions.updateAddress(this.#config.addressId, this.#config.isCurrent,
+            UserActions.updateAddress(this.#config.addressId, this.#config.addressIsCurrent,
                 this.city.self.value,
                 this.street.self.value,
                 this.house.self.value, this.flat.self.value);
@@ -97,7 +97,7 @@ export default class AddressForm {
         if (!isAdd) {
             console.log(address);
             this.#config.addressId = address.addressId;
-            this.#config.isCurrent = address.isCurrent;
+            this.#config.addressIsCurrent = address.addressIsCurrent;
             this.#config.city.value = address.city;
             this.#config.street.value = address.street;
             this.#config.house.value = address.house;

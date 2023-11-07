@@ -407,7 +407,7 @@ class UserStore {
         switch (statusCode) {
         case 200:
             body.sort((a, b) => {
-                return b.isCurrent - a.isCurrent;
+                return b.addressIsCurrent - a.addressIsCurrent;
             });
             this.#state.addresses = body;
             eventEmmiter.emit(Events.SUCCESSFUL_GET_ADDRESSES, body);
@@ -527,11 +527,13 @@ class UserStore {
         switch (statusCode) {
         case 200:
             this.#state.addresses.forEach((element) => {
-                element.isCurrent = false;
+                element.addressIsCurrent = false;
             });
             this.#state.addresses.push(body);
-            [this.#state.addresses[0], this.#state.addresses[this.#state.addresses.length - 1]] =
-            [this.#state.addresses[this.#state.addresses.length - 1], this.#state.addresses[0]];
+            if (this.#state.addresses.length > 1) {
+                [this.#state.addresses[0], this.#state.addresses[this.#state.addresses.length - 1]] =
+                [this.#state.addresses[this.#state.addresses.length - 1], this.#state.addresses[0]];
+            }
             eventEmmiter.emit(Events.SUCCESSFUL_ADD_ADDRESS, this.#state.addresses);
             break;
         case 401:
@@ -608,7 +610,6 @@ class UserStore {
             let index;
             this.#state.addresses.forEach((element, ind) => {
                 if (element.addressId === addressId) {
-                    element.isCurrent = true;
                     index = ind;
                 }
             });
@@ -644,7 +645,7 @@ class UserStore {
             this.#state.addresses[0].isCurrent = false;
             this.#state.addresses.forEach((element, ind) => {
                 if (element.addressId === addressId) {
-                    element.isCurrent = true;
+                    element.addressIsCurrent = true;
                     indCurrent = ind;
                 }
             });
