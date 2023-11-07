@@ -465,6 +465,16 @@ class UserStore {
      * @param {*} number
      */
     async updatePassword(oldPassword, newPassword, repeatPassword) {
+        const isValidPassword = this.validatePassword(newPassword);
+        const isValidRepeatPassword = this.validateRepeatPassword(
+            newPassword,
+            repeatPassword,
+        );
+
+        if (!(isValidRepeatPassword && isValidPassword)) {
+            return;
+        }
+
         const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
             'passwords': {
                 'newPass': newPassword,
@@ -477,13 +487,14 @@ class UserStore {
 
         switch (statusCode) {
         case 200:
-            this.#state.number = number;
             eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_DATA);
             break;
         case 401:
             this.#state.isAuth = false;
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
             break;
+        case 400:
+            eventEmmiter.emit(Events.UPDATE_PASSWORD_FORM_ERROR, 'Неверный пароль');
         default:
             eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
             break;

@@ -78,6 +78,17 @@ export default class PasswordEditForm {
      *
      * @param {String} errorText
      */
+    renderOldPasswordError(errorText) {
+        this.oldPassword.removeError();
+        this.oldPassword.renderError(errorText);
+    }
+
+    renderOldPasswordError = this.renderOldPasswordError.bind(this);
+
+    /**
+     *
+     * @param {String} errorText
+     */
     renderPasswordError(errorText) {
         this.newPassword.removeError();
         this.newPassword.renderError(errorText);
@@ -111,6 +122,7 @@ export default class PasswordEditForm {
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.PASSWORD_INPUT_ERROR, this.renderPasswordError);
         eventEmmiter.subscribe(Events.REPEAT_PASSWORD_INPUT_ERROR, this.renderRepeatPasswordError);
+        eventEmmiter.subscribe(Events.UPDATE_PASSWORD_FORM_ERROR, this.renderOldPasswordError);
     }
 
     /**
