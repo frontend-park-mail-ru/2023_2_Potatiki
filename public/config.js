@@ -259,16 +259,19 @@ const profilePage = {
             oldPassword: {
                 inputName: 'old-password',
                 inputPlaceholder: 'Старый пароль',
+                inputType: 'password',
                 errorId: 'old-password-error',
             },
             newPassword: {
                 inputName: 'new-password',
                 inputPlaceholder: 'Новый пароль',
+                inputType: 'password',
                 errorId: 'new-password-error',
             },
             repeatPassword: {
                 inputName: 'repeat-password',
                 inputPlaceholder: 'Повторите пароль',
+                inputType: 'password',
                 errorId: 'repeat-password-error',
             },
             submit: {

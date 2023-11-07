@@ -63,11 +63,6 @@ export default class Header {
         this.catalog.unsubscribeToEvents();
     }
 
-    updateUserInfo(data) {
-        this.user.self.querySelector('.link_icon__img').src = '/static/' + data.img;
-    }
-
-    updateUserInfo = this.updateUserInfo.bind(this);
     hideCatalog = this.hideCatalog.bind(this);
     renderCatalog = this.renderCatalog.bind(this);
     updateCartCount = this.updateCartCount.bind(this);
@@ -79,14 +74,12 @@ export default class Header {
         eventEmmiter.subscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
-        eventEmmiter.subscribe(Events.PROFILE_DATA, this.updateUserInfo);
     }
 
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
-        eventEmmiter.unsubscribe(Events.PROFILE_DATA, this.updateUserInfo);
     }
 
     removeListeners() {
