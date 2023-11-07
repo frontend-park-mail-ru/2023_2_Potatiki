@@ -120,7 +120,7 @@ class UserStore {
                     action.payload.flat);
                 break;
             case UserActionsType.UPDATE_ADDRESS:
-                this.updateAddress(action.payload.id, action.payload.isCurrent,
+                this.updateAddress(action.payload.id, action.payload.addressIsCurrent,
                     action.payload.city, action.payload.street, action.payload.house,
                     action.payload.flat);
                 break;
@@ -555,7 +555,7 @@ class UserStore {
      * @param {*} house
      * @param {*} flat
      */
-    async updateAddress(addressId, isCurrent, city, street, house, flat) {
+    async updateAddress(addressId, addressIsCurrent, city, street, house, flat) {
         if (!city || !street || !house || !flat) {
             eventEmmiter.emit(Events.ADD_ADDRESS_FORM_ERROR);
             return;
@@ -563,7 +563,7 @@ class UserStore {
 
         const [statusCode, body] = await Ajax.prototype.postRequest(updateAddressUrl, {
             addressId,
-            isCurrent,
+            addressIsCurrent,
             city,
             flat,
             house,

@@ -165,12 +165,12 @@ export const UserActions = {
         });
     },
 
-    updateAddress(id, isCurrent, city, street, house, flat) {
+    updateAddress(id, addressIsCurrent, city, street, house, flat) {
         AppDispatcher.dispatch({
             type: UserActionsType.UPDATE_ADDRESS,
             payload: {
                 id,
-                isCurrent,
+                addressIsCurrent,
                 city: city,
                 street: street,
                 house: house,
