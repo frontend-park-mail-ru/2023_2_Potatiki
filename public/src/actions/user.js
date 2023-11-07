@@ -14,6 +14,12 @@ export const UserActionsType = {
     GET_PROFILE_DATA: 'GET_PROFILE_DATA',
     GET_CSRF_TOKEN: 'GET_CSRF_TOKEN',
     GET_ADDRESSES: 'GET_ADDRESSES',
+    UPDATE_NUMBER: 'UPDATE_NUMBER',
+    UPDATE_PASSWORD: 'UPDATE_PASSWORD',
+    ADD_ADDRESS: 'ADD_ADDRESS',
+    UPDATE_ADDRESS: 'UPDATE_ADDRESS',
+    DELETE_ADDRESS: 'DELETE_ADDRESS',
+    MAKE_CURRENT_ADDRESS: 'MAKE_CURRENT_ADDRESS',
 };
 
 export const UserActions = {
@@ -118,6 +124,70 @@ export const UserActions = {
         AppDispatcher.dispatch({
             type: UserActionsType.GET_ADDRESSES,
             payload: {},
+        });
+    },
+
+    updateNumber(number) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.UPDATE_NUMBER,
+            payload: {
+                number: number,
+            },
+        });
+    },
+
+    updatePassword(oldPassword, newPassword, repeatPassword) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.UPDATE_PASSWORD,
+            payload: {
+                oldPassword: oldPassword,
+                newPassword: newPassword,
+                repeatPassword: repeatPassword,
+            },
+        });
+    },
+
+    addAddress(city, street, house, flat) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.ADD_ADDRESS,
+            payload: {
+                city: city,
+                street: street,
+                house: house,
+                flat: flat,
+            },
+        });
+    },
+
+    updateAddress(id, isCurrent, city, street, house, flat) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.UPDATE_ADDRESS,
+            payload: {
+                id,
+                isCurrent,
+                city: city,
+                street: street,
+                house: house,
+                flat: flat,
+            },
+        });
+    },
+
+    deleteAddress(id) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.DELETE_ADDRESS,
+            payload: {
+                id,
+            },
+        });
+    },
+
+    makeCurrentAddress(id) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.MAKE_CURRENT_ADDRESS,
+            payload: {
+                id,
+            },
         });
     },
 };

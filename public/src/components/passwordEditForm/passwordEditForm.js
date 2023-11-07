@@ -45,7 +45,8 @@ export default class PasswordEditForm {
      */
     submitHandle(event) {
         event.preventDefault();
-        UserActions.updatePassword(this.oldPassword.self.value, this.newPassword.self.value);
+        UserActions.updatePassword(this.oldPassword.self.value, this.newPassword.self.value,
+            this.repeatPassword.self.value);
     }
 
     submitHandle = this.submitHandle.bind(this);

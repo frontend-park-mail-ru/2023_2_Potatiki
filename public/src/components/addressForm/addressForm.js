@@ -13,6 +13,8 @@ export default class AddressForm {
 
     #config;
 
+    #isAdd;
+
     city;
     street;
     house;
@@ -42,7 +44,15 @@ export default class AddressForm {
      */
     submitHandle(event) {
         event.preventDefault();
-        UserActions.updateNumber(this.number.self.value);
+        if (this.#isAdd) {
+            UserActions.addAddress(this.city.self.value, this.street.self.value,
+                this.house.self.value, this.flat.self.value);
+        } else {
+            UserActions.updateAddress(this.#config.addressId, this.#config.isCurrent,
+                this.city.self.value,
+                this.street.self.value,
+                this.house.self.value, this.flat.self.value);
+        }
     }
 
     submitHandle = this.submitHandle.bind(this);
@@ -51,7 +61,7 @@ export default class AddressForm {
      *
      */
     addListeners() {
-
+        this.submit.self.addEventListener('click', this.submitHandle);
     }
 
     /**
@@ -81,9 +91,13 @@ export default class AddressForm {
    * @param {*} address
    */
     render(isAdd, address) {
+        this.#isAdd = isAdd;
         this.#parent.innerHTML = template(this.#config);
 
         if (!isAdd) {
+            console.log(address);
+            this.#config.addressId = address.addressId;
+            this.#config.isCurrent = address.isCurrent;
             this.#config.city.value = address.city;
             this.#config.street.value = address.street;
             this.#config.house.value = address.house;

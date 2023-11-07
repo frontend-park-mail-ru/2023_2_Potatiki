@@ -3,7 +3,8 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword} from '../modules/validation';
-import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute} from '../config/urls';
+import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
+    addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
 import renderServerMessage from '../modules/server-message';
@@ -19,6 +20,7 @@ class UserStore {
         imgSrc: '',
         isAuth: false,
         csrfToken: '',
+        addresses: [],
     };
 
     /**
@@ -102,6 +104,28 @@ class UserStore {
                 break;
             case UserActionsType.GET_ADDRESSES:
                 this.getAddresses();
+                break;
+            case UserActionsType.UPDATE_NUMBER:
+                this.updateNuber(action.payload.number);
+                break;
+            case UserActionsType.UPDATE_PASSWORD:
+                this.updatePassword(action.payload.oldPassword, action.payload.newPassword,
+                    action.payload.repeatPassword);
+                break;
+            case UserActionsType.ADD_ADDRESS:
+                this.addAddress(action.payload.city, action.payload.street, action.payload.house,
+                    action.payload.flat);
+                break;
+            case UserActionsType.UPDATE_ADDRESS:
+                this.updateAddress(action.payload.id, action.payload.isCurrent,
+                    action.payload.city, action.payload.street, action.payload.house,
+                    action.payload.flat);
+                break;
+            case UserActionsType.DELETE_ADDRESS:
+                this.deleteAddress(action.payload.id);
+                break;
+            case UserActionsType.MAKE_CURRENT_ADDRESS:
+                this.makeCurrentAddress(action.payload.id);
             default:
                 break;
             }
@@ -138,11 +162,14 @@ class UserStore {
      *
      */
     async checkSession() {
-        const [statusCode] = await Ajax.prototype.getRequest(checkUrl);
+        const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
         console.log('check auth', statusCode);
         switch (statusCode) {
         case 200:
             this.#state.isAuth = true;
+            this.#state.loginName = body.login;
+            this.#state.number = body.phone;
+            this.#state.imgSrc = body.img;
             eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname});
             break;
         case 401:
@@ -296,7 +323,7 @@ class UserStore {
         this.#state.loginName = '';
         this.#state.isAuth = false;
         Ajax.prototype.getRequest(logoutUrl);
-        eventEmmiter.emit(Events.LOGOUT, {url: location.pathname});
+        eventEmmiter.emit(Events.LOGOUT, {url: '/'});
     }
 
 
@@ -341,6 +368,9 @@ class UserStore {
         case signupRoute:
             console.log('signup');
             this.recordCSRFToken(signupUrl);
+        case profileUpdateDataRoute:
+            console.log('signup');
+            this.recordCSRFToken(updateDataUrl);
         default:
             break;
         }
@@ -350,13 +380,236 @@ class UserStore {
      *
      */
     async getAddresses() {
-        // Ajax
-        console.log('addresses get');
-        const addresses = [
-            {id: 1, city: 'Москва', street: 'ул. Малая', house: '87', flat: '356', isCurrent: true},
-            {id: 2, city: 'Москва', street: 'ул. Большая', house: '89', flat: '12',
-                isCurrent: false}];
-        eventEmmiter.emit(Events.SUCCESSFUL_GET_ADDRESSES, addresses);
+        const [statusCode, body] = await Ajax.prototype.getRequest(getAddressesUrl);
+        switch (statusCode) {
+        case 200:
+            body.sort((a, b) => {
+                return b.isCurrent - a.isCurrent;
+            });
+            this.#state.addresses = body;
+            eventEmmiter.emit(Events.SUCCESSFUL_GET_ADDRESSES, body);
+            break;
+        case 404:
+            this.#state.addresses = [];
+            eventEmmiter.emit(Events.SUCCESSFUL_GET_ADDRESSES, []);
+            break;
+        case 401:
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+        default:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+        }
+    }
+
+    /**
+     *
+     * @param {*} number
+     */
+    async updateNuber(number) {
+        const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
+            'passwords': {
+                'newPass': '',
+                'oldPass': ''},
+            'phone': number,
+        },
+        this.#state.csrfToken,
+        );
+
+        switch (statusCode) {
+            case 200:
+                this.#state.number = number;
+                eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_DATA);
+                break;
+            case 401:
+                this.#state.isAuth = false;
+                eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+                break;
+            default:
+                eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+                break;
+
+        }
+    }
+
+    /**
+     *
+     * @param {*} number
+     */
+    async updatePassword(oldPassword, newPassword, repeatPassword) {
+        const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
+            'passwords': {
+                'newPass': newPassword,
+                'oldPass': oldPassword},
+            'phone': '',
+        },
+        this.#state.csrfToken,
+        );
+        console.log(statusCode);
+
+        switch (statusCode) {
+        case 200:
+            this.#state.number = number;
+            eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_DATA);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        default:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            break;
+        }
+    }
+    
+    /**
+     *
+     * @param {*} city
+     * @param {*} street
+     * @param {*} house
+     * @param {*} flat
+     * @returns
+     */
+    async addAddress(city, street, house, flat) {
+        if (!city || !street || !house || !flat) {
+            eventEmmiter.emit(Events.ADD_ADDRESS_FORM_ERROR);
+            return;
+        }
+
+        const [statusCode, body] = await Ajax.prototype.postRequest(addAddressUrl, {
+            city,
+            flat,
+            house,
+            street,
+        },
+        this.#state.csrfToken,
+        );
+
+        switch (statusCode) {
+        case 200:
+            this.#state.addresses.forEach((element) => {
+                element.isCurrent = false;
+            });
+            this.#state.addresses.push(body);
+            [this.#state.addresses[0], this.#state.addresses[this.#state.addresses.length - 1]] =
+            [this.#state.addresses[this.#state.addresses.length - 1], this.#state.addresses[0]];
+            eventEmmiter.emit(Events.SUCCESSFUL_ADD_ADDRESS, this.#state.addresses);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        default:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            break;
+        }
+    }
+
+    /**
+     *
+     * @param {*} addressId
+     * @param {*} isCurrent
+     * @param {*} city
+     * @param {*} street
+     * @param {*} house
+     * @param {*} flat
+     */
+    async updateAddress(addressId, isCurrent, city, street, house, flat) {
+        if (!city || !street || !house || !flat) {
+            eventEmmiter.emit(Events.ADD_ADDRESS_FORM_ERROR);
+            return;
+        }
+
+        const [statusCode, body] = await Ajax.prototype.postRequest(updateAddressUrl, {
+            addressId,
+            isCurrent,
+            city,
+            flat,
+            house,
+            street,
+        },
+        this.#state.csrfToken,
+        );
+
+        switch (statusCode) {
+        case 200:
+            this.#state.addresses.forEach((element) => {
+                if (element.addressId === body.addressId) {
+                    element.city = body.city;
+                    element.street = body.street;
+                    element.flat = body.flat;
+                    element.house = body.house;
+                }
+            });
+            eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_ADDRESS, this.#state.addresses);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        default:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            break;
+        }
+    }
+
+    /**
+     *
+     * @param {*} addressId
+     */
+    async deleteAddress(addressId) {
+        const [statusCode, body] = await Ajax.prototype.deleteRequest(deleteAddressUrl, {
+            addressId,
+        },
+        this.#state.csrfToken,
+        );
+
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.SUCCESSFUL_DELETE_ADDRESS);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        default:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            break;
+        }
+    }
+
+    /**
+     *
+     * @param {*} addressId
+     */
+    async makeCurrentAddress(addressId) {
+        const [statusCode, body] = await Ajax.prototype.postRequest(makeCurrentAddressUrl, {
+            addressId,
+        },
+        this.#state.csrfToken,
+        );
+
+        switch (statusCode) {
+        case 200:
+            let indCurrent;
+            this.#state.addresses[0].isCurrent = false;
+            this.#state.addresses.forEach((element, ind) => {
+                if (element.addressId === addressId) {
+                    element.isCurrent = true;
+                    indCurrent = ind;
+                }
+            });
+            [this.#state.addresses[0], this.#state.addresses[indCurrent]] =
+            [this.#state.addresses[indCurrent], this.#state.addresses[0]];
+            console.log(this.#state.addresses);
+            eventEmmiter.emit(Events.SUCCESSFUL_CURRENT_ADDRESS, this.#state.addresses);
+            break;
+        case 401:
+            this.#state.isAuth = false;
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
+            break;
+        default:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            break;
+        }
     }
 }
 export const userStore = new UserStore();

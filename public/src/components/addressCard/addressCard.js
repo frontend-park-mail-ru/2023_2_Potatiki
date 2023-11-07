@@ -22,7 +22,7 @@ export default class AddressCard {
      * @param {*} callback
      */
     addEditEventListeners(callback) {
-        document.querySelector(`#edit-${this.#config.id}`).addEventListener('click', callback);
+        document.querySelector(`#edit-${this.#config.addressId}`).addEventListener('click', callback);
     }
 
     /**
@@ -30,7 +30,15 @@ export default class AddressCard {
      * @param {*} callback
      */
     addDeleteEventListeners(callback) {
-        document.querySelector(`#delete-${this.#config.id}`)?.addEventListener('click', callback);
+        document.querySelector(`#delete-${this.#config.addressId}`)?.addEventListener('click', callback);
+    }
+
+    /**
+     *
+     * @param {*} callback
+     */
+    addCurrentEventListeners(callback) {
+        document.querySelector(`#current-${this.#config.addressId}`)?.addEventListener('click', callback);
     }
 
     /**

@@ -86,7 +86,7 @@ const header = {
     profile: {
         id: 'profile-button',
         class: 'link_icon',
-        href: 'my-profile',
+        href: '/my-profile',
         text: 'Профиль',
         imgSrc: '/static/images/user.svg',
         imgClass: 'link_icon__img',

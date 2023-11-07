@@ -9,6 +9,8 @@ import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import AddressCard from '../addressCard/addressCard.js';
 import Link from '../link/link.js';
+import {profileUpdateDataRoute, profileAddAddressRoute} from '../../config/urls.js';
+import { userStore } from '../../stores/user.js';
 
 const States = {
     INFO_CARD: 'Мои данные',
@@ -56,6 +58,7 @@ export default class Profile {
             this.#config.currentNavElem = this.#config.navElem2;
             this.removeEventListeners();
             this.render();
+            console.log('actions get_addresse');
             UserActions.getAddresses();
             break;
         }
@@ -66,8 +69,9 @@ export default class Profile {
      * @param {*} event
      */
     editNumber(event) {
+        UserActions.getCSRFToken(profileUpdateDataRoute);
         document.querySelector('#profile-data-card').innerHTML = '';
-        this.numberEditForm.render();
+        this.numberEditForm.render(userStore.number);
     }
 
     /**
@@ -75,6 +79,7 @@ export default class Profile {
      * @param {*} event
      */
     editPassword(event) {
+        UserActions.getCSRFToken(profileUpdateDataRoute);
         document.querySelector('#profile-data-card').innerHTML = '';
         this.passwordEditForm.render();
     }
@@ -84,6 +89,7 @@ export default class Profile {
      * @param {*} event
      */
     addAddress(event) {
+        UserActions.getCSRFToken(profileAddAddressRoute);
         event.preventDefault();
         document.querySelector('#profile-data-card').innerHTML = '';
         this.addressAddForm.render(true);
@@ -97,7 +103,9 @@ export default class Profile {
      */
     deleteAddress(event) {
         event.preventDefault();
-        console.log('delete card');
+        UserActions.getCSRFToken(profileAddAddressRoute);
+        const currentId = event.target.parentElement.id;
+        UserActions.deleteAddress(currentId);
     }
 
     deleteAddress = this.deleteAddress.bind(this);
@@ -108,13 +116,27 @@ export default class Profile {
      */
     editAddress(event) {
         event.preventDefault();
+        UserActions.getCSRFToken(profileAddAddressRoute);
         const currentId = event.target.parentElement.id;
-        const address = this.addresses.find((address) => address.id == currentId);
+        const address = this.addresses.find((address) => address.addressId == currentId);
         document.querySelector('#profile-data-card').innerHTML = '';
         this.addressAddForm.render(false, address);
     }
 
     editAddress = this.editAddress.bind(this);
+
+    /**
+     *
+     * @param {*} event
+     */
+    currentAddress(event) {
+        event.preventDefault();
+        UserActions.getCSRFToken(profileAddAddressRoute);
+        const currentId = event.target.parentElement.id;
+        UserActions.makeCurrentAddress(currentId);
+    }
+
+    currentAddress = this.currentAddress.bind(this);
 
 
     /**
@@ -124,16 +146,24 @@ export default class Profile {
     renderAddresses(addresses) {
         this.addresses = addresses;
         const parent = document.querySelector('#profile-data-card');
+        parent.innerHTML = '';
 
-        addresses.forEach((element) => {
-            const address = new AddressCard(parent, element);
-            address.render();
-            address.addDeleteEventListeners(this.deleteAddress);
-            address.addEditEventListeners(this.editAddress);
-        });
+        console.log('render add');
+        if ((Object.keys(addresses).length) > 0) {
+            addresses.forEach((element) => {
+                console.log(element);
+                const address = new AddressCard(parent, element);
+                address.render();
+                address.addDeleteEventListeners(this.deleteAddress);
+                address.addEditEventListeners(this.editAddress);
+                address.addCurrentEventListeners(this.currentAddress);
+            });
+        }
 
-        const addLink = new Link(parent, {text: 'Добавить', id: 'add-address'});
-        addLink.render();
+        const addLink = document.createElement('span');
+        addLink.id = 'add-address';
+        addLink.innerHTML = 'Добавить';
+        parent.appendChild(addLink);
         this.addAddressesEventListeners();
     }
 
@@ -163,8 +193,25 @@ export default class Profile {
     /**
      *
      */
+    renderInfoCard() {
+        const infoCard = new InfoCard(document.querySelector('#profile-data-card'));
+        infoCard.render();
+        document.querySelector('.number-edit')?.addEventListener('click',
+            this.editNumber.bind(this));
+        document.querySelector('.password-edit')?.addEventListener('click',
+            this.editPassword.bind(this));
+    }
+
+    /**
+     *
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.SUCCESSFUL_GET_ADDRESSES, this.renderAddresses);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_ADD_ADDRESS, this.renderAddresses);
+        // eventEmmiter.subscribe(Events.SUCCESSFUL_DELETE_ADDRESS, this.renderAddresses);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_UPDATE_ADDRESS, this.renderAddresses);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_CURRENT_ADDRESS, this.renderAddresses);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_UPDATE_DATA, this.renderInfoCard);
     }
 
     /**

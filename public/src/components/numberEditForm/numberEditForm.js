@@ -48,7 +48,7 @@ export default class NumberEditForm {
      *
      */
     addListeners() {
-
+        this.submit.self.addEventListener('click', this.submitHandle);
     }
 
     /**
@@ -75,10 +75,10 @@ export default class NumberEditForm {
     /**
    * Отрисовка компонента формы авторизации
    */
-    render() {
+    render(number) {
         this.#parent.innerHTML = template(this.#config);
 
-
+        this.#config.number.value = number;
         this.number = new Input(
             document.querySelector('.info-edit-form__number'),
             this.#config.number,
