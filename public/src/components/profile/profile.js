@@ -69,10 +69,13 @@ export default class Profile {
      * @param {*} event
      */
     editNumber(event) {
+        console.log('click');
         UserActions.getCSRFToken(profileUpdateDataRoute);
         document.querySelector('#profile-data-card').innerHTML = '';
         this.numberEditForm.render(userStore.number);
     }
+
+    editNumber = this.editNumber.bind(this);
 
     /**
      *
@@ -83,6 +86,8 @@ export default class Profile {
         document.querySelector('#profile-data-card').innerHTML = '';
         this.passwordEditForm.render();
     }
+
+    editPassword = this.editPassword.bind(this);
 
     /**
      *
@@ -185,21 +190,22 @@ export default class Profile {
         document.querySelector('#profile-my-addresses').addEventListener('click',
             this.setState.bind(this));
         document.querySelector('.number-edit')?.addEventListener('click',
-            this.editNumber.bind(this));
+            this.editNumber);
         document.querySelector('.password-edit')?.addEventListener('click',
-            this.editPassword.bind(this));
+            this.editPassword);
     }
 
     /**
      *
      */
     renderInfoCard() {
+        console.log('info card');
         const infoCard = new InfoCard(document.querySelector('#profile-data-card'));
         infoCard.render();
         document.querySelector('.number-edit')?.addEventListener('click',
-            this.editNumber.bind(this));
+            this.editNumber);
         document.querySelector('.password-edit')?.addEventListener('click',
-            this.editPassword.bind(this));
+            this.editPassword);
     }
 
     /**
@@ -211,7 +217,7 @@ export default class Profile {
         // eventEmmiter.subscribe(Events.SUCCESSFUL_DELETE_ADDRESS, this.renderAddresses);
         eventEmmiter.subscribe(Events.SUCCESSFUL_UPDATE_ADDRESS, this.renderAddresses);
         eventEmmiter.subscribe(Events.SUCCESSFUL_CURRENT_ADDRESS, this.renderAddresses);
-        eventEmmiter.subscribe(Events.SUCCESSFUL_UPDATE_DATA, this.renderInfoCard);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_UPDATE_DATA, this.renderInfoCard.bind(this));
     }
 
     /**
