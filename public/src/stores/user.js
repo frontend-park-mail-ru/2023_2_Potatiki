@@ -510,6 +510,7 @@ class UserStore {
      * @returns
      */
     async addAddress(city, street, house, flat) {
+        this.recordCSRFToken(addAddressUrl);
         if (!city || !street || !house || !flat) {
             eventEmmiter.emit(Events.ADD_ADDRESS_FORM_ERROR);
             return;
