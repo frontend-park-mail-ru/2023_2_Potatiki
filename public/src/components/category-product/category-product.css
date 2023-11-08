@@ -21,6 +21,7 @@
 .category-card__img-place {
     display: flex;
     align-self: center;
+    justify-content: center;
 }   
 
 .category-card__management {
