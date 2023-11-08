@@ -47,7 +47,7 @@ export default class ImgEditForm {
         if (imgFile) {
             UserActions.updateImg(imgFile);
         } else {
-            this.renderError();
+            eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_IMG);
         }
     }
 
