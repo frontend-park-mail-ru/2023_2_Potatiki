@@ -20,8 +20,8 @@
 
 .info-card__avatar {
     display: flex;
-    width: 200px;
-    height: 200px;
+    width: 176px;
+    height: 176px;
     overflow: hidden;
     border-radius: 50%;
     justify-content: center;
@@ -29,7 +29,7 @@
 
 .avatar__img {
     display: inline-block;
-   width: 200px;
+   width: 176px;
    height: auto;
 }
 
