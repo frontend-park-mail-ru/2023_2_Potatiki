@@ -26,6 +26,10 @@
     width: 170px;
     height: 120px;
     padding: 0 10px 0 10px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .product-card__img {
