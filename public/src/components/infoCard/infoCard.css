@@ -20,7 +20,7 @@
 
 .info-card__avatar {
     display: flex;
-    justify-content: center;
+    padding-left: 16px;
     align-items: center;
 }
 
