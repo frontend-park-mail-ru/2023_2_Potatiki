@@ -33,6 +33,7 @@ const header = {
             inputPlaceholder: 'Я хочу найти',
             error: false,
             label: false,
+            disabled: true,
         },
         submit: {
             class: 'button_disabled search-form__button_size_search',
@@ -48,7 +49,7 @@ const header = {
 
     orders: {
         id: 'orders-button',
-        class: 'link_icon link_disabled',
+        class: 'link_icon',
         href: '/orders',
         text: 'Заказы',
         imgSrc: '/static/images/order-box.svg',
