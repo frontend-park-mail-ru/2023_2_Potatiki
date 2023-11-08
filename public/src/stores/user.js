@@ -3,8 +3,8 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword, checkPhone, cleanPhone, formatPhone} from '../modules/validation';
-import {loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
-    addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl, orderRoute, createOrderUrl} from '../config/urls';
+import {baseUrl,loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
+    addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl, orderRoute, createOrderUrl, updatePhotoUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {reviver} from '../modules/utils';
 import renderServerMessage from '../modules/server-message';
@@ -50,6 +50,13 @@ class UserStore {
      */
     get number() {
         return this.#state.number;
+    }
+
+    /**
+     *
+     */
+    get imgSrc() {
+        return this.#state.imgSrc;
     }
 
     /**
@@ -129,6 +136,8 @@ class UserStore {
                 break;
             case UserActionsType.MAKE_CURRENT_ADDRESS:
                 this.makeCurrentAddress(action.payload.id);
+            case UserActionsType.UPDATE_IMG:
+                this.updateImg(action.payload.img);
             default:
                 break;
             }
@@ -209,8 +218,10 @@ class UserStore {
         );
         switch (statusCode) {
         case 200:
-            this.#state.loginName = login;
             this.#state.isAuth = true;
+            this.#state.loginName = body.login;
+            this.#state.number = formatPhone(body.phone);
+            this.#state.imgSrc = body.img;
             eventEmmiter.emit(Events.SUCCESSFUL_LOGIN);
             break;
         case 403:
@@ -254,8 +265,9 @@ class UserStore {
         );
         switch (statusCode) {
         case 200:
-            this.#state.loginName = login;
-            this.#state.number = formatPhone(phone);
+            this.#state.loginName = body.login;
+            this.#state.number = formatPhone(body.phone);
+            this.#state.imgSrc = body.img;
             this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
             break;
@@ -674,5 +686,17 @@ class UserStore {
             break;
         }
     }
+
+    /**
+     *
+     * @param {*} img
+     */
+    async updateImg(img) {
+        const [statusCode, body] = await Ajax.prototype.postBinRequest(updatePhotoUrl, img,
+                    this.#state.csrfToken,
+                    );
+        this.#state.imgSrc = body.img;
+    }
 }
+
 export const userStore = new UserStore();

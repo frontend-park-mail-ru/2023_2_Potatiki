@@ -39,6 +39,41 @@ export default class Ajax {
     }
 
     /**
+   * POST-запрос
+   * @param {String} url Путь запроса
+   * @param {Object} data Тело запроса
+   * @return {Object} Ответ с сервера
+   */
+    async postBinRequest(url, data, token) {
+        const options = {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            exposedHeaders: '*',
+            headers: {
+                // 'Content-Type': 'image/png',
+                // 'Accept': 'application/json',
+            },
+            body: data,
+        };
+        console.log(data);
+        if (token) {
+            options.headers['X-Csrf-Token'] = token;
+        }
+
+        try {
+            const response = await fetch(baseUrl + url, options);
+            const body = await response.text();
+            if (!body) {
+                return [response.status, {}];
+            }
+            return [response.status, JSON.parse(body)];
+        } catch (error) {
+            return [429, error];
+        }
+    }
+
+    /**
    * GET-запрос
    * @param {String} url Путь запроса
    * @return {Object} Ответ с сервера

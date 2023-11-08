@@ -11,6 +11,7 @@ import AddressCard from '../addressCard/addressCard.js';
 import Link from '../link/link.js';
 import {profileUpdateDataRoute, profileAddAddressRoute} from '../../config/urls.js';
 import { userStore } from '../../stores/user.js';
+import ImgEditForm from '../imgEditForm/imgEditForm.js';
 
 const States = {
     INFO_CARD: 'Мои данные',
@@ -29,6 +30,7 @@ export default class Profile {
     numberEditForm;
     passwordEditForm;
     addressAddForm;
+    imgEditForm;
 
     /**
      *
@@ -88,6 +90,18 @@ export default class Profile {
     }
 
     editPassword = this.editPassword.bind(this);
+
+    /**
+     *
+     * @param {*} event
+     */
+    editImg(event) {
+        UserActions.getCSRFToken(profileUpdateDataRoute);
+        document.querySelector('#profile-data-card').innerHTML = '';
+        this.imgEditForm.render();
+    }
+
+    editImg = this.editImg.bind(this);
 
     /**
      *
@@ -194,6 +208,8 @@ export default class Profile {
             this.editNumber);
         document.querySelector('.password-edit')?.addEventListener('click',
             this.editPassword);
+        document.querySelector('.info-card__avatar')?.addEventListener('click',
+            this.editImg);
     }
 
     /**
@@ -244,6 +260,7 @@ export default class Profile {
         this.numberEditForm = new NumberEditForm(document.querySelector('#profile-data-card'));
         this.passwordEditForm = new PasswordEditForm(document.querySelector('#profile-data-card'));
         this.addressAddForm = new AddressForm(document.querySelector('#profile-data-card'));
+        this.imgEditForm = new ImgEditForm(document.querySelector('#profile-data-card'));
 
         switch (this.#state) {
         case States.INFO_CARD:

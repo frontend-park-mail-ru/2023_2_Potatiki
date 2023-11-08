@@ -1,0 +1,14 @@
+.upload__img {
+   display: inline-block;
+   width: 200px;
+   height: auto;
+}
+
+.upload {
+    display: flex;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+    justify-content: center;
+}

@@ -70,11 +70,11 @@ class Router {
      * @param {Event} event Событие нажатия по ссылке
      */
     listenClick(event) {
-        event.preventDefault();
         const anchor = event.target.closest('a');
         if (!anchor) {
             return;
         }
+        event.preventDefault();
         this.go({url: anchor.getAttribute('href')});
     };
 

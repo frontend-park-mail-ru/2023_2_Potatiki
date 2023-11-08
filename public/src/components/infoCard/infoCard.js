@@ -18,6 +18,7 @@ export default class InfoCard {
         this.#config = config.profilePage.profile.infoCard;
         this.#config.login = userStore.loginName;
         this.#config.number = userStore.number;
+        this.#config.imgSrc = userStore.imgSrc;
     }
 
     /**

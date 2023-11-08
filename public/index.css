@@ -13,6 +13,7 @@
 @import './src/components/signupForm/signupForm.css';
 @import './src/components/passwordEditForm/passwordEditForm.css';
 @import './src/components/numberEditForm/numberEditForm.css';
+@import './src/components/imgEditForm/imgEditForm.css';
 @import './src/components/addressForm/addressForm.css';
 @import './src/components/profile/profile.css';
 @import './src/components/infoCard/infoCard.css';

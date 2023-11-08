@@ -21,6 +21,7 @@ export const UserActionsType = {
     UPDATE_ADDRESS: 'UPDATE_ADDRESS',
     DELETE_ADDRESS: 'DELETE_ADDRESS',
     MAKE_CURRENT_ADDRESS: 'MAKE_CURRENT_ADDRESS',
+    UPDATE_IMG: 'UPDATE_IMG',
 };
 
 export const UserActions = {
@@ -193,6 +194,15 @@ export const UserActions = {
             type: UserActionsType.MAKE_CURRENT_ADDRESS,
             payload: {
                 id,
+            },
+        });
+    },
+
+    updateImg(img) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.UPDATE_IMG,
+            payload: {
+                img,
             },
         });
     },
