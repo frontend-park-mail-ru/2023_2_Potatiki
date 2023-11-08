@@ -20,9 +20,17 @@
 
 .info-card__avatar {
     display: flex;
-    width: 176px;
-    align-items: center;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
     justify-content: center;
+}
+
+.avatar__img {
+    display: inline-block;
+   width: 200px;
+   height: auto;
 }
 
 .info-card__number {
