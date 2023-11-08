@@ -46,7 +46,7 @@ export default class CartPage {
             data: data,
             quantity: data.quantity,
             img: {
-                imgSrc: './static/images/' + data.img,
+                imgSrc: '/static/images/' + data.img,
                 imgClass: 'cart-product__img',
                 href: productRoute + '/' + data.productId,
                 class: 'cart-product__img-place',
@@ -64,7 +64,7 @@ export default class CartPage {
                 class: 'cart-product__management-button',
                 spanClass: 'cart-product__management-button-text',
                 imgClass: 'count-management__img',
-                imgSrc: './static/images/' + 'garbage.svg',
+                imgSrc: '/static/images/' + 'garbage.svg',
             },
             management: {
                 id: `count-management-${data.productId}`,
@@ -77,7 +77,7 @@ export default class CartPage {
                 },
                 plus: {
                     id: `plus-${data.productId}`,
-                    imgSrc: './static/images/' + 'plus.svg',
+                    imgSrc: '/static/images/' + 'plus.svg',
                     imgClass: 'count-management__img',
                     class: 'count-management__button count-management__button-right',
                 },
