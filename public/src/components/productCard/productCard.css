@@ -37,6 +37,9 @@
     margin-top: 12px;
     padding-left: 16px;
     height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .product-card__rate {
