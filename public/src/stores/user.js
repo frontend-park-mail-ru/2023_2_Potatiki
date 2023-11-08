@@ -693,9 +693,17 @@ class UserStore {
      */
     async updateImg(img) {
         const [statusCode, body] = await Ajax.prototype.postBinRequest(updatePhotoUrl, img,
-                    this.#state.csrfToken,
-                    );
+            this.#state.csrfToken,
+        );
         this.#state.imgSrc = body.img;
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_IMG);
+            break;
+        default:
+            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            break;
+        }
     }
 }
 

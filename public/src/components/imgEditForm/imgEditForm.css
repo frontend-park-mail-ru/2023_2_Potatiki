@@ -1,3 +1,12 @@
+.img-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 316px;
+    margin-top: 20px;
+    align-items: center;
+}
+
 .upload__img {
    display: inline-block;
    width: 200px;
@@ -11,4 +20,8 @@
     overflow: hidden;
     border-radius: 50%;
     justify-content: center;
+}
+
+.img-edit-form__submit {
+    width: 100%;
 }

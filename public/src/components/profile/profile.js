@@ -208,7 +208,7 @@ export default class Profile {
             this.editNumber);
         document.querySelector('.password-edit')?.addEventListener('click',
             this.editPassword);
-        document.querySelector('.info-card__avatar')?.addEventListener('click',
+        document.querySelector('.avatar-edit')?.addEventListener('click',
             this.editImg);
     }
 
@@ -235,6 +235,7 @@ export default class Profile {
         eventEmmiter.subscribe(Events.SUCCESSFUL_UPDATE_ADDRESS, this.renderAddresses);
         eventEmmiter.subscribe(Events.SUCCESSFUL_CURRENT_ADDRESS, this.renderAddresses);
         eventEmmiter.subscribe(Events.SUCCESSFUL_UPDATE_DATA, this.renderInfoCard.bind(this));
+        eventEmmiter.subscribe(Events.SUCCESSFUL_UPDATE_IMG, this.renderInfoCard.bind(this));
     }
 
     /**

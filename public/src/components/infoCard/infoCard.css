@@ -21,7 +21,7 @@
 .info-card__avatar {
     display: flex;
     padding-left: 16px;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .avatar__border {
@@ -34,9 +34,16 @@
 }
 
 .avatar__img {
-    display: inline-block;
+   display: inline-block;
    width: 176px;
    height: auto;
+}
+
+.avatar-edit {
+    cursor: pointer;
+    width: 16px;
+    height: 20pxpx;
+    margin-bottom: 16px;
 }
 
 .info-card__number {

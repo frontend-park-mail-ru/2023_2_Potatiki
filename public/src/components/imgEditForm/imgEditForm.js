@@ -5,6 +5,7 @@ import {UserActions} from '../../actions/user.js';
 import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
+import {userStore} from '../../stores/user.js';
 
 
 /**
@@ -96,9 +97,10 @@ export default class ImgEditForm {
    * Отрисовка компонента формы авторизации
    */
     render() {
-        this.#parent.innerHTML = template(this.#config);
+        this.#parent.innerHTML = template({imgSrc: userStore.imgSrc});
 
-        this.submit = new Button(this.self, config.profilePage.profile.numberEditForm.submit);
+        this.submit = new Button(this.self, {class: 'img-edit-form__submit',
+            id: 'img-edit-button', text: 'Сохранить'});
         this.submit.render();
 
 
