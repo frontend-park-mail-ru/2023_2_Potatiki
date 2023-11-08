@@ -20,6 +20,12 @@
 
 .info-card__avatar {
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar__border {
+    display: flex;
     width: 176px;
     height: 176px;
     overflow: hidden;
