@@ -50,3 +50,9 @@
 .cart-product__management-button-text {
     color: black;
 }
+
+.cart-product__img-place {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

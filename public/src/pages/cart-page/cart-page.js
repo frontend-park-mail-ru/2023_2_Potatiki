@@ -49,6 +49,7 @@ export default class CartPage {
                 imgSrc: './static/images/' + data.img,
                 imgClass: 'cart-product__img',
                 href: productRoute + '/' + data.productId,
+                class: 'cart-product__img-place',
             },
             name: {
                 text: data.productName,
