@@ -74,6 +74,10 @@ class Router {
         if (!anchor) {
             return;
         }
+        if (!anchor.getAttribute('href')) {
+            event.preventDefault();
+            return;
+        }
         event.preventDefault();
         this.go({url: anchor.getAttribute('href')});
     };
