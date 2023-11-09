@@ -3,6 +3,7 @@
     flex-direction: row;
     align-items: center;
     gap: 4px;
+    width: 100%;
 }
 
 .search-form__button_size_search {
@@ -10,5 +11,6 @@
 }
 
 .serch-form__input {
-    width: 600px;
+    /* width: 600px; */
+    width: 100%;
 }

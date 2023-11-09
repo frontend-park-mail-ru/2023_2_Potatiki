@@ -65,7 +65,7 @@ export default class OrderPage {
     updateUserInfo(data) {
         this.userInfo.self.querySelector('.name').textContent = data.login;
         this.userInfo.self.querySelector('.value').textContent = data.phone;
-        this.userInfo.self.querySelector('.order-info__img').src = '/static/' + data.img;
+        this.userInfo.self.querySelector('.order-info__img').src = '/static/images/' + data.img;
     }
 
     updateAddress(data) {
@@ -114,7 +114,7 @@ export default class OrderPage {
                     {
                         nameClass: 'info-row__name',
                         img: {
-                            imgSrc: './static/images/' + 'user.svg',
+                            imgSrc: '/static/images/user.svg',
                             imgClass: 'order-info__img',
                         },
                         id: 'user-info-row',

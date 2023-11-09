@@ -8,15 +8,17 @@ import template from './searchForm.hbs';
 export default class SearchForm {
     #parent;
     #config;
+    #isAfterBegin;
 
     /**
      * Конструктор класса
      * @param {Element} parent Родительский компонент
      * @param {Object} config Конфиг для отрисовки класса
      */
-    constructor(parent, config) {
+    constructor(parent, config, isAfterBegin) {
         this.#parent = parent;
         this.#config = config;
+        this.#isAfterBegin = isAfterBegin;
     }
 
 
@@ -24,8 +26,9 @@ export default class SearchForm {
    * Отрисовка компонента формы поиска
    */
     render() {
+        const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(
-            'beforeend',
+            destination,
             template(this.#config),
         );
 

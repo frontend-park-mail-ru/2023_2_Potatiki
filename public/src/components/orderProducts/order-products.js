@@ -25,7 +25,7 @@ export default class OrderProducts {
         return {
             id: `${this.#config.id}-order-product-${data.productId}`,
             data: `data-id=${data.productId}`,
-            imgSrc: './static/images/' + data.img,
+            imgSrc: '/static/images/' + data.img,
             imgClass: 'order-product__img',
             textClass: 'order-product__text',
             class: 'order-product',
