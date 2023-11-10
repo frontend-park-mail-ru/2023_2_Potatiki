@@ -1,4 +1,4 @@
-import header from '../../components/header/header.js';
+import {header} from '../../components/header/header.js';
 import template from './category-page.hbs';
 import {config} from '../../../config.js';
 import {UserActions} from '../../actions/user.js';

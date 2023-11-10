@@ -1,6 +1,6 @@
 import template from './profile-page.hbs';
 import Profile from '../../components/profile/profile';
-import header from '../../components/header/header';
+import {header} from '../../components/header/header';
 import {config} from '../../../config.js';
 import {userStore} from '../../stores/user.js';
 import router from '../../modules/router.js';
@@ -70,6 +70,7 @@ export default class ProfilePage {
 
         if (!userStore.isAuth) {
             this.redirectToLogin();
+            return;
         }
 
         header.render();

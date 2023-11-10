@@ -1,4 +1,4 @@
-import header from '../../components/header/header.js';
+import {header} from '../../components/header/header.js';
 import template from './product-page.hbs';
 import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
