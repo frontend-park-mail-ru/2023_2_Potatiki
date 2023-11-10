@@ -6,6 +6,14 @@
     gap: 0.3rem;
     width: 100%;
 }
+/* 
+@media screen and (max-width: 600px) {
+    .search-form {
+
+        display: none;
+    }
+
+} */
 
 .search-form__button_size_search {
     /* width: 38px; */

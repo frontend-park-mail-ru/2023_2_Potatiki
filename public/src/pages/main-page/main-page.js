@@ -72,7 +72,7 @@ export default class MainPage {
         header.render();
         this.subscribeToEvents();
 
-        ProductsActions.getProducts(0, 20, this.#config.newCarousel);
-        ProductsActions.getProducts(0, 20, this.#config.popularCarousel);
+        ProductsActions.getProducts(0, 30, this.#config.newCarousel);
+        ProductsActions.getProducts(30, 30, this.#config.popularCarousel);
     }
 }

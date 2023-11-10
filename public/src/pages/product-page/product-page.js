@@ -72,7 +72,7 @@ export default class ProductPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating,
-            reviewsCount: `${data.reviews_count || 0} отзывов`,
+            reviewsCount: `${0} отзывов`,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
