@@ -2,12 +2,15 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     width: 80%;
+    align-items: center;
     /*justify-content: space-between;*/
 }
 
 .count-management__button {
-    width: 20px;
-    height: 20px;
+    /* width: 20px;
+    height: 20px; */
+    width: 1.6rem;
+    height: 1.6rem;
     background-color: inherit;
 }
 
@@ -18,16 +21,30 @@
 
 
 .count-management__img {
-    width: 20px;
-    height: 20px;
+    /* width: 20px;
+    height: 20px; */
+    width: 1.6rem;
+    height: 1.6rem;
 }
 
 .count-managment__count-value {
     text-align: center;
+    font-size: 1.2rem;
 }
 
 .count-management__big {
-    max-width: 150px;
+    /* max-width: 150px; */
+    max-width: 12.5rem;
     width: 100%;
     margin: 30px 20px 10px 20px;
+    margin: 2.5rem 1.6rem 0.7rem 1.6rem;
+}
+
+.count-management__main {
+    /* max-width: 150px; */
+    max-width: 12.5rem;
+    /* width: 100%; */
+    width: auto;
+    margin: 30px 20px 10px 20px;
+    margin: 2.5rem 1.6rem 0.7rem 1.6rem;
 }

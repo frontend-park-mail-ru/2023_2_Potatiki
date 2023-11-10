@@ -9,7 +9,7 @@ import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
-
+import './header.css';
 /**
  * Класс хедера страницы
  */
@@ -106,35 +106,36 @@ export default class Header {
 
         const self = document.querySelector('#header');
 
-        const logo = new Link(self, this.#config.logo);
-        logo.render();
-
-        this.catalogButton = new Button(self, this.#config.catalog);
-        this.catalogButton.render();
-        this.catalogButton.self.addEventListener('click', this.renderCatalog);
-
         const search = new SearchForm(
             self,
             this.#config.search,
+            true,
         );
         search.render();
 
-        const orders = new Link(self, this.#config.orders);
+        this.catalogButton = new Button(self, this.#config.catalog, true);
+        this.catalogButton.render();
+        this.catalogButton.self.addEventListener('click', this.renderCatalog);
+
+        const logo = new Link(self, this.#config.logo, true);
+        logo.render();
+
+        const orders = new Link(self.querySelector('.header__icons-container'), this.#config.orders);
         orders.render();
 
-        const favorite = new Link(self, this.#config.favorite);
+        const favorite = new Link(self.querySelector('.header__icons-container'), this.#config.favorite);
         favorite.render();
 
-        this.cart = new Link(self, this.#config.basket);
+        this.cart = new Link(self.querySelector('.header__icons-container'), this.#config.basket);
         this.cart.render();
 
         const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
 
-        this.user = new Link(self, profileState);
+        this.user = new Link(self.querySelector('.header__icons-container'), profileState);
         this.user.render();
 
         if (userStore.isAuth) {
-            this.logoutButton = new Button(self, this.#config.logout);
+            this.logoutButton = new Button(self.querySelector('.header__icons-container'), this.#config.logout);
             this.logoutButton.render();
             this.logoutButton.self.addEventListener('click', this.logout);
         }

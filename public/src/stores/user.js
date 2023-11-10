@@ -324,6 +324,7 @@ class UserStore {
             );
             return false;
         }
+        eventEmmiter.emit(Events.REPEAT_PASSWORD_INPUT_ERROR, '');
         return true;
     }
 

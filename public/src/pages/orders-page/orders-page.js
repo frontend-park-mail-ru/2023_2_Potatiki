@@ -37,11 +37,19 @@ export default class OrdersPage {
     }
 
     getConfig(data) {
+        let summary = 0;
+        let count = 0;
+        data.products.forEach((product) => {
+            count += product.quantity;
+            summary += product.quantity * product.price;
+        });
         return {
             id: `order-item-${data.id}`,
             uuid: data.id,
             status: data.statusId,
             products: data.products,
+            summary: summary.toLocaleString() + ' ₽',
+            count: count,
             address: `${data.city}, ${data.street}, ${data.house}, ${data.flat}`,
         };
     }

@@ -1,13 +1,19 @@
 .order-info__products {
-    width: 760px;
+    /* width: 760px; */
+}
+
+.white-color {
+    background-color: var(--color-card-background);
 }
 
 .order-info__products {
-    background-color: var(--color-card-background);
-    border-radius: 20px;
+    /* background-color: var(--color-background); */
+    /* border-radius: 20px; */
+    border-radius: 1.6rem;
     padding: 26px 30px 30px 30px;
-    margin-right: 30px;
-    margin-bottom: 30px;
+    padding: 2.1rem 2.5rem 2.5rem 2.5rem;
+    /* margin-right: 30px; */
+    /* margin-bottom: 30px; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -17,12 +23,15 @@
 .order-info__products-container {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 20px;
+    /* margin-top: 20px; */
+    margin-top: 1.6rem;
 }
 
 .order-product__img {
-    max-height: 60px;
-    max-width: 60px;
+    /* max-height: 60px;
+    max-width: 60px; */
+    max-height: 5rem;
+    max-width: 5rem;
     align-self: center;
 }
 
@@ -32,26 +41,39 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 32px;
-    height: 24px;
+    /* width: 32px; */
+    width: 2.6rem;
+    /* height: 24px; */
+    height: 2rem;
     position: absolute;
-    right: 2px;
-    bottom: 2px;
+    /* right: 2px;
+    bottom: 2px; */
+    right: 0.16rem;
+    bottom: 0.16rem;
     background-color: var(--color-card-background);
     border-radius: 16px;
 }
 
 .order-product {
-    border: 1px solid var(--color-stroke);
-    border-radius: 20px;
+    /* border: 1px solid var(--color-stroke); */
+    border: 0.01rem solid var(--color-stroke);
+    /* border-radius: 20px; */
+    border-radius: 1.6rem;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin: 0 4px;
-    min-width: 72px;
-    height: 72px;
-    padding: 4px;
-    margin-top: 10px;
+    /* margin: 0 4px; */
+    margin: 0 0.3rem;
+    /* min-width: 72px; */
+    min-width: 6rem;
+    /* height: 72px; */
+    height: 6rem;
+    /* padding: 4px; */
+    padding: 0.3rem;
+    /* margin-top: 10px; */
+    margin-top: 0.8rem;
+    background-color: var(--color-background-header);
+    font-size: 1.6rem;
 }

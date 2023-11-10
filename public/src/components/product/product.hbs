@@ -8,7 +8,7 @@
         <div class="product-card__reviews product__reviews">
             <a href="{{reviewsHref}}" class="product-card__reviews-link category-card__reviews-link">
                 <div class="product-card__rate">
-                    <img src="{{starHref}}" class="{{starClass}}">
+                    <img src="{{starHref}}" class="{{starClass}} star-icon__img">
                     <span class="product-card__rate__text">{{productRate}}</span> 
                 </div>
                 <span class="product-card__count-reviews">
@@ -20,27 +20,24 @@
 
     <div class="product__data">
         <div class="product__img-place"></div>
-        <div class="product__text-place">
-            <div class="product__info-rows">
+        <div class="product__info-rows">
             <div class="product__info-row">
-                <span>Категория:</span>
-                <a href="{{categoryHref}}">{{category}}</a>
+                <span class="product__info-row-text bold-text">Категория:</span>
+                <a href="{{categoryHref}}"><span class="product__info-row-text">{{category}}</span></a>
             </div>
             <div class="product__info-row">
-                <span>Описание:</span>
-                <span>{{description}}</span>
+                <span class="product__info-row-text bold-text">Описание:</span>
+                <span class="product__info-row-text">{{description}}</span>
             </div>
             
-            </div>
-            <div class="product__management">
-                <div class="product-card__price category-card__price">
-                    <span class="product-card__price-value category-card__price">
-                        {{price}}
-                    </span>
-                </div>
+        </div>
+        <div class="product__management">
+            <div class="product-card__price category-card__price">
+                <span class="product-card__price-value category-card__price product__price">
+                    {{price}}
+                </span>
             </div>
         </div>
-        
     </div>
     
     
