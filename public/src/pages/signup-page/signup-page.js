@@ -4,6 +4,7 @@ import template from './signup-page.hbs';
 import {config} from '../../../config.js';
 import {signupRoute} from '../../config/urls.js';
 import {UserActions} from '../../actions/user.js';
+import {header} from '../../components/header/header.js';
 
 /**
  * Класс страницы регистрации
@@ -51,7 +52,10 @@ export default class SignupPage {
     render() {
         UserActions.getCSRFToken(signupRoute);
 
+        header.hide();
+
         this.#parent.innerHTML = template();
+
 
         const logo = new Link(this.self, this.#config.logo);
         logo.render();

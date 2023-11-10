@@ -1,4 +1,4 @@
-import Header from '../../components/header/header.js';
+import header from '../../components/header/header.js';
 import template from './orders-page.hbs';
 import {config} from '../../../config.js';
 import {UserActions} from '../../actions/user.js';
@@ -63,7 +63,6 @@ export default class OrdersPage {
     renderAll() {
         this.#parent.innerHTML = template({});
 
-        const header = new Header(this.#parent);
         header.render();
         this.addListeners();
         CartActions.getAllOrders();

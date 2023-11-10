@@ -1,4 +1,4 @@
-import Header from '../../components/header/header.js';
+import header from '../../components/header/header.js';
 import template from './product-page.hbs';
 import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -120,7 +120,6 @@ export default class ProductPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header(this.self);
         header.render();
         this.subscribeToEvents();
         ProductsActions.getProduct(this.#productId);

@@ -1,8 +1,8 @@
-.container-header {
+#container-header {
     display: flex;
-    height: 70px;
     flex-direction: row;
     align-items: center;
+    height: fit-content;
     justify-content: center;
     background-color: var(--color-background-auth);
     position: fixed;
@@ -16,6 +16,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: 70px;
     width: 1400px;
     gap: 32px;
 }

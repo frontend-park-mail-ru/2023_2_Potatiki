@@ -86,8 +86,6 @@ class Router {
      */
     go(state, replaceState) {
         let baseState = this.#states.get(state.url);
-        console.log(baseState);
-        console.log(this.#states);
         let idParam;
         if (!baseState) {
             const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('/'));
@@ -107,7 +105,6 @@ class Router {
         }
 
         this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
-        console.log(this.#currentView);
         this.#currentView.render();
         if (replaceState) {
             this.#history.replaceState(

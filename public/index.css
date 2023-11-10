@@ -41,6 +41,8 @@
     font-family: 'Nanum Gothic', sans-serif;
 }
 
+
+
 @keyframes errorSurface {
     from {
         opacity: 100%;

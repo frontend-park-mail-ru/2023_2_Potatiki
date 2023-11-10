@@ -4,6 +4,7 @@ import template from './login-page.hbs';
 import {config} from '../../../config.js';
 import {UserActions} from '../../actions/user.js';
 import {loginRoute} from '../../config/urls.js';
+import {header} from '../../components/header/header.js';
 
 /**
  * Класс страницы авторизации
@@ -54,6 +55,8 @@ export default class LoginPage {
     render() {
         this.#parent.innerHTML = template();
         UserActions.getCSRFToken(loginRoute);
+
+        header.hide();
 
         const logo = new Link(this.self, this.#config.logo);
         logo.render();

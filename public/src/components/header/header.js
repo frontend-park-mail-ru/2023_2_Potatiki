@@ -17,6 +17,7 @@ export default class Header {
     #parent;
 
     #config;
+    #isRendered;
 
     cart;
 
@@ -36,6 +37,7 @@ export default class Header {
     constructor(parent) {
         this.#parent = parent;
         this.#config = config.mainPage.header;
+        this.#isRendered = false;
     }
 
     updateCartCount(count) {
@@ -86,16 +88,18 @@ export default class Header {
         this.logoutButton?.removeEventListener('click', logout);
     }
 
+
     /**
    * Отрисовка компонента хедера
    */
     render() {
-        // this.#parent.insertAdjacentHTML(
-        //     'afterbegin',
-        //     template(),
-        // );
+        if (this.#isRendered) {
+            return;
+        }
 
-        document.querySelector('#root').insertAdjacentHTML(
+        this.#isRendered = true;
+
+        document.querySelector('#container-header').insertAdjacentHTML(
             'afterbegin',
             template(),
         );
@@ -137,6 +141,15 @@ export default class Header {
 
         this.subscribeToEvents();
         CartActions.getCartCount();
-        UserActions.getProfileData();
+        // UserActions.getProfileData();
+    }
+
+    hide() {
+        this.#isRendered = false;
+        this.unsubscribeToEvents();
+        this.removeListeners();
+        document.querySelector('#container-header').innerHTML = '';
     }
 }
+
+export const header = new Header();

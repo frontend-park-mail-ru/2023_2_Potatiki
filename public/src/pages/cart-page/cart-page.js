@@ -1,16 +1,11 @@
-import Link from '../../components/link/link.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerMessage from '../../modules/server-message.js';
 import template from './cart-page.hbs';
-import router from '../../modules/router.js';
-import Header from '../../components/header/header';
+import header from '../../components/header/header';
 import CartProduct from '../../components/cartProduct/cart-product';
 import {config, getProductsUrl} from '../../../config';
 import './cart-page.css';
 import OrderResults from '../../components/orderResults/order-results';
 import {cartRoute, getProducts, productRoute} from '../../config/urls.js';
 import {Events} from '../../config/events.js';
-import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {CartActions} from '../../actions/cart.js';
 
@@ -142,11 +137,6 @@ export default class CartPage {
      */
     render() {
         this.#parent.innerHTML = template();
-        const header = new Header(
-            this.#parent,
-            this.#config.mainPage.header,
-            this.#config.isAuthorized,
-        );
         header.render();
 
         this.subscribeToEvents();

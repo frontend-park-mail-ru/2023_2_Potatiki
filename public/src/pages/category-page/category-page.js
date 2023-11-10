@@ -1,4 +1,4 @@
-import Header from '../../components/header/header.js';
+import header from '../../components/header/header.js';
 import template from './category-page.hbs';
 import {config} from '../../../config.js';
 import {UserActions} from '../../actions/user.js';
@@ -162,7 +162,6 @@ export default class CategoryPage {
     render() {
         this.#parent.innerHTML = template({category: this.#categoryName});
 
-        const header = new Header(this.#parent);
         header.render();
         this.subscribeToEvents();
         this.loadedProducts = 0;
