@@ -1,52 +1,53 @@
 .product  {
     display: grid;
-    grid-template-rows: 0.5fr 3fr;
-    /* height: 55vh; */
-    height: 100%;
-    max-width: 2000px;
-    max-height: 1200px;
+    /* grid-template-rows: minmax(14rem, 18rem) auto; */
+    /* height: 35vh; */
+    /* height: 100%; */
+    height: auto;
     width: 100%;
-    padding: 0 5% 0 5%;
 }
 
 .product__data {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1.5fr 0.7fr;
 }
 
 .product__img {
-    /* max-height: 100%; */
-    /* max-height: 700px;
-    max-width: 700px; */
-    /* width: 100%; */
-    height: 300px;
-    /* object-fit: scale-down; */
+    width: 100%;
+    max-height: 30rem;
+    min-height: 10rem;
+    object-fit: scale-down;
+    
 }
 
 .product__img-place {
+    /* box-shadow: 0 1px 4px var(--color-stroke); */
     /* max-height: 350px; */
-    margin-top: 20px;
-}
-
-.product__text-place {
+    height: 30rem;
+    width: 30rem;
+    /* width: 100%; */
+    /* width: 30rem; */
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+
+
 }
 
 .product__name {
-    font-size: 26px;
-    padding-bottom: 10px;
+    /* font-size: 26px; */
+    font-size: 2.6rem;
+    /* padding-bottom: 10px; */
+    padding-bottom: 0.8rem;
 }
 
 .product__management {
     display: flex;
     flex-direction: column;
-    /* display: grid;
-    grid-template-rows: 1fr 2fr;
     align-items: end;
-    justify-content: start; */
-    padding: 20px 0px 0px 0px;
+    /* justify-content: space-between; */
+    justify-content: start;
+    /* padding: 20px 0px 0px 0px; */
 }
 
 .product__reviews {
@@ -55,16 +56,28 @@
 
 .product__info {
     /* margin-bottom: 40px; */
-    border-bottom: 1px solid var(--color-stroke);
+    margin-bottom: 3.3rem;
+    border-bottom: 0.1rem solid var(--color-stroke);
 }
 
 .product__info-rows {
-    padding-top: 12px;
-    padding-left: 20px;
+    /* padding-top: 12px; */
+    /* padding-left: 20px; */
+    padding-left: 1.6rem;
+
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+    gap: 1rem;
 }
 
 .product__info-row {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 12rem 2fr;
+    
+}
+
+.product__info-row-text {
+    font-size: 1.6rem;
 }

@@ -1,7 +1,9 @@
 a {
     text-decoration: none;
     color: var(--color-headline);
-    font-size: 15px;
+    /* font-size: 15px; */
+    font-size: 1.2rem;
+
     font-style: normal;
     font-weight: 400;
     line-height: normal; 
@@ -15,8 +17,10 @@ a {
 }
 
 .link_icon__img{
-    width: 24px;
-    height: 24px;
+    /* width: 24px;
+    height: 24px; */
+    width: 2rem;
+    height: 2rem;
 }
 
 .link_disabled {

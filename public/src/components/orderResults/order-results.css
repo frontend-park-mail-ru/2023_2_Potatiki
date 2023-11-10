@@ -1,6 +1,6 @@
 .order-results {
     background-color: var(--color-card-background);
-    width: 340px;
+    /* width: 340px; */
     max-height: 300px;
     border-radius: 20px;
     display: grid;

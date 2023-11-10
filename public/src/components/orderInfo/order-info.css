@@ -1,19 +1,19 @@
 .small-card {
-    width: 335px;
-    height: 100px;
+    /* width: 335px;
+    height: 100px; */
 
 }
 
 .big-card {
-    width: 760px;
+    /* width: 760px; */
 }
 
 .order-card {
     background-color: var(--color-card-background);
     border-radius: 20px;
     padding: 26px 30px 30px 30px;
-    margin-right: 30px;
-    margin-bottom: 30px;
+    /* margin-right: 30px; */
+    /* margin-bottom: 30px; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;

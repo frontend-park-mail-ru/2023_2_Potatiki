@@ -1,27 +1,34 @@
 .container-header {
     display: flex;
-    height: 70px;
+    /* height: 70px; */
+    height: 5rem;
     flex-direction: row;
     width: 100%;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-background-auth);
+    /* background-color: var(--color-background-auth); */
+    background-color: var(--color-background-header);
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
     z-index: 1;
-    padding: 0 20px 0 20px;
+    /* padding: 0 20px 0 20px; */
+    padding: 0 2rem 0 2rem;
+    /* box-shadow: 0 1px 4px var(--color-stroke); */
+    box-shadow: 0 0.1rem 0.4rem var(--color-stroke);
 }
 
 .header {
     display: grid;
-    grid-template-columns:  100px 120px minmax(150px, 600px) 400px;
+    /* grid-template-columns:  100px 120px minmax(150px, 600px) 400px; */
+    grid-template-columns:  10rem 12rem minmax(13rem, 50rem) 30rem;
     /* display: flex;
     flex-direction: row; */
     align-items: center;
     /* width: 1400px; */
-    gap: 32px;
+    /* gap: 32px; */
+    gap: 1.5rem;
     width: 100%;
     justify-content: center;
     /* justify-content: space-around; */
@@ -35,16 +42,20 @@
     /* grid-auto-columns: 100px; */
     grid-template-columns: repeat(5, 1fr);
     /* width: 600px; */
-    gap: 32px;
+    /* gap: 32px; */
+    gap: 0.2rem;
 }
 
 .header__button_size_catalog {
-    width: 132px;
+    /* width: 132px; */
+    width: 13rem;
     gap: 10px;
+    gap: 1rem;
 }
 
 .fake-button {
     background-color: inherit;
+    margin-top: 0.35rem;
 }
 
 .dark-text {

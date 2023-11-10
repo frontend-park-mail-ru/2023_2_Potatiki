@@ -54,6 +54,7 @@ export default class OrderPage {
         const orderProducts = new OrderProducts(
             this.self.querySelector('.order-info-container'),
             body.products,
+            true,
         );
         orderProducts.render();
     }

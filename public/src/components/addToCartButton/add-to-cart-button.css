@@ -2,5 +2,6 @@
     align-self: flex-end;
     display: flex;
     align-items: end;
-    width: 180px;
+    /* width: 180px; */
+    width: 15rem;
 }

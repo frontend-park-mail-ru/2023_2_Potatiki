@@ -1,5 +1,6 @@
 #main-page {
     display: flex;
     flex-direction: column;
-    margin-top: 10vh;
+    padding-top: 10vh;
+    background-color: var(--color-background);
 }

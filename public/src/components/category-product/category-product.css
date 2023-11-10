@@ -1,7 +1,8 @@
 .category-card {
     display: grid;
-    grid-template-columns: 2.4fr 3.5fr 1fr;
-    height: 250px;
+    grid-template-columns: 2.4fr 3.2fr 1fr;
+    /* height: 250px; */
+    height: 20rem;
     border-bottom: 1px solid var(--color-stroke);
     width: 66vw;
 }
@@ -10,12 +11,14 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
-    padding: 44px 10px 10px 10px;
+    /* padding: 44px 10px 10px 10px; */
+    padding: 3.6rem 0.8rem 0.8rem 0.8rem;
 }
 
 .category-card__name {
     margin-top: 0;
-    margin-left: 16px;
+    /* margin-left: 16px; */
+    margin-left: 1.3rem;
 }
 
 .category-card__img-place {
@@ -29,16 +32,21 @@
     flex-direction: column;
     align-items: end;
     justify-content: space-between;
-    padding: 44px 0px 38px 0px;
+    /* padding: 44px 0px 38px 0px; */
+    padding: 3.6rem 0 3.1rem 0;
 }
 
 .category-card__img {
-    height: 180px;
-    max-width: 300px;
+    /* height: 180px;
+    max-width: 300px; */
+    width: 100%;
+    max-height: 18rem;
+    object-fit: scale-down;
 }
 
 .category-card__reviews-link {
-    width: 170px;
+    /* width: 170px; */
+    width: 15rem;
 }
 
 .category-card__price {

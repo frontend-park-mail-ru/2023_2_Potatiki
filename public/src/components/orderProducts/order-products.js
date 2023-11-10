@@ -11,14 +11,17 @@ export default class OrderProducts {
 
     #config;
 
+    #isWhite;
+
     /**
      * Конструктор класса
      * @param {Element} parent Родительский элемент
      * @param {Object} config Конфиг отрисовки класса
      */
-    constructor(parent, config) {
+    constructor(parent, config, isWhite) {
         this.#parent = parent;
         this.#config = config;
+        this.#isWhite = isWhite;
     }
 
     getConfig(data) {
@@ -38,9 +41,11 @@ export default class OrderProducts {
      * Отрисовка компонента
      */
     render() {
+        const whiteClass = this.#isWhite ? 'white-background-color' : 'not-white-color';
+        console.log(whiteClass);
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            template(this.#config),
+            template({whiteColorClass: whiteClass}),
         );
 
         const self = document.querySelector(`.order-info__products`);

@@ -3,7 +3,7 @@
     top: 10%;
     right: 1%;
     bottom: 1%;
-    background-color: var(--color-background);
+    background-color: var(--color-card-background);
     left: 1%;
     position: fixed;
     padding: 50px 100px 70px 100px;
@@ -13,7 +13,8 @@
 }
 
 .catalog-title {
-    font-size: 36px;
+    /* font-size: 36px; */
+    font-size: 3.6rem;
 }
 
 .category-container {
