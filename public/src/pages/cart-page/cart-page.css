@@ -5,6 +5,7 @@
     align-items: center;
     /* justify-content: center; */
     padding-bottom: 10vh;
+    height: 100vh;
 }
 
 .page-title {

@@ -16,8 +16,11 @@
 }
 
 .input__error {
-    padding-left: 12px;
-    padding-top: 6px;
-    font-size: 14px;
+    /* padding-left: 12px; */
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    /* padding-top: 6px; */
+    /* font-size: 14px; */
+    font-size: 1.1rem;
     color: var(--color-incorrect);
 }

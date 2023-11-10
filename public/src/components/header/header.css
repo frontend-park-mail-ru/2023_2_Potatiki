@@ -19,6 +19,8 @@
     box-shadow: 0 0.1rem 0.4rem var(--color-stroke);
 }
 
+
+
 .header {
     display: grid;
     /* grid-template-columns:  100px 120px minmax(150px, 600px) 400px; */
