@@ -4,4 +4,5 @@
     padding-top: 10vh;
     padding-bottom: 10vh;
     background-color: var(--color-background);
+    height: 100%;
 }

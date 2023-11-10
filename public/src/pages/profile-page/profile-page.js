@@ -2,6 +2,10 @@ import template from './profile-page.hbs';
 import Profile from '../../components/profile/profile';
 import header from '../../components/header/header';
 import {config} from '../../../config.js';
+import {userStore} from '../../stores/user.js';
+import router from '../../modules/router.js';
+import {loginRoute} from '../../config/urls.js';
+import renderServerMessage from '../../modules/server-message.js';
 
 /**
  *
@@ -53,11 +57,20 @@ export default class ProfilePage {
 
     }
 
+    redirectToLogin() {
+        router.go({url: loginRoute});
+        renderServerMessage('Авторизуйтесь, чтобы просмотреть профиль');
+    }
+
     /**
      *
      */
     render() {
         this.#parent.innerHTML = template(config.profilePage);
+
+        if (!userStore.isAuth) {
+            this.redirectToLogin();
+        }
 
         header.render();
 
