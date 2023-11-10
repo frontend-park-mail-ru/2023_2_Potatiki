@@ -4,6 +4,7 @@
     background-color: var(--color-background);
     align-items: center;
     /* justify-content: center; */
+    padding-bottom: 10vh;
 }
 
 .page-title {

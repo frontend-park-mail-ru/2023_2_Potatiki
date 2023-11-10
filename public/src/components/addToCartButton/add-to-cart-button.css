@@ -4,4 +4,5 @@
     align-items: end;
     /* width: 180px; */
     width: 15rem;
+    justify-content: center;
 }

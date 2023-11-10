@@ -2,12 +2,14 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 4px;
+    /* gap: 4px; */
+    gap: 0.3rem;
     width: 100%;
 }
 
 .search-form__button_size_search {
-    width: 38px;
+    /* width: 38px; */
+    width: 3.1rem;
 }
 
 .serch-form__input {

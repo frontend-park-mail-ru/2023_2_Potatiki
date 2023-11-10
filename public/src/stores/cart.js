@@ -197,10 +197,15 @@ class CartStore {
     getCartCount() {
         const [count] = this.getProductsInfo();
         eventEmmiter.emit(Events.UPDATE_CART_ICON, count);
+        return count;
     }
 
     async addProductLocal(data) {
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
+        if (this.getCartCount() > 99) {
+            renderServerMessage('В одном заказе можно заказать не более 100 товаров');
+            return;
+        }
         data.quantity += 1;
         if (this.isAuth) {
             if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: data.quantity})) {
@@ -224,6 +229,12 @@ class CartStore {
     }
 
     async changeProductCountLocal(data, isDecrease) {
+        if (!isDecrease) {
+            if (this.getCartCount() > 99) {
+                renderServerMessage('В одном заказе можно заказать не более 100 товаров');
+                return;
+            }
+        }
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
         const product = productsMap.get(data.productId);
         if (!product) {

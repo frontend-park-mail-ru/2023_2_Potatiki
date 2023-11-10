@@ -1,5 +1,5 @@
 .order-info__products {
-    width: 100%;
+    /* width: 100%; */
 }
 
 .order-info__text {
@@ -9,9 +9,11 @@
 
 .order-info__row-container {
     display: grid;
-    grid-template-columns: 100px auto;
+    /* grid-template-columns: 100px auto; */
+    grid-template-columns: 8.3rem auto;
     /* margin-top: 20px; */
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
+    margin-top: 0.8rem;
 }
 
 .order-product__text {
