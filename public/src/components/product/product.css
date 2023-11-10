@@ -23,14 +23,15 @@
 .product__img-place {
     /* box-shadow: 0 1px 4px var(--color-stroke); */
     /* max-height: 350px; */
-    height: 30rem;
-    width: 30rem;
-    /* width: 100%; */
+    /* height: 30rem; */
+    max-height: 40rem;
+    /* width: 30rem; */
+    width: 100%;
     /* width: 30rem; */
     display: flex;
     justify-content: center;
     align-items: center;
-
+    align-self: center;
 
 }
 

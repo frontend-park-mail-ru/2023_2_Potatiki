@@ -1,13 +1,13 @@
 .catalog {
     position: absolute;
-    top: 10%;
-    right: 1%;
-    bottom: 1%;
+    top: 7%;
+    right: 0%;
+    bottom: 0%;
     background-color: var(--color-card-background);
-    left: 1%;
+    left: 0%;
     position: fixed;
     padding: 50px 100px 70px 100px;
-    border-radius: 16px;
+    /* border-radius: 16px; */
     box-shadow: 0 1px 4px var(--color-stroke);
     overflow-y: scroll;
 }

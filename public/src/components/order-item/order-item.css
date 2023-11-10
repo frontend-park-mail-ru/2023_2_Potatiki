@@ -1,7 +1,10 @@
-
+.order-info__products {
+    width: 100%;
+}
 
 .order-info__text {
-    font-size: 16px;
+    /* font-size: 16px; */
+    font-size: 1.3rem;
 }
 
 .order-info__row-container {

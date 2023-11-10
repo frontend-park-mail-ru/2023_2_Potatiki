@@ -60,7 +60,7 @@ body {
     --color-incorrect: #ED7777;;
     --color-correct: #18D988;
     --color-stroke: #a5a5b3;
-    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 @keyframes errorSurface {
