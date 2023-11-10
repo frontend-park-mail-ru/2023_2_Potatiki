@@ -1,5 +1,5 @@
 import template from './cart-page.hbs';
-import {header} from '../../components/header/header';
+import Header from '../../components/header/header';
 import CartProduct from '../../components/cartProduct/cart-product';
 import {config, getProductsUrl} from '../../../config';
 import './cart-page.css';
@@ -138,7 +138,7 @@ export default class CartPage {
     render() {
         this.#parent.innerHTML = template();
 
-        // const header = new Header();
+        const header = new Header();
         header.render();
 
         this.subscribeToEvents();

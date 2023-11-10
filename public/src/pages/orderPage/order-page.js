@@ -3,7 +3,7 @@ import Ajax from '../../modules/ajax.js';
 import renderServerMessage from '../../modules/server-message.js';
 import template from './order-page.hbs';
 import router from '../../modules/router.js';
-import {header} from '../../components/header/header';
+import Header from '../../components/header/header';
 import CartProduct from '../../components/cartProduct/cart-product';
 import './order-page.css';
 import OrderResults from '../../components/orderResults/order-results';
@@ -82,6 +82,8 @@ export default class OrderPage {
 
     renderAll() {
         this.#parent.innerHTML = template();
+
+        const header = new Header;
         header.render();
 
         const payment = new OrderInfo(

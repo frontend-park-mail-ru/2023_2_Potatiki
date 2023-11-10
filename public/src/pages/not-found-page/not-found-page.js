@@ -1,5 +1,4 @@
 import {config} from '../../../config.js';
-import { header } from '../../components/header/header.js';
 import Link from '../../components/link/link.js';
 import './not-found-page.css';
 import template from './not-found-page.hbs';
@@ -34,7 +33,6 @@ export default class NotFoundPage {
     render() {
         this.#parent.innerHTML = template();
 
-        header.hide();
         const logo = new Link(this.self, this.#config.logo, true);
         logo.render();
     }

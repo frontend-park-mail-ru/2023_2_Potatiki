@@ -112,15 +112,17 @@ class ProductsStore {
         if (!category) {
             const promise = this.getCategories();
             promise.then(() => {
-                const newCategory = this.#state.categories.get(categoryId);
+                const newCategory = this.#state.categories?.get(categoryId);
                 if (!newCategory) {
                     eventEmmiter.emit(Events.NOT_FOUND);
                     return;
                 }
+                console.log('category');
                 eventEmmiter.emit(Events.CATEGORY_NAME, newCategory.categoryName);
             });
             return;
         }
+        console.log('category');
         eventEmmiter.emit(Events.CATEGORY_NAME, category.categoryName);
     }
 

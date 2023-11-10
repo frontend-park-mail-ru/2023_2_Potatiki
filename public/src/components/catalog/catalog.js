@@ -98,7 +98,7 @@ export default class Catalog {
      * Отрисовка компонента
      */
     render() {
-        document.querySelector('#root').insertAdjacentHTML(
+        document.querySelector('#container-main').insertAdjacentHTML(
             'beforeend',
             template(),
         );

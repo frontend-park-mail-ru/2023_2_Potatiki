@@ -1,4 +1,4 @@
-import {header} from '../../components/header/header.js';
+import Header from '../../components/header/header.js';
 import template from './product-page.hbs';
 import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -72,7 +72,7 @@ export default class ProductPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating,
-            reviewsCount: `${data.reviews_count || 1139} отзывов`,
+            reviewsCount: `${data.reviews_count || 0} отзывов`,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
@@ -120,6 +120,7 @@ export default class ProductPage {
     render() {
         this.#parent.innerHTML = template();
 
+        const header = new Header();
         header.render();
         this.subscribeToEvents();
         ProductsActions.getProduct(this.#productId);

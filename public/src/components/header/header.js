@@ -9,7 +9,7 @@ import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
-import './header.css';
+
 /**
  * Класс хедера страницы
  */
@@ -17,7 +17,6 @@ export default class Header {
     #parent;
 
     #config;
-    #isRendered;
 
     cart;
 
@@ -37,7 +36,6 @@ export default class Header {
     constructor(parent) {
         this.#parent = parent;
         this.#config = config.mainPage.header;
-        this.#isRendered = false;
     }
 
     updateCartCount(count) {
@@ -88,21 +86,11 @@ export default class Header {
         this.logoutButton?.removeEventListener('click', logout);
     }
 
-
     /**
    * Отрисовка компонента хедера
    */
     render() {
-        if (this.#isRendered) {
-            return;
-        }
-
-        this.#isRendered = true;
-
-        document.querySelector('#container-header').insertAdjacentHTML(
-            'afterbegin',
-            template(),
-        );
+        document.querySelector('#container-header').innerHTML = template();
 
         const self = document.querySelector('#header');
 
@@ -142,15 +130,5 @@ export default class Header {
 
         this.subscribeToEvents();
         CartActions.getCartCount();
-        // UserActions.getProfileData();
-    }
-
-    hide() {
-        this.#isRendered = false;
-        this.unsubscribeToEvents();
-        this.removeListeners();
-        document.querySelector('#container-header').innerHTML = '';
     }
 }
-
-export const header = new Header();
