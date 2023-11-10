@@ -44,6 +44,20 @@
     font-size: 2rem;
 }
 
+.category-leaf:hover {
+    color: var(--color-headline);
+}
+
+
+.category-child:hover {
+    color: var(--color-headline);
+}
+
+
+.category-parent:hover {
+    color: var(--color-headline);
+}
+
 .child-text {
     color: var(--color-stroke);
 }
