@@ -20,26 +20,30 @@
 .catalog-title {
     /* font-size: 36px; */
     font-size: 3.6rem;
+
 }
 
 .category-container {
     display: flex;
     flex-direction: column;
     /* overflow-y: scroll; */
-
+    margin-top: 2rem;
 }
 
 .category-child {
     /* margin-left: 10%; */
-    margin-left: 8rem;
+    /* margin-left: 8rem; */
     margin-bottom: 0.8rem;
     pointer-events: none;
+    color: var(--color-headline);
+
 }
 
 
 .category-leaf {
-    margin-left: 16rem;
+    margin-left: 8rem;
     margin-bottom: 0.8rem;
+    color: var(--color-stroke);
 }
 
 .category-leaf, .category-child, .category-parent {
@@ -51,18 +55,18 @@
 }
 
 
-.category-child:hover {
+/* .category-child:hover {
     color: var(--color-headline);
 }
 
 
 .category-parent:hover {
     color: var(--color-headline);
-}
+} */
 
-.child-text {
+/* .child-text {
     color: var(--color-stroke);
-}
+} */
 
 .category-parent {
     /* font-size: 16px; */

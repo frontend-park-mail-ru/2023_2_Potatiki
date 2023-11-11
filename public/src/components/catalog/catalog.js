@@ -51,7 +51,7 @@ export default class Catalog {
                     class: 'category-parent',
                     href: `/category/${category.categoryId}`,
                 });
-            item.render();
+            // item.render();
             if (category.childs) {
                 category.childs.forEach((child) => {
                     const midCHild = new Link(this.self.querySelector('.category-container'), {
