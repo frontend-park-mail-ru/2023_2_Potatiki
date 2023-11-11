@@ -3,6 +3,7 @@
     flex-direction: column;
     background-color: var(--color-background);
     align-items: center;
+    min-height: 100vh;
 }
 
 .order-info-container__payment-and-user {
