@@ -34,7 +34,7 @@
 
 @media screen and (min-width: 1000px) {
     html {
-        font-size: 12px;
+        font-size: 13px;
         height: 100%;
     }
 }
@@ -96,7 +96,7 @@ body {
     display: flex;
     flex-direction: column;
     position: fixed;
-    bottom: 20%;
+    bottom: 10%;
     align-items: center;
     justify-content: center;
     left: 0;

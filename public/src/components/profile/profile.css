@@ -28,7 +28,7 @@
 .nav-elem{
     display: flex;
     /* width: 272px; */
-    width: 22rem;
+    /* width: 22rem; */
     /* height: 62px; */
     height: 5rem;
     flex-direction: column;
