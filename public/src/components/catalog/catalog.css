@@ -33,7 +33,9 @@
     /* margin-left: 10%; */
     margin-left: 8rem;
     margin-bottom: 0.8rem;
+    pointer-events: none;
 }
+
 
 .category-leaf {
     margin-left: 16rem;

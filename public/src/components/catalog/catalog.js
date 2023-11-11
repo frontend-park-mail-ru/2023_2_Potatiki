@@ -59,7 +59,8 @@ export default class Catalog {
                         text: child.categoryName,
                         class: 'category-child',
                         spanClass: 'child-text',
-                        href: `/category/${child.categoryId}`,
+                        href: '',
+                        // href: `/category/${child.categoryId}`,
                         // href: `/category?id=${child.id}&name=${child.name}`,
                     });
                     midCHild.render();
