@@ -51,7 +51,8 @@
     right: 0.16rem;
     bottom: 0.16rem;
     background-color: var(--color-card-background);
-    border-radius: 16px;
+    /* border-radius: 16px; */
+    border-radius: 1.4rem;
 }
 
 .order-product {
