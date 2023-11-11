@@ -52,7 +52,6 @@ export default class NumberEditForm {
      */
     inputPhoneHandle(event) {
         event.preventDefault();
-        console.log(this.number.self.value);
         UserActions.validatePhone(this.number.self.value);
     }
 
@@ -131,7 +130,6 @@ export default class NumberEditForm {
         this.#parent.innerHTML = template(this.#config);
 
         this.#config.number.value = number;
-        console.log(this.#config.number);
         this.number = new Input(
             document.querySelector('.info-edit-form__number'),
             this.#config.number,

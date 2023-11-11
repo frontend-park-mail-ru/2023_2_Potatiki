@@ -42,7 +42,6 @@ export default class OrderProducts {
      */
     render() {
         const whiteClass = this.#isWhite ? 'white-background-color' : 'not-white-color';
-        console.log(whiteClass);
         this.#parent.insertAdjacentHTML(
             'beforeend',
             template({whiteColorClass: whiteClass}),

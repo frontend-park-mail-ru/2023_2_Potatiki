@@ -172,7 +172,6 @@ class UserStore {
      */
     async checkSession() {
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
-        console.log('check auth', statusCode);
         switch (statusCode) {
         case 200:
             this.#state.isAuth = true;
@@ -375,7 +374,6 @@ class UserStore {
         switch (statusCode) {
         case 200:
             this.#state.csrfToken = token;
-            console.log(token);
             eventEmmiter.emit(Events.CSRF_TOKEN, token);
             break;
         default:
@@ -458,7 +456,6 @@ class UserStore {
         }
 
         number = cleanPhone(number);
-        console.log(number);
         const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
             'passwords': {
                 'newPass': '',
@@ -506,7 +503,6 @@ class UserStore {
         },
         this.#state.csrfToken,
         );
-        console.log(statusCode);
 
         switch (statusCode) {
         case 200:
@@ -675,7 +671,6 @@ class UserStore {
             });
             [this.#state.addresses[0], this.#state.addresses[indCurrent]] =
             [this.#state.addresses[indCurrent], this.#state.addresses[0]];
-            console.log(this.#state.addresses);
             eventEmmiter.emit(Events.SUCCESSFUL_CURRENT_ADDRESS, this.#state.addresses);
             break;
         case 401:

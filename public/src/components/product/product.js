@@ -44,7 +44,6 @@ export default class Product {
     }
 
     renderToCartButton(data) {
-        console.log(data);
         if (data.productId != this.#config.data.productId) {
             return;
         }

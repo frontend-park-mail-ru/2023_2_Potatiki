@@ -95,7 +95,6 @@ export default class AddressForm {
         this.#parent.innerHTML = template(this.#config);
 
         if (!isAdd) {
-            console.log(address);
             this.#config.addressId = address.addressId;
             this.#config.addressIsCurrent = address.addressIsCurrent;
             this.#config.city.value = address.city;
