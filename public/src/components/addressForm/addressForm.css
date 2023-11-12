@@ -1,9 +1,7 @@
 .address-form {
     display: grid;
-    /* grid-template-columns: 140px auto 140px; */
     grid-template-columns: 11.6rem auto 11.6rem;
 
-    /* grid-template-rows: repeat(4, 42px); */
     grid-template-rows: repeat(4, 3.5rem);
 
     grid-template-areas:
@@ -11,11 +9,8 @@
     "street street street"
     "house . flat"
     "submit submit submit";
-    /* width: 316px; */
     width: 26.3rem;
-    /* row-gap: 32px; */
     row-gap: 2.6rem;
-    /* margin-top: 20px; */
     margin-top: 1.6rem;
 }
 
