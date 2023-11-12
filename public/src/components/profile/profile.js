@@ -60,7 +60,6 @@ export default class Profile {
             this.#config.currentNavElem = this.#config.navElem2;
             this.removeEventListeners();
             this.render();
-            console.log('actions get_addresse');
             UserActions.getAddresses();
             break;
         }
@@ -71,7 +70,6 @@ export default class Profile {
      * @param {*} event
      */
     editNumber(event) {
-        console.log('click');
         UserActions.getCSRFToken(profileUpdateDataRoute);
         document.querySelector('#profile-data-card').innerHTML = '';
         this.numberEditForm.render(userStore.number);
@@ -167,10 +165,8 @@ export default class Profile {
         const parent = document.querySelector('#profile-data-card');
         parent.innerHTML = '';
 
-        console.log('render add');
         if ((Object.keys(addresses).length) > 0) {
             addresses.forEach((element) => {
-                console.log(element);
                 const address = new AddressCard(parent, element);
                 address.render();
                 address.addDeleteEventListeners(this.deleteAddress);
@@ -216,7 +212,6 @@ export default class Profile {
      *
      */
     renderInfoCard() {
-        console.log('info card');
         const infoCard = new InfoCard(document.querySelector('#profile-data-card'));
         infoCard.render();
         document.querySelector('.number-edit')?.addEventListener('click',
