@@ -22,6 +22,8 @@ export const UserActionsType = {
     DELETE_ADDRESS: 'DELETE_ADDRESS',
     MAKE_CURRENT_ADDRESS: 'MAKE_CURRENT_ADDRESS',
     UPDATE_IMG: 'UPDATE_IMG',
+    SET_OFFLINE: 'SET_OFFLINE',
+    SET_ONLINE: 'SET_ONLINE',
 };
 
 export const UserActions = {
@@ -206,4 +208,17 @@ export const UserActions = {
             },
         });
     },
+
+    setOffline() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.SET_OFFLINE,
+        });
+    },
+
+    setOnline() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.SET_ONLINE,
+        });
+    },
+
 };

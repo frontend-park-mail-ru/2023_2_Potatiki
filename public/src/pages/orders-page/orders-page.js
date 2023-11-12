@@ -12,7 +12,7 @@ import router from '../../modules/router.js';
 import {loginRoute, notFoundRoute, productRoute} from '../../config/urls.js';
 import OrderProducts from '../../components/orderProducts/order-products.js';
 import {CartActions} from '../../actions/cart.js';
-import renderServerMessage from '../../modules/server-message.js';
+import {renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
 
 /**

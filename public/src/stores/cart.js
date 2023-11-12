@@ -5,8 +5,9 @@ import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl, loginRo
 import {Events} from '../config/events';
 import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
-import renderServerMessage from '../modules/server-message';
+import {renderServerMessage} from '../modules/server-message';
 import router from '../modules/router';
+import {userStore} from './user';
 
 /**
  * Класс
@@ -140,7 +141,7 @@ class CartStore {
                 eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                 break;
             case 429:
-                renderServerMessage('Ошибка обновления корзины');
+                // renderServerMessage('Ошибка обновления корзины');
                 break;
             default:
                 break;
@@ -153,7 +154,7 @@ class CartStore {
      * Получение и отрисовка товаров в корзине
      */
     getCartProducts() {
-        if (!this.isAuth) {
+        if (!this.isAuth || !userStore.connection) {
             const currentCart = JSON.parse(localStorage.getItem('products_map'), reviver);
             if (!currentCart) {
                 eventEmmiter.emit(Events.EMPTY_CART);
@@ -207,9 +208,11 @@ class CartStore {
             return;
         }
         data.quantity += 1;
-        if (this.isAuth) {
+        if (this.isAuth && userStore.connection) {
             if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: data.quantity})) {
-                return;
+                if (this.isAuth) {
+                    return;
+                }
             }
         }
         if (!productsMap) {
@@ -245,9 +248,11 @@ class CartStore {
             this.deleteProduct(data);
             return;
         }
-        if (this.isAuth) {
+        if (this.isAuth && userStore.connection) {
             if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: product.quantity}, this.#state.setCSRFToken)) {
-                return;
+                if (this.isAuth) {
+                    return;
+                }
             }
         }
         productsMap.set(data.productId, product);
@@ -262,7 +267,7 @@ class CartStore {
         if (!product) {
             return;
         }
-        if (this.isAuth) {
+        if (this.isAuth && userStore.connection) {
             const [statusCode, body] = await Ajax.prototype.deleteRequest(delProductUrl, {productId: data.productId}, this.#state.setCSRFToken);
             switch (statusCode) {
             case 200:
@@ -271,8 +276,9 @@ class CartStore {
                 eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                 return;
             case 429:
-                renderServerMessage('Возникла ошибка при удалении товара');
-                return;
+                // renderServerMessage('Возникла ошибка при удалении товара');
+                // return;
+                break;
             default:
                 return;
             }
@@ -295,7 +301,7 @@ class CartStore {
         default:
             break;
         }
-        if (!this.isAuth) {
+        if (!this.isAuth) { // || !userStore.connection
             renderServerMessage('Для оформления заказа необходимо авторизоваться');
             router.go({url: loginRoute, continue: continueUrl});
             return;
@@ -305,6 +311,9 @@ class CartStore {
             router.go({url: orderRoute});
             break;
         case orderRoute:
+            if (!userStore.connection) {
+                renderServerMessage('Невозможно оформить заказ в оффлайн-режиме');
+            }
             Ajax.prototype.postRequest(createOrderUrl, {}, this.#state.csrfToken)
                 .then((result) => {
                     const [statusCode, body] = result;
@@ -319,7 +328,7 @@ class CartStore {
                         eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                         break;
                     case 429:
-                        renderServerMessage('Возникла ошибка при создании заказа');
+                        // renderServerMessage('Возникла ошибка при создании заказа');
                         break;
                     default:
                         break;
@@ -344,7 +353,7 @@ class CartStore {
             eventEmmiter.emit(Events.NOT_FOUND);
             break;
         case 429:
-            renderServerMessage('Возникла ошибка при создании заказа');
+            // renderServerMessage('Возникла ошибка при создании заказа');
             break;
         default:
             break;
@@ -381,7 +390,7 @@ class CartStore {
                     eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                     return false;
                 case 429:
-                    renderServerMessage(body.error || 'Ошибка');
+                    // renderServerMessage(body.error || 'Ошибка');
                     return false;
                 default:
                     return false;

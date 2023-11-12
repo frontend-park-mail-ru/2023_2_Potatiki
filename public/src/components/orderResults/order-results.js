@@ -4,7 +4,7 @@ import './order-results.css';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {CartActions} from '../../actions/cart.js';
-import renderServerMessage from '../../modules/server-message.js';
+import {renderServerMessage} from '../../modules/server-message.js';
 
 /**
  * Класс компонента итога заказа

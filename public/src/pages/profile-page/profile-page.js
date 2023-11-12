@@ -5,7 +5,7 @@ import {config} from '../../../config.js';
 import {userStore} from '../../stores/user.js';
 import router from '../../modules/router.js';
 import {loginRoute} from '../../config/urls.js';
-import renderServerMessage from '../../modules/server-message.js';
+import {renderServerMessage} from '../../modules/server-message.js';
 
 /**
  *

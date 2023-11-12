@@ -77,7 +77,7 @@ export default class CategoryPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating,
-            reviewsCount: `${0} отзывов`,
+            reviewsCount: `0 отзывов`,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
@@ -87,7 +87,7 @@ export default class CategoryPage {
     }
 
     renderProducts(body) {
-        if (!body) {
+        if (!body || !body.length) {
             eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
             this.endOfPage = true;
             return;
@@ -108,6 +108,7 @@ export default class CategoryPage {
             const threshold = height - screenHeight / 3;
             const position = scrolled + screenHeight;
             if (this.endOfPage) {
+                console.log('end of page');
                 this.removeListeners();
             }
             if (position >= threshold) {
