@@ -1,6 +1,5 @@
 #orders-page {
     display: flex;
-    /* justify-content: center; */
     flex-direction: column;
     align-items: center;
     padding-bottom: 10vh;
@@ -10,8 +9,6 @@
 
 .orders-container {
     margin-top: 20px;
-    /* display: flex;
-    flex-direction: column; */
     display: grid;
     gap: 2rem;
     justify-content: center;

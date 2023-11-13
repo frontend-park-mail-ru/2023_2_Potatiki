@@ -1,13 +1,11 @@
 #profile-main {
     display: flex;
     flex-direction: column;
-    /* gap: 24px; */
     gap: 2rem;
     background-color: #FBF9FF;
     min-height: 100vh;
     padding-left: 5%;
     padding-right: 5%;
-    /* padding-top: 114px; */
     padding-top: 9.5rem;
 }
 
@@ -16,14 +14,13 @@
 }
 
 .title_size_l {
-    /* font-size: 36px; */
+
     font-size: 3rem;
     color: #181818;
 
 }
 
 .title_size_m {
-    /* font-size: 32px; */
     font-size: 2.7rem;
     color: #181818;
 }
