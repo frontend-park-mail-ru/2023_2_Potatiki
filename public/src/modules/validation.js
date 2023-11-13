@@ -155,3 +155,17 @@ export function formatPhone(phone) {
     });
     return formatPhone;
 }
+
+export function checkAddressField(fieldText) {
+    if (fieldText > 30) {
+        return ['Максимальная длина 30 символов', false];
+    }
+    return ['', true];
+}
+
+export function checkAddressForm(city, street, house, flat) {
+    if (city && street && house && flat) {
+        return ['', true];
+    }
+    return ['Все поля должны бать заполнены', false];
+}

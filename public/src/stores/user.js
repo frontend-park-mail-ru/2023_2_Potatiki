@@ -2,7 +2,7 @@ import {AppDispatcher} from '../modules/dispatcher';
 import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
-import {checkLogin, checkPassword, checkPhone, cleanPhone, formatPhone} from '../modules/validation';
+import {checkLogin, checkPassword, checkPhone, cleanPhone, formatPhone, checkAddressField, checkAddressForm} from '../modules/validation';
 import {baseUrl, loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
     addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl, orderRoute, createOrderUrl, updatePhotoUrl} from '../config/urls';
 import {Events} from '../config/events';
