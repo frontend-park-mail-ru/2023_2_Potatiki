@@ -16,7 +16,7 @@
 [Link to backend repository](https://github.com/go-park-mail-ru/2023_2_potatiki).
 
 ### API
-[Link to API]([http://84.23.52.212:8082/api/swagger/](https://zuzu-market.ru/api/swagger/index.html)).
+[Link to API](https://zuzu-market.ru/api/swagger/index.html).
 
 ### Deploy
-[Link to deploy]([http://84.23.52.212:8083/](https://zuzu-market.ru/)https://zuzu-market.ru/).
+[Link to deploy](https://zuzu-market.ru/).
