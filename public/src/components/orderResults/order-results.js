@@ -34,15 +34,15 @@ export default class OrderResults {
     }
 
     get count() {
-        return this.self.getElementById('products-count');
+        return this.self.querySelector('#products-count');
     }
 
     get subprice() {
-        return this.self.getElementById('subprice');
+        return this.self.querySelector('#subprice');
     }
 
     get result() {
-        return this.self.getElementById('result-price');
+        return this.self.querySelector('#result-price');
     }
 
     get button() {
