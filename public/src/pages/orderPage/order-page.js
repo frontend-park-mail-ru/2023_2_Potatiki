@@ -6,8 +6,6 @@ import OrderResults from '../../components/orderResults/order-results';
 import OrderInfo from '../../components/orderInfo/order-info';
 import OrderProducts from '../../components/orderProducts/order-products';
 import {loginRoute, orderRoute, profileRoute} from '../../config/urls.js';
-import {loginRoute, orderRoute, profileRoute} from '../../config/urls.js';
-import {config} from '../../../config.js';
 import {Events} from '../../config/events.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {UserActions} from '../../actions/user.js';

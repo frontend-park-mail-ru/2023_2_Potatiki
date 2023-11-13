@@ -9,12 +9,7 @@ import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import AddressCard from '../addressCard/addressCard.js';
-<<<<<<< HEAD
 import {profileUpdateDataRoute} from '../../config/urls.js';
-=======
-import Link from '../link/link.js';
-import {profileUpdateDataRoute, profileAddAddressRoute} from '../../config/urls.js';
->>>>>>> origin/Potatiki-1.14-Fix
 import {userStore} from '../../stores/user.js';
 import ImgEditForm from '../imgEditForm/imgEditForm.js';
 
