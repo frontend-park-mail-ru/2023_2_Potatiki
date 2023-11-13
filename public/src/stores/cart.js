@@ -5,7 +5,6 @@ import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl, loginRo
 import {Events} from '../config/events';
 import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
-import {renderServerMessage} from '../modules/server-message';
 import {userStore} from './user';
 
 /**

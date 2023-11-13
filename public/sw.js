@@ -1,5 +1,20 @@
 const CURRENT_CACHE = 'main-cache';
 
+
+self.addEventListener('activate', (evt) =>
+    evt.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== CURRENT_CACHE) {
+                        return caches.delete(cacheName);
+                    }
+                }),
+            );
+        }),
+    ),
+);
+
 const fromNetwork = (request, timeout) =>
     new Promise((fulfill, reject) => {
         const timeoutId = setTimeout(reject, timeout);
