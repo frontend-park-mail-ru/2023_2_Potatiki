@@ -185,7 +185,7 @@ class UserStore {
             return;
         }
         this.#state.connection = false;
-        renderWarningMessage('Отсутствует интернет-соединение');
+        eventEmmiter.emit(Events.WARN_MESSAGE, 'Отсутствует интернет-соединение');
     }
 
     setOnline() {
@@ -195,7 +195,7 @@ class UserStore {
         this.#state.connection = true;
         this.checkSession();
         removeWarningMessage();
-        renderServerMessage('Подключение восстановлено', true);
+        eventEmmiter.emit(Events.SERVER_MESSAGE, 'Подключение восстановлено', true);
     }
 
     /**
@@ -393,7 +393,7 @@ class UserStore {
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
             break;
         case 429:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         default:
             break;
@@ -408,7 +408,7 @@ class UserStore {
             eventEmmiter.emit(Events.CSRF_TOKEN, token);
             break;
         default:
-            renderServerMessage('Ошибка подключения');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка подключения');
             break;
         }
     }
@@ -446,7 +446,7 @@ class UserStore {
             eventEmmiter.emit(Events.ADDRESS_NOT_FOUND, body);
             break;
         case 429:
-            renderServerMessage('Возникла ошибка при получении адреса');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении адреса');
             break;
         default:
             break;
@@ -473,7 +473,7 @@ class UserStore {
         case 401:
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
         default:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
         }
     }
 
@@ -507,7 +507,7 @@ class UserStore {
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
             break;
         default:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
     }
@@ -547,7 +547,7 @@ class UserStore {
         case 400:
             eventEmmiter.emit(Events.UPDATE_PASSWORD_FORM_ERROR, 'Неверный пароль');
         default:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
     }
@@ -593,7 +593,7 @@ class UserStore {
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
             break;
         default:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
     }
@@ -641,7 +641,7 @@ class UserStore {
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
             break;
         default:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
     }
@@ -675,7 +675,7 @@ class UserStore {
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
             break;
         default:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
     }
@@ -710,7 +710,7 @@ class UserStore {
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH);
             break;
         default:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
     }
@@ -729,7 +729,7 @@ class UserStore {
             eventEmmiter.emit(Events.SUCCESSFUL_UPDATE_IMG);
             break;
         default:
-            eventEmmiter.emit(Events.SERVER_ERROR, 'Ошибка. Попробуйте позже');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
     }

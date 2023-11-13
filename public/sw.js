@@ -1,19 +1,5 @@
 const CURRENT_CACHE = 'main-cache';
 
-self.addEventListener('activate', (evt) =>
-    evt.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheName !== CURRENT_CACHE) {
-                        return caches.delete(cacheName);
-                    }
-                }),
-            );
-        }),
-    ),
-);
-
 const fromNetwork = (request, timeout) =>
     new Promise((fulfill, reject) => {
         const timeoutId = setTimeout(reject, timeout);
@@ -42,8 +28,8 @@ const update = (request, response) =>
             cache.put(request, response),
         );
 
-self.addEventListener('fetch', (evt) => {
-    evt.respondWith(
-        fromNetwork(evt.request, 10000).catch(() => fromCache(evt.request)),
+self.addEventListener('fetch', (event) => {
+    event.respondWith(
+        fromNetwork(event.request, 3000).catch(() => fromCache(event.request)),
     );
 });
