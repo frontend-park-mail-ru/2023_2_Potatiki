@@ -51,6 +51,7 @@ export default class Ajax {
             mode: 'cors',
             credentials: 'include',
             body: data,
+            headers: {},
         };
         if (token) {
             options.headers['X-Csrf-Token'] = token;
