@@ -33,7 +33,7 @@ export default class NumberEditForm {
      *
      */
     get self() {
-        return document.querySelector('#number-edit-form');
+        return document.getElementById('number-edit-form');
     }
 
     /**

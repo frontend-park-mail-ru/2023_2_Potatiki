@@ -37,7 +37,7 @@ export default class PasswordEditForm {
      *
      */
     get self() {
-        return document.querySelector('#password-edit-form');
+        return document.getElementById('password-edit-form');
     }
 
     /**

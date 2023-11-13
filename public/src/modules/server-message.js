@@ -7,7 +7,7 @@ export function renderServerMessage(msg, isCorrect) {
     const serverMsg = document.createElement('div');
     serverMsg.setAttribute('class', msgClass);
     serverMsg.textContent = msg;
-    let msgDiv = document.querySelector('#quick-msg-container');
+    let msgDiv = document.getElementById('quick-msg-container');
     if (!msgDiv) {
         msgDiv = document.createElement('div');
         msgDiv.setAttribute('id', 'quick-msg-container');
@@ -26,7 +26,7 @@ export function renderWarningMessage(msg) {
     const serverMsg = document.createElement('div');
     serverMsg.setAttribute('class', msgClass);
     serverMsg.textContent = msg;
-    let msgDiv = document.querySelector('#warning-msg-container');
+    let msgDiv = document.getElementById('warning-msg-container');
     if (!msgDiv) {
         msgDiv = document.createElement('div');
         msgDiv.setAttribute('id', 'warning-msg-container');
@@ -38,7 +38,7 @@ export function renderWarningMessage(msg) {
 
 
 export function removeWarningMessage() {
-    const msgDiv = document.querySelector('#warning-msg-container');
+    const msgDiv = document.getElementById('warning-msg-container');
     if (msgDiv) {
         msgDiv.innerHTML = '';
     }

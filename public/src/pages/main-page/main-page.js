@@ -32,7 +32,7 @@ export default class MainPage {
     * Получение элемента страницы
     */
     get self() {
-        return document.querySelector('#main-page');
+        return document.getElementById('main-page');
     }
 
     renderProducts(body, config) {

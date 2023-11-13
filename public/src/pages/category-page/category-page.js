@@ -43,7 +43,7 @@ export default class CategoryPage {
     * Получение элемента страницы
     */
     get self() {
-        return document.querySelector('#category-page');
+        return document.getElementById('category-page');
     }
 
     getConfig(data) {

@@ -28,7 +28,7 @@ export default class OrdersPage {
     * Получение элемента страницы
     */
     get self() {
-        return document.querySelector('#orders-page');
+        return document.getElementById('orders-page');
     }
 
     getConfig(data) {

@@ -32,7 +32,7 @@ export default class LoginPage {
    * Получение элемента страницы из документа
    */
     get self() {
-        return document.querySelector('#login-page');
+        return document.getElementById('login-page');
     }
 
     /**
@@ -53,7 +53,7 @@ export default class LoginPage {
    * Отрисовка страницы авторизации
    */
     render() {
-        document.querySelector('#container-header').innerHTML = '';
+        document.getElementById('container-header').innerHTML = '';
         this.#parent.innerHTML = template();
         UserActions.getCSRFToken(loginRoute);
 

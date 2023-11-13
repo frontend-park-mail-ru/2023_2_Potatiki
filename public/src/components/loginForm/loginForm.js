@@ -40,7 +40,7 @@ export default class LoginForm {
      *
      */
     get self() {
-        return document.querySelector('#login-form');
+        return document.getElementById('login-form');
     }
 
     /**
@@ -59,7 +59,7 @@ export default class LoginForm {
      * @param {String} errorText
      */
     renderError(errorText) {
-        const error = document.querySelector('#login-form-error');
+        const error = document.getElementById('login-form-error');
         error.textContent = errorText;
     }
 

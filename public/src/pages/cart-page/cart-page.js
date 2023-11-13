@@ -32,7 +32,7 @@ export default class CartPage {
      * Получение элемента страницы из документа
      */
     get self() {
-        return document.querySelector('#cart-page');
+        return document.getElementById('cart-page');
     }
 
     getConfig(data) {

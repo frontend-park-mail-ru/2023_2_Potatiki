@@ -42,7 +42,7 @@ export default class ProductPage {
     * Получение элемента страницы
     */
     get self() {
-        return document.querySelector('#product-page');
+        return document.getElementById('product-page');
     }
 
     getConfig(data) {
