@@ -121,7 +121,6 @@ class CartStore {
                 eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                 break;
             case 429:
-                // renderServerMessage('Ошибка обновления корзины');
                 break;
             default:
                 break;

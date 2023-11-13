@@ -120,7 +120,6 @@ export default class NumberEditForm {
      *
      */
     removeListeners() {
-        // this.submit.self.removeEventListener('click', this.submitHandle);
     }
 
     /**

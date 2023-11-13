@@ -1,8 +1,6 @@
 import Button from '../button/button.js';
-import Input from '../input/input.js';
 import template from './imgEditForm.hbs';
 import {UserActions} from '../../actions/user.js';
-import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {userStore} from '../../stores/user.js';
@@ -26,7 +24,6 @@ export default class ImgEditForm {
    */
     constructor(parent) {
         this.#parent = parent;
-        // this.#config = config.profilePage.profile.numberEditForm;
     }
 
     /**
@@ -76,7 +73,6 @@ export default class ImgEditForm {
      *
      */
     subscribeToEvents() {
-        // eventEmmiter.subscribe(Events.PHONE_INPUT_ERROR, this.renderPhoneError);
     }
 
     /**
@@ -90,7 +86,6 @@ export default class ImgEditForm {
      *
      */
     removeListeners() {
-        // this.submit.self.removeEventListener('click', this.submitHandle);
     }
 
     /**

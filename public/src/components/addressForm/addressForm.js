@@ -82,7 +82,6 @@ export default class AddressForm {
      *
      */
     removeListeners() {
-        // this.submit.self.removeEventListener('click', this.submitHandle);
     }
 
     /**

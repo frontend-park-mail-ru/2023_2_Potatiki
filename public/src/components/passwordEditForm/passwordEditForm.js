@@ -136,7 +136,6 @@ export default class PasswordEditForm {
      *
      */
     removeListeners() {
-        // this.submit.self.removeEventListener('click', this.submitHandle);
     }
 
     /**
@@ -148,23 +147,18 @@ export default class PasswordEditForm {
         this.oldPassword = new Input(
             document.querySelector('.info-edit-form__old-password'),
             this.#config.oldPassword,
-            // {inputName: 'old-password', inputPlaceholder: 'Старый пароль'},
         );
         this.oldPassword.render();
 
         this.newPassword = new Input(
             document.querySelector('.info-edit-form__new-password'),
             this.#config.newPassword,
-            // {inputName: 'new-password', inputPlaceholder: 'Новый пароль',
-            //    errorId: 'new-password-error'},
         );
         this.newPassword.render();
 
         this.repeatPassword = new Input(
             document.querySelector('.info-edit-form__repeat-password'),
             this.#config.repeatPassword,
-            // {inputName: 'repeat-password', inputPlaceholder: 'Повторить пароль',
-            //    errorId: 'repeat-password-error'},
         );
         this.repeatPassword.render();
 
