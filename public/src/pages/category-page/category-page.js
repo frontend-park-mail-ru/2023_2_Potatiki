@@ -102,7 +102,6 @@ export default class CategoryPage {
             const threshold = height - screenHeight / 3;
             const position = scrolled + screenHeight;
             if (this.endOfPage) {
-                console.log('end of page');
                 this.removeListeners();
             }
             if (position >= threshold) {

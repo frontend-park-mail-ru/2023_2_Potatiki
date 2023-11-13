@@ -27,7 +27,6 @@ class UserStore {
      */
     constructor() {
         this.registerEvents();
-        this.subscribeToEvents();
     }
 
     /**
@@ -155,20 +154,10 @@ class UserStore {
         });
     }
 
-    subscribeToEvents() {
-        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.userNotAuth);
-    }
-
     removeListeners() {
         eventEmmiter.emit(Events.REMOVE_SUBSCRIBES);
         eventEmmiter.emit(Events.REMOVE_LISTENERS);
     }
-
-    userNotAuth() {
-        this.#state.isAuth = false;
-    }
-
-    userNotAuth = this.userNotAuth.bind(this);
 
     checkAuth() {
         if (!this.isAuth) {

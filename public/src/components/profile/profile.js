@@ -218,6 +218,8 @@ export default class Profile {
             this.editNumber);
         document.querySelector('.password-edit')?.addEventListener('click',
             this.editPassword);
+        document.querySelector('.avatar-edit')?.addEventListener('click',
+            this.editImg);
     }
 
     /**
