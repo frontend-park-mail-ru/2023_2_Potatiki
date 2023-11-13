@@ -1,3 +1,4 @@
+import './imgEditForm.scss';
 import Button from '../button/button.js';
 import template from './imgEditForm.hbs';
 import {UserActions} from '../../actions/user.js';

@@ -1,5 +1,5 @@
 import template from './select.hbs';
-import './select.css';
+import './select.scss';
 
 /**
  * Класс кнопки

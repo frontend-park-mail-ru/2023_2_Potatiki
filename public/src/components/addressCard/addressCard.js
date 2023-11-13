@@ -1,4 +1,5 @@
 import template from './addressCard.hbs';
+import './addressCard.scss';
 
 /**
  *

@@ -1,3 +1,4 @@
+import './profile-page.scss';
 import template from './profile-page.hbs';
 import Profile from '../../components/profile/profile';
 import Header from '../../components/header/header';

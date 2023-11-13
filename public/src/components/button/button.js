@@ -1,3 +1,4 @@
+import './button.scss';
 import template from './button.hbs';
 
 /**

@@ -3,7 +3,7 @@ import template from './category-page.hbs';
 import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import './category-page.css';
+import './category-page.scss';
 import CategoryProduct from '../../components/category-product/category-product.js';
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';

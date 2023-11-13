@@ -1,10 +1,11 @@
+import './order-page.scss';
 import template from './order-page.hbs';
 import router from '../../modules/router.js';
 import Header from '../../components/header/header';
-import './order-page.css';
 import OrderResults from '../../components/orderResults/order-results';
 import OrderInfo from '../../components/orderInfo/order-info';
 import OrderProducts from '../../components/orderProducts/order-products';
+import {loginRoute, orderRoute, profileRoute} from '../../config/urls.js';
 import {loginRoute, orderRoute, profileRoute} from '../../config/urls.js';
 import {config} from '../../../config.js';
 import {Events} from '../../config/events.js';

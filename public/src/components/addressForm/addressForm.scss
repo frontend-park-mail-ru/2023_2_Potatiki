@@ -1,9 +1,7 @@
 .address-form {
     display: grid;
     grid-template-columns: 11.6rem auto 11.6rem;
-
     grid-template-rows: repeat(4, 3.5rem);
-
     grid-template-areas:
     "city city city"
     "street street street"

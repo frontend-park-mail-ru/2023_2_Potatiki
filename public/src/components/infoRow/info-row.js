@@ -1,6 +1,6 @@
 import Link from '../link/link.js';
 import template from './info-row.hbs';
-import './info-row.css';
+import './info-row.scss';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 

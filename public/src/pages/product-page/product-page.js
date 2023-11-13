@@ -6,7 +6,7 @@ import {Events} from '../../config/events.js';
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
 import {notFoundRoute, productRoute} from '../../config/urls.js';
-import './product-page.css';
+import './product-page.scss';
 import Product from '../../components/product/product.js';
 
 /**

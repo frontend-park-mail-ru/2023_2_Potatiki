@@ -2,11 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const miniCss = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: 'development',
     entry: '/public/index.js',
-
 
     output: {
         filename: '[name].[contenthash].js',
@@ -18,16 +18,27 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-            {
                 test: /\.hbs$/,
                 loader: 'handlebars-loader',
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
+            },
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
+            {
+                test: /\.(s*)css$/,
+                use: [
+                    miniCss.loader,
+                    'css-loader',
+                    'sass-loader',
+                ],
             },
         ],
     },
@@ -42,6 +53,10 @@ module.exports = {
                 {from: path.resolve(__dirname, 'public/static/images'), to: 'static/images'},
                 {from: path.resolve(__dirname, 'public/sw.js'), to: ''},
             ],
+        }),
+
+        new miniCss({
+            filename: 'style.css',
         }),
 
         new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/static/images/favicon.svg')),

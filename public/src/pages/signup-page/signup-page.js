@@ -1,3 +1,4 @@
+import './signup-page.scss';
 import Link from '../../components/link/link.js';
 import SignupForm from '../../components/signupForm/signupForm.js';
 import template from './signup-page.hbs';

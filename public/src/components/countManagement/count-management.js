@@ -1,5 +1,5 @@
+import './count-management.scss';
 import template from './count-management.hbs';
-import './count-management.css';
 import Button from '../button/button';
 
 /**

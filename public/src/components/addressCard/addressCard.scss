@@ -1,9 +1,7 @@
 .address-card{
     display: grid;
     grid-template-columns: 38rem auto 6.6rem 6.6rem;
-
     grid-template-rows: 2rem auto;
-
     grid-template-areas:
     "title _ edit delete"
     "data . current current";

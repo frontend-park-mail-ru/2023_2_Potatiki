@@ -1,11 +1,8 @@
+import './catalog.scss';
 import Link from '../link/link.js';
 import template from './catalog.hbs';
-import './catalog.css';
-import {CartActions} from '../../actions/cart.js';
 import {Events} from '../../config/events.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
-import OrderInfo from '../orderInfo/order-info.js';
-import InfoRow from '../infoRow/info-row.js';
 import {ProductsActions} from '../../actions/products.js';
 
 /**

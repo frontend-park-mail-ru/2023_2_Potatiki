@@ -3,7 +3,7 @@ import template from './orders-page.hbs';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import './orders-page.css';
+import './orders-page.scss';
 import router from '../../modules/router.js';
 import {loginRoute} from '../../config/urls.js';
 import {CartActions} from '../../actions/cart.js';

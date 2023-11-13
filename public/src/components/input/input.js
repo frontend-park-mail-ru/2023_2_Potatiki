@@ -1,3 +1,4 @@
+import './input.scss';
 import template from './input.hbs';
 
 /**

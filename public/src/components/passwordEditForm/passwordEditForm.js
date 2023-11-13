@@ -1,3 +1,4 @@
+import './passwordEditForm.scss';
 import Button from '../button/button.js';
 import Input from '../input/input.js';
 import template from './passwordEditForm.hbs';

@@ -1,6 +1,6 @@
+import './cart-product.scss';
 import Link from '../link/link.js';
 import template from './cart-product.hbs';
-import './cart-product.css';
 import CountManagement from '../countManagement/count-management';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';

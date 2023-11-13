@@ -2,7 +2,7 @@ import template from './cart-page.hbs';
 import Header from '../../components/header/header';
 import CartProduct from '../../components/cartProduct/cart-product';
 import {config} from '../../../config';
-import './cart-page.css';
+import './cart-page.scss';
 import OrderResults from '../../components/orderResults/order-results';
 import {cartRoute, productRoute} from '../../config/urls.js';
 import {Events} from '../../config/events.js';
