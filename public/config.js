@@ -12,6 +12,7 @@ const header = {
         href: '/',
         altText: 'ZuZu logo',
         imgSrc: '/static/images/logo.svg',
+        imgClass: 'logo-img ',
     },
 
     catalog: {
@@ -60,7 +61,7 @@ const header = {
         id: 'favorite-button',
         class: 'link_icon link_disabled',
         text: 'Избранное',
-        href: '#',
+        href: '',
         imgSrc: '/static/images/like-icon.svg',
         imgClass: 'link_icon__img',
     },

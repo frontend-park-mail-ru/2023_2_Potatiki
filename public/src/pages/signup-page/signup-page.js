@@ -52,6 +52,8 @@ export default class SignupPage {
         UserActions.getCSRFToken(signupRoute);
 
         this.#parent.innerHTML = template();
+        document.querySelector('#container-header').innerHTML = '';
+
 
         const logo = new Link(this.self, this.#config.logo);
         logo.render();

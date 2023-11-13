@@ -1,15 +1,11 @@
-import Link from '../../components/link/link.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerMessage from '../../modules/server-message.js';
 import template from './order-page.hbs';
 import router from '../../modules/router.js';
 import Header from '../../components/header/header';
-import CartProduct from '../../components/cartProduct/cart-product';
 import './order-page.css';
 import OrderResults from '../../components/orderResults/order-results';
 import OrderInfo from '../../components/orderInfo/order-info';
 import OrderProducts from '../../components/orderProducts/order-products';
-import {getCartProductsUrl, getProductsUrl, loginRoute, loginUrl, orderRoute, profileRoute} from '../../config/urls.js';
+import {loginRoute, orderRoute, profileRoute} from '../../config/urls.js';
 import {config} from '../../../config.js';
 import {Events} from '../../config/events.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -24,8 +20,6 @@ import {formatDate} from '../../modules/utils.js';
 export default class OrderPage {
     #parent;
 
-    #config;
-
     userInfo;
 
     /**
@@ -35,7 +29,6 @@ export default class OrderPage {
      */
     constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
     }
 
     /**
@@ -54,6 +47,7 @@ export default class OrderPage {
         const orderProducts = new OrderProducts(
             this.self.querySelector('.order-info-container'),
             body.products,
+            true,
         );
         orderProducts.render();
     }
@@ -65,7 +59,7 @@ export default class OrderPage {
     updateUserInfo(data) {
         this.userInfo.self.querySelector('.name').textContent = data.login;
         this.userInfo.self.querySelector('.value').textContent = data.phone;
-        this.userInfo.self.querySelector('.order-info__img').src = '/static/' + data.img;
+        this.userInfo.self.querySelector('.order-info__img').src = '/static/images/' + data.img;
     }
 
     updateAddress(data) {
@@ -81,11 +75,8 @@ export default class OrderPage {
 
     renderAll() {
         this.#parent.innerHTML = template();
-        const header = new Header(
-            this.#parent,
-            this.#config.mainPage.header,
-            this.#config.isAuthorized,
-        );
+
+        const header = new Header;
         header.render();
 
         const payment = new OrderInfo(
@@ -114,7 +105,7 @@ export default class OrderPage {
                     {
                         nameClass: 'info-row__name',
                         img: {
-                            imgSrc: './static/images/' + 'user.svg',
+                            imgSrc: '/static/images/user.svg',
                             imgClass: 'order-info__img',
                         },
                         id: 'user-info-row',
@@ -208,9 +199,6 @@ export default class OrderPage {
     renderProducts = this.renderProducts.bind(this);
     redirectToLogin = this.redirectToLogin.bind(this);
     renderAll = this.renderAll.bind(this);
-
-    removeListeners() {
-    }
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CART_PRODUCTS, this.renderProducts);

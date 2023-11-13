@@ -1,11 +1,9 @@
 .info-row {
     display: flex;
     flex-direction: row;
-    /* display: grid;
-    grid-template-columns: 1.5fr 1fr; */
     justify-content: space-between;
     align-items: center;
-    height: 40px;
+    height: 3.32rem;
 }
 
 .info-row-grid {
@@ -17,21 +15,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* max-width: 60%; */
 }
 
 .info-row__name {
-    /* width: 40px; */
-    /* text-overflow: ellipsis;
-    max-width: 12ch; */
-    /* width: clamp(10ch, 50%, 75ch); */
     display: block;
-  width: 130px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.info-row__value {
-    /* align-self: end; */
+    width: 10.8rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

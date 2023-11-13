@@ -72,7 +72,7 @@ export default class ProductPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating,
-            reviewsCount: `${data.reviews_count || 1139} отзывов`,
+            reviewsCount: `${0} отзывов`,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
@@ -97,15 +97,6 @@ export default class ProductPage {
         eventEmmiter.subscribe(Events.PRODUCT, this.renderProduct);
     }
 
-    addListeners() {
-    }
-
-    /**
-    *
-    */
-    removeListeners() {
-    }
-
     /**
     *
     */
@@ -120,7 +111,7 @@ export default class ProductPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header(this.self);
+        const header = new Header();
         header.render();
         this.subscribeToEvents();
         ProductsActions.getProduct(this.#productId);

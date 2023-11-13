@@ -2,10 +2,10 @@ import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
 import template from './main-page.hbs';
 import {config} from '../../../config.js';
-import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {ProductsActions} from '../../actions/products.js';
+
 
 /**
  * Класс главной страницы
@@ -68,11 +68,11 @@ export default class MainPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header(this.#parent);
+        const header = new Header();
         header.render();
         this.subscribeToEvents();
 
-        ProductsActions.getProducts(0, 20, this.#config.newCarousel);
-        ProductsActions.getProducts(0, 20, this.#config.popularCarousel);
+        ProductsActions.getProducts(0, 30, this.#config.newCarousel);
+        ProductsActions.getProducts(30, 30, this.#config.popularCarousel);
     }
 }

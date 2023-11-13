@@ -86,7 +86,6 @@ export function checkLogin(login) {
  * @return {[String, Boolean]} Сообщение об ошибке и статус проверки
  */
 export function checkPhone(phone) {
-    console.log(phone);
     const isValid = [...phone].every((_, index) => {
         switch (index) {
         case 0:

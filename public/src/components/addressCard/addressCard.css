@@ -1,22 +1,24 @@
 .address-card{
     display: grid;
-    grid-template-columns: 462px auto 80px 80px;
-    grid-template-rows: 24px auto;
+    grid-template-columns: 38rem auto 6.6rem 6.6rem;
+
+    grid-template-rows: 2rem auto;
+
     grid-template-areas:
     "title _ edit delete"
     "data . current current";
     justify-content: stretch;
     align-items: center;
     border: 0.5px solid #E5E2EB;
-    border-radius: 24px;
-    width: 942px;
-    height: 140px; 
-    font-size: 24px;
-    row-gap: 24px;
-    padding-left: 42px;
-    padding-top: 22px;
-    padding-bottom: 22px;
-    padding-right: 16px;
+    border-radius: 2rem;
+    width: 78rem;
+    height: 11.6rem;
+    font-size: 2rem;
+    row-gap: 2rem;
+    padding-left: 3.5rem;
+    padding-top: 1.8rem;
+    padding-bottom: 1.8rem;
+    padding-right: 1.4rem;
     box-sizing: border-box;
 }
 
@@ -26,28 +28,28 @@
 
 .address-data {
     grid-area: data;
-    font-size: 24px;
+    font-size: 2rem;
     color: #999AAD;
 }
 
 .address-edit {
     grid-area: edit;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 1.4rem;
     color: #5E64FF;
 }
 
 .address-delete {
     grid-area: delete;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 1.4rem;
     color: #ED7777;;
 }
 
 .address-current {
     grid-area: current;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 1.4rem;
     color: #999AAD;
     text-align: center;
 }

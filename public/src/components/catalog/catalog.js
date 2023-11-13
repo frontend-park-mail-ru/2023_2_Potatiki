@@ -51,7 +51,6 @@ export default class Catalog {
                     class: 'category-parent',
                     href: `/category/${category.categoryId}`,
                 });
-            item.render();
             if (category.childs) {
                 category.childs.forEach((child) => {
                     const midCHild = new Link(this.self.querySelector('.category-container'), {
@@ -59,8 +58,7 @@ export default class Catalog {
                         text: child.categoryName,
                         class: 'category-child',
                         spanClass: 'child-text',
-                        href: `/category/${child.categoryId}`,
-                        // href: `/category?id=${child.id}&name=${child.name}`,
+                        href: '',
                     });
                     midCHild.render();
                     if (child.childs) {
@@ -71,7 +69,6 @@ export default class Catalog {
                                 class: 'category-leaf',
                                 spanClass: 'child-text',
                                 href: `/category/${leaf.categoryId}`,
-                                // href: `/category?id=${leaf.id}&name=${leaf.name}`,
                             });
                             leafChild.render();
                         });
@@ -98,7 +95,7 @@ export default class Catalog {
      * Отрисовка компонента
      */
     render() {
-        document.querySelector('#root').insertAdjacentHTML(
+        document.querySelector('#container-main').insertAdjacentHTML(
             'beforeend',
             template(),
         );

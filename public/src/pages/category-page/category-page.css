@@ -8,9 +8,10 @@
 
 #category-page {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 10vh;
 }
 
 .page-title {

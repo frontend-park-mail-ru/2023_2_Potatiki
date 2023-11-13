@@ -1,4 +1,7 @@
+import {Events} from '../config/events';
 import {baseUrl} from '../config/urls';
+import {eventEmmiter} from './event-emmiter';
+import renderServerMessage from './server-message';
 
 /**
  * Методы для отправки сетевых запросов
@@ -15,14 +18,12 @@ export default class Ajax {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
-            exposedHeaders: '*',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
             body: JSON.stringify(data),
         };
-        console.log(token, url);
         if (token) {
             options.headers['X-Csrf-Token'] = token;
         }
@@ -49,14 +50,8 @@ export default class Ajax {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
-            exposedHeaders: '*',
-            headers: {
-                // 'Content-Type': 'image/png',
-                // 'Accept': 'application/json',
-            },
             body: data,
         };
-        console.log(data);
         if (token) {
             options.headers['X-Csrf-Token'] = token;
         }
@@ -106,11 +101,7 @@ export default class Ajax {
             method: 'GET',
             mode: 'cors',
             credentials: 'include',
-            exposedHeaders: '*',
             headers: {
-                // 'Content-Type': 'text/plain',
-                // 'Accept': '*/*',
-                // 'Access-Control-Request-Method': 'GET',
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Access-Control-Request-Method': 'GET',

@@ -3,10 +3,22 @@
     flex-direction: column;
     background-color: var(--color-background);
     align-items: center;
+    min-height: 100vh;
 }
 
 .order-info-container__payment-and-user {
-    display: flex;
-    flex-direction: row;
+    /* display: flex;
+    flex-direction: row; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
 }
 
+.order-info-container {
+    display: grid;
+    gap: 2rem;
+}
+
+.white-background-color {
+    background-color: var(--color-card-background);
+}

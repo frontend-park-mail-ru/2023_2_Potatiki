@@ -52,6 +52,7 @@ export default class LoginPage {
    * Отрисовка страницы авторизации
    */
     render() {
+        document.querySelector('#container-header').innerHTML = '';
         this.#parent.innerHTML = template();
         UserActions.getCSRFToken(loginRoute);
 

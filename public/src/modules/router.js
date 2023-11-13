@@ -74,6 +74,10 @@ class Router {
         if (!anchor) {
             return;
         }
+        if (!anchor.getAttribute('href')) {
+            event.preventDefault();
+            return;
+        }
         event.preventDefault();
         this.go({url: anchor.getAttribute('href')});
     };
@@ -86,8 +90,6 @@ class Router {
      */
     go(state, replaceState) {
         let baseState = this.#states.get(state.url);
-        console.log(baseState);
-        console.log(this.#states);
         let idParam;
         if (!baseState) {
             const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('/'));
@@ -100,14 +102,17 @@ class Router {
             idParam = state.url.substring(state.url.lastIndexOf('/') + 1);
         }
 
-        if (this.#currentView && this.#currentView.removeListeners) {
-            this.#currentView.removeListeners();
-            this.#currentView.unsubscribeToEvents();
+        if (this.#currentView) {
+            if (this.#currentView.removeListeners) {
+                this.#currentView.removeListeners();
+            }
+            if (this.#currentView.unsubscribeToEvents) {
+                this.#currentView.unsubscribeToEvents();
+            }
             UserActions.removeListeners();
         }
 
         this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
-        console.log(this.#currentView);
         this.#currentView.render();
         if (replaceState) {
             this.#history.replaceState(

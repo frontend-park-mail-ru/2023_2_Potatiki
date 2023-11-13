@@ -1,18 +1,13 @@
 import Header from '../../components/header/header.js';
 import template from './orders-page.hbs';
-import {config} from '../../../config.js';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import CartProduct from '../../components/cartProduct/cart-product.js';
 import './orders-page.css';
-import CategoryProduct from '../../components/category-product/category-product.js';
-import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
-import {loginRoute, notFoundRoute, productRoute} from '../../config/urls.js';
-import OrderProducts from '../../components/orderProducts/order-products.js';
+import {loginRoute} from '../../config/urls.js';
 import {CartActions} from '../../actions/cart.js';
-import renderServerMessage from '../../modules/server-message.js';
+import {renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
 
 /**
@@ -37,11 +32,19 @@ export default class OrdersPage {
     }
 
     getConfig(data) {
+        let summary = 0;
+        let count = 0;
+        data.products.forEach((product) => {
+            count += product.quantity;
+            summary += product.quantity * product.price;
+        });
         return {
             id: `order-item-${data.id}`,
             uuid: data.id,
             status: data.statusId,
             products: data.products,
+            summary: summary.toLocaleString() + ' ₽',
+            count: count,
             address: `${data.city}, ${data.street}, ${data.house}, ${data.flat}`,
         };
     }
@@ -63,9 +66,9 @@ export default class OrdersPage {
     renderAll() {
         this.#parent.innerHTML = template({});
 
-        const header = new Header(this.#parent);
+        const header = new Header();
         header.render();
-        this.addListeners();
+
         CartActions.getAllOrders();
     }
 
@@ -85,15 +88,6 @@ export default class OrdersPage {
         eventEmmiter.subscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
         eventEmmiter.subscribe(Events.PAGE_ALLOWED, this.renderAll);
         eventEmmiter.subscribe(Events.NOT_FOUND, this.noOrders);
-    }
-
-    addListeners() {
-    }
-
-    /**
-    *
-    */
-    removeListeners() {
     }
 
     /**

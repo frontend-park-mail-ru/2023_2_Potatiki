@@ -1,10 +1,8 @@
 import Header from '../../components/header/header.js';
 import template from './category-page.hbs';
 import {config} from '../../../config.js';
-import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import CartProduct from '../../components/cartProduct/cart-product.js';
 import './category-page.css';
 import CategoryProduct from '../../components/category-product/category-product.js';
 import {ProductsActions} from '../../actions/products.js';
@@ -16,8 +14,6 @@ import {notFoundRoute, productRoute} from '../../config/urls.js';
  */
 export default class CategoryPage {
     #parent;
-
-    #config;
 
     #categoryName;
 
@@ -37,11 +33,9 @@ export default class CategoryPage {
    */
     constructor(parent, params) {
         this.#parent = parent;
-        this.#config = config.mainPage;
         this.endOfPage = false;
         this.timer = null;
         this.#categoryId = params.idParam;
-        // this.#categoryName = params.nameParam;
         this.productsPerRequest = 5;
     }
 
@@ -77,7 +71,7 @@ export default class CategoryPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating,
-            reviewsCount: `${data.reviews_count || 1139} отзывов`,
+            reviewsCount: `0 отзывов`,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
@@ -87,7 +81,7 @@ export default class CategoryPage {
     }
 
     renderProducts(body) {
-        if (!body) {
+        if (!body || !body.length) {
             eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
             this.endOfPage = true;
             return;
@@ -108,6 +102,7 @@ export default class CategoryPage {
             const threshold = height - screenHeight / 3;
             const position = scrolled + screenHeight;
             if (this.endOfPage) {
+                console.log('end of page');
                 this.removeListeners();
             }
             if (position >= threshold) {
@@ -162,7 +157,7 @@ export default class CategoryPage {
     render() {
         this.#parent.innerHTML = template({category: this.#categoryName});
 
-        const header = new Header(this.#parent);
+        const header = new Header();
         header.render();
         this.subscribeToEvents();
         this.loadedProducts = 0;

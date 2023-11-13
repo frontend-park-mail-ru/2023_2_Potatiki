@@ -66,7 +66,6 @@ export default class AddressCard {
      *
      */
     render() {
-        console.log(this.#parent, this.#config);
         this.#parent.insertAdjacentHTML(
             'beforeend',
             template(this.#config),

@@ -82,7 +82,6 @@ export default class SignupForm {
      */
     inputPhoneHandle(event) {
         event.preventDefault();
-        console.log('input phone');
         UserActions.validatePhone(this.phone.self.value);
     }
 
@@ -94,15 +93,6 @@ export default class SignupForm {
     redirectOnMain() {
         router.go({url: mainRoute});
     }
-
-    // /**
-    //  *
-    //  * @param {String} errorText
-    //  */
-    // renderError(errorText) {
-    //     const error = document.querySelector('#signup-form-error');
-    //     error.textContent = errorText;
-    // }
 
     /**
      *
@@ -139,7 +129,6 @@ export default class SignupForm {
 
     renderPhoneError(errorText) {
         this.phone.removeError();
-        console.log(errorText);
         this.phone.renderError(errorText);
     }
 

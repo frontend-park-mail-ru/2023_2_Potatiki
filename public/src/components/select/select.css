@@ -1,13 +1,13 @@
 .select {
-    margin-top: 30px;
+    margin-top: 2.5rem;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border: 1px solid #999;
-    font-size: 14px;
-    padding: 5px 15px;
-    background-color: var(--color-background);
-    border-radius: 10px;
+    font-size: 1.2rem;
+    padding: 0.5rem 1.4rem;
+    background-color: var(--color-card-background);
+    border-radius: 0.9rem;
 }
 
 .select-title {

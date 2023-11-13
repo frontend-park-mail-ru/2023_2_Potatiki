@@ -9,6 +9,7 @@ import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
+import './header.css';
 
 /**
  * Класс хедера страницы
@@ -36,6 +37,10 @@ export default class Header {
     constructor(parent) {
         this.#parent = parent;
         this.#config = config.mainPage.header;
+    }
+
+    get self() {
+        return document.querySelector('#header');
     }
 
     updateCartCount(count) {
@@ -69,74 +74,107 @@ export default class Header {
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
     logout = this.logout.bind(this);
+    authorizedHeader = this.authorizedHeader.bind(this);
+    unauthorizedHeader = this.unauthorizedHeader.bind(this);
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
     }
 
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
+        eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
     }
 
     removeListeners() {
         this.logoutButton?.removeEventListener('click', logout);
     }
 
+    unauthorizedHeader() {
+        this.user.self.remove();
+        this.user = new Link(this.self.querySelector('.header__icons-container'), this.#config.login);
+        this.user.render();
+
+        this.removeLogoutButton();
+    }
+
+    removeLogoutButton() {
+        if (this.logoutButton) {
+            this.logoutButton.self.removeEventListener('click', this.logout);
+            this.logoutButton.self.remove();
+        }
+    }
+
+    authorizedHeader() {
+        this.user.self.remove();
+        this.user = new Link(this.self.querySelector('.header__icons-container'), this.#config.profile);
+        this.user.render();
+
+        this.removeLogoutButton();
+        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'), this.#config.logout);
+        this.logoutButton.render();
+        this.logoutButton.self.addEventListener('click', this.logout);
+    }
+
     /**
    * Отрисовка компонента хедера
    */
     render() {
-        // this.#parent.insertAdjacentHTML(
-        //     'afterbegin',
-        //     template(),
-        // );
-
-        document.querySelector('#root').insertAdjacentHTML(
-            'afterbegin',
-            template(),
-        );
+        document.querySelector('#container-header').innerHTML = template();
 
         const self = document.querySelector('#header');
-
-        const logo = new Link(self, this.#config.logo);
-        logo.render();
-
-        this.catalogButton = new Button(self, this.#config.catalog);
-        this.catalogButton.render();
-        this.catalogButton.self.addEventListener('click', this.renderCatalog);
 
         const search = new SearchForm(
             self,
             this.#config.search,
+            true,
         );
         search.render();
 
-        const orders = new Link(self, this.#config.orders);
+        this.catalogButton = new Button(self, this.#config.catalog, true);
+        this.catalogButton.render();
+        this.catalogButton.self.addEventListener('click', this.renderCatalog);
+
+        const logo = new Link(self, this.#config.logo, true);
+        logo.render();
+
+        const orders = new Link(
+            self.querySelector('.header__icons-container'),
+            this.#config.orders,
+        );
         orders.render();
 
-        const favorite = new Link(self, this.#config.favorite);
+        const favorite = new Link(
+            self.querySelector('.header__icons-container'),
+            this.#config.favorite,
+        );
         favorite.render();
 
-        this.cart = new Link(self, this.#config.basket);
+        this.cart = new Link(self.querySelector('.header__icons-container'), this.#config.basket);
         this.cart.render();
 
         const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
 
-        this.user = new Link(self, profileState);
+        this.user = new Link(self.querySelector('.header__icons-container'), profileState);
         this.user.render();
 
         if (userStore.isAuth) {
-            this.logoutButton = new Button(self, this.#config.logout);
+            this.logoutButton = new Button(
+                self.querySelector('.header__icons-container'),
+                this.#config.logout,
+            );
             this.logoutButton.render();
             this.logoutButton.self.addEventListener('click', this.logout);
         }
 
         this.subscribeToEvents();
         CartActions.getCartCount();
-        UserActions.getProfileData();
     }
 }
