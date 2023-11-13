@@ -1,3 +1,4 @@
+import './infoCard.scss';
 import {userStore} from '../../stores/user';
 import template from './infoCard.hbs';
 import {config} from '../../../config';

@@ -1,7 +1,7 @@
 import AddToCartButton from '../addToCartButton/add-to-cart-button.js';
 import Link from '../link/link.js';
 import template from './product.hbs';
-import './product.css';
+import './product.scss';
 import router from '../../modules/router.js';
 import {cartRoute} from '../../config/urls.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';

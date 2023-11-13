@@ -1,10 +1,11 @@
+import './add-to-cart-button.scss';
 import Button from '../button/button.js';
 import template from './add-to-cart-button.hbs';
 import {CartActions} from '../../actions/cart.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import CountManagement from '../countManagement/count-management.js';
-import './add-to-cart-button.css';
+
 /**
  * Класс формы авторизации
  */

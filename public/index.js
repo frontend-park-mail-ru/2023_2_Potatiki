@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import router from './src/modules/router';
 import {UserActions} from './src/actions/user';
 import {eventEmmiter} from './src/modules/event-emmiter';

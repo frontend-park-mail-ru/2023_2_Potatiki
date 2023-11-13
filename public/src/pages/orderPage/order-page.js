@@ -1,15 +1,11 @@
-import Link from '../../components/link/link.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerMessage from '../../modules/server-message.js';
+import './order-page.scss';
 import template from './order-page.hbs';
 import router from '../../modules/router.js';
 import Header from '../../components/header/header';
-import CartProduct from '../../components/cartProduct/cart-product';
-import './order-page.css';
 import OrderResults from '../../components/orderResults/order-results';
 import OrderInfo from '../../components/orderInfo/order-info';
 import OrderProducts from '../../components/orderProducts/order-products';
-import {getCartProductsUrl, getProductsUrl, loginRoute, loginUrl, orderRoute, profileRoute} from '../../config/urls.js';
+import {loginRoute, orderRoute, profileRoute} from '../../config/urls.js';
 import {config} from '../../../config.js';
 import {Events} from '../../config/events.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';

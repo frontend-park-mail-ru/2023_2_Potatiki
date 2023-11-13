@@ -1,3 +1,4 @@
+import './header.scss';
 import {userStore} from '../../stores/user.js';
 import Button from '../button/button.js';
 import Link from '../link/link.js';
@@ -9,7 +10,6 @@ import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
-import './header.css';
 
 /**
  * Класс хедера страницы

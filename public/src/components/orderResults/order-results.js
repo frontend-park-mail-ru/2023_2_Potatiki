@@ -1,6 +1,6 @@
 import Button from '../button/button.js';
 import template from './order-results.hbs';
-import './order-results.css';
+import './order-results.scss';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {CartActions} from '../../actions/cart.js';

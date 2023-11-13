@@ -1,7 +1,6 @@
+import './order-item.scss';
 import Link from '../link/link.js';
 import template from './order-item.hbs';
-import './order-item.css';
-import Button from '../button/button';
 import {productRoute} from '../../config/urls.js';
 
 /**

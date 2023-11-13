@@ -1,3 +1,4 @@
+import './main-page.scss';
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
 import template from './main-page.hbs';

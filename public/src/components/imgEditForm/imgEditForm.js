@@ -1,8 +1,7 @@
+import './imgEditForm.scss';
 import Button from '../button/button.js';
-import Input from '../input/input.js';
 import template from './imgEditForm.hbs';
 import {UserActions} from '../../actions/user.js';
-import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {userStore} from '../../stores/user.js';

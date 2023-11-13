@@ -1,10 +1,10 @@
 import template from './cart-page.hbs';
 import Header from '../../components/header/header';
 import CartProduct from '../../components/cartProduct/cart-product';
-import {config, getProductsUrl} from '../../../config';
-import './cart-page.css';
+import {config} from '../../../config';
+import './cart-page.scss';
 import OrderResults from '../../components/orderResults/order-results';
-import {cartRoute, getProducts, productRoute} from '../../config/urls.js';
+import {cartRoute, productRoute} from '../../config/urls.js';
 import {Events} from '../../config/events.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {CartActions} from '../../actions/cart.js';

@@ -1,3 +1,4 @@
+import './login-page.scss';
 import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import template from './login-page.hbs';

@@ -1,7 +1,8 @@
+import './category-product.scss';
 import AddToCartButton from '../addToCartButton/add-to-cart-button.js';
 import Link from '../link/link.js';
 import template from './category-product.hbs';
-import './category-product.css';
+
 
 /**
  * Класс компонента карточки товара

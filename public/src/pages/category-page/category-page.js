@@ -1,11 +1,9 @@
 import Header from '../../components/header/header.js';
 import template from './category-page.hbs';
 import {config} from '../../../config.js';
-import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import CartProduct from '../../components/cartProduct/cart-product.js';
-import './category-page.css';
+import './category-page.scss';
 import CategoryProduct from '../../components/category-product/category-product.js';
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';

@@ -1,3 +1,4 @@
+import './profile.scss';
 import template from './profile.hbs';
 import InfoCard from '../infoCard/infoCard';
 import NumberEditForm from '../numberEditForm/numberEditForm';
@@ -8,9 +9,8 @@ import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import AddressCard from '../addressCard/addressCard.js';
-import Link from '../link/link.js';
-import {profileUpdateDataRoute, profileAddAddressRoute} from '../../config/urls.js';
-import { userStore } from '../../stores/user.js';
+import {profileUpdateDataRoute} from '../../config/urls.js';
+import {userStore} from '../../stores/user.js';
 import ImgEditForm from '../imgEditForm/imgEditForm.js';
 
 const States = {
@@ -217,6 +217,8 @@ export default class Profile {
         document.querySelector('.number-edit')?.addEventListener('click',
             this.editNumber);
         document.querySelector('.password-edit')?.addEventListener('click',
+            this.editPassword);
+        document.querySelector('.avatar-edit')?.addEventListener('click',
             this.editPassword);
     }
 

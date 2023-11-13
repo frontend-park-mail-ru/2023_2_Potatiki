@@ -1,6 +1,6 @@
 import {config} from '../../../config.js';
 import Link from '../../components/link/link.js';
-import './not-found-page.css';
+import './not-found-page.scss';
 import template from './not-found-page.hbs';
 
 /**

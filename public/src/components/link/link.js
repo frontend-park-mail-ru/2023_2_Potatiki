@@ -1,3 +1,4 @@
+import './link.scss';
 import template from './link.hbs';
 
 /**
