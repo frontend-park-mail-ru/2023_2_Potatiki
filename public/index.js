@@ -32,6 +32,7 @@ window.addEventListener('online', UserActions.setOnline);
 window.addEventListener('offline', UserActions.setOffline);
 document.addEventListener('DOMContentLoaded', UserActions.checkSession());
 eventEmmiter.subscribe(Events.USER_IS_AUTH, router.go.bind(router));
+eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
 eventEmmiter.subscribe(Events.LOGOUT, router.go.bind(router));
 eventEmmiter.subscribe(Events.SERVER_MESSAGE, renderServerMessage);
 eventEmmiter.subscribe(Events.WARN_MESSAGE, renderWarningMessage);
