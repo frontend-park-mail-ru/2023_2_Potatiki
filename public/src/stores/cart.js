@@ -279,7 +279,7 @@ class CartStore {
         default:
             break;
         }
-        if (!this.isAuth) {
+        if (!userStore.isAuth) {
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Для оформления заказа необходимо авторизоваться');
             eventEmmiter.emit(Events.REDIRECT, {url: loginRoute, continue: continueUrl});
             return;
