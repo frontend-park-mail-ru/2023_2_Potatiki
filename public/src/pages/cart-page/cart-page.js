@@ -129,9 +129,6 @@ export default class CartPage {
         eventEmmiter.unsubscribe(Events.EMPTY_CART, this.renderEmptyCartMessage);
     }
 
-    removeListeners() {
-    }
-
     /**
      * Отрисовка страницы авторизации
      */

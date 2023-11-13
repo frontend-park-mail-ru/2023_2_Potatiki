@@ -5,18 +5,14 @@ import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl, loginRo
 import {Events} from '../config/events';
 import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
-import renderServerMessage from '../modules/server-message';
-import router from '../modules/router';
+import {renderServerMessage} from '../modules/server-message';
+import {userStore} from './user';
 
 /**
  * Класс
  */
 class CartStore {
     #state = {
-        login: '',
-        password: '',
-        imgSrc: '',
-        isAuth: false,
         csrfToken: '',
     };
 
@@ -26,13 +22,6 @@ class CartStore {
     constructor() {
         this.registerEvents();
         this.subscribeToEvents();
-    }
-
-    /**
-     *
-     */
-    get isAuth() {
-        return this.#state.isAuth;
     }
 
     /**
@@ -81,27 +70,19 @@ class CartStore {
     }
 
     userAuth() {
-        this.#state.isAuth = true;
         this.updateCart();
     }
 
-    userNotAuth() {
-        this.#state.isAuth = false;
-    }
-
     userLogout() {
-        this.#state.isAuth = false;
         this.cleanCart();
     }
 
     userAuth = this.userAuth.bind(this);
-    userNotAuth = this.userNotAuth.bind(this);
     userLogout = this.userLogout.bind(this);
     setCSRFToken = this.setCSRFToken.bind(this);
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.userAuth);
-        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.userNotAuth);
         eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.userAuth);
         eventEmmiter.subscribe(Events.SUCCESSFUL_SIGNUP, this.userAuth);
         eventEmmiter.subscribe(Events.LOGOUT, this.userLogout);
@@ -140,7 +121,7 @@ class CartStore {
                 eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                 break;
             case 429:
-                renderServerMessage('Ошибка обновления корзины');
+                // renderServerMessage('Ошибка обновления корзины');
                 break;
             default:
                 break;
@@ -153,7 +134,7 @@ class CartStore {
      * Получение и отрисовка товаров в корзине
      */
     getCartProducts() {
-        if (!this.isAuth) {
+        if (!userStore.isAuth || !userStore.connection) {
             const currentCart = JSON.parse(localStorage.getItem('products_map'), reviver);
             if (!currentCart) {
                 eventEmmiter.emit(Events.EMPTY_CART);
@@ -207,9 +188,11 @@ class CartStore {
             return;
         }
         data.quantity += 1;
-        if (this.isAuth) {
+        if (userStore.isAuth && userStore.connection) {
             if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: data.quantity})) {
-                return;
+                if (userStore.isAuth) {
+                    return;
+                }
             }
         }
         if (!productsMap) {
@@ -245,9 +228,11 @@ class CartStore {
             this.deleteProduct(data);
             return;
         }
-        if (this.isAuth) {
+        if (userStore.isAuth && userStore.connection) {
             if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: product.quantity}, this.#state.setCSRFToken)) {
-                return;
+                if (userStore.isAuth) {
+                    return;
+                }
             }
         }
         productsMap.set(data.productId, product);
@@ -262,7 +247,7 @@ class CartStore {
         if (!product) {
             return;
         }
-        if (this.isAuth) {
+        if (userStore.isAuth && userStore.connection) {
             const [statusCode, body] = await Ajax.prototype.deleteRequest(delProductUrl, {productId: data.productId}, this.#state.setCSRFToken);
             switch (statusCode) {
             case 200:
@@ -295,22 +280,26 @@ class CartStore {
         default:
             break;
         }
-        if (!this.isAuth) {
+        if (!userStore.isAuth) {
             renderServerMessage('Для оформления заказа необходимо авторизоваться');
-            router.go({url: loginRoute, continue: continueUrl});
+            eventEmmiter.emit(Events.REDIRECT, {url: loginRoute, continue: continueUrl});
             return;
         }
         switch (page) {
         case cartRoute:
-            router.go({url: orderRoute});
+            eventEmmiter.emit(Events.REDIRECT, {url: orderRoute});
             break;
         case orderRoute:
+            if (!userStore.connection) {
+                renderServerMessage('Невозможно оформить заказ в оффлайн-режиме');
+                return;
+            }
             Ajax.prototype.postRequest(createOrderUrl, {}, this.#state.csrfToken)
                 .then((result) => {
                     const [statusCode, body] = result;
                     switch (statusCode) {
                     case 200:
-                        router.go({url: mainRoute});
+                        eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});
                         renderServerMessage('Заказ успешно оформлен', true);
                         this.cleanCart();
                         this.cartEvents();
@@ -344,7 +333,7 @@ class CartStore {
             eventEmmiter.emit(Events.NOT_FOUND);
             break;
         case 429:
-            renderServerMessage('Возникла ошибка при создании заказа');
+            renderServerMessage('Не удалось получить заказы');
             break;
         default:
             break;
@@ -381,7 +370,7 @@ class CartStore {
                     eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                     return false;
                 case 429:
-                    renderServerMessage(body.error || 'Ошибка');
+                    renderServerMessage('Ошибка');
                     return false;
                 default:
                     return false;

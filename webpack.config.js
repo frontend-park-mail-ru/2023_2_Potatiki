@@ -51,6 +51,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {from: path.resolve(__dirname, 'public/static/images'), to: 'static/images'},
+                {from: path.resolve(__dirname, 'public/sw.js'), to: ''},
             ],
         }),
 

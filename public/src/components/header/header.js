@@ -39,6 +39,10 @@ export default class Header {
         this.#config = config.mainPage.header;
     }
 
+    get self() {
+        return document.querySelector('#header');
+    }
+
     updateCartCount(count) {
         this.cart.self.querySelector('.cart-count').textContent = count;
     }
@@ -70,21 +74,53 @@ export default class Header {
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
     logout = this.logout.bind(this);
+    authorizedHeader = this.authorizedHeader.bind(this);
+    unauthorizedHeader = this.unauthorizedHeader.bind(this);
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
     }
 
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
+        eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
     }
 
     removeListeners() {
         this.logoutButton?.removeEventListener('click', logout);
+    }
+
+    unauthorizedHeader() {
+        this.user.self.remove();
+        this.user = new Link(this.self.querySelector('.header__icons-container'), this.#config.login);
+        this.user.render();
+
+        this.removeLogoutButton();
+    }
+
+    removeLogoutButton() {
+        if (this.logoutButton) {
+            this.logoutButton.self.removeEventListener('click', this.logout);
+            this.logoutButton.self.remove();
+        }
+    }
+
+    authorizedHeader() {
+        this.user.self.remove();
+        this.user = new Link(this.self.querySelector('.header__icons-container'), this.#config.profile);
+        this.user.render();
+
+        this.removeLogoutButton();
+        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'), this.#config.logout);
+        this.logoutButton.render();
+        this.logoutButton.self.addEventListener('click', this.logout);
     }
 
     /**
@@ -109,10 +145,16 @@ export default class Header {
         const logo = new Link(self, this.#config.logo, true);
         logo.render();
 
-        const orders = new Link(self.querySelector('.header__icons-container'), this.#config.orders);
+        const orders = new Link(
+            self.querySelector('.header__icons-container'),
+            this.#config.orders,
+        );
         orders.render();
 
-        const favorite = new Link(self.querySelector('.header__icons-container'), this.#config.favorite);
+        const favorite = new Link(
+            self.querySelector('.header__icons-container'),
+            this.#config.favorite,
+        );
         favorite.render();
 
         this.cart = new Link(self.querySelector('.header__icons-container'), this.#config.basket);
@@ -124,7 +166,10 @@ export default class Header {
         this.user.render();
 
         if (userStore.isAuth) {
-            this.logoutButton = new Button(self.querySelector('.header__icons-container'), this.#config.logout);
+            this.logoutButton = new Button(
+                self.querySelector('.header__icons-container'),
+                this.#config.logout,
+            );
             this.logoutButton.render();
             this.logoutButton.self.addEventListener('click', this.logout);
         }

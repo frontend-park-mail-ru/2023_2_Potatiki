@@ -40,7 +40,6 @@ export default class InfoRow {
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.UPDATE_INFO_ROW, this.updateInfoRow);
-        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
@@ -49,12 +48,7 @@ export default class InfoRow {
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.UPDATE_INFO_ROW, this.updateInfoRow);
-        eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
-    }
-
-    removeListeners() {
-
     }
 
     /**

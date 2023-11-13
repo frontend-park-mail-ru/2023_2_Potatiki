@@ -15,8 +15,6 @@ import {notFoundRoute, productRoute} from '../../config/urls.js';
 export default class CategoryPage {
     #parent;
 
-    #config;
-
     #categoryName;
 
     #categoryId;
@@ -35,11 +33,9 @@ export default class CategoryPage {
    */
     constructor(parent, params) {
         this.#parent = parent;
-        this.#config = config.mainPage;
         this.endOfPage = false;
         this.timer = null;
         this.#categoryId = params.idParam;
-        // this.#categoryName = params.nameParam;
         this.productsPerRequest = 5;
     }
 
@@ -75,7 +71,7 @@ export default class CategoryPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating,
-            reviewsCount: `${0} отзывов`,
+            reviewsCount: `0 отзывов`,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
@@ -85,7 +81,7 @@ export default class CategoryPage {
     }
 
     renderProducts(body) {
-        if (!body) {
+        if (!body || !body.length) {
             eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
             this.endOfPage = true;
             return;
@@ -106,6 +102,7 @@ export default class CategoryPage {
             const threshold = height - screenHeight / 3;
             const position = scrolled + screenHeight;
             if (this.endOfPage) {
+                console.log('end of page');
                 this.removeListeners();
             }
             if (position >= threshold) {

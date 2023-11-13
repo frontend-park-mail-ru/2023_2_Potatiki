@@ -3,12 +3,10 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword, checkPhone, cleanPhone, formatPhone} from '../modules/validation';
-import {baseUrl,loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
+import {baseUrl, loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
     addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl, orderRoute, createOrderUrl, updatePhotoUrl} from '../config/urls';
 import {Events} from '../config/events';
-import {reviver} from '../modules/utils';
-import renderServerMessage from '../modules/server-message';
-import router from '../modules/router';
+import {removeWarningMessage, renderServerMessage, renderWarningMessage} from '../modules/server-message';
 
 /**
  * Класс
@@ -21,6 +19,7 @@ class UserStore {
         isAuth: false,
         csrfToken: '',
         addresses: [],
+        connection: true,
     };
 
     /**
@@ -57,6 +56,10 @@ class UserStore {
      */
     get imgSrc() {
         return this.#state.imgSrc;
+    }
+
+    get connection() {
+        return this.#state.connection;
     }
 
     /**
@@ -136,8 +139,16 @@ class UserStore {
                 break;
             case UserActionsType.MAKE_CURRENT_ADDRESS:
                 this.makeCurrentAddress(action.payload.id);
+                break;
             case UserActionsType.UPDATE_IMG:
                 this.updateImg(action.payload.img);
+                break;
+            case UserActionsType.SET_OFFLINE:
+                this.setOffline();
+                break;
+            case UserActionsType.SET_ONLINE:
+                this.setOnline();
+                break;
             default:
                 break;
             }
@@ -167,6 +178,24 @@ class UserStore {
         eventEmmiter.emit(Events.PAGE_ALLOWED);
     }
 
+    setOffline() {
+        if (!this.connection) {
+            return;
+        }
+        this.#state.connection = false;
+        renderWarningMessage('Отсутствует интернет-соединение');
+    }
+
+    setOnline() {
+        if (this.connection) {
+            return;
+        }
+        this.#state.connection = true;
+        this.checkSession();
+        removeWarningMessage();
+        renderServerMessage('Подключение восстановлено', true);
+    }
+
     /**
      *
      */
@@ -183,12 +212,11 @@ class UserStore {
         case 401:
             this.#state.isAuth = false;
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
-            router.go({url: location.pathname});
-
+            eventEmmiter.emit(Events.REDIRECT, {url: location.pathname});
             break;
         case 429:
             renderServerMessage('Ошибка. Попробуйте позже');
-            router.go({url: location.pathname});
+            eventEmmiter.emit(Events.REDIRECT, {url: location.pathname});
             break;
         default:
             break;
@@ -377,6 +405,7 @@ class UserStore {
             eventEmmiter.emit(Events.CSRF_TOKEN, token);
             break;
         default:
+            renderServerMessage('Ошибка подключения');
             break;
         }
     }

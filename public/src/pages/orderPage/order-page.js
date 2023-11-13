@@ -6,6 +6,7 @@ import OrderResults from '../../components/orderResults/order-results';
 import OrderInfo from '../../components/orderInfo/order-info';
 import OrderProducts from '../../components/orderProducts/order-products';
 import {loginRoute, orderRoute, profileRoute} from '../../config/urls.js';
+import {loginRoute, orderRoute, profileRoute} from '../../config/urls.js';
 import {config} from '../../../config.js';
 import {Events} from '../../config/events.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -20,8 +21,6 @@ import {formatDate} from '../../modules/utils.js';
 export default class OrderPage {
     #parent;
 
-    #config;
-
     userInfo;
 
     /**
@@ -31,7 +30,6 @@ export default class OrderPage {
      */
     constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
     }
 
     /**
@@ -202,9 +200,6 @@ export default class OrderPage {
     renderProducts = this.renderProducts.bind(this);
     redirectToLogin = this.redirectToLogin.bind(this);
     renderAll = this.renderAll.bind(this);
-
-    removeListeners() {
-    }
 
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CART_PRODUCTS, this.renderProducts);

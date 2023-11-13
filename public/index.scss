@@ -14,7 +14,7 @@
 
 @media screen and (min-width: 1000px) {
     html {
-        font-size: 12px;
+        font-size: 13px;
         height: 100%;
     }
 }
@@ -51,6 +51,7 @@ body {
     --color-incorrect: #ED7777;;
     --color-correct: #18D988;
     --color-stroke: #a5a5b3;
+    --color-warning: rgb(237, 197, 105);
     font-family: 'Lato', sans-serif;
 }
 
@@ -70,11 +71,22 @@ body {
     }
 }
 
-#msg-container {
+.msg-container {
     display: flex;
     flex-direction: column;
     position: fixed;
-    bottom: 20%;
+    bottom: 15%;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+}
+
+.warning-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 10%;
     align-items: center;
     justify-content: center;
     left: 0;
@@ -94,6 +106,18 @@ body {
     animation-iteration-count: 1;
     background-color: var(--color-correct);
     font-size: 1.5rem;
+}
+
+.warning-message {
+    text-align: center;
+    margin-top: 20px;
+    width: auto;
+    color: var(--color-background); 
+    padding: 10px 30px 10px 30px;
+    border-radius: 20px;
+    background-color: var(--color-correct);
+    font-size: 1.5rem;
+    background-color: var(--color-warning);
 }
 
 .server-error {

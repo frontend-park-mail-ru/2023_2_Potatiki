@@ -7,7 +7,7 @@ import './orders-page.scss';
 import router from '../../modules/router.js';
 import {loginRoute} from '../../config/urls.js';
 import {CartActions} from '../../actions/cart.js';
-import renderServerMessage from '../../modules/server-message.js';
+import {renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
 
 /**
@@ -68,7 +68,7 @@ export default class OrdersPage {
 
         const header = new Header();
         header.render();
-        this.addListeners();
+
         CartActions.getAllOrders();
     }
 
@@ -88,15 +88,6 @@ export default class OrdersPage {
         eventEmmiter.subscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
         eventEmmiter.subscribe(Events.PAGE_ALLOWED, this.renderAll);
         eventEmmiter.subscribe(Events.NOT_FOUND, this.noOrders);
-    }
-
-    addListeners() {
-    }
-
-    /**
-    *
-    */
-    removeListeners() {
     }
 
     /**
