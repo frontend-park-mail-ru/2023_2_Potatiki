@@ -193,7 +193,7 @@ class UserStore {
     }
 
     /**
-     * Установка поля connevtion d
+     * Установка поля connection
      */
     setOnline() {
         if (this.connection) {
@@ -206,7 +206,7 @@ class UserStore {
     }
 
     /**
-     *
+     * Проверяет сессию пользовтеля запросом на сервер
      */
     async checkSession() {
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
@@ -233,6 +233,7 @@ class UserStore {
     }
 
     /**
+     * Авторизация
      *@param {String} login
      *@param {String} password
      */
@@ -273,9 +274,11 @@ class UserStore {
     }
 
     /**
+     * Регистрация
      *@param {String} login
      *@param {String} password
      *@param {String} repeatPassword
+     *@param {String} phone
      */
     async signup(login, password, repeatPassword, phone) {
         const isValidLogin = this.validateLogin(login);
@@ -320,8 +323,9 @@ class UserStore {
     }
 
     /**
+     * Валидация логина
      *@param {String} login
-     *@return {Boolean}
+     *@return {Boolean} проверка на валидацию
      */
     validateLogin(login) {
         const [error, isValidLogin] = checkLogin(login);
@@ -334,6 +338,7 @@ class UserStore {
     }
 
     /**
+     * Валидация пароля
      *@param {String} password
      *@return {Boolean}
      */
@@ -348,9 +353,10 @@ class UserStore {
     }
 
     /**
+     * Валидация повтора пароля
      *@param {String} password
      *@param {String} repeatPassword
-     *@return {Boolean}
+     *@return {Boolean} проверка на валидацию
      */
     validateRepeatPassword(password, repeatPassword) {
         if (password !== repeatPassword) {
@@ -365,7 +371,7 @@ class UserStore {
     }
 
     /**
-     *
+     * Выход из профиля
      */
     async logout() {
         this.#state.loginName = '';
@@ -375,7 +381,7 @@ class UserStore {
     }
 
     /**
-     *
+     * 
      * @param {*} number
      * @returns
      */

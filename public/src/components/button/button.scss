@@ -36,3 +36,10 @@
 .button_disabled {
     cursor: not-allowed;
 }
+
+.carousel__button {
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--color-button-text);
+}
+
