@@ -27,7 +27,7 @@ export default class ProfilePage {
     * Получение элемента страницы
     */
     get self() {
-        return document.querySelector('#profile-page');
+        return document.getElementById('profile-page');
     }
 
     /**
@@ -77,7 +77,7 @@ export default class ProfilePage {
         const header = new Header();
         header.render();
 
-        this.profile = new Profile(document.querySelector('#profile__card'));
+        this.profile = new Profile(document.getElementById('profile__card'));
         this.profile.render();
     }
 }

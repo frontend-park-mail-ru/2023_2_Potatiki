@@ -34,7 +34,7 @@ export default class OrderPage {
      * Получение элемента страницы из документа
      */
     get self() {
-        return document.querySelector('#order-page');
+        return document.getElementById('order-page');
     }
 
 
@@ -63,7 +63,7 @@ export default class OrderPage {
 
     updateAddress(data) {
         const address = `${data.city}, ${data.street}, ${data.house}, ${data.flat}`;
-        this.delivery.self.querySelector('#address-row').querySelector('.value').textContent = address;
+        this.delivery.self.getElementById('address-row').querySelector('.value').textContent = address;
     }
 
     addressNotFound() {

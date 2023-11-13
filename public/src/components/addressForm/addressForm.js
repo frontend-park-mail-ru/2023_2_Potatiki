@@ -36,7 +36,7 @@ export default class AddressForm {
      *
      */
     get self() {
-        return document.querySelector('#address-form');
+        return document.getElementById('address-form');
     }
 
     /**

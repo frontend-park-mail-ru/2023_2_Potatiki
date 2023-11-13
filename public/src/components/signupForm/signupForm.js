@@ -238,7 +238,7 @@ export default class SignupForm {
             template(this.#config),
         );
 
-        const self = document.querySelector('#signup-form');
+        const self = document.getElementById('signup-form');
 
         this.login = new Input(
             document.querySelector('.signup-form__login'),

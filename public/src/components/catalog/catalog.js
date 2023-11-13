@@ -92,7 +92,7 @@ export default class Catalog {
      * Отрисовка компонента
      */
     render() {
-        document.querySelector('#container-main').insertAdjacentHTML(
+        document.getElementById('container-main').insertAdjacentHTML(
             'beforeend',
             template(),
         );

@@ -40,7 +40,7 @@ export default class Header {
     }
 
     get self() {
-        return document.querySelector('#header');
+        return document.getElementById('header');
     }
 
     updateCartCount(count) {
@@ -127,9 +127,9 @@ export default class Header {
    * Отрисовка компонента хедера
    */
     render() {
-        document.querySelector('#container-header').innerHTML = template();
+        document.getElementById('container-header').innerHTML = template();
 
-        const self = document.querySelector('#header');
+        const self = document.getElementById('header');
 
         const search = new SearchForm(
             self,

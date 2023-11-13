@@ -24,7 +24,7 @@ export default class NotFoundPage {
    * Получение элемента страницы из документа
    */
     get self() {
-        return document.querySelector('#page-not-found');
+        return document.getElementById('page-not-found');
     }
 
     /**

@@ -29,7 +29,7 @@ export default class SignupPage {
    * Получение элемента страницы из документа
    */
     get self() {
-        return document.querySelector('#signup-page');
+        return document.getElementById('signup-page');
     }
 
     /**
@@ -53,7 +53,7 @@ export default class SignupPage {
         UserActions.getCSRFToken(signupRoute);
 
         this.#parent.innerHTML = template();
-        document.querySelector('#container-header').innerHTML = '';
+        document.getElementById('container-header').innerHTML = '';
 
 
         const logo = new Link(this.self, this.#config.logo);

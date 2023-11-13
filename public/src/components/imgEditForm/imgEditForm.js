@@ -31,7 +31,7 @@ export default class ImgEditForm {
      *
      */
     get self() {
-        return document.querySelector('#img-edit-form');
+        return document.getElementById('img-edit-form');
     }
 
     /**
@@ -40,7 +40,7 @@ export default class ImgEditForm {
      */
     submitHandle(event) {
         event.preventDefault();
-        const imgInput = document.querySelector('#img-edit');
+        const imgInput = document.getElementById('img-edit');
         const imgFile = imgInput.files[0];
         if (imgFile) {
             UserActions.updateImg(imgFile);
@@ -52,9 +52,9 @@ export default class ImgEditForm {
     submitHandle = this.submitHandle.bind(this);
 
     upload(){
-        const [file] = document.querySelector('#img-edit').files;
+        const [file] = document.getElementById('img-edit').files;
         if (file) {
-            document.querySelector('#upload').src = URL.createObjectURL(file)
+            document.getElementById('upload').src = URL.createObjectURL(file)
         }
     }
 
@@ -66,7 +66,7 @@ export default class ImgEditForm {
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
-        document.querySelector('#img-edit').addEventListener('change', this.upload);
+        document.getElementById('img-edit').addEventListener('change', this.upload);
     }
 
 

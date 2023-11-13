@@ -71,7 +71,7 @@ export default class Profile {
      */
     editNumber(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
-        document.querySelector('#profile-data-card').innerHTML = '';
+        document.getElementById('profile-data-card').innerHTML = '';
         this.numberEditForm.render(userStore.number);
     }
 
@@ -83,7 +83,7 @@ export default class Profile {
      */
     editPassword(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
-        document.querySelector('#profile-data-card').innerHTML = '';
+        document.getElementById('profile-data-card').innerHTML = '';
         this.passwordEditForm.render();
     }
 
@@ -95,7 +95,7 @@ export default class Profile {
      */
     editImg(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
-        document.querySelector('#profile-data-card').innerHTML = '';
+        document.getElementById('profile-data-card').innerHTML = '';
         this.imgEditForm.render();
     }
 
@@ -108,7 +108,7 @@ export default class Profile {
     addAddress(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
         event.preventDefault();
-        document.querySelector('#profile-data-card').innerHTML = '';
+        document.getElementById('profile-data-card').innerHTML = '';
         this.addressAddForm.render(true);
     }
 
@@ -136,7 +136,7 @@ export default class Profile {
         UserActions.getCSRFToken(profileUpdateDataRoute);
         const currentId = event.target.parentElement.id;
         const address = this.addresses.find((address) => address.addressId == currentId);
-        document.querySelector('#profile-data-card').innerHTML = '';
+        document.getElementById('profile-data-card').innerHTML = '';
         this.addressAddForm.render(false, address);
     }
 
@@ -162,7 +162,7 @@ export default class Profile {
      */
     renderAddresses(addresses) {
         this.addresses = addresses;
-        const parent = document.querySelector('#profile-data-card');
+        const parent = document.getElementById('profile-data-card');
         parent.innerHTML = '';
 
         if ((Object.keys(addresses).length) > 0) {
@@ -189,16 +189,16 @@ export default class Profile {
      *
      */
     addAddressesEventListeners() {
-        document.querySelector('#add-address').addEventListener('click', this.addAddress);
+        document.getElementById('add-address').addEventListener('click', this.addAddress);
     }
 
     /**
      *
      */
     addEventListeners() {
-        document.querySelector('#profile-my-data').addEventListener('click',
+        document.getElementById('profile-my-data').addEventListener('click',
             this.setState.bind(this));
-        document.querySelector('#profile-my-addresses').addEventListener('click',
+        document.getElementById('profile-my-addresses').addEventListener('click',
             this.setState.bind(this));
         document.querySelector('.number-edit')?.addEventListener('click',
             this.editNumber);
@@ -212,7 +212,7 @@ export default class Profile {
      *
      */
     renderInfoCard() {
-        const infoCard = new InfoCard(document.querySelector('#profile-data-card'));
+        const infoCard = new InfoCard(document.getElementById('profile-data-card'));
         infoCard.render();
         document.querySelector('.number-edit')?.addEventListener('click',
             this.editNumber);
@@ -255,21 +255,21 @@ export default class Profile {
     render() {
         this.#parent.innerHTML = template(this.#config);
 
-        this.numberEditForm = new NumberEditForm(document.querySelector('#profile-data-card'));
-        this.passwordEditForm = new PasswordEditForm(document.querySelector('#profile-data-card'));
-        this.addressAddForm = new AddressForm(document.querySelector('#profile-data-card'));
-        this.imgEditForm = new ImgEditForm(document.querySelector('#profile-data-card'));
+        this.numberEditForm = new NumberEditForm(document.getElementById('profile-data-card'));
+        this.passwordEditForm = new PasswordEditForm(document.getElementById('profile-data-card'));
+        this.addressAddForm = new AddressForm(document.getElementById('profile-data-card'));
+        this.imgEditForm = new ImgEditForm(document.getElementById('profile-data-card'));
 
         switch (this.#state) {
         case States.INFO_CARD:
-            const infoCard = new InfoCard(document.querySelector('#profile-data-card'));
+            const infoCard = new InfoCard(document.getElementById('profile-data-card'));
             infoCard.render();
-            document.querySelector('#profile-my-addresses').classList.remove('nav-elem_selected');
-            document.querySelector('#profile-my-data').classList.add('nav-elem_selected');
+            document.getElementById('profile-my-addresses').classList.remove('nav-elem_selected');
+            document.getElementById('profile-my-data').classList.add('nav-elem_selected');
             break;
         case States.ADDRESS_CARD:
-            document.querySelector('#profile-my-data').classList.remove('nav-elem_selected');
-            document.querySelector('#profile-my-addresses').classList.add('nav-elem_selected');
+            document.getElementById('profile-my-data').classList.remove('nav-elem_selected');
+            document.getElementById('profile-my-addresses').classList.add('nav-elem_selected');
             break;
         }
         this.addEventListeners();
