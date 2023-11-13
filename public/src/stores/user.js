@@ -381,9 +381,9 @@ class UserStore {
     }
 
     /**
-     * 
-     * @param {*} number
-     * @returns
+     * Валидация номера телефона
+     * @param {String} number
+     * @return {Boolean} проверка на валидацию
      */
     validatePhone(number) {
         const [error, isValidNumber] = checkPhone(number);
