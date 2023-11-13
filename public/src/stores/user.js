@@ -28,46 +28,49 @@ class UserStore {
     };
 
     /**
-     *
+     * Конструктора user store
      */
     constructor() {
         this.registerEvents();
     }
 
     /**
-     *
+     * Getter для взятия поля isAuth
      */
     get isAuth() {
         return this.#state.isAuth;
     }
 
     /**
-     *
+     * Getter для взятия поля loginName
      */
     get loginName() {
         return this.#state.loginName;
     }
 
     /**
-     *
+     * Getter для взятия поля number
      */
     get number() {
         return this.#state.number;
     }
 
     /**
-     *
+     * Getter для взятия поля imgSrc
      */
     get imgSrc() {
         return this.#state.imgSrc;
     }
 
+    /**
+     * Getter для взятия поля connection
+     */
     get connection() {
         return this.#state.connection;
     }
 
     /**
-     *
+     * Регистрация событий в store
      */
     registerEvents() {
         AppDispatcher.register((action) => {
@@ -159,11 +162,17 @@ class UserStore {
         });
     }
 
+    /**
+     * Рассылка подписанным компоненнтам события для отписки от ависимых событий
+     */
     removeListeners() {
         eventEmmiter.emit(Events.REMOVE_SUBSCRIBES);
         eventEmmiter.emit(Events.REMOVE_LISTENERS);
     }
 
+    /**
+     * Проверяет сессию пользователя
+     */
     checkAuth() {
         if (!this.isAuth) {
             eventEmmiter.emit(Events.PAGE_FORBIDDEN);
@@ -172,6 +181,9 @@ class UserStore {
         eventEmmiter.emit(Events.PAGE_ALLOWED);
     }
 
+    /**
+     * Установка поля connection в false
+     */
     setOffline() {
         if (!this.connection) {
             return;
@@ -180,6 +192,9 @@ class UserStore {
         eventEmmiter.emit(Events.WARN_MESSAGE, 'Отсутствует интернет-соединение');
     }
 
+    /**
+     * Установка поля connevtion d
+     */
     setOnline() {
         if (this.connection) {
             return;
