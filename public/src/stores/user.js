@@ -458,7 +458,7 @@ class UserStore {
             eventEmmiter.emit(Events.ADDRESS_NOT_FOUND, body);
             break;
         case 429:
-            eventEmmiter.emit(Events.CURRENT_ADDRESS, body);
+            eventEmmiter.emit(Events.CURRENT_ADDRESS, {});
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении адреса');
             break;
         default:
