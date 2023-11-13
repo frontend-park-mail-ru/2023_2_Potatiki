@@ -36,5 +36,6 @@ eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
 eventEmmiter.subscribe(Events.LOGOUT, router.go.bind(router));
 eventEmmiter.subscribe(Events.SERVER_MESSAGE, renderServerMessage);
 eventEmmiter.subscribe(Events.WARN_MESSAGE, renderWarningMessage);
+eventEmmiter.subscribe(Events.REDIRECT, router.go.bind(router));
 const root = document.getElementById('container-main');
 router.start(root);
