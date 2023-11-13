@@ -2,9 +2,10 @@ import {AppDispatcher} from '../modules/dispatcher';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {Events} from '../config/events';
-import renderServerMessage from '../modules/server-message';
+import {renderServerMessage} from '../modules/server-message';
 import {ProductsActionsType} from '../actions/products';
-import {categoryProductsUrl, getAllCategoriesUrl, getProductUrl, getProductsUrl} from '../config/urls';
+import {categoryProductsUrl,
+    getAllCategoriesUrl, getProductUrl, getProductsUrl} from '../config/urls';
 import {parseCategories, reviver} from '../modules/utils';
 
 /**
@@ -75,7 +76,7 @@ class ProductsStore {
                     eventEmmiter.emit(Events.PRODUCTS, products, config);
                     break;
                 case 429:
-                    // renderServerMessage('Возникла ошибка при получении товаров');
+                    renderServerMessage('Не удалось получить информацию о товарах');
                     break;
                 default:
                     break;
@@ -135,7 +136,7 @@ class ProductsStore {
             eventEmmiter.emit(Events.NOT_FOUND);
             break;
         case 429:
-            // renderServerMessage('Возникла ошибка при получении товара');
+            renderServerMessage('Не удалось получить информацию о товаре');
             break;
         default:
             break;
@@ -152,7 +153,7 @@ class ProductsStore {
                 eventEmmiter.emit(Events.CATEGORIES, categories);
                 break;
             case 429:
-                // renderServerMessage('Возникла ошибка при получении категорий');
+                renderServerMessage('Не удалось получить список категорий');
                 break;
             default:
                 break;
@@ -173,7 +174,7 @@ class ProductsStore {
             break;
         case 429:
             eventEmmiter.emit(Events.CATEGORY_PRODUCTS);
-            // renderServerMessage('Возникла ошибка при получении товаров');
+            renderServerMessage('Не удалось получить информацию о товарах');
             break;
         default:
             break;

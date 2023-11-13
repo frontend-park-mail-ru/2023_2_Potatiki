@@ -1,7 +1,6 @@
 import Link from '../link/link.js';
 import template from './info-row.hbs';
 import './info-row.css';
-import Button from '../button/button';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 
@@ -41,7 +40,6 @@ export default class InfoRow {
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.UPDATE_INFO_ROW, this.updateInfoRow);
-        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
@@ -50,12 +48,7 @@ export default class InfoRow {
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.UPDATE_INFO_ROW, this.updateInfoRow);
-        eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
-    }
-
-    removeListeners() {
-
     }
 
     /**

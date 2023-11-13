@@ -102,9 +102,13 @@ class Router {
             idParam = state.url.substring(state.url.lastIndexOf('/') + 1);
         }
 
-        if (this.#currentView && this.#currentView.removeListeners) {
-            this.#currentView.removeListeners();
-            this.#currentView.unsubscribeToEvents();
+        if (this.#currentView) {
+            if (this.#currentView.removeListeners) {
+                this.#currentView.removeListeners();
+            }
+            if (this.#currentView.unsubscribeToEvents) {
+                this.#currentView.unsubscribeToEvents();
+            }
             UserActions.removeListeners();
         }
 

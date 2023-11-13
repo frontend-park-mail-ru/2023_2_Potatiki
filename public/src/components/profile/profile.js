@@ -10,7 +10,7 @@ import {Events} from '../../config/events.js';
 import AddressCard from '../addressCard/addressCard.js';
 import Link from '../link/link.js';
 import {profileUpdateDataRoute, profileAddAddressRoute} from '../../config/urls.js';
-import { userStore } from '../../stores/user.js';
+import {userStore} from '../../stores/user.js';
 import ImgEditForm from '../imgEditForm/imgEditForm.js';
 
 const States = {

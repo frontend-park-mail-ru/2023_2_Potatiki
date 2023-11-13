@@ -94,15 +94,6 @@ export default class SignupForm {
         router.go({url: mainRoute});
     }
 
-    // /**
-    //  *
-    //  * @param {String} errorText
-    //  */
-    // renderError(errorText) {
-    //     const error = document.querySelector('#signup-form-error');
-    //     error.textContent = errorText;
-    // }
-
     /**
      *
      * @param {String} errorText

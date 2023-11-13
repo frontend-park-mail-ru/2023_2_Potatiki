@@ -97,15 +97,6 @@ export default class ProductPage {
         eventEmmiter.subscribe(Events.PRODUCT, this.renderProduct);
     }
 
-    addListeners() {
-    }
-
-    /**
-    *
-    */
-    removeListeners() {
-    }
-
     /**
     *
     */

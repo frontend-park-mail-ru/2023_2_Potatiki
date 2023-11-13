@@ -145,10 +145,16 @@ export default class Header {
         const logo = new Link(self, this.#config.logo, true);
         logo.render();
 
-        const orders = new Link(self.querySelector('.header__icons-container'), this.#config.orders);
+        const orders = new Link(
+            self.querySelector('.header__icons-container'),
+            this.#config.orders,
+        );
         orders.render();
 
-        const favorite = new Link(self.querySelector('.header__icons-container'), this.#config.favorite);
+        const favorite = new Link(
+            self.querySelector('.header__icons-container'),
+            this.#config.favorite,
+        );
         favorite.render();
 
         this.cart = new Link(self.querySelector('.header__icons-container'), this.#config.basket);
@@ -160,7 +166,10 @@ export default class Header {
         this.user.render();
 
         if (userStore.isAuth) {
-            this.logoutButton = new Button(self.querySelector('.header__icons-container'), this.#config.logout);
+            this.logoutButton = new Button(
+                self.querySelector('.header__icons-container'),
+                this.#config.logout,
+            );
             this.logoutButton.render();
             this.logoutButton.self.addEventListener('click', this.logout);
         }

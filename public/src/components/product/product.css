@@ -13,8 +13,7 @@
     width: 100%;
     max-height: 30rem;
     min-height: 10rem;
-    object-fit: scale-down;
-    
+    object-fit: scale-down; 
 }
 
 .product__img-place {

@@ -3,12 +3,10 @@ import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {checkLogin, checkPassword, checkPhone, cleanPhone, formatPhone} from '../modules/validation';
-import {baseUrl, loginUrl, signupUrl, checkUrl, logoutUrl, mainRoute, getProductsUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
+import {baseUrl, loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute, signupRoute, updateDataUrl, profileUpdateDataRoute,
     addAddressUrl, getAddressesUrl, updateAddressUrl, deleteAddressUrl, makeCurrentAddressUrl, getCurrentAddressUrl, orderRoute, createOrderUrl, updatePhotoUrl} from '../config/urls';
 import {Events} from '../config/events';
-import {reviver} from '../modules/utils';
 import {removeWarningMessage, renderServerMessage, renderWarningMessage} from '../modules/server-message';
-import router from '../modules/router';
 
 /**
  * Класс
@@ -214,12 +212,11 @@ class UserStore {
         case 401:
             this.#state.isAuth = false;
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
-            router.go({url: location.pathname});
-
+            eventEmmiter.emit(Events.REDIRECT, {url: location.pathname});
             break;
         case 429:
             renderServerMessage('Ошибка. Попробуйте позже');
-            router.go({url: location.pathname});
+            eventEmmiter.emit(Events.REDIRECT, {url: location.pathname});
             break;
         default:
             break;

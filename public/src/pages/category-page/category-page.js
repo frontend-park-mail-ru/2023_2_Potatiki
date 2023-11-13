@@ -1,10 +1,8 @@
 import Header from '../../components/header/header.js';
 import template from './category-page.hbs';
 import {config} from '../../../config.js';
-import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import CartProduct from '../../components/cartProduct/cart-product.js';
 import './category-page.css';
 import CategoryProduct from '../../components/category-product/category-product.js';
 import {ProductsActions} from '../../actions/products.js';
@@ -16,8 +14,6 @@ import {notFoundRoute, productRoute} from '../../config/urls.js';
  */
 export default class CategoryPage {
     #parent;
-
-    #config;
 
     #categoryName;
 
@@ -37,11 +33,9 @@ export default class CategoryPage {
    */
     constructor(parent, params) {
         this.#parent = parent;
-        this.#config = config.mainPage;
         this.endOfPage = false;
         this.timer = null;
         this.#categoryId = params.idParam;
-        // this.#categoryName = params.nameParam;
         this.productsPerRequest = 5;
     }
 

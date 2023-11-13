@@ -18,7 +18,6 @@ export default class Ajax {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
-            exposedHeaders: '*',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -51,11 +50,6 @@ export default class Ajax {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
-            exposedHeaders: '*',
-            headers: {
-                // 'Content-Type': 'image/png',
-                // 'Accept': 'application/json',
-            },
             body: data,
         };
         if (token) {
@@ -108,9 +102,6 @@ export default class Ajax {
             mode: 'cors',
             credentials: 'include',
             headers: {
-                // 'Content-Type': 'text/plain',
-                // 'Accept': '*/*',
-                // 'Access-Control-Request-Method': 'GET',
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Access-Control-Request-Method': 'GET',
