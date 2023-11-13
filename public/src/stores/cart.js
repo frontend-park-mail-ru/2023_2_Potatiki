@@ -281,7 +281,7 @@ class CartStore {
         }
         if (!this.isAuth) {
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Для оформления заказа необходимо авторизоваться');
-            router.go({url: loginRoute, continue: continueUrl});
+            eventEmmiter.emit(Events.REDIRECT, {url: loginRoute, continue: continueUrl});
             return;
         }
         switch (page) {
@@ -298,7 +298,7 @@ class CartStore {
                     const [statusCode, body] = result;
                     switch (statusCode) {
                     case 200:
-                        router.go({url: mainRoute});
+                        eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});
                         eventEmmiter.emit(Events.SERVER_MESSAGE, 'Заказ успешно оформлен', true);
                         this.cleanCart();
                         this.cartEvents();
