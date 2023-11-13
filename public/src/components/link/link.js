@@ -1,3 +1,4 @@
+import './link.scss';
 import template from './link.hbs';
 
 /**
@@ -20,6 +21,13 @@ export default class Link {
         this.#parent = parent;
         this.#config = config;
         this.#isAfterBegin = isAfterBegin;
+    }
+
+    /**
+     *
+     */
+    get self() {
+        return document.querySelector(`#${this.#config.id}`);
     }
 
     /**

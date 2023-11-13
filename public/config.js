@@ -1,15 +1,9 @@
-
-export const baseUrl = 'https://www.zuzu-market.ru/api/';
-export const signupUrl = 'auth/signup';
-export const loginUrl = 'auth/signin';
-export const logoutUrl = 'auth/logout';
-export const checkUrl = 'auth/check_auth';
-export const getProductsUrl = 'products/get_all';
-export const mainRoute = '/';
-export const loginRoute = '/login';
-export const signupRoute = '/signup';
-export const logoutRoute = '/logout';
-export const notFoundRoute = '/not_found';
+const requests = {
+    signup: 'auth/signup',
+    login: 'auth/signin',
+    checkSession: 'auth/check_auth',
+    getProducts: 'products/get_all',
+};
 
 const header = {
     logo: {
@@ -17,15 +11,16 @@ const header = {
         class: 'header__link_size_logo',
         href: '/',
         altText: 'ZuZu logo',
-        imgSrc: './static/images/logo.svg',
+        imgSrc: '/static/images/logo.svg',
+        imgClass: 'logo-img ',
     },
 
     catalog: {
-        class: 'header__button_size_catalog button_disabled',
+        class: 'header__button_size_catalog',
         type: 'button',
         text: 'Каталог',
         id: 'catalog-button',
-        imgSrc: './static/images/burger.svg',
+        imgSrc: '/static/images/burger.svg',
         imgClass: 'button__img_size_s',
     },
 
@@ -39,6 +34,7 @@ const header = {
             inputPlaceholder: 'Я хочу найти',
             error: false,
             label: false,
+            disabled: true,
         },
         submit: {
             class: 'button_disabled search-form__button_size_search',
@@ -46,7 +42,7 @@ const header = {
             text: '',
             id: 'search-button',
             altText: 'Поиск',
-            imgSrc: './static/images/search.svg',
+            imgSrc: '/static/images/search.svg',
             imgClass: 'button__img_size_s',
         },
 
@@ -54,10 +50,10 @@ const header = {
 
     orders: {
         id: 'orders-button',
-        class: 'link_icon link_disabled',
-        href: '#',
+        class: 'link_icon',
+        href: '/orders',
         text: 'Заказы',
-        imgSrc: './static/images/order-box.svg',
+        imgSrc: '/static/images/order-box.svg',
         imgClass: 'link_icon__img',
     },
 
@@ -65,18 +61,19 @@ const header = {
         id: 'favorite-button',
         class: 'link_icon link_disabled',
         text: 'Избранное',
-        href: '#',
-        imgSrc: './static/images/like-icon.svg',
+        href: '',
+        imgSrc: '/static/images/like-icon.svg',
         imgClass: 'link_icon__img',
     },
 
     basket: {
         id: 'basket-button',
-        class: 'link_icon  link_disabled',
-        href: '#',
+        class: 'link_icon cart-icon',
+        href: '/cart',
         text: 'Корзина',
-        imgSrc: './static/images/cart-icon.svg',
+        imgSrc: '/static/images/cart-icon.svg',
         imgClass: 'link_icon__img',
+        textClass: 'cart-count',
     },
 
     login: {
@@ -84,26 +81,26 @@ const header = {
         class: 'link_icon',
         text: 'Войти',
         href: '/login',
-        imgSrc: './static/images/login.svg',
+        imgSrc: '/static/images/login.svg',
         imgClass: 'link_icon__img',
     },
 
     profile: {
         id: 'profile-button',
-        class: 'link_icon link_disabled',
-        href: 'profile',
+        class: 'link_icon',
+        href: '/my-profile',
         text: 'Профиль',
-        imgSrc: './static/images/user.svg',
+        imgSrc: '/static/images/user.svg',
         imgClass: 'link_icon__img',
     },
 
     logout: {
         id: 'logout-button',
-        class: 'link_icon',
-        href: '/logout',
+        class: 'link_icon fake-button',
         text: 'Выйти',
-        imgSrc: './static/images/login.svg',
+        imgSrc: '/static/images/login.svg',
         imgClass: 'link_icon__img',
+        spanClass: 'dark-text',
     },
 };
 
@@ -115,14 +112,14 @@ const newCarousel = {
         class: 'button carousel__button',
         type: 'button',
         id: 'new-carousel-button-left',
-        imgSrc: './static/images/arrow-left.svg',
+        imgSrc: '/static/images/arrow-left.svg',
         imgClass: 'button__img_size_m',
     },
     buttonRight: {
         class: 'button carousel__button',
         type: 'button',
         id: 'new-carousel-button-right',
-        imgSrc: './static/images/arrow-right.svg',
+        imgSrc: '/static/images/arrow-right.svg',
         imgClass: 'button__img_size_m',
     },
 };
@@ -134,14 +131,14 @@ const popularCarousel = {
         class: 'button carousel__button',
         type: 'button',
         id: 'popular-carousel-button-left',
-        imgSrc: './static/images/arrow-left.svg',
+        imgSrc: '/static/images/arrow-left.svg',
         imgClass: 'button__img_size_m',
     },
     buttonRight: {
         class: 'button carousel__button',
         type: 'button',
         id: 'popular-carousel-button-right',
-        imgSrc: './static/images/arrow-right.svg',
+        imgSrc: '/static/images/arrow-right.svg',
         imgClass: 'button__img_size_m',
     },
 };
@@ -158,7 +155,7 @@ const loginPage = {
         class: 'login-page__logo',
         href: '/',
         altText: 'ZuZu logo',
-        imgSrc: './static/images/logo.svg',
+        imgSrc: '/static/images/logo.svg',
         imgClass: 'login-page__logo-img',
     },
 
@@ -200,7 +197,7 @@ const signupPage = {
         class: 'login-page__logo',
         href: '/',
         altText: 'ZuZu logo',
-        imgSrc: './static/images/logo.svg',
+        imgSrc: '/static/images/logo.svg',
         imgClass: 'login-page__logo-img',
     },
 
@@ -213,6 +210,13 @@ const signupPage = {
             inputName: 'login',
             inputPlaceholder: 'Придумайте логин',
             errorId: 'login-error',
+        },
+
+        phone: {
+            inputClass: 'input login-form__input',
+            inputName: 'phone',
+            inputPlaceholder: '+7(___)-___-__-__',
+            errorId: 'number-error',
         },
 
         password: {
@@ -247,10 +251,82 @@ const signupPage = {
     },
 };
 
+const profilePage = {
+    title: 'Мой профиль',
+    profile: {
+        navElem1: 'Мои данные',
+        navElem2: 'Мои адреса',
+        infoCard: {
+        },
+        passwordEditForm: {
+            oldPassword: {
+                inputName: 'old-password',
+                inputPlaceholder: 'Старый пароль',
+                inputType: 'password',
+                errorId: 'old-password-error',
+            },
+            newPassword: {
+                inputName: 'new-password',
+                inputPlaceholder: 'Новый пароль',
+                inputType: 'password',
+                errorId: 'new-password-error',
+            },
+            repeatPassword: {
+                inputName: 'repeat-password',
+                inputPlaceholder: 'Повторите пароль',
+                inputType: 'password',
+                errorId: 'repeat-password-error',
+            },
+            submit: {
+                id: 'save-button',
+                text: 'Сохранить',
+            },
+        },
+        numberEditForm: {
+            number: {
+                inputName: 'number',
+                inputClass: 'number-edit-form__input',
+                inputPlaceholder: '+7(___)-___-__-__',
+                errorId: 'number-error',
+            },
+            submit: {
+                id: 'save-button',
+                text: 'Сохранить',
+            },
+        },
+
+        addressForm: {
+            city: {
+                inputName: 'number',
+                inputPlaceholder: 'Город',
+            },
+            street: {
+                inputName: 'street',
+                inputPlaceholder: 'Улица',
+            },
+            house: {
+                inputName: 'house',
+                inputPlaceholder: 'Дом',
+            },
+            flat: {
+                inputName: 'flat',
+                inputPlaceholder: 'Квартира',
+            },
+            submit: {
+                class: 'address-form__submit',
+                id: 'save-button',
+                text: 'Сохранить',
+            },
+        },
+    },
+};
+
 export const config = {
     isAuthorized: false,
     page: 'main',
     mainPage: mainPage,
     signupPage: signupPage,
     loginPage: loginPage,
+    profilePage: profilePage,
+    requests: requests,
 };

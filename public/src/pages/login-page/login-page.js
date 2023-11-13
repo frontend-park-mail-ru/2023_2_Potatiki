@@ -1,11 +1,10 @@
+import './login-page.scss';
 import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerError from '../../modules/server-error.js';
-import {loginUrl, mainRoute} from '../../../config.js';
-import {checkPassword, checkLogin} from '../../modules/validation.js';
 import template from './login-page.hbs';
-import router from '../../modules/router.js';
+import {config} from '../../../config.js';
+import {UserActions} from '../../actions/user.js';
+import {loginRoute} from '../../config/urls.js';
 
 /**
  * Класс страницы авторизации
@@ -15,118 +14,57 @@ export default class LoginPage {
 
     #config;
 
+    #continueUrl;
+
+    loginForm;
+
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
-   * @param {Object} config Конфиг для отрисовки страницы
    */
-    constructor(parent, config) {
+    constructor(parent, params) {
         this.#parent = parent;
-        this.#config = config;
+        this.#config = config.loginPage;
+        this.#continueUrl = params.continue;
     }
 
     /**
    * Получение элемента страницы из документа
    */
     get self() {
-        return document.querySelector('#login-page');
-    }
-
-    /**
-   * Обработка отправки формы авторизации
-   * @param {Event} event Событие отправки формы
-   */
-    formListener(event) {
-        event.preventDefault();
-        const form = document.forms['login-form'];
-        const login = form.elements.login.value.trim();
-        const password = form.elements.password.value;
-        form.elements.password.value = '';
-
-        const [, isValidLogin] = checkLogin(login);
-
-        const [, isValidPassword] = checkPassword(password);
-
-        if (!(isValidLogin && isValidPassword)) {
-            this.renderLoginError('Неверный логин или пароль');
-            return;
-        }
-
-
-        Ajax.prototype.postRequest(
-            loginUrl,
-            {login, password},
-        ).then((result) => {
-            const [statusCode, body] = result;
-            switch (statusCode) {
-            case 200:
-                router.go({url: mainRoute, param: {auth: true}});
-                break;
-            case 400:
-                this.renderLoginError('Неверный логин или пароль');
-                break;
-            case 429:
-                renderServerError(body.error || 'Ошибка');
-                break;
-            default:
-                break;
-            }
-        });
-    }
-
-    /**
-     * Удаление ошибки с формы авторизации
-     * @param {Element} error
-     * @param {Object} event
-     */
-    removeError(error, event) {
-        event.preventDefault();
-        error.textContent = '';
-    }
-
-    /**
-     * Отрисовка ошибки формы
-     * @param {String} errorText Текст ошибки
-     */
-    renderLoginError(errorText) {
-        const error = document.querySelector('#login-form-error');
-        error.textContent = errorText;
-        const login = document.querySelector('[name=login]');
-        login.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
-        const password = document.querySelector('[name=password]');
-        password.addEventListener('focusin', this.removeError.bind(this, error), {once: true});
+        return document.getElementById('login-page');
     }
 
     /**
      * Удаление прослушивателей событий
      */
     removeListeners() {
-        const id = this.#config.loginPage.form.submit.id;
-        const button = document.querySelector(`#${id}`);
-        button.removeEventListener('click', this.formListener);
+        this.loginForm.removeListeners();
+    }
 
-        const loginInput = document.querySelector('[name=login]');
-        loginInput.removeEventListener('focusin', this.removeError);
-
-        const passwordInput = document.querySelector('[name=password]');
-        passwordInput.removeEventListener('focusin', this.removeError);
+    /**
+     *
+     */
+    unsubscribeToEvents() {
+        this.loginForm.unsubscribeToEvents();
     }
 
     /**
    * Отрисовка страницы авторизации
    */
     render() {
+        document.getElementById('container-header').innerHTML = '';
         this.#parent.innerHTML = template();
+        UserActions.getCSRFToken(loginRoute);
 
-        const logo = new Link(this.self, this.#config.loginPage.logo);
+        const logo = new Link(this.self, this.#config.logo);
         logo.render();
 
-        const loginForm = new LoginForm(
+        this.loginForm = new LoginForm(
             this.self,
-            this.#config.loginPage.form,
-            this.formListener.bind(this),
+            this.#continueUrl,
         );
 
-        loginForm.render();
+        this.loginForm.render();
     }
 }

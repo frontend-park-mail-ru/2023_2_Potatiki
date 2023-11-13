@@ -1,6 +1,7 @@
-import Button from '../button/button.js';
+import AddToCartButton from '../addToCartButton/add-to-cart-button.js';
 import Link from '../link/link.js';
 import template from './productCard.hbs';
+import './productCard.scss';
 
 /**
  * Класс компонента карточки товара
@@ -11,6 +12,8 @@ export default class ProductCard {
     #config;
 
     #isAfterBegin;
+
+    button;
 
     /**
    * Конструктор класса
@@ -48,7 +51,12 @@ export default class ProductCard {
         );
         name.render();
 
-        const button = new Button(self, this.#config.button);
+        const button = new AddToCartButton(
+            self,
+            this.#config.data,
+            this.#config.id,
+            this.#config.quantity,
+        );
         button.render();
     }
 }

@@ -1,5 +1,6 @@
+import {config} from '../../../config.js';
 import Link from '../../components/link/link.js';
-import './not-found-page.css';
+import './not-found-page.scss';
 import template from './not-found-page.hbs';
 
 /**
@@ -13,18 +14,17 @@ export default class NotFoundPage {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
-   * @param {Object} config Конфиг для отрисовки страницы
    */
-    constructor(parent, config) {
+    constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
+        this.#config = config.loginPage;
     }
 
     /**
    * Получение элемента страницы из документа
    */
     get self() {
-        return document.querySelector('#page-not-found');
+        return document.getElementById('page-not-found');
     }
 
     /**
@@ -33,7 +33,7 @@ export default class NotFoundPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const logo = new Link(this.self, this.#config.loginPage.logo, true);
+        const logo = new Link(this.self, this.#config.logo, true);
         logo.render();
     }
 }

@@ -1,0 +1,34 @@
+.order-card {
+    background-color: var(--color-card-background);
+    border-radius: 1.6rem;
+    padding: 2.1rem 2.5rem 2.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-info__top-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.6rem;
+}
+
+.order-info__name {
+    font-size: 1.8rem;
+}
+
+.order-info__change-btn {
+    color: var(--color-highlight);
+    padding-top: 0.5rem;
+}
+
+.order-info__img {
+    width: 4.1rem;
+    height: 3.32rem;
+    margin-right: 0.8rem;
+}
+
+.order-info__time-container {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+}

@@ -1,7 +1,14 @@
+import './loginForm.scss';
 import Button from '../button/button.js';
 import Input from '../input/input.js';
 import Link from '../link/link.js';
 import template from './loginForm.hbs';
+import {UserActions} from '../../actions/user.js';
+import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {config} from '../../../config.js';
+import router from '../../modules/router.js';
+import {Events} from '../../config/events.js';
+import {mainRoute} from '../../config/urls.js';
 
 /**
  * Класс формы авторизации
@@ -11,18 +18,92 @@ export default class LoginForm {
 
     #config;
 
-    #submitHandle;
+    #redirectUrl;
+
+    login;
+
+    password;
+
+    submit;
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский компонент
-   * @param {Object} config Конфиг для отрисовки класса
-   * @param {Function} submitHandle Функция, вызываемая при отправке формы
    */
-    constructor(parent, config, submitHandle) {
+    constructor(parent, redirectUrl) {
         this.#parent = parent;
-        this.#config = config;
-        this.#submitHandle = submitHandle;
+        this.#config = config.loginPage.form;
+        this.#redirectUrl = redirectUrl;
+    }
+
+    /**
+     *
+     */
+    get self() {
+        return document.getElementById('login-form');
+    }
+
+    /**
+     *
+     * @param {Evnt} event
+     */
+    submitHandle(event) {
+        event.preventDefault();
+        UserActions.login(this.login.self.value, this.password.self.value);
+    }
+
+    submitHandle = this.submitHandle.bind(this);
+
+    /**
+     *
+     * @param {String} errorText
+     */
+    renderError(errorText) {
+        const error = document.getElementById('login-form-error');
+        error.textContent = errorText;
+    }
+
+    /**
+     *
+     */
+    redirect() {
+        if (this.#redirectUrl) {
+            router.go({url: this.#redirectUrl});
+            return;
+        }
+        router.go({url: mainRoute});
+    }
+
+    redirect = this.redirect.bind(this);
+
+    /**
+     *
+     */
+    addListeners() {
+        this.submit.self.addEventListener('click', this.submitHandle);
+    }
+
+    /**
+     *
+     */
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.LOGIN_FORM_ERROR, this.renderError);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.redirect);
+    }
+
+    /**
+     *
+     */
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.LOGIN_FORM_ERROR, this.renderError);
+        eventEmmiter.unsubscribe(Events.SUCCESSFUL_LOGIN, this.redirect);
+    }
+
+    /**
+     *
+     */
+    removeListeners() {
+        this.submit.self.removeEventListener('click', this.submitHandle);
     }
 
     /**
@@ -34,24 +115,25 @@ export default class LoginForm {
             template(this.#config),
         );
 
-        const self = document.querySelector('#login-form');
-
-        const login = new Input(
+        this.login = new Input(
             document.querySelector('.login-form__login'),
             this.#config.login,
         );
-        login.render();
+        this.login.render();
 
-        const password = new Input(
+        this.password = new Input(
             document.querySelector('.login-form__password'),
             this.#config.password,
         );
-        password.render();
+        this.password.render();
 
-        const submit = new Button(self, this.#config.submit, this.#submitHandle);
-        submit.render();
+        this.submit = new Button(this.self, this.#config.submit);
+        this.submit.render();
 
-        const signupLink = new Link(self, this.#config.signup);
+        const signupLink = new Link(this.self, this.#config.signup);
         signupLink.render();
+
+        this.addListeners();
+        this.subscribeToEvents();
     }
 }

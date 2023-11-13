@@ -1,3 +1,4 @@
+import './button.scss';
 import template from './button.hbs';
 
 /**
@@ -8,18 +9,19 @@ export default class Button {
 
     #config;
 
-    #submitHandle;
+    #isAfterBegin;
+
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    * @param {Object} config Конфиг для отрисовки класса
-   * @param {Function} submitHandle Функция, вызываемая при нажатии на кнопку
+   * @param {Boolean} isAfterBegin Флаг при котором элемент вставляется в начало
    */
-    constructor(parent, config, submitHandle) {
+    constructor(parent, config, isAfterBegin) {
         this.#parent = parent;
         this.#config = config;
-        this.#submitHandle = submitHandle;
+        this.#isAfterBegin = isAfterBegin;
     }
 
     /**
@@ -29,32 +31,18 @@ export default class Button {
         return document.querySelector(`#${this.#config.id}`);
     }
 
-    /**
-   * Добавление прослушивателя на событие 'click'
-   */
-    addListeners() {
-        document
-            .querySelector(`#${this.#config.id}`)
-            .addEventListener('click', this.#submitHandle);
-    }
-
-    /**
-     * Удаление прослушивателя
-     */
-    removeListeners() {
-        document
-            .querySelector(`#${this.#config.id}`)
-            .removeEventListener('click', this.#submitHandle);
+    get img() {
+        return this.self.querySelector(`.${this.#config.imgClass}`);
     }
 
     /**
    * Отрисовка компонента кнопки
    */
     render() {
+        const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(
-            'beforeend',
+            destination,
             template(this.#config),
         );
-        this.addListeners();
     }
 }

@@ -1,9 +1,16 @@
 import MainPage from '../pages/main-page/main-page';
-import {checkUrl, loginRoute, mainRoute, notFoundRoute, signupRoute} from '../../config';
+import {cartRoute, categoryRoute, loginRoute,
+    mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute, signupRoute, profileRoute} from '../config/urls';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
+import CartPage from '../pages/cart-page/cart-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
-import Ajax from './ajax';
+import {UserActions} from '../actions/user';
+import OrderPage from '../pages/orderPage/order-page';
+import CategoryPage from '../pages/category-page/category-page';
+import ProductPage from '../pages/product-page/product-page';
+import ProfilePage from '../pages/profile-page/profile-page';
+import OrdersPage from '../pages/orders-page/orders-page';
 
 /**
  * Класс роутера
@@ -13,8 +20,6 @@ class Router {
     #root;
     #states;
     #currentView;
-    #config;
-    #isAuth;
 
     /**
      * Конструктор для класса роутера
@@ -29,18 +34,16 @@ class Router {
     register({name, url, view}) {
         this.#states.set(
             url,
-            {name, url, state},
+            {name, url, view},
         );
     }
 
     /**
      * Запуск роутера
      * @param {Element} root Корневой компонент
-     * @param {Object} config Конфиг для отрисовки представлений
      */
-    start(root, config) {
+    start(root) {
         this.#root = root;
-        this.#config = config;
 
         window.onpopstate = (event) => {
             this.go(event.state, true);
@@ -51,11 +54,15 @@ class Router {
             [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
             [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
             [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
+            [cartRoute, {view: CartPage, url: cartRoute, name: 'cart'}],
+            [orderRoute, {view: OrderPage, url: orderRoute, name: 'order'}],
+            [categoryRoute, {view: CategoryPage, url: categoryRoute, name: 'category'}],
+            [productRoute, {view: ProductPage, url: productRoute, name: 'product'}],
+            [profileRoute, {view: ProfilePage, url: profileRoute, name: 'my-profile'}],
+            [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'orders'}],
         ]);
 
         window.addEventListener('click', this.listenClick.bind(this));
-
-        window.addEventListener('DOMContentLoaded', this.checkSession.bind(this));
     }
 
     /**
@@ -63,35 +70,16 @@ class Router {
      * @param {Event} event Событие нажатия по ссылке
      */
     listenClick(event) {
-        event.preventDefault();
         const anchor = event.target.closest('a');
         if (!anchor) {
             return;
         }
+        if (!anchor.getAttribute('href')) {
+            event.preventDefault();
+            return;
+        }
+        event.preventDefault();
         this.go({url: anchor.getAttribute('href')});
-    };
-
-    /**
-     * Метод проверяет авторизован ли пользователь и
-     * отображает соответствующий вид страницы
-     */
-    checkSession = () => {
-        Ajax.prototype.getRequest(checkUrl).then((result) => {
-            const [statusCode, body] = result;
-            switch (statusCode) {
-            case 200:
-                this.#isAuth = true;
-                break;
-            case 401:
-                this.#isAuth = false;
-                break;
-            case 429:
-                renderServerError(body.error);
-                break;
-            default:
-                break;
-            }
-        });
     };
 
     /**
@@ -101,23 +89,30 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
-        if (state.param && state.param.auth) {
-            this.#isAuth = state.param.auth;
-        }
-
-        if (!state.param) {
-            state.param = {auth: this.#isAuth};
-        }
-
-        const baseState = this.#states.get(state.url);
+        let baseState = this.#states.get(state.url);
+        let idParam;
         if (!baseState) {
-            this.go({url: notFoundRoute});
-            return;
+            const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('/'));
+
+            baseState = this.#states.get(urlWithoutParams);
+            if (!baseState) {
+                this.go({url: notFoundRoute});
+                return;
+            }
+            idParam = state.url.substring(state.url.lastIndexOf('/') + 1);
         }
-        if (this.#currentView?.removeListeners) {
-            this.#currentView?.removeListeners();
+
+        if (this.#currentView) {
+            if (this.#currentView.removeListeners) {
+                this.#currentView.removeListeners();
+            }
+            if (this.#currentView.unsubscribeToEvents) {
+                this.#currentView.unsubscribeToEvents();
+            }
+            UserActions.removeListeners();
         }
-        this.#currentView = new baseState.view(this.#root, this.#config, state.param);
+
+        this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
         this.#currentView.render();
         if (replaceState) {
             this.#history.replaceState(
@@ -145,7 +140,7 @@ class Router {
      * Переход вперед по истории браузера
      */
     forward() {
-        this.#history.go();
+        this.#history.forward();
     }
 }
 
