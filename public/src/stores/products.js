@@ -76,7 +76,7 @@ class ProductsStore {
                     eventEmmiter.emit(Events.PRODUCTS, products, config);
                     break;
                 case 429:
-                    renderServerMessage('Не удалось получить информацию о товарах');
+                    eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
                     break;
                 default:
                     break;
@@ -136,7 +136,7 @@ class ProductsStore {
             eventEmmiter.emit(Events.NOT_FOUND);
             break;
         case 429:
-            renderServerMessage('Не удалось получить информацию о товаре');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товара');
             break;
         default:
             break;
@@ -153,7 +153,7 @@ class ProductsStore {
                 eventEmmiter.emit(Events.CATEGORIES, categories);
                 break;
             case 429:
-                renderServerMessage('Не удалось получить список категорий');
+                eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении категорий');
                 break;
             default:
                 break;
@@ -174,7 +174,7 @@ class ProductsStore {
             break;
         case 429:
             eventEmmiter.emit(Events.CATEGORY_PRODUCTS);
-            renderServerMessage('Не удалось получить информацию о товарах');
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
             break;
         default:
             break;
