@@ -170,7 +170,7 @@ export function checkAddressField(fieldText, isFlatField) {
     }
 
     if (!fieldText && !isFlatField) {
-        return ['Поле не должно быть пустым', false];
+        return ['Заполните поле', false];
     }
 
     return ['', true];
