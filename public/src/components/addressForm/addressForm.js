@@ -61,16 +61,111 @@ export default class AddressForm {
 
     /**
      *
+     * @param {Event} event
+     */
+    inputCityHandle(event) {
+        event.preventDefault();
+        UserActions.validateCity(this.city.self.value);
+    }
+
+    inputCityHandle = this.inputCityHandle.bind(this);
+
+    /**
+     *
+     * @param {Event} event
+     */
+    inputStreetHandle(event) {
+        event.preventDefault();
+        UserActions.validateStreet(this.street.self.value);
+    }
+
+    inputStreetHandle = this.inputStreetHandle.bind(this);
+
+    /**
+     *
+     * @param {Event} event
+     */
+    inputHouseHandle(event) {
+        event.preventDefault();
+        UserActions.validateHouse(this.house.self.value);
+    }
+
+    inputHouseHandle = this.inputHouseHandle.bind(this);
+
+    /**
+     *
+     * @param {*} event
+     */
+    inputFlatHandle(event) {
+        event.preventDefault();
+        UserActions.validateFlat(this.flat.self.value);
+    }
+
+    inputFlatHandle = this.inputFlatHandle.bind(this);
+
+    /**
+     *
+     * @param {String} errorText
+     */
+    renderCityError(errorText) {
+        this.city.removeError();
+        this.city.renderError(errorText);
+    }
+
+    renderCityError = this.renderCityError.bind(this);
+
+    /**
+     *
+     * @param {String} errorText
+     */
+    renderStreetError(errorText) {
+        this.street.removeError();
+        this.street.renderError(errorText);
+    }
+
+    renderStreetError = this.renderStreetError.bind(this);
+
+    /**
+     *
+     * @param {String} errorText
+     */
+    renderHouseError(errorText) {
+        this.house.removeError();
+        this.house.renderError(errorText);
+    }
+
+    renderHouseError = this.renderHouseError.bind(this);
+
+    /**
+     *
+     * @param {String} errorText
+     */
+    renderFlatError(errorText) {
+        this.flat.removeError();
+        this.flat.renderError(errorText);
+    }
+
+    renderStreetError = this.renderStreetError.bind(this);
+
+    /**
+     *
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
+        this.city.self.addEventListener('focusout', this.inputCityHandle);
+        this.street.self.addEventListener('focusout', this.inputStreetHandle);
+        this.house.self.addEventListener('focusout', this.inputHouseHandle);
+        this.flat.self.addEventListener('focusout', this.inputFlatHandle);
     }
 
     /**
      *
      */
     subscribeToEvents() {
-
+        eventEmmiter.subscribe(Events.CITY_INPUT_ERROR, this.renderCityError);
+        eventEmmiter.subscribe(Events.STREET_INPUT_ERROR, this.renderStreetError);
+        eventEmmiter.subscribe(Events.HOUSE_INPUT_ERROR, this.renderHouseError);
+        eventEmmiter.subscribe(Events.FLAT_INPUT_ERROR, this.renderFlatError);
     }
 
     /**

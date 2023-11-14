@@ -12,6 +12,9 @@ const UNICODE_OF_RIGHT_BRACE = 0x0029;
 const UNICODE_OF_LEFT_BRACE = 0x0028;
 const UNICODE_OF_MINUS = 0x002D;
 
+const UNICODE_OF_ASCII_START = 0x21;
+const UNICODE_OF_ASCII_END = 0x7E;
+
 
 /**
  * Валидация пароля
@@ -27,28 +30,28 @@ export function checkPassword(pass) {
         return ['Максимальная длина 32 символа', false];
     }
 
-    let isHasUpperLetter = false;
-    let isHasLowerLetter = false;
+    let isHasLetter = false;
     let isHasDigit = false;
 
     for (let i = 0; i < pass.length; ++i) {
         if (pass.codePointAt(i) >= UNICODE_OF_UPPERCASE_A &&
         pass.codePointAt(i) <= UNICODE_OF_UPPERCASE_Z) {
-            isHasUpperLetter = true;
+            isHasLetter = true;
         } else if (pass.codePointAt(i) >= UNICODE_OF_LOWERCASE_A &&
         pass.codePointAt(i) <= UNICODE_OF_LOWERCASE_Z) {
-            isHasLowerLetter = true;
+            isHasLetter = true;
         } else if (pass.codePointAt(i) >= UNICODE_OF_0 && pass.codePointAt(i) <= UNICODE_OF_9) {
             isHasDigit = true;
-        } else {
-            return ['Разрешена только латиница и цифры', false];
+        } else if (pass.codePointAt(i) < UNICODE_OF_ASCII_START ||
+        pass.codePointAt(i) > UNICODE_OF_ASCII_END) {
+            return ['Разрешена только латиница, цифры и спец. символы', false];
         }
     }
 
-    if (isHasDigit && isHasLowerLetter && isHasUpperLetter) {
+    if (isHasDigit && isHasLetter) {
         return ['', true];
     }
-    return ['Должны быть заглавные, прописные буквы латиницы и цифры', false];
+    return ['Должны быть буквы латиницы и цифры', false];
 }
 
 /**
@@ -155,17 +158,20 @@ export function formatPhone(phone) {
     });
     return formatPhone;
 }
-
-export function checkAddressField(fieldText) {
+/**
+ *
+ * @param {String} fieldText
+ * @param {Boolean} isFlatField
+ * @return {[Boolean, String]}
+ */
+export function checkAddressField(fieldText, isFlatField) {
     if (fieldText > 30) {
         return ['Максимальная длина 30 символов', false];
     }
-    return ['', true];
-}
 
-export function checkAddressForm(city, street, house, flat) {
-    if (city && street && house && flat) {
-        return ['', true];
+    if (!fieldText && !isFlatField) {
+        return ['Поле не должно быть пустым', false];
     }
-    return ['Все поля должны бать заполнены', false];
+
+    return ['', true];
 }

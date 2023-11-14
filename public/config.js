@@ -299,18 +299,22 @@ const profilePage = {
             city: {
                 inputName: 'number',
                 inputPlaceholder: 'Город',
+                errorId: 'city-error',
             },
             street: {
                 inputName: 'street',
                 inputPlaceholder: 'Улица',
+                errorId: 'street-error',
             },
             house: {
                 inputName: 'house',
                 inputPlaceholder: 'Дом',
+                errorId: 'house-error',
             },
             flat: {
                 inputName: 'flat',
                 inputPlaceholder: 'Квартира',
+                errorId: 'flat-error',
             },
             submit: {
                 class: 'address-form__submit',

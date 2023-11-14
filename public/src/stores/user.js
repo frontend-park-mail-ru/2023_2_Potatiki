@@ -2,7 +2,7 @@ import {AppDispatcher} from '../modules/dispatcher';
 import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
-import {checkLogin, checkPassword, checkPhone, cleanPhone,
+import {checkAddressField, checkLogin, checkPassword, checkPhone, cleanPhone,
     formatPhone} from '../modules/validation';
 import {loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute,
     signupRoute, updateDataUrl, profileUpdateDataRoute,
@@ -109,6 +109,18 @@ class UserStore {
                 break;
             case UserActionsType.VALIDATE_PHONE:
                 this.validatePhone(action.payload.phone);
+                break;
+            case UserActionsType.VALIDATE_CITY:
+                this.validateCity(action.payload.city);
+                break;
+            case UserActionsType.VALIDATE_STREET:
+                this.validateStreet(action.payload.street);
+                break;
+            case UserActionsType.VALIDATE_HOUSE:
+                this.validateHouse(action.payload.house);
+                break;
+            case UserActionsType.VALIDATE_FLAT:
+                this.validateFlat(action.payload.flat);
                 break;
             case UserActionsType.CHECK_AUTH:
                 this.checkAuth();
@@ -394,6 +406,62 @@ class UserStore {
         return true;
     }
 
+    /**
+     * Валидация номера телефона
+     * @param {String} city
+     * @return {Boolean} проверка на валидацию
+     */
+    validateCity(city) {
+        const [error, isValidCity] = checkAddressField(city, false);
+        if (!isValidCity) {
+            eventEmmiter.emit(Events.CITY_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Валидация номера телефона
+     * @param {String} street
+     * @return {Boolean} проверка на валидацию
+     */
+    validateStreet(street) {
+        const [error, isValidStreet] = checkAddressField(street, false);
+        if (!isValidStreet) {
+            eventEmmiter.emit(Events.STREET_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Валидация номера телефона
+     * @param {String} house
+     * @return {Boolean} проверка на валидацию
+     */
+    validateHouse(house) {
+        const [error, isValidHouse] = checkAddressField(house, false);
+        if (!isValidHouse) {
+            eventEmmiter.emit(Events.HOUSE_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Валидация квартиры
+     * @param {String} flat
+     * @return {Boolean} проверка на валидацию
+     */
+    validateFlat(flat) {
+        const [error, isValidFlat] = checkAddressField(flat, true);
+        if (!isValidFlat) {
+            eventEmmiter.emit(Events.FLAT_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
+    }
+
     async getProfileData() {
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
         switch (statusCode) {
@@ -575,8 +643,12 @@ class UserStore {
      */
     async addAddress(city, street, house, flat) {
         this.recordCSRFToken(addAddressUrl);
-        if (!city || !street || !house || !flat) {
-            eventEmmiter.emit(Events.ADD_ADDRESS_FORM_ERROR);
+        const isValidCity = this.validateCity(city);
+        const isValidStreet = this.validateStreet(street);
+        const isValidHouse = this.validateHouse(house);
+        const isValidFlat = this.validateFlat(flat);
+
+        if (!isValidCity || !isValidStreet || !isValidHouse || !isValidFlat) {
             return;
         }
 
@@ -621,8 +693,12 @@ class UserStore {
      * @param {*} flat
      */
     async updateAddress(addressId, addressIsCurrent, city, street, house, flat) {
-        if (!city || !street || !house || !flat) {
-            eventEmmiter.emit(Events.ADD_ADDRESS_FORM_ERROR);
+        const isValidCity = this.validateCity(city);
+        const isValidStreet = this.validateStreet(street);
+        const isValidHouse = this.validateHouse(house);
+        const isValidFlat = this.validateFlat(flat);
+
+        if (!isValidCity || !isValidStreet || !isValidHouse || !isValidFlat) {
             return;
         }
 
