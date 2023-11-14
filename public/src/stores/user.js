@@ -221,7 +221,7 @@ class UserStore {
         case 401:
             this.#state.isAuth = false;
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
-            eventEmmiter.emit(Events.REDIRECT, {url: location.pathname});
+
             break;
         case 429:
             renderServerMessage('Ошибка. Попробуйте позже');
