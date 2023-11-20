@@ -1,19 +1,20 @@
 /**
- *
+ * Класс реализующий event emmiter
  */
 class EventEmmiter {
     #events;
 
     /**
-     *
+     * Конструктор класска
      */
     constructor() {
         this.#events = {};
     }
 
     /**
-     *@param {String} event
-     *@param {...*} args
+     * Функция, вызываемая при совершении события
+     *@param {String} event Испускаемое событие
+     *@param {...*} args Аргументы для функций, обрабытвающих событие
      */
     emit(event, ...args) {
         if (!(event in this.#events)) {
@@ -24,8 +25,9 @@ class EventEmmiter {
     }
 
     /**
-     *@param {String} event
-     *@param {Function} handler
+     * Функция подписывающая события функциям
+     *@param {String} event Событие, на которорое подписываются
+     *@param {Function} handler Функция для подписки
      */
     subscribe(event, handler) {
         if (event in this.#events) {
@@ -37,8 +39,9 @@ class EventEmmiter {
     }
 
     /**
-     *@param {String} event
-     *@param {Function} handler
+     * Функция отписывающая события функциям
+     *@param {String} event Событие, от которго отписываются
+     *@param {Function} handler Функция для отписки
      */
     unsubscribe(event, handler) {
         if (event in this.#events) {

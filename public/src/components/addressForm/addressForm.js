@@ -10,20 +10,17 @@ import {config} from '../../../config.js';
 
 
 /**
- * Класс формы авторизации
+ * Класс формы создания/изменения адреса
  */
 export default class AddressForm {
     #parent;
-
     #config;
-
     #isAdd;
 
     city;
     street;
     house;
     flat;
-
     submit;
 
     /**
@@ -36,15 +33,15 @@ export default class AddressForm {
     }
 
     /**
-     *
+     * Получения элемента формы
      */
     get self() {
         return document.getElementById('address-form');
     }
 
     /**
-     *
-     * @param {Evnt} event
+     * Функция для обработки нажатия на кнопку отправки формы
+     * @param {Event} event Событие нажания
      */
     submitHandle(event) {
         event.preventDefault();
@@ -62,8 +59,8 @@ export default class AddressForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-     *
-     * @param {Event} event
+     * Функция вызова валидации поля города
+     * @param {Event} event Событие, вызвающее валидцию
      */
     inputCityHandle(event) {
         event.preventDefault();
@@ -73,8 +70,8 @@ export default class AddressForm {
     inputCityHandle = this.inputCityHandle.bind(this);
 
     /**
-     *
-     * @param {Event} event
+     * Функция вызова валидации поля улицы
+     * @param {Event} event Событие, вызвающее валидацию
      */
     inputStreetHandle(event) {
         event.preventDefault();
@@ -84,8 +81,8 @@ export default class AddressForm {
     inputStreetHandle = this.inputStreetHandle.bind(this);
 
     /**
-     *
-     * @param {Event} event
+     * Функция вызова валидации поля дома
+     * @param {Event} event Событие, вызывающее валидацию
      */
     inputHouseHandle(event) {
         event.preventDefault();
@@ -95,8 +92,8 @@ export default class AddressForm {
     inputHouseHandle = this.inputHouseHandle.bind(this);
 
     /**
-     *
-     * @param {*} event
+     * Функция вызова валидации поля квартиры
+     * @param {Event} event Событие, вызывающее валидацию
      */
     inputFlatHandle(event) {
         event.preventDefault();
@@ -106,8 +103,8 @@ export default class AddressForm {
     inputFlatHandle = this.inputFlatHandle.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Функция отображения ошибки для поля города
+     * @param {String} errorText Текст ошибки
      */
     renderCityError(errorText) {
         this.city.removeError();
@@ -117,8 +114,8 @@ export default class AddressForm {
     renderCityError = this.renderCityError.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Функция отображения ошибки для поля улицы
+     * @param {String} errorText Текст ошибки
      */
     renderStreetError(errorText) {
         this.street.removeError();
@@ -128,8 +125,8 @@ export default class AddressForm {
     renderStreetError = this.renderStreetError.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Функция отображения ошибки для поля дома
+     * @param {String} errorText Текст ошибки
      */
     renderHouseError(errorText) {
         this.house.removeError();
@@ -139,8 +136,8 @@ export default class AddressForm {
     renderHouseError = this.renderHouseError.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Функция отображения ошибки для поля квартиры
+     * @param {String} errorText Текст ошибки
      */
     renderFlatError(errorText) {
         this.flat.removeError();
@@ -150,7 +147,7 @@ export default class AddressForm {
     renderStreetError = this.renderStreetError.bind(this);
 
     /**
-     *
+     * Добавление листенеров элементам компонента
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
@@ -161,7 +158,7 @@ export default class AddressForm {
     }
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CITY_INPUT_ERROR, this.renderCityError);
@@ -171,22 +168,22 @@ export default class AddressForm {
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-     *
+     * Удаление листенеров
      */
     removeListeners() {
     }
 
     /**
-   * Отрисовка компонента формы авторизации
-   * @param {*} isAdd
-   * @param {*} address
+   * Отрисовка компонента формы добавления/изменения адреса
+   * @param {Boolean} isAdd флаг для определения функции формы(добавление или изменение)
+   * @param {Object} address Данные об адресе
    */
     render(isAdd, address) {
         this.#isAdd = isAdd;

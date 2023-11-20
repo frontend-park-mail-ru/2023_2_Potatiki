@@ -9,17 +9,11 @@ import template from './carousel.hbs';
  */
 export default class Carousel {
     #parent;
-
     #config;
-
     #cardCount;
-
     #currentPos;
-
     #leftPos;
-
     #rightPos;
-
     #data;
 
     /**

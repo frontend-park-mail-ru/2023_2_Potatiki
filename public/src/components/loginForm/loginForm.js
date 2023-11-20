@@ -15,21 +15,18 @@ import {mainRoute} from '../../config/urls.js';
  */
 export default class LoginForm {
     #parent;
-
     #config;
-
     #redirectUrl;
 
     login;
-
     password;
-
     submit;
 
     /**
-   * Конструктор класса
-   * @param {Element} parent Родительский компонент
-   */
+     * Конструктор класса
+     * @param {Element} parent Родительский компонент
+     * @param {String} redirectUrl Ссылка для редиректа
+     */
     constructor(parent, redirectUrl) {
         this.#parent = parent;
         this.#config = config.loginPage.form;
@@ -37,15 +34,15 @@ export default class LoginForm {
     }
 
     /**
-     *
+     * Взятие элемента компонента
      */
     get self() {
         return document.getElementById('login-form');
     }
 
     /**
-     *
-     * @param {Evnt} event
+     * Функция обработки отправки формы
+     * @param {Evnt} event События нажатия отправки формы
      */
     submitHandle(event) {
         event.preventDefault();
@@ -55,8 +52,8 @@ export default class LoginForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Отображение ошибки формы
+     * @param {String} errorText Текст ошибки
      */
     renderError(errorText) {
         const error = document.getElementById('login-form-error');
@@ -64,7 +61,7 @@ export default class LoginForm {
     }
 
     /**
-     *
+     * Перенаправление на предыдущую страницу
      */
     redirect() {
         if (this.#redirectUrl) {
@@ -77,14 +74,14 @@ export default class LoginForm {
     redirect = this.redirect.bind(this);
 
     /**
-     *
+     * Добавление листенерова
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
     }
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.LOGIN_FORM_ERROR, this.renderError);
@@ -92,7 +89,7 @@ export default class LoginForm {
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.LOGIN_FORM_ERROR, this.renderError);
@@ -100,15 +97,15 @@ export default class LoginForm {
     }
 
     /**
-     *
+     * Удаление листенеров
      */
     removeListeners() {
         this.submit.self.removeEventListener('click', this.submitHandle);
     }
 
     /**
-   * Отрисовка компонента формы авторизации
-   */
+     * Отрисовка компонента формы авторизации
+     */
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',

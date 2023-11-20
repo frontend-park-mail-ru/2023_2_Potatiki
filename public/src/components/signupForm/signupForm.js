@@ -11,11 +11,12 @@ import {Events} from '../../config/events.js';
 import {mainRoute} from '../../config/urls.js';
 
 /**
- *
+ * Класс компонента формы авторизацияя
  */
 export default class SignupForm {
     #parent;
     #config;
+
     login;
     password;
     repeatPassword;
@@ -31,6 +32,10 @@ export default class SignupForm {
         this.#config = config.signupPage.form;
     }
 
+    /**
+     * Функция обаботки отправки формы
+     * @param {Event} event
+     */
     submitHandle = (event) => {
         event.preventDefault();
         UserActions.signup(
@@ -44,7 +49,7 @@ export default class SignupForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-     *
+     * Функция вызова валидации для поля логина
      * @param {Event} event
      */
     inputLoginHandle(event) {
@@ -55,7 +60,7 @@ export default class SignupForm {
     inputLoginHandle = this.inputLoginHandle.bind(this);
 
     /**
-     *
+     * Функция вызова валидации для поля пароля
      * @param {Event} event
      */
     inputPasswordHandle(event) {
@@ -66,7 +71,7 @@ export default class SignupForm {
     inputPasswordHandle = this.inputPasswordHandle.bind(this);
 
     /**
-     *
+     * Функция вызова валидации для поля повторить пароль
      * @param {Event} event
      */
     inputRepeatPasswordHandle(event) {
@@ -78,8 +83,8 @@ export default class SignupForm {
     inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
 
     /**
-     *
-     * @param {*} event
+     * Функция вызова валидации для поля НОМЕРА ТЕЛЕФОНА
+     * @param {Event} event
      */
     inputPhoneHandle(event) {
         event.preventDefault();
@@ -89,15 +94,15 @@ export default class SignupForm {
     inputPhoneHandle = this.inputPhoneHandle.bind(this);
 
     /**
-     *
+     * Редирект на главную страницу
      */
     redirectOnMain() {
         router.go({url: mainRoute});
     }
 
     /**
-     *
-     * @param {String} errorText
+     * Отрисовка ошибки поля логина
+     * @param {String} errorText Текст ошибки
      */
     renderLoginError(errorText) {
         this.login.removeError();
@@ -107,8 +112,8 @@ export default class SignupForm {
     renderLoginError = this.renderLoginError.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     *  Отрисовка ошибки поля пароль
+     * @param {String} errorText Текст ошибки
      */
     renderPasswordError(errorText) {
         this.password.removeError();
@@ -118,8 +123,8 @@ export default class SignupForm {
     renderPasswordError = this.renderPasswordError.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Отрисовка ошибки поля повторить пароль
+     * @param {String} errorText Текст ошибки
      */
     renderRepeatPasswordError(errorText) {
         this.repeatPassword.removeError();
@@ -128,6 +133,10 @@ export default class SignupForm {
 
     renderRepeatPasswordError = this.renderRepeatPasswordError.bind(this);
 
+    /**
+     * Отрисовка ошибки поля номера телефона
+     * @param {String} errorText Текст ошибки
+     */
     renderPhoneError(errorText) {
         this.phone.removeError();
         this.phone.renderError(errorText);
@@ -136,7 +145,7 @@ export default class SignupForm {
     renderPhoneError = this.renderPhoneError.bind(this);
 
     /**
-     *
+     * Добавление листенеров
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
@@ -184,7 +193,7 @@ export default class SignupForm {
     }
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.SIGNUP_FORM_ERROR, this.renderError);
@@ -196,7 +205,7 @@ export default class SignupForm {
     }
 
     /**
-     *
+     * Отписк аот событий
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.SIGNUP_FORM_ERROR, this.renderError);

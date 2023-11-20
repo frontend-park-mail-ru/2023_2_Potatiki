@@ -16,19 +16,13 @@ import Catalog from '../catalog/catalog.js';
  */
 export default class Header {
     #parent;
-
     #config;
 
     cart;
-
     catalogButton;
-
     catalog;
-
     logoutButton;
-
     user;
-
 
     /**
    * Конструктор класса
@@ -39,19 +33,33 @@ export default class Header {
         this.#config = config.mainPage.header;
     }
 
+    /**
+     * Взятие элемента компонента
+     */
     get self() {
         return document.getElementById('header');
     }
 
+    /**
+     * Обновление количества товара в корзине
+     * @param {Number} count Количество товара в корзине
+     */
     updateCartCount(count) {
-        this.cart.self.querySelector('.cart-count').textContent = count;
+        this.cart.self.setAttribute('data-count', count);
     }
 
+    /**
+     * Logout
+     * @param {Event} event Событие, вызвающее logout
+     */
     logout(event) {
         event.preventDefault();
         UserActions.logout();
     }
 
+    /**
+     * Отрисовка каталога
+     */
     renderCatalog() {
         this.catalog = new Catalog();
         this.catalog.render();
@@ -60,6 +68,9 @@ export default class Header {
         this.catalogButton.self.addEventListener('click', this.hideCatalog);
     }
 
+    /**
+     * Удаление отображение каталога
+     */
     hideCatalog() {
         this.catalogButton.img.src = '/static/images/burger.svg';
         this.catalogButton.self.removeEventListener('click', this.hideCatalog);
@@ -77,6 +88,9 @@ export default class Header {
     authorizedHeader = this.authorizedHeader.bind(this);
     unauthorizedHeader = this.unauthorizedHeader.bind(this);
 
+    /**
+     * Подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
@@ -85,6 +99,9 @@ export default class Header {
         eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
     }
 
+    /**
+     * Отписка от событий
+     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
@@ -93,18 +110,28 @@ export default class Header {
         eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
     }
 
+    /**
+     * Удаление листенеров
+     */
     removeListeners() {
         this.logoutButton?.removeEventListener('click', logout);
     }
 
+    /**
+     * Изменение хэдера при неавторизованном пользователе
+     */
     unauthorizedHeader() {
         this.user.self.remove();
-        this.user = new Link(this.self.querySelector('.header__icons-container'), this.#config.login);
+        this.user = new Link(this.self.querySelector('.header__icons-container'),
+            this.#config.login);
         this.user.render();
 
         this.removeLogoutButton();
     }
 
+    /**
+     * Удаление кнопки выхода
+     */
     removeLogoutButton() {
         if (this.logoutButton) {
             this.logoutButton.self.removeEventListener('click', this.logout);
@@ -112,20 +139,25 @@ export default class Header {
         }
     }
 
+    /**
+     * Изменение для автоизованного пользователя
+     */
     authorizedHeader() {
         this.user.self.remove();
-        this.user = new Link(this.self.querySelector('.header__icons-container'), this.#config.profile);
+        this.user = new Link(this.self.querySelector('.header__icons-container'),
+            this.#config.profile);
         this.user.render();
 
         this.removeLogoutButton();
-        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'), this.#config.logout);
+        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'),
+            this.#config.logout);
         this.logoutButton.render();
         this.logoutButton.self.addEventListener('click', this.logout);
     }
 
     /**
-   * Отрисовка компонента хедера
-   */
+     * Отрисовка компонента хедера
+     */
     render() {
         document.getElementById('container-header').innerHTML = template();
 

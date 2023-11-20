@@ -1,6 +1,5 @@
 import Header from '../../components/header/header.js';
 import template from './product-page.hbs';
-import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {ProductsActions} from '../../actions/products.js';
@@ -10,29 +9,23 @@ import './product-page.scss';
 import Product from '../../components/product/product.js';
 
 /**
- * Класс главной страницы
+ * Класс страницы товара
  */
 export default class ProductPage {
     #parent;
-
-    #config;
-
     #productId;
 
     loadedProducts;
-
     endOfPage;
-
     timer;
-
 
     /**
    * Конструктор класса
-   * @param {Element} parent Родительский элемент
+   * @param {Element} parent Родительский элемен
+   * @param {Object} params Даннае о товаре
    */
     constructor(parent, params) {
         this.#parent = parent;
-        this.#config = config.mainPage;
         this.endOfPage = false;
         this.timer = null;
         this.#productId = params.idParam;
@@ -45,6 +38,11 @@ export default class ProductPage {
         return document.getElementById('product-page');
     }
 
+    /**
+     * Взятие конфига для отображения карточки товара
+     * @param {Object} data Данные о товаре
+     * @return {Object} Конфиг
+     */
     getConfig(data) {
         return {
             id: `category-product-${data.productId}`,
@@ -77,6 +75,10 @@ export default class ProductPage {
         };
     }
 
+    /**
+     * Отображение карточки товара
+     * @param {Object} body Данные для отображения продукта
+     */
     renderProduct(body) {
         if (!body) {
             return;
@@ -85,6 +87,9 @@ export default class ProductPage {
         product.render();
     }
 
+    /**
+     * Перенаправление на страницу 404
+     */
     redirectToNotFound() {
         router.go({url: notFoundRoute});
     }
@@ -92,13 +97,16 @@ export default class ProductPage {
     redirectToNotFound = this.redirectToNotFound.bind(this);
     renderProduct = this.renderProduct.bind(this);
 
+    /**
+     * Подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.NOT_FOUND, this.redirectToNotFound);
         eventEmmiter.subscribe(Events.PRODUCT, this.renderProduct);
     }
 
     /**
-    *
+    * Отписка от событий
     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.PRODUCT, this.renderProduct);
@@ -106,7 +114,7 @@ export default class ProductPage {
     }
 
     /**
-    * Отрисовка страницы регистрации
+    * Отрисовка страницы товара
     */
     render() {
         this.#parent.innerHTML = template();

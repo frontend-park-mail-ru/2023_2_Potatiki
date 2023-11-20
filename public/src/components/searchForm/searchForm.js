@@ -15,6 +15,7 @@ export default class SearchForm {
      * Конструктор класса
      * @param {Element} parent Родительский компонент
      * @param {Object} config Конфиг для отрисовки класса
+     * @param {Bollean} isAfterBegin
      */
     constructor(parent, config, isAfterBegin) {
         this.#parent = parent;

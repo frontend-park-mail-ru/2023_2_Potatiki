@@ -1,6 +1,5 @@
 import Header from '../../components/header/header.js';
 import template from './category-page.hbs';
-import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import './category-page.scss';
@@ -10,26 +9,22 @@ import router from '../../modules/router.js';
 import {notFoundRoute, productRoute} from '../../config/urls.js';
 
 /**
- * Класс главной страницы
+ * Класс страницы товаров категории
  */
 export default class CategoryPage {
     #parent;
-
     #categoryName;
-
     #categoryId;
 
     loadedProducts;
-
     endOfPage;
-
     timer;
-
     productsPerRequest;
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
+   * @param {Object} params Данные о категории страницы
    */
     constructor(parent, params) {
         this.#parent = parent;
@@ -46,6 +41,11 @@ export default class CategoryPage {
         return document.getElementById('category-page');
     }
 
+    /**
+     * Взятие конфига для отобрадения карточки товара категории
+     * @param {Object} data Данные для создания конфига
+     * @return {Object} Конфиг
+     */
     getConfig(data) {
         return {
             id: `category-product-${data.productId}`,
@@ -76,10 +76,18 @@ export default class CategoryPage {
         };
     }
 
+    /**
+     * Изменение названия категории
+     * @param {String} name Новое название
+     */
     updateCategoryName(name) {
         this.self.querySelector('.page-title').textContent = name;
     }
 
+    /**
+     * Отображение продуктов категории
+     * @param {Object} body Данные о продуктах категории
+     */
     renderProducts(body) {
         if (!body || !body.length) {
             eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
@@ -87,11 +95,15 @@ export default class CategoryPage {
             return;
         }
         body.forEach((element) => {
-            const product = new CategoryProduct(this.self.querySelector('.category-products-container'), this.getConfig(element));
+            const product = new CategoryProduct(
+                this.self.querySelector('.category-products-container'), this.getConfig(element));
             product.render();
         });
     }
 
+    /**
+     * Проверка положение скролла и отображения новых продуктов, если он в конце
+     */
     checkPosition() {
         if (this.timer) return;
 
@@ -105,7 +117,8 @@ export default class CategoryPage {
                 this.removeListeners();
             }
             if (position >= threshold) {
-                ProductsActions.getCategoryProducts(this.loadedProducts, this.productsPerRequest, this.#categoryId);
+                ProductsActions.getCategoryProducts(
+                    this.loadedProducts, this.productsPerRequest, this.#categoryId);
                 this.loadedProducts += this.productsPerRequest;
             }
             clearTimeout(this.timer);
@@ -113,6 +126,9 @@ export default class CategoryPage {
         }, 250);
     }
 
+    /**
+     * Редирект на страницу не найдено
+     */
     redirectToNotFound() {
         router.go({url: notFoundRoute});
     }
@@ -122,19 +138,25 @@ export default class CategoryPage {
     renderProducts = this.renderProducts.bind(this);
     updateCategoryName = this.updateCategoryName.bind(this);
 
+    /**
+     * Подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.NOT_FOUND, this.redirectToNotFound);
         eventEmmiter.subscribe(Events.CATEGORY_PRODUCTS, this.renderProducts);
         eventEmmiter.subscribe(Events.CATEGORY_NAME, this.updateCategoryName);
     }
 
+    /**
+     * Добавление листенеров
+     */
     addListeners() {
         window.addEventListener('scroll', this.checkPosition);
         window.addEventListener('resize', this.checkPosition);
     }
 
     /**
-    *
+    * Удаление листенеров
     */
     removeListeners() {
         window.removeEventListener('scroll', this.checkPosition);
@@ -142,7 +164,7 @@ export default class CategoryPage {
     }
 
     /**
-    *
+    * Отриска от событий
     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.CATEGORY_PRODUCTS, this.renderProducts);
@@ -151,7 +173,7 @@ export default class CategoryPage {
     }
 
     /**
-    * Отрисовка страницы регистрации
+    * Отрисовка страницы продуктов категории
     */
     render() {
         this.#parent.innerHTML = template({category: this.#categoryName});
@@ -160,7 +182,8 @@ export default class CategoryPage {
         header.render();
         this.subscribeToEvents();
         this.loadedProducts = 0;
-        ProductsActions.getCategoryProducts(this.loadedProducts, this.productsPerRequest, this.#categoryId);
+        ProductsActions.getCategoryProducts(this.loadedProducts,
+            this.productsPerRequest, this.#categoryId);
         ProductsActions.getCategoryName(this.#categoryId);
         this.loadedProducts += this.productsPerRequest;
         this.addListeners();

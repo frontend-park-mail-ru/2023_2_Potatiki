@@ -2,14 +2,13 @@ import {AppDispatcher} from '../modules/dispatcher';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {Events} from '../config/events';
-import {renderServerMessage} from '../modules/server-message';
 import {ProductsActionsType} from '../actions/products';
 import {categoryProductsUrl,
     getAllCategoriesUrl, getProductUrl, getProductsUrl} from '../config/urls';
 import {parseCategories, reviver} from '../modules/utils';
 
 /**
- * Класс
+ * Класс хранилище для товаров
  */
 class ProductsStore {
     #state = {
@@ -18,14 +17,14 @@ class ProductsStore {
     };
 
     /**
-     *
+     * Конструктор для класса
      */
     constructor() {
         this.registerEvents();
     }
 
     /**
-     *
+     * Регистрация функций для обработки событий
      */
     registerEvents() {
         AppDispatcher.register((action) => {
@@ -76,7 +75,8 @@ class ProductsStore {
                     eventEmmiter.emit(Events.PRODUCTS, products, config);
                     break;
                 case 429:
-                    eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
+                    eventEmmiter.emit(Events.SERVER_MESSAGE,
+                        'Возникла ошибка при получении товаров');
                     break;
                 default:
                     break;
@@ -84,6 +84,11 @@ class ProductsStore {
             });
     }
 
+    /**
+     * Проверка наличия товаров в корзине и добавление поля количества в корзине к ним, если есть
+     * @param {Array} products Проверяеиые товары
+     * @return {Array} Товары с полем количества
+     */
     isProductInCart(products) {
         if (!products) {
             return products;
@@ -107,6 +112,10 @@ class ProductsStore {
         return products;
     }
 
+    /**
+     * Взятие названия категории по  Id
+     * @param {String} categoryId Id категории
+     */
     async getCategoryName(categoryId) {
         categoryId = parseInt(categoryId);
         const category = this.#state.categories?.get(categoryId);
@@ -125,6 +134,10 @@ class ProductsStore {
         eventEmmiter.emit(Events.CATEGORY_NAME, category.categoryName);
     }
 
+    /**
+     * Взятие товара по id
+     * @param {String} id Id товара
+     */
     async getProduct(id) {
         const [statusCode, body] = await Ajax.prototype.getRequest(`${getProductUrl}${id}`);
         switch (statusCode) {
@@ -143,6 +156,10 @@ class ProductsStore {
         }
     }
 
+    /**
+     * Получение категорий
+     * @return {Promise} Результат запроса
+     */
     getCategories() {
         return Ajax.prototype.getRequest(getAllCategoriesUrl).then((result) => {
             const [statusCode, body] = result;
@@ -161,8 +178,15 @@ class ProductsStore {
         });
     }
 
+    /**
+     * Взятие товаров по категории
+     * @param {Number} paging Отступ
+     * @param {Number} count Количество товаров
+     * @param {Number} categoryId Idкатегории
+     */
     async getProductsByCategory(paging=0, count=5, categoryId) {
-        const requestUrl = `${categoryProductsUrl}?paging=${paging}&count=${count}&category_id=${categoryId}`;
+        const requestUrl =
+            `${categoryProductsUrl}?paging=${paging}&count=${count}&category_id=${categoryId}`;
         const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
         switch (statusCode) {
         case 200:

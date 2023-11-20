@@ -8,15 +8,13 @@ import {userStore} from '../../stores/user.js';
 
 
 /**
- * Класс формы авторизации
+ * Класс формы обновление аватарки
  */
 export default class ImgEditForm {
     #parent;
-
     #config;
 
     img;
-
     submit;
 
     /**
@@ -28,15 +26,15 @@ export default class ImgEditForm {
     }
 
     /**
-     *
+     * Взятие элемента компонента
      */
     get self() {
         return document.getElementById('img-edit-form');
     }
 
     /**
-     *
-     * @param {Evnt} event
+     * Функция обработки события отправки формы
+     * @param {Evnt} event Событие нажатие на кнопки отправки формы
      */
     submitHandle(event) {
         event.preventDefault();
@@ -51,18 +49,24 @@ export default class ImgEditForm {
 
     submitHandle = this.submitHandle.bind(this);
 
-    upload(){
+    /**
+     * Отображение загруженного изображения
+     */
+    upload() {
         const [file] = document.getElementById('img-edit').files;
         if (file) {
-            document.getElementById('upload').src = URL.createObjectURL(file)
+            document.getElementById('upload').src = URL.createObjectURL(file);
         }
     }
 
+    /**
+     * Отрисовка ошибок при загрузке изображения
+     */
     renderError() {
     }
 
     /**
-     *
+     * Добавление листенеров
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
@@ -71,26 +75,26 @@ export default class ImgEditForm {
 
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-     *
+     * Удаление листенеров
      */
     removeListeners() {
     }
 
     /**
-   * Отрисовка компонента формы авторизации
+   * Отрисовка компонента формы обновления аватарки
    */
     render() {
         this.#parent.innerHTML = template({imgSrc: userStore.imgSrc});

@@ -8,7 +8,6 @@ import template from './not-found-page.hbs';
  */
 export default class NotFoundPage {
     #parent;
-
     #config;
 
     /**
@@ -28,7 +27,7 @@ export default class NotFoundPage {
     }
 
     /**
-   * Отрисовка страницы авторизации
+   * Отрисовка страницы 404
    */
     render() {
         this.#parent.innerHTML = template();

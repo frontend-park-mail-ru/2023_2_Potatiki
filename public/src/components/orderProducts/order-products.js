@@ -4,19 +4,18 @@ import template from './order-products.hbs';
 import {productRoute} from '../../config/urls.js';
 
 /**
- * Класс компонента карточки товара в заказе
+ * Класс компонента карточки товаров в заказе
  */
 export default class OrderProducts {
     #parent;
-
     #config;
-
     #isWhite;
 
     /**
      * Конструктор класса
      * @param {Element} parent Родительский элемент
      * @param {Object} config Конфиг отрисовки класса
+     * @param {Boolean} isWhite
      */
     constructor(parent, config, isWhite) {
         this.#parent = parent;
@@ -24,6 +23,11 @@ export default class OrderProducts {
         this.#isWhite = isWhite;
     }
 
+    /**
+     * Взятие конфига для отрисовки ссылок на товары, содержищиеся в заа=каза
+     * @param {Object} data Данные для создания конфига
+     * @return {Object} Конфиг
+     */
     getConfig(data) {
         return {
             id: `${this.#config.id}-order-product-${data.productId}`,

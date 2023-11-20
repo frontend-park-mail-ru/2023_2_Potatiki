@@ -9,7 +9,7 @@ import {replacer, reviver} from '../modules/utils';
 import {userStore} from './user';
 
 /**
- * Класс
+ * Класс хранилище корзины
  */
 class CartStore {
     #state = {
@@ -17,7 +17,7 @@ class CartStore {
     };
 
     /**
-     *
+     * конструктор класса
      */
     constructor() {
         this.registerEvents();
@@ -25,7 +25,7 @@ class CartStore {
     }
 
     /**
-     *
+     * Регистриция событий, которые будет обрабатывать функции класса
      */
     registerEvents() {
         AppDispatcher.register((action) => {
@@ -69,10 +69,16 @@ class CartStore {
         });
     }
 
+    /**
+     * Обработка авторизации пользовтеля
+     */
     userAuth() {
         this.updateCart();
     }
 
+    /**
+     * Обработка выхода пользовтеля
+     */
     userLogout() {
         this.cleanCart();
     }
@@ -81,6 +87,9 @@ class CartStore {
     userLogout = this.userLogout.bind(this);
     setCSRFToken = this.setCSRFToken.bind(this);
 
+    /**
+     * Подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.userAuth);
         eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.userAuth);
@@ -89,15 +98,25 @@ class CartStore {
         eventEmmiter.subscribe(Events.CSRF_TOKEN, this.setCSRFToken);
     }
 
+    /**
+     * Установление значения для CSRF токена
+     * @param {String} token  CSRF-токен
+     */
     setCSRFToken(token) {
         this.#state.csrfToken = token;
     }
 
+    /**
+     * Очистка содержимого корзины
+     */
     cleanCart() {
         const EmptyCart = new Map();
         localStorage.setItem('products_map', JSON.stringify(EmptyCart, replacer));
     }
 
+    /**
+     * Обновление содержимого корзины
+     */
     updateCart() {
         const currentCart = JSON.parse(localStorage.getItem('products_map'), reviver);
         const data = [];
@@ -106,7 +125,8 @@ class CartStore {
                 data.push(product);
             });
         }
-        Ajax.prototype.postRequest(updateCartUrl, {products: data}, this.#state.csrfToken).then((result) => {
+        Ajax.prototype.postRequest(updateCartUrl, {products: data},
+            this.#state.csrfToken).then((result) => {
             const [statusCode, body] = result;
             switch (statusCode) {
             case 200:
@@ -166,7 +186,8 @@ class CartStore {
                     eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                     break;
                 case 429:
-                    eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров корзины');
+                    eventEmmiter.emit(Events.SERVER_MESSAGE,
+                        'Возникла ошибка при получении товаров корзины');
                     break;
                 default:
                     break;
@@ -174,21 +195,31 @@ class CartStore {
             });
     }
 
+    /**
+     * Взятие количества товаров в корзине
+     * @return {Number} Количество товара в корзине
+     */
     getCartCount() {
         const [count] = this.getProductsInfo();
         eventEmmiter.emit(Events.UPDATE_CART_ICON, count);
         return count;
     }
 
+    /**
+     * Добавление товаров корзины в local storage
+     * @param {Object} data Данные о товарах
+     */
     async addProductLocal(data) {
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
         if (this.getCartCount() > 99) {
-            eventEmmiter.emit(Events.SERVER_MESSAGE, 'В одном заказе можно заказать не более 100 товаров');
+            eventEmmiter.emit(Events.SERVER_MESSAGE,
+                'В одном заказе можно заказать не более 100 товаров');
             return;
         }
         data.quantity += 1;
         if (userStore.isAuth && userStore.connection) {
-            if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: data.quantity})) {
+            if (!await this.simpleAjax(addProductUrl,
+                {productId: data.productId, quantity: data.quantity})) {
                 if (userStore.isAuth) {
                     return;
                 }
@@ -210,10 +241,16 @@ class CartStore {
         this.cartEvents();
     }
 
+    /**
+     * Изменение содержания локальной корзины
+     * @param {object} data Новые товары
+     * @param {Boolean} isDecrease Флаг об уменьшении размера корзины
+     */
     async changeProductCountLocal(data, isDecrease) {
         if (!isDecrease) {
             if (this.getCartCount() > 99) {
-                eventEmmiter.emit(Events.SERVER_MESSAGE, 'В одном заказе можно заказать не более 100 товаров');
+                eventEmmiter.emit(Events.SERVER_MESSAGE,
+                    'В одном заказе можно заказать не более 100 товаров');
                 return;
             }
         }
@@ -228,7 +265,9 @@ class CartStore {
             return;
         }
         if (userStore.isAuth && userStore.connection) {
-            if (!await this.simpleAjax(addProductUrl, {productId: data.productId, quantity: product.quantity}, this.#state.setCSRFToken)) {
+            if (!await this.simpleAjax(addProductUrl,
+                {productId: data.productId, quantity: product.quantity},
+                this.#state.setCSRFToken)) {
                 if (userStore.isAuth) {
                     return;
                 }
@@ -240,6 +279,10 @@ class CartStore {
         this.cartEvents();
     }
 
+    /**
+     * Удаление товара из корзины
+     * @param {Object} data Данные об удаляемом товаре
+     */
     async deleteProduct(data) {
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
         const product = productsMap.get(data.productId);
@@ -247,7 +290,9 @@ class CartStore {
             return;
         }
         if (userStore.isAuth && userStore.connection) {
-            const [statusCode, body] = await Ajax.prototype.deleteRequest(delProductUrl, {productId: data.productId}, this.#state.setCSRFToken);
+            const [statusCode, body] = await
+            Ajax.prototype.deleteRequest(delProductUrl,
+                {productId: data.productId}, this.#state.setCSRFToken);
             switch (statusCode) {
             case 200:
                 break;
@@ -267,6 +312,10 @@ class CartStore {
         this.cartEvents();
     }
 
+    /**
+     * Оформление заказа
+     * @param {String} page На какой странице оформление заказа
+     */
     updateOrder(page) {
         let continueUrl = '';
         switch (page) {
@@ -280,7 +329,8 @@ class CartStore {
             break;
         }
         if (!userStore.isAuth) {
-            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Для оформления заказа необходимо авторизоваться');
+            eventEmmiter.emit(Events.SERVER_MESSAGE,
+                'Для оформления заказа необходимо авторизоваться');
             eventEmmiter.emit(Events.REDIRECT, {url: loginRoute, continue: continueUrl});
             return;
         }
@@ -290,7 +340,8 @@ class CartStore {
             break;
         case orderRoute:
             if (!userStore.connection) {
-                eventEmmiter.emit(Events.SERVER_MESSAGE, 'Невозможно оформить заказ в оффлайн-режиме');
+                eventEmmiter.emit(Events.SERVER_MESSAGE,
+                    'Невозможно оформить заказ в оффлайн-режиме');
                 return;
             }
             Ajax.prototype.postRequest(createOrderUrl, {}, this.#state.csrfToken)
@@ -307,7 +358,8 @@ class CartStore {
                         eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
                         break;
                     case 429:
-                        eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при создании заказа');
+                        eventEmmiter.emit(Events.SERVER_MESSAGE,
+                            'Возникла ошибка при создании заказа');
                         break;
                     default:
                         break;
@@ -319,6 +371,9 @@ class CartStore {
         }
     }
 
+    /**
+     * Взятие заказов пользователя
+     */
     async getALlOrders() {
         const [statusCode, body] = await Ajax.prototype.getRequest(getAllOrdersUrl);
         switch (statusCode) {
@@ -339,6 +394,10 @@ class CartStore {
         }
     }
 
+    /**
+     * Возвращает информацию о товарах в корзине
+     * @return {[Number, Number]}
+     */
     getProductsInfo() {
         const productsMap = JSON.parse(localStorage.getItem('products_map'), reviver);
         let price = 0;
@@ -357,6 +416,12 @@ class CartStore {
         return [count, price];
     }
 
+    /**
+     * Отправка данных о корзинe
+     * @param {String} url Путь
+     * @param {Object} data Передаваемые данные
+     * @return {Boolean} Результат работы запроса
+     */
     simpleAjax(url, data) {
         return Ajax.prototype
             .postRequest(url, data)
@@ -377,6 +442,9 @@ class CartStore {
             });
     }
 
+    /**
+     * Сообщени подписанным компонентам об обновлении корзины
+     */
     cartEvents() {
         const [productCount, productsPrice] = this.getProductsInfo();
         eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);

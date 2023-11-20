@@ -14,7 +14,7 @@ import {removeWarningMessage,
     renderServerMessage} from '../modules/server-message';
 
 /**
- * Класс store для работы с данными пользователя
+ * Класс хранилище для работы с данными пользователя
  */
 class UserStore {
     #state = {
@@ -462,6 +462,9 @@ class UserStore {
         return true;
     }
 
+    /**
+     * Взятие данных о пользователе
+     */
     async getProfileData() {
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
         switch (statusCode) {
@@ -480,6 +483,10 @@ class UserStore {
         }
     }
 
+    /**
+     * Запись CSRF-токена
+     * @param {String} url Путь для взятия
+     */
     async recordCSRFToken(url) {
         const [statusCode, token] = await Ajax.prototype.getCSRFRequest(url);
         switch (statusCode) {
@@ -493,6 +500,10 @@ class UserStore {
         }
     }
 
+    /**
+     * Взятие CSRF-токена
+     * @param {String} page Страница, которая запрашивает токен
+     */
     async getCsrfToken(page) {
         switch (page) {
         case loginRoute:
@@ -512,6 +523,9 @@ class UserStore {
         }
     }
 
+    /**
+     * Вязтие текущего адреса
+     */
     async getCurrentAddress() {
         const [statusCode, body] = await Ajax.prototype.getRequest(getCurrentAddressUrl);
         switch (statusCode) {
@@ -535,7 +549,7 @@ class UserStore {
     }
 
     /**
-     *
+     * Взятие адресов пользователя
      */
     async getAddresses() {
         const [statusCode, body] = await Ajax.prototype.getRequest(getAddressesUrl);
@@ -559,8 +573,8 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} number
+     * Обновление номера телефона пользователя
+     * @param {*} number Новый номер телефона
      */
     async updateNuber(number) {
         const isValidNumber = this.validatePhone(number);
@@ -594,8 +608,10 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} number
+     * Обновление пароля пользователя
+     * @param {String} oldPassword Старый пароль
+     * @param {String} newPassword Новый пароль
+     * @param {String} repeatPassword Повторенный пароль
      */
     async updatePassword(oldPassword, newPassword, repeatPassword) {
         const isValidPassword = this.validatePassword(newPassword);
@@ -634,12 +650,11 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} city
-     * @param {*} street
-     * @param {*} house
-     * @param {*} flat
-     * @returns
+     * Добавление адреса
+     * @param {String} city Город адреса
+     * @param {String} street Улица адреса
+     * @param {String} house Номер дома адреса
+     * @param {String} flat Номер квартиры адреса
      */
     async addAddress(city, street, house, flat) {
         this.recordCSRFToken(addAddressUrl);
@@ -668,7 +683,8 @@ class UserStore {
             });
             this.#state.addresses.push(body);
             if (this.#state.addresses.length > 1) {
-                [this.#state.addresses[0], this.#state.addresses[this.#state.addresses.length - 1]] =
+                [this.#state.addresses[0],
+                    this.#state.addresses[this.#state.addresses.length - 1]] =
                 [this.#state.addresses[this.#state.addresses.length - 1], this.#state.addresses[0]];
             }
             eventEmmiter.emit(Events.SUCCESSFUL_ADD_ADDRESS, this.#state.addresses);
@@ -684,13 +700,13 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} addressId
-     * @param {*} isCurrent
-     * @param {*} city
-     * @param {*} street
-     * @param {*} house
-     * @param {*} flat
+     *  Обновление данных адреса
+     * @param {String} addressId Id адреса
+     * @param {Boolean} addressIsCurrent Флаг о текущем адресе
+     * @param {String} city Город адреса
+     * @param {String} street Улица адреса
+     * @param {String} house Номер дома адреса
+     * @param {String} flat Номер квартиры адреса
      */
     async updateAddress(addressId, addressIsCurrent, city, street, house, flat) {
         const isValidCity = this.validateCity(city);
@@ -736,8 +752,8 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} addressId
+     * Удаление адреса
+     * @param {String} addressId Id адреса
      */
     async deleteAddress(addressId) {
         const [statusCode, body] = await Ajax.prototype.deleteRequest(deleteAddressUrl, {
@@ -770,8 +786,8 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} addressId
+     * Обновление текущего адреса
+     * @param {*} addressId Новый текущий адрес
      */
     async makeCurrentAddress(addressId) {
         const [statusCode, body] = await Ajax.prototype.postRequest(makeCurrentAddressUrl, {
@@ -805,8 +821,8 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} img
+     * Обновление аватарки пользователя
+     * @param {Blob} img
      */
     async updateImg(img) {
         const [statusCode, body] = await Ajax.prototype.postBinRequest(updatePhotoUrl, img,

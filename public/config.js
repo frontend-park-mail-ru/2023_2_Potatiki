@@ -72,7 +72,7 @@ const header = {
         href: '/cart',
         text: 'Корзина',
         imgSrc: '/static/images/cart-icon.svg',
-        imgClass: 'link_icon__img',
+        imgClass: 'link_icon__img cart-icon__img',
         textClass: 'cart-count',
     },
 

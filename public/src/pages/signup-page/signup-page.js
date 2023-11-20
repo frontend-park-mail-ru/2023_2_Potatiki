@@ -11,7 +11,6 @@ import {UserActions} from '../../actions/user.js';
  */
 export default class SignupPage {
     #parent;
-
     #config;
 
     signupForm;
@@ -40,7 +39,7 @@ export default class SignupPage {
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
         this.signupForm.unsubscribeToEvents();

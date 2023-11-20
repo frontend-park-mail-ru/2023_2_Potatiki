@@ -82,7 +82,7 @@ export function checkLogin(login) {
 
 /**
  * Валидация телефона +7(___)-___-__-__
- * @param {String} phone Логин пользователя
+ * @param {String} phone Номер телефона пользователя
  * @return {[String, Boolean]} Сообщение об ошибке и статус проверки
  */
 export function checkPhone(phone) {
@@ -116,8 +116,9 @@ export function checkPhone(phone) {
 }
 
 /**
- *
- * @param {*} phone
+ * Очищение номера телефона от формата
+ * @param {String} phone Форматированный номер телефона
+ * @return {String} Приведенный номер телефона
  */
 export function cleanPhone(phone) {
     let cleanPhone = '';
@@ -131,8 +132,9 @@ export function cleanPhone(phone) {
 }
 
 /**
- *
- * @param {*} phone
+ * Форматирование номера телефона
+ * @param {String} phone Номер телефона
+ * @return {String} Форматированный номер телефона
  */
 export function formatPhone(phone) {
     let formatPhone = '';
@@ -156,10 +158,10 @@ export function formatPhone(phone) {
     return formatPhone;
 }
 /**
- *
- * @param {String} fieldText
- * @param {Boolean} isFlatField
- * @return {[Boolean, String]}
+ * Валидация полей адреса
+ * @param {String} fieldText Текст поля
+ * @param {Boolean} isFlatField Флаг для определения является ли поле полем квартиры
+ * @return {[Boolean, String]} Результат проверки
  */
 export function checkAddressField(fieldText, isFlatField) {
     if (fieldText > 30) {

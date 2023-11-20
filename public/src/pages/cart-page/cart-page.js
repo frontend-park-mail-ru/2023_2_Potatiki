@@ -35,6 +35,11 @@ export default class CartPage {
         return document.getElementById('cart-page');
     }
 
+    /**
+     * Получения конфига для отрисовки продукта в корзине
+     * @param {Object} data Данные для создания конфига
+     * @return {Object} Конфиг
+     */
     getConfig(data) {
         return {
             id: `cart-product-${data.productId}`,
@@ -80,10 +85,17 @@ export default class CartPage {
         };
     }
 
+    /**
+     * Отображения сообщения о пустой корзине
+     */
     renderEmptyCartMessage() {
         this.self.querySelector('.cart-container__products').textContent = 'Корзина пуста';
     }
 
+    /**
+     * Отображение продуктов в корзине
+     * @param {Object} body Данные о содержимом корзины
+     */
     renderProducts(body) {
         if (!body.products || !body.products.length) {
             this.renderEmptyCartMessage();
@@ -99,6 +111,9 @@ export default class CartPage {
         this.renderCartResult();
     }
 
+    /**
+     * Отображение итоговой информации о содержании корзины
+     */
     renderCartResult() {
         this.orderResults = new OrderResults(
             this.self.querySelector('.order-container'),
@@ -117,20 +132,23 @@ export default class CartPage {
     renderEmptyCartMessage = this.renderEmptyCartMessage.bind(this);
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CART_PRODUCTS, this.renderProducts);
         eventEmmiter.subscribe(Events.EMPTY_CART, this.renderEmptyCartMessage);
     }
 
+    /**
+     * Отписка от событий
+     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.CART_PRODUCTS, this.renderProducts);
         eventEmmiter.unsubscribe(Events.EMPTY_CART, this.renderEmptyCartMessage);
     }
 
     /**
-     * Отрисовка страницы авторизации
+     * Отрисовка страницы корзины
      */
     render() {
         this.#parent.innerHTML = template();

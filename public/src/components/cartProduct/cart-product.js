@@ -12,11 +12,8 @@ import Button from '../button/button.js';
  */
 export default class CartProduct {
     #parent;
-
     #config;
-
     #data;
-
     #management;
 
     deleteProductButton;
@@ -32,10 +29,18 @@ export default class CartProduct {
         this.#data = this.#config.data;
     }
 
+    /**
+     * Взятие элемента компонента
+     */
     get self() {
         return document.querySelector(`#${this.#config.id}`);
     }
 
+    /**
+     * Взятие конфига для отрисовки компонента подсчета количества товара
+     * @param {Number} quantity Количество товара
+     * @return {String} Конфиг
+     */
     getManagmentConfig(quantity) {
         return {
             id: `cart-page-count-management-${this.#data.productId}`,
@@ -55,18 +60,30 @@ export default class CartProduct {
         };
     }
 
+    /**
+     * Отрисовка компонента подсчета количества товара
+     * @param {Object} data Данные для отрисовка компонента
+     */
     renderCountManagement(data) {
-        if (data.productId !== this.#data.productId || !this.self?.querySelector('.cart-product__count-management')) {
+        if (data.productId !== this.#data.productId ||
+            !this.self?.querySelector('.cart-product__count-management')) {
             return;
         }
+
         this.self.querySelector('.cart-product__count-management').innerHTML = '';
         this.#data.quantity = data.quantity;
-        this.management = new CountManagement(this.self.querySelector('.cart-product__count-management'), this.getManagmentConfig(data.quantity));
+
+        this.management = new CountManagement(
+            this.self.querySelector('.cart-product__count-management'),
+            this.getManagmentConfig(data.quantity));
         this.management.render();
         this.management.left.addEventListener('click', this.decreaseQuantity);
         this.management.right.addEventListener('click', this.increaseQuantity);
     }
 
+    /**
+     * Отрисовка компонента кнопки для удаления товара из корзины
+     */
     renderDeleteButton() {
         this.deleteProductButton = new Button(
             this.self.querySelector('.cart-product__management'),
@@ -85,16 +102,28 @@ export default class CartProduct {
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
 
+    /**
+     * Уменьшение количества товара в корзине
+     * @param {Event} event Событие, вызывающее уменьшение
+     */
     decreaseQuantity(event) {
         event.preventDefault();
         CartActions.changeQuantityLocal(this.#data, true);
     }
 
+    /**
+     * Увеличение количества товара в корзине
+     * @param {Event} event Событие, вызывающее увеличение
+     */
     increaseQuantity(event) {
         event.preventDefault();
         CartActions.changeQuantityLocal(this.#data);
     }
 
+    /**
+     * Удаление компонента карточки товара
+     * @param {Object} data Данные для определения удаляемой карточки
+     */
     deleteSelf(data) {
         if (data.productId !== this.#data.productId || !this.self) {
             return;
@@ -105,12 +134,18 @@ export default class CartProduct {
         this.self.remove();
     }
 
+    /**
+     * Удаление товара из корзины
+     * @param {Event} event Событие, вызывающее удаление
+     */
     deleteProduct(event) {
         event.preventDefault();
         CartActions.deleteProductFromCart(this.#data);
     }
 
-
+    /**
+     * Подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CHG_PRODUCT_SUCCESS, this.renderCountManagement);
         eventEmmiter.subscribe(Events.DEL_PRODUCT_SUCCESS, this.deleteSelf);
@@ -119,7 +154,7 @@ export default class CartProduct {
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.ADD_PRODUCT_SUCCESS, this.renderCountManagement);
@@ -128,6 +163,9 @@ export default class CartProduct {
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
+    /**
+     * Удаление листенеров
+     */
     removeListeners() {
         this.management.left.removeEventListener('click', this.decreaseQuantity);
         this.management.right.removeEventListener('click', this.increaseQuantity);
