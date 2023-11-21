@@ -6,6 +6,8 @@ export const ProductsActionsType = {
     GET_CATEGORY_PRODUCTS: 'GET_CATEGORY_PRODUCTS',
     GET_CATEGORY_NAME: 'GET_CATEGORY_NAME',
     GET_PRODUCT: 'GET_PRODUCT',
+    GET_SUGGEST: 'GET_SUGGEST',
+    GET_SEARCH_PRODUCTS: 'GET_SEARCH_PRODUCTS',
 };
 
 export const ProductsActions = {
@@ -41,6 +43,20 @@ export const ProductsActions = {
         AppDispatcher.dispatch({
             type: ProductsActionsType.GET_PRODUCT,
             payload: {id},
+        });
+    },
+
+    getSuggest(word) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_SUGGEST,
+            payload: {word},
+        });
+    },
+
+    getSearchProducts(searchValue) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_SEARCH_PRODUCTS,
+            payload: {searchValue},
         });
     },
 };
