@@ -51,18 +51,3 @@
 .dark-text {
     color: var(--color-headline);
 }
-
-.cart-icon::after {
-    content: attr(data-count);
-    position: absolute;
-    right: 36rem;
-    top: 0.6px;
-    background-color: var( --color-secondary);
-    color: var(--color-button-text);
-    border-radius: 50%;
-    display: flex;
-    height: 14px;
-    width: 14px;
-    justify-content: center;
-    align-items: center;
-}

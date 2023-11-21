@@ -115,6 +115,7 @@ export default class CategoryPage {
             const position = scrolled + screenHeight;
             if (this.endOfPage) {
                 this.removeListeners();
+                return;
             }
             if (position >= threshold) {
                 ProductsActions.getCategoryProducts(

@@ -10,6 +10,7 @@ import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
+import CartIcon from '../cartIcon/cart-icon.js';
 
 /**
  * Класс хедера страницы
@@ -38,14 +39,6 @@ export default class Header {
      */
     get self() {
         return document.getElementById('header');
-    }
-
-    /**
-     * Обновление количества товара в корзине
-     * @param {Number} count Количество товара в корзине
-     */
-    updateCartCount(count) {
-        this.cart.self.setAttribute('data-count', count);
     }
 
     /**
@@ -81,7 +74,6 @@ export default class Header {
 
     hideCatalog = this.hideCatalog.bind(this);
     renderCatalog = this.renderCatalog.bind(this);
-    updateCartCount = this.updateCartCount.bind(this);
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
     logout = this.logout.bind(this);
@@ -92,7 +84,6 @@ export default class Header {
      * Подписка на события
      */
     subscribeToEvents() {
-        eventEmmiter.subscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
@@ -105,7 +96,6 @@ export default class Header {
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
-        eventEmmiter.unsubscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
         eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
         eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
     }
@@ -189,7 +179,8 @@ export default class Header {
         );
         favorite.render();
 
-        this.cart = new Link(self.querySelector('.header__icons-container'), this.#config.basket);
+        this.cart = new CartIcon(
+            self.querySelector('.header__icons-container'), this.#config.basket);
         this.cart.render();
 
         const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
