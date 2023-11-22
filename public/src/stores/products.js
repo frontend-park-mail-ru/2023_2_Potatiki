@@ -52,6 +52,10 @@ class ProductsStore {
             case ProductsActionsType.GET_PRODUCT:
                 this.getProduct(action.payload.id);
                 break;
+            case ProductsActionsType.GET_SUGGEST:
+                this.getSuggest(action.payload.word);
+            case ProductsActionsType.GET_SEARCH_PRODUCTS:
+                this.getSearchProducts(action.payload.searchValue);
             default:
                 break;
             }
@@ -202,6 +206,60 @@ class ProductsStore {
             break;
         default:
             break;
+        }
+    }
+
+    /**
+     * Взятие саджеста
+     * @param {*} word Поисковый запрос
+     */
+    getSuggest(word) {
+        console.log(word);
+        if (!word) {
+            eventEmmiter.emit(Events.RECIEVE_SUGGEST, this.getLastSearchRequests());
+            return;
+        }
+        const rows = ['сыр', 'молоко', 'мясо', 'каша'];
+        eventEmmiter.emit(Events.RECIEVE_SUGGEST, rows);
+    }
+
+    /**
+     * Взятие продуктов по запросу
+     * @param {String} searchValue Запрос
+     */
+    getSearchProducts(searchValue) {
+        this.addRequestLocal(searchValue);
+    }
+
+    /**
+     * Взятие последних десяти поисковых запросов
+     * @return {Array} Массив запросов
+     */
+    getLastSearchRequests() {
+        const requests = JSON.parse(localStorage.getItem('searchRequests'));
+        if (requests) {
+            return requests.reverse();
+        }
+        return [];
+    }
+
+    /**
+     * Добавление запроса поиска локально
+     * @param {String} searchValue Добовляемое значение
+     */
+    addRequestLocal(searchValue) {
+        const requests = JSON.parse(localStorage.getItem('searchRequests'));
+        if (!searchValue) {
+            return;
+        }
+        if (requests) {
+            requests.push(searchValue);
+            if (requests.length > 10) {
+                requests.shift();
+            }
+            localStorage.setItem('searchRequests', JSON.stringify(requests));
+        } else {
+            localStorage.setItem('searchRequests', JSON.stringify([searchValue]));
         }
     }
 }

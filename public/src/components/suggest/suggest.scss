@@ -1,0 +1,27 @@
+.suggest {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-background-header);
+    width: 100%;
+    border-radius: 1.2rem;
+    box-shadow: 0 0.1rem 0.4rem var(--color-stroke);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+} 
+
+.suggest__row {
+    display: inline;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+    height: 3rem;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-top: 0.8rem;
+    text-overflow:ellipsis;
+    box-sizing: border-box;
+}
+
+.suggest__row:hover {
+    background-color: #d7d7d7;
+}

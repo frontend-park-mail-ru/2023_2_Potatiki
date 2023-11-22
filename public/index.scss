@@ -23,9 +23,6 @@ body {
     height: 100%;
 }
 
-#container-main {
-    height: 100%;
-}
 
 #root {
     display: grid;
@@ -53,6 +50,20 @@ body {
     --color-stroke: #a5a5b3;
     --color-warning: rgb(237, 197, 105);
     font-family: 'Lato', sans-serif;
+}
+
+
+
+.container-header_dark::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.3);
+    z-index: 1;
+    height: 100vh;
 }
 
 

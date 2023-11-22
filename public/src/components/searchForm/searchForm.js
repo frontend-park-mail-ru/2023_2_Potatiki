@@ -4,6 +4,8 @@ import Input from '../input/input.js';
 import template from './searchForm.hbs';
 import {ProductsActions} from '../../actions/products.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
+import Suggest from '../suggest/suggest.js';
+import {Events} from '../../config/events.js';
 
 /**
  * Класс компонента формы поиска
@@ -50,40 +52,63 @@ export default class SearchForm {
      * @param {Array} rows Строки
      */
     renderSuggest(rows) {
-        
+        if (!rows) {
+            return;
+        }
+        this.suggest = new Suggest(document.querySelector('.container-suggest'), rows);
+        document.querySelector('#container-header').classList.add('container-header_dark');
+        this.suggest.render();
     }
 
     /**
      * Удаление саджеста
+     * @param {Event} event
      */
-    hideSuggest() {
-        
+    hideSuggest(event) {
+        if (event.target.name === 'search') {
+            return;
+        }
+        this.suggest?.remove();
+        document.querySelector('#container-header').classList.remove('container-header_dark');
     }
+
 
     submitHandle = this.submitHandle.bind(this);
     getSuggest = this.getSuggest.bind(this);
+    renderSuggest = this.renderSuggest.bind(this);
+    hideSuggest = this.hideSuggest.bind(this);
 
     /**
      * Добавление листенеров
      */
     addEventListeners() {
-        this.searchInput.self.addEventListener('change', this.getSuggest);
+        this.searchInput.self.addEventListener('input', this.getSuggest);
+        this.searchInput.self.addEventListener('focusin', this.getSuggest);
         this.submit.self.addEventListener('click', this.submitHandle);
+        window.addEventListener('click', this.hideSuggest);
     }
 
     /**
      * Подписка на событие
      */
     subscribeToEvents() {
-        eventEmmiter.subscribe();
+        eventEmmiter.subscribe(Events.RECIEVE_SUGGEST, this.renderSuggest);
     }
 
     /**
      * Удаление листенеров
      */
     removeEventListeners() {
-        this.searchInput.self.removeEventListener('change', this.makeSuggest);
+        this.searchInput.self.removeEventListener('input', this.getSuggest);
         this.submit.self.removeEventListener('click', this.submitHandle);
+        window.removeEventListener('click', this.hideSuggest);
+    }
+
+    /**
+     * Отписка от событий
+     */
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.RECIEVE_SUGGEST, this.renderSuggest);
     }
 
 
@@ -100,11 +125,12 @@ export default class SearchForm {
         const self = document.getElementById('search-form');
 
         this.searchInput = new Input(self, this.#config.input);
-        searchInput.render();
+        this.searchInput.render();
 
-        submit = new Button(self, this.#config.submit);
-        submit.render();
+        this.submit = new Button(self, this.#config.submit);
+        this.submit.render();
 
         this.addEventListeners();
+        this.subscribeToEvents();
     }
 }

@@ -34,10 +34,10 @@ const header = {
             inputPlaceholder: 'Я хочу найти',
             error: false,
             label: false,
-            disabled: true,
+            offAutocomplete: true,
         },
         submit: {
-            class: 'button_disabled search-form__button_size_search',
+            class: 'search-form__button_size_search',
             type: '',
             text: '',
             id: 'search-button',
