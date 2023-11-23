@@ -214,7 +214,6 @@ class ProductsStore {
      * @param {*} word Поисковый запрос
      */
     getSuggest(word) {
-        console.log(word);
         if (!word) {
             eventEmmiter.emit(Events.RECIEVE_SUGGEST, this.getLastSearchRequests());
             return;

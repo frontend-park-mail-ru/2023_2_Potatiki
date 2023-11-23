@@ -30,6 +30,5 @@ export default class Suggest {
      */
     render() {
         this.#parent.innerHTML = template({rows: this.#rows});
-        console.log(this.#rows);
     }
 }
