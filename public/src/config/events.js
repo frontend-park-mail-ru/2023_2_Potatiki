@@ -1,1 +1,3 @@
-export const Events = {};
+export const Events = {
+    QUESTIONS: 'QUESTIONS',
+};

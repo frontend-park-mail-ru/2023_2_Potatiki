@@ -5,8 +5,9 @@ import router from '../../modules/router.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {mainRoute} from '../../config/urls.js';
-import {reviewForm} from '../../config/components.js';
+import {csatForm, reviewForm} from '../../config/components.js';
 import StarsInput from '../starsInput/stars-input.js';
+import {CsatActions} from '../../actions/csat.js';
 
 /**
  * Класс компонента формы отзыва
@@ -26,31 +27,33 @@ export default class CsatForm {
      * Конструктор
      * @param {Element} parent Родительский элемент
      */
-    constructor(parent, name) {
+    constructor(parent, name, data) {
         this.#parent = parent;
-        // this.#data = data;
-        this.#config = reviewForm;
+        this.#data = data;
+        this.#config = csatForm;
         this.#config.name = name;
         // this.#config.productName = this.#data.productName;
         this.#currentQuestionIndex = 0;
-        this.#questions = [
-            {
-                id: 1,
-                name: 'Оцените доставку',
-            },
-            {
-                id: 2,
-                name: 'Оцените дизайн',
-            },
-            {
-                id: 3,
-                name: 'Оцените холодильники',
-            },
-            {
-                id: 4,
-                name: 'Оцените кофе',
-            },
-        ];
+        this.#questions = data.Questions;
+        console.log(data);
+        // this.#questions = [
+        //     {
+        //         id: 1,
+        //         name: 'Оцените доставку',
+        //     },
+        //     {
+        //         id: 2,
+        //         name: 'Оцените дизайн',
+        //     },
+        //     {
+        //         id: 3,
+        //         name: 'Оцените холодильники',
+        //     },
+        //     {
+        //         id: 4,
+        //         name: 'Оцените кофе',
+        //     },
+        // ];
     }
 
     get self() {
@@ -76,23 +79,47 @@ export default class CsatForm {
             this.starsInput.renderError('Выберете рейтинг от 1 до 5');
             return;
         }
-        if (this.#currentQuestionIndex === this.#questions.length - 1) {
+
+        if (this.#currentQuestionIndex < this.#questions.length - 1) {
+            CsatActions.sendAnswer(
+                this.#questions[this.#currentQuestionIndex].questionID,
+                this.#data.resultID,
+                rate,
+            );
+            this.#currentQuestionIndex++;
+            this.nextQuestion();
+
             return;
         }
-        this.nextQuestion();
+
+        if (this.#currentQuestionIndex === this.#questions.length - 1) {
+            CsatActions.sendAnswer(
+                this.#questions[this.#currentQuestionIndex].questionID,
+                this.#data.resultID,
+                rate,
+            );
+            this.#currentQuestionIndex++;
+            // this.nextQuestion();
+
+            // return;
+        }
+
+        CsatActions.removeSelf();
+        console.log('remove iframe');
     };
 
     nextQuestion() {
         this.self.querySelector('.csat-form__input-place').innerHTML = '';
+        console.log('next', this.#questions[this.#currentQuestionIndex]);
         this.starsInput = new StarsInput(
             this.self.querySelector('.csat-form__input-place'),
             'csat',
-            this.#questions[this.#currentQuestionIndex].name,
+            this.#questions[this.#currentQuestionIndex].questionName,
         );
         this.starsInput.render();
-        this.#currentQuestionIndex++;
     }
 
+    nextQuestion = this.nextQuestion.bind(this);
 
     /**
      * Функция вызова валидации для поля логина
@@ -187,9 +214,10 @@ export default class CsatForm {
     }
 
     removeSelf() {
-        this.unsubscribeToEvents();
-        this.removeListeners();
-        this.self.remove();
+        CsatActions.removeSelf();
+        // this.unsubscribeToEvents();
+        // this.removeListeners();
+        // this.self.remove();
     }
 
     submitHandle = this.submitHandle.bind(this);
@@ -265,11 +293,11 @@ export default class CsatForm {
         );
 
 
-        this.submit = new Button(this.self, this.#config.submit);
+        this.submit = new Button(this.self.querySelector('.csat-form__submit-place'), this.#config.submit);
         this.submit.render();
 
         this.closeButton = new Button(
-            this.self,
+            this.self.querySelector('.csat-form__close-place'),
             this.#config.close,
             true,
         );
