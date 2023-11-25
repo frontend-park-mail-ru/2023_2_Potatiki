@@ -11,7 +11,13 @@ import {renderServerMessage} from '../../modules/server-message.js';
  */
 export default class OrderResults {
     #parent;
+<<<<<<< HEAD
     #config;
+=======
+
+    #config;
+
+>>>>>>> origin/main
     #page;
 
     button;
@@ -27,37 +33,52 @@ export default class OrderResults {
         this.#page = config.page;
     }
 
+<<<<<<< HEAD
     /**
      * Взятие элемента компонента
      */
+=======
+>>>>>>> origin/main
     get self() {
         return document.querySelector(`.order-results`);
     }
 
+<<<<<<< HEAD
     /**
      * Взятие элемента количества товаров
      */
+=======
+>>>>>>> origin/main
     get count() {
         return this.self.querySelector('#products-count');
     }
 
+<<<<<<< HEAD
     /**
      * Взятие элемента скидки
      */
+=======
+>>>>>>> origin/main
     get subprice() {
         return this.self.querySelector('#subprice');
     }
 
+<<<<<<< HEAD
     /**
      * Взятие элемента итоговоай цены
      */
+=======
+>>>>>>> origin/main
     get result() {
         return this.self.querySelector('#result-price');
     }
 
+<<<<<<< HEAD
     /**
      * Вязтие кнопки создания заказа
      */
+=======
+>>>>>>> origin/main
     get button() {
         return this.self.querySelector('.order-results__make-result-btn');
     }
@@ -71,9 +92,12 @@ export default class OrderResults {
     addressNotFound = this.addressNotFound.bind(this);
     serverMessage = this.serverMessage.bind(this);
 
+<<<<<<< HEAD
     /**
      * Удаление компонента
      */
+=======
+>>>>>>> origin/main
     deleteSelf() {
         this.removeListeners();
         this.unsubscribeToEvents();
@@ -81,11 +105,14 @@ export default class OrderResults {
         return;
     }
 
+<<<<<<< HEAD
     /**
      * Обновление данных заказа
      * @param {Number} count Количество товара
      * @param {Nuber} price Сумма заказа
      */
+=======
+>>>>>>> origin/main
     updateOrderResult(count, price) {
         price = price.toLocaleString('ru') + ' ₽';
         this.count.textContent = `Товары(${count})`;
@@ -93,33 +120,46 @@ export default class OrderResults {
         this.result.textContent = price;
     }
 
+<<<<<<< HEAD
     /**
      * Обновление заказа при его создании
      * @param {Event} event
      */
+=======
+>>>>>>> origin/main
     updateOrder(event) {
         event.preventDefault();
         CartActions.updateOrder(this.#page);
     }
 
+<<<<<<< HEAD
     /**
      * Навешивание листенера для отображение ошибки, что адрес не найден
      */
+=======
+>>>>>>> origin/main
     addressNotFound() {
         this.removeListeners();
         this.button.self.addEventListener('click', this.serverMessage);
     }
 
+<<<<<<< HEAD
     /**
      * Отображение ошибки
      */
+=======
+>>>>>>> origin/main
     serverMessage() {
         renderServerMessage('Для оформления заказа установите адрес в профиле', false);
     }
 
 
     /**
+<<<<<<< HEAD
      * Подписка на события
+=======
+     *
+>>>>>>> origin/main
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.UPDATE_CART_RESULT, this.updateOrderResult);
@@ -129,9 +169,12 @@ export default class OrderResults {
         eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
     }
 
+<<<<<<< HEAD
     /**
      * Отписка от событий
      */
+=======
+>>>>>>> origin/main
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.UPDATE_CART_RESULT, this.updateOrderResult);
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
@@ -142,7 +185,11 @@ export default class OrderResults {
 
 
     /**
+<<<<<<< HEAD
      * Удаление листенеров
+=======
+     *
+>>>>>>> origin/main
      */
     removeListeners() {
         this.button.self.removeEventListener('click', this.updateOrder);

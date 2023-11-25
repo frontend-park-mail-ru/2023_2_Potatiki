@@ -14,10 +14,13 @@ export default class SearchForm {
     #parent;
     #config;
     #isAfterBegin;
+<<<<<<< HEAD
 
     searchInput;
     submit;
     suggest;
+=======
+>>>>>>> origin/main
 
     /**
      * Конструктор класса
@@ -29,6 +32,7 @@ export default class SearchForm {
         this.#parent = parent;
         this.#config = config;
         this.#isAfterBegin = isAfterBegin;
+<<<<<<< HEAD
     }
 
     /**
@@ -109,6 +113,8 @@ export default class SearchForm {
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.RECIEVE_SUGGEST, this.renderSuggest);
+=======
+>>>>>>> origin/main
     }
 
 

@@ -1,5 +1,9 @@
 import Header from '../../components/header/header.js';
 import template from './product-page.hbs';
+<<<<<<< HEAD
+=======
+import {config} from '../../../config.js';
+>>>>>>> origin/main
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {ProductsActions} from '../../actions/products.js';
@@ -9,6 +13,7 @@ import './product-page.scss';
 import Product from '../../components/product/product.js';
 
 /**
+<<<<<<< HEAD
  * Класс страницы товара
  */
 export default class ProductPage {
@@ -26,6 +31,31 @@ export default class ProductPage {
    */
     constructor(parent, params) {
         this.#parent = parent;
+=======
+ * Класс главной страницы
+ */
+export default class ProductPage {
+    #parent;
+
+    #config;
+
+    #productId;
+
+    loadedProducts;
+
+    endOfPage;
+
+    timer;
+
+
+    /**
+   * Конструктор класса
+   * @param {Element} parent Родительский элемент
+   */
+    constructor(parent, params) {
+        this.#parent = parent;
+        this.#config = config.mainPage;
+>>>>>>> origin/main
         this.endOfPage = false;
         this.timer = null;
         this.#productId = params.idParam;
@@ -38,11 +68,14 @@ export default class ProductPage {
         return document.getElementById('product-page');
     }
 
+<<<<<<< HEAD
     /**
      * Взятие конфига для отображения карточки товара
      * @param {Object} data Данные о товаре
      * @return {Object} Конфиг
      */
+=======
+>>>>>>> origin/main
     getConfig(data) {
         return {
             id: `category-product-${data.productId}`,
@@ -75,10 +108,13 @@ export default class ProductPage {
         };
     }
 
+<<<<<<< HEAD
     /**
      * Отображение карточки товара
      * @param {Object} body Данные для отображения продукта
      */
+=======
+>>>>>>> origin/main
     renderProduct(body) {
         if (!body) {
             return;
@@ -87,9 +123,12 @@ export default class ProductPage {
         product.render();
     }
 
+<<<<<<< HEAD
     /**
      * Перенаправление на страницу 404
      */
+=======
+>>>>>>> origin/main
     redirectToNotFound() {
         router.go({url: notFoundRoute});
     }
@@ -97,16 +136,23 @@ export default class ProductPage {
     redirectToNotFound = this.redirectToNotFound.bind(this);
     renderProduct = this.renderProduct.bind(this);
 
+<<<<<<< HEAD
     /**
      * Подписка на события
      */
+=======
+>>>>>>> origin/main
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.NOT_FOUND, this.redirectToNotFound);
         eventEmmiter.subscribe(Events.PRODUCT, this.renderProduct);
     }
 
     /**
+<<<<<<< HEAD
     * Отписка от событий
+=======
+    *
+>>>>>>> origin/main
     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.PRODUCT, this.renderProduct);
@@ -114,7 +160,11 @@ export default class ProductPage {
     }
 
     /**
+<<<<<<< HEAD
     * Отрисовка страницы товара
+=======
+    * Отрисовка страницы регистрации
+>>>>>>> origin/main
     */
     render() {
         this.#parent.innerHTML = template();

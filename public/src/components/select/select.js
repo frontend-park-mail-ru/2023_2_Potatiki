@@ -2,11 +2,21 @@ import template from './select.hbs';
 import './select.scss';
 
 /**
+<<<<<<< HEAD
  * Класс компонента выпадающего списка
  */
 export default class Select {
     #parent;
     #config;
+=======
+ * Класс кнопки
+ */
+export default class Select {
+    #parent;
+
+    #config;
+
+>>>>>>> origin/main
     #isAfterBegin;
 
 
@@ -30,7 +40,11 @@ export default class Select {
     }
 
     /**
+<<<<<<< HEAD
    * Отрисовка компонента
+=======
+   * Отрисовка компонента кнопки
+>>>>>>> origin/main
    */
     render() {
         const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';

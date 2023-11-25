@@ -9,6 +9,7 @@ import {Events} from '../../config/events.js';
 import Button from '../button/button.js';
 
 /**
+<<<<<<< HEAD
  * Класс компонента карточки товара на странице товара
  */
 export default class Product {
@@ -17,6 +18,19 @@ export default class Product {
     #isAfterBegin;
 
     button;
+=======
+ * Класс компонента карточки товара
+ */
+export default class Product {
+    #parent;
+
+    #config;
+
+    #isAfterBegin;
+
+    button;
+
+>>>>>>> origin/main
     toCartButton;
 
     /**
@@ -31,26 +45,35 @@ export default class Product {
         this.#isAfterBegin = isAfterBegin;
     }
 
+<<<<<<< HEAD
     /**
      * Взятие элемента компонента
      */
+=======
+>>>>>>> origin/main
     get self() {
         return document.querySelector(`#${this.#config.id}`);
     }
 
+<<<<<<< HEAD
     /**
      * Редиреrт на стриницу корзины
      * @param {Event} event Событие вызывающее редирект
      */
+=======
+>>>>>>> origin/main
     redirectToCart(event) {
         event.preventDefault();
         router.go({url: cartRoute});
     }
 
+<<<<<<< HEAD
     /**
      * Отрисовка кнопки добавления в корзину
      * @param {Object} data Данные для нахождения нужной карточки товара
      */
+=======
+>>>>>>> origin/main
     renderToCartButton(data) {
         if (data.productId != this.#config.data.productId) {
             return;
@@ -67,10 +90,13 @@ export default class Product {
         this.toCartButton.self.addEventListener('click', this.redirectToCart);
     }
 
+<<<<<<< HEAD
     /**
      * Удаление кнопки добавления в корзину
      * @param {Obkect} data Данные для нахождения нужной карточки товара
      */
+=======
+>>>>>>> origin/main
     removeToCartButton(data) {
         if (data.productId != this.#config.data.productId) {
             return;
@@ -87,9 +113,12 @@ export default class Product {
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
 
+<<<<<<< HEAD
     /**
      * Подписка на события
      */
+=======
+>>>>>>> origin/main
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.ADD_PRODUCT_SUCCESS, this.renderToCartButton);
         eventEmmiter.subscribe(Events.DEL_PRODUCT_SUCCESS, this.removeToCartButton);
@@ -97,9 +126,12 @@ export default class Product {
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
+<<<<<<< HEAD
     /**
      * Отписка от событий
      */
+=======
+>>>>>>> origin/main
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.ADD_PRODUCT_SUCCESS, this.renderToCartButton);
         eventEmmiter.unsubscribe(Events.DEL_PRODUCT_SUCCESS, this.removeToCartButton);
@@ -107,9 +139,12 @@ export default class Product {
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
+<<<<<<< HEAD
     /**
      * Удалеие листенеров
      */
+=======
+>>>>>>> origin/main
     removeListeners() {
         this.toCartButton?.self?.removeEventListener('click', this.redirectToCart);
     }

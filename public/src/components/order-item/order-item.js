@@ -4,7 +4,11 @@ import template from './order-item.hbs';
 import {productRoute} from '../../config/urls.js';
 
 /**
+<<<<<<< HEAD
  * Класс компонента карточки заказа на стрнице заказов
+=======
+ * Класс компонента карточки товара в заказе
+>>>>>>> origin/main
  */
 export default class OrderItem {
     #parent;
@@ -21,11 +25,15 @@ export default class OrderItem {
         this.#config = config;
     }
 
+<<<<<<< HEAD
     /**
      * Взятие конфига для отрисовки компонента
      * @param {Object} data Данные для создания конфига
      * @return {Object} Конфиг
      */
+=======
+
+>>>>>>> origin/main
     getConfig(data) {
         return {
             id: `${this.#config.id}-order-product-${data.productId}`,

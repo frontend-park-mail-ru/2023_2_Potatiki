@@ -7,6 +7,7 @@ import {Events} from '../../config/events.js';
 import CountManagement from '../countManagement/count-management.js';
 
 /**
+<<<<<<< HEAD
  * Класс кнопки добавления в корзину
  */
 export default class AddToCartButton {
@@ -24,6 +25,26 @@ export default class AddToCartButton {
    * @param {Object} data Данные о товаре, которому принадлежит кнопка
    * @param {String} parentId Id карточки товара
    * @param {String} elClass Класс кнопки
+=======
+ * Класс формы авторизации
+ */
+export default class AddToCartButton {
+    #parent;
+
+    #data;
+
+    #parentId;
+
+    button;
+
+    management;
+
+    #elClass;
+
+    /**
+   * Конструктор класса
+   * @param {Element} parent Родительский компонент
+>>>>>>> origin/main
    */
     constructor(parent, data, parentId, elClass) {
         this.#parent = parent;
@@ -33,6 +54,7 @@ export default class AddToCartButton {
     }
 
     /**
+<<<<<<< HEAD
      * Взятие элемента кнопки
      */
     get self() {
@@ -44,6 +66,14 @@ export default class AddToCartButton {
      * Функция, возвращающая конфинг для компонента кнопки для добавления в корзину
      * @return {String} Конфига для компонента кнопки
      */
+=======
+     *
+     */
+    get self() {
+        return document.querySelector(`#add-to-cart-item-${this.#parentId}-${this.#data.productId}`);
+    }
+
+>>>>>>> origin/main
     getButtonConfig() {
         return {
             id: `add-to-cart-btn-${this.#parentId}-${this.#data.productId}`,
@@ -55,10 +85,13 @@ export default class AddToCartButton {
         };
     }
 
+<<<<<<< HEAD
     /**
      * Обновление количества товаров, добавленных в корзину
      * @param {Object} data
      */
+=======
+>>>>>>> origin/main
     updateManagement(data) {
         if (data.productId !== this.#data.productId || !this.self) {
             return;
@@ -70,10 +103,13 @@ export default class AddToCartButton {
         this.management.count.textContent = this.#data.quantity;
     }
 
+<<<<<<< HEAD
     /**
      * Отрисовка кнопки
      * @param {Object} data ?
      */
+=======
+>>>>>>> origin/main
     renderButton(data) {
         if (data.productId !== this.#data.productId || !this.self) {
             return;
@@ -90,11 +126,14 @@ export default class AddToCartButton {
         this.button.self.addEventListener('click', this.addToCart);
     }
 
+<<<<<<< HEAD
     /**
      * Взятия конфига для отрисовки компонента числа добавленных товаров
      * @param {Number} quantity Количество товара
      * @return {String} Конфиг
      */
+=======
+>>>>>>> origin/main
     getManagmentConfig(quantity) {
         return {
             id: `${this.#parentId}-count-management-${this.#data.productId}`,
@@ -115,10 +154,13 @@ export default class AddToCartButton {
         };
     }
 
+<<<<<<< HEAD
     /**
      * Отрисовака компонента подсчета количества товара
      * @param {Object} data Данные для отрисовки
      */
+=======
+>>>>>>> origin/main
     renderCountManagement(data) {
         if (data.productId !== this.#data.productId || !this.self) {
             return;
@@ -134,28 +176,37 @@ export default class AddToCartButton {
         this.management.right.addEventListener('click', this.increaseQuantity);
     }
 
+<<<<<<< HEAD
     /**
      * Добавление товара в корзину
      * @param {Event} event Событие, вызывающее добавление в корзину
      */
+=======
+>>>>>>> origin/main
     addToCart(event) {
         event.preventDefault();
         CartActions.addProductLocal(this.#data);
     }
 
+<<<<<<< HEAD
     /**
      * Уменьшение количества товара
      * @param {Event} event Событие, вызывающее уменьшение количества
      */
+=======
+>>>>>>> origin/main
     decreaseQuantity(event) {
         event.preventDefault();
         CartActions.changeQuantityLocal(this.#data, true);
     }
 
+<<<<<<< HEAD
     /**
      * Увеличение количества товара
      * @param {Event} event Событие, вызывающее увлечение количества
      */
+=======
+>>>>>>> origin/main
     increaseQuantity(event) {
         event.preventDefault();
         CartActions.changeQuantityLocal(this.#data);
@@ -172,7 +223,11 @@ export default class AddToCartButton {
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
 
     /**
+<<<<<<< HEAD
      * Подписка на события
+=======
+     *
+>>>>>>> origin/main
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.DEL_PRODUCT_SUCCESS, this.renderButton);
@@ -183,7 +238,11 @@ export default class AddToCartButton {
     }
 
     /**
+<<<<<<< HEAD
      * Отписка от событий
+=======
+     *
+>>>>>>> origin/main
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.DEL_PRODUCT_SUCCESS, this.renderButton);
@@ -194,7 +253,11 @@ export default class AddToCartButton {
     }
 
     /**
+<<<<<<< HEAD
      * Удаление листенеров
+=======
+     *
+>>>>>>> origin/main
      */
     removeListeners() {
         if (this.management) {
@@ -206,8 +269,13 @@ export default class AddToCartButton {
     }
 
     /**
+<<<<<<< HEAD
      * Отрисовка компонента
      */
+=======
+   * Отрисовка компонента
+   */
+>>>>>>> origin/main
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',

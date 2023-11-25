@@ -10,7 +10,10 @@ import {Events} from '../../config/events.js';
 import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
+<<<<<<< HEAD
 import CartIcon from '../cartIcon/cart-icon.js';
+=======
+>>>>>>> origin/main
 
 /**
  * Класс хедера страницы
@@ -20,10 +23,22 @@ export default class Header {
     #config;
 
     cart;
+<<<<<<< HEAD
     catalogButton;
     catalog;
     logoutButton;
     user;
+=======
+
+    catalogButton;
+
+    catalog;
+
+    logoutButton;
+
+    user;
+
+>>>>>>> origin/main
 
     /**
    * Конструктор класса
@@ -32,6 +47,93 @@ export default class Header {
     constructor(parent) {
         this.#parent = parent;
         this.#config = config.mainPage.header;
+<<<<<<< HEAD
+=======
+    }
+
+    get self() {
+        return document.getElementById('header');
+    }
+
+    updateCartCount(count) {
+        this.cart.self.querySelector('.cart-count').textContent = count;
+    }
+
+    logout(event) {
+        event.preventDefault();
+        UserActions.logout();
+    }
+
+    renderCatalog() {
+        this.catalog = new Catalog();
+        this.catalog.render();
+        this.catalogButton.img.src = '/static/images/cross.svg';
+        this.catalogButton.self.removeEventListener('click', this.renderCatalog);
+        this.catalogButton.self.addEventListener('click', this.hideCatalog);
+    }
+
+    hideCatalog() {
+        this.catalogButton.img.src = '/static/images/burger.svg';
+        this.catalogButton.self.removeEventListener('click', this.hideCatalog);
+        this.catalogButton.self.addEventListener('click', this.renderCatalog);
+        this.catalog.self.remove();
+        this.catalog.unsubscribeToEvents();
+    }
+
+    hideCatalog = this.hideCatalog.bind(this);
+    renderCatalog = this.renderCatalog.bind(this);
+    updateCartCount = this.updateCartCount.bind(this);
+    removeListeners = this.removeListeners.bind(this);
+    unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
+    logout = this.logout.bind(this);
+    authorizedHeader = this.authorizedHeader.bind(this);
+    unauthorizedHeader = this.unauthorizedHeader.bind(this);
+
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
+        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
+    }
+
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.unsubscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
+        eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
+    }
+
+    removeListeners() {
+        this.logoutButton?.removeEventListener('click', logout);
+    }
+
+    unauthorizedHeader() {
+        this.user.self.remove();
+        this.user = new Link(this.self.querySelector('.header__icons-container'), this.#config.login);
+        this.user.render();
+
+        this.removeLogoutButton();
+    }
+
+    removeLogoutButton() {
+        if (this.logoutButton) {
+            this.logoutButton.self.removeEventListener('click', this.logout);
+            this.logoutButton.self.remove();
+        }
+    }
+
+    authorizedHeader() {
+        this.user.self.remove();
+        this.user = new Link(this.self.querySelector('.header__icons-container'), this.#config.profile);
+        this.user.render();
+
+        this.removeLogoutButton();
+        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'), this.#config.logout);
+        this.logoutButton.render();
+        this.logoutButton.self.addEventListener('click', this.logout);
+>>>>>>> origin/main
     }
 
     /**
@@ -179,8 +281,12 @@ export default class Header {
         );
         favorite.render();
 
+<<<<<<< HEAD
         this.cart = new CartIcon(
             self.querySelector('.header__icons-container'), this.#config.basket);
+=======
+        this.cart = new Link(self.querySelector('.header__icons-container'), this.#config.basket);
+>>>>>>> origin/main
         this.cart.render();
 
         const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
