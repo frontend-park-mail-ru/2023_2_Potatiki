@@ -3,13 +3,14 @@ import template from './reviews-page.hbs';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import './reviews-page.scss';
-import CategoryProduct from '../../components/category-product/category-product.js';
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
 import {notFoundRoute, productRoute} from '../../config/urls.js';
 import ReviewProduct from '../../components/reviewProduct/review-product.js';
 import ReviewsSummary from '../../components/reviewsSummary/reviews-summary.js';
 import ReviewForm from '../../components/reviewForm/review-form.js';
+import Review from '../../components/review/review.js';
+import CsatForm from '../../components/csatForm/csat-form.js';
 
 /**
  * Класс страницы товаров категории
@@ -53,31 +54,19 @@ export default class ReviewsPage {
      */
     getReviewsConfig(data) {
         return {
-            id: `review-card-${data.productId}`,
-            category: data.categoryName,
-            categoryHref: `/category/${data.productId}`,
+            id: `review-card-${data.profileName}`,
             data: data,
-            quantity: data.quantity,
+            profileName: data.profileName,
+            advantages: data.advantages,
+            disadvantages: data.disadvantages,
+            comments: data.comments,
+            date: data.date,
             img: {
                 imgSrc: '/static/images/' + data.img,
                 imgClass: 'category-card__img',
                 href: productRoute + '/' + data.productId,
             },
-            name: {
-                text: data.productName,
-                href: productRoute + '/' + data.productId,
-            },
-            button: {
-                class: 'product-card__button_size_in-cart button_disabled',
-                type: 'button',
-                id: `product-${data.id}-button`,
-                text: 'В корзину',
-                imgSrc: '/static/images/cart-icon.svg',
-            },
-            starHref: '/static/images/star-purple.svg',
-            productRate: data.rating,
-            reviewsCount: `0 отзывов`,
-            price: data.price.toLocaleString() + ' ₽',
+            rate: data.rate,
         };
     }
 
@@ -104,9 +93,9 @@ export default class ReviewsPage {
             return;
         }
         body.forEach((element) => {
-            const product = new CategoryProduct(
-                this.self.querySelector('.reviews-container'), this.getReviewsConfig(element));
-            product.render();
+            // const product = new Review(
+            //     this.self.querySelector('.reviews-container'), this.getReviewsConfig(element));
+            // product.render();
         });
         this.loadedReviews += this.reviewsPerRequest;
     }
@@ -222,10 +211,13 @@ export default class ReviewsPage {
 
         reviewSummary.render();
 
+        const csatForm = new CsatForm(this.self, 'Оцените наш сайт');
+        csatForm.render();
 
-        // this.loadedReviews = 0;
-        // ProductsActions.getReviews(this.loadedReviews,
-        //     this.reviewsPerRequest, this.#productId);
+
+        this.loadedReviews = 0;
+        ProductsActions.getReviews(this.loadedReviews,
+            this.reviewsPerRequest, this.#productId);
 
         this.addListeners();
     }

@@ -53,4 +53,5 @@ export const Events = {
     REDIRECT: 'REDIRECT',
     REVIEW_FORM: 'REVIEW_FORM',
     REVIEWS_SUMMARY: 'REVIEWS_SUMMARY',
+    REVIEWS: 'REVIEWS',
 };

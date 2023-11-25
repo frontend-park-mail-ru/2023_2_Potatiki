@@ -32,6 +32,6 @@ export const reviewForm = {
     close: {
         class: 'review-form__close fake-button',
         id: 'close-review-button',
-        imgSrc: '/static/images/cross.svg',
+        imgSrc: '/static/images/black-cross.svg',
     },
 };

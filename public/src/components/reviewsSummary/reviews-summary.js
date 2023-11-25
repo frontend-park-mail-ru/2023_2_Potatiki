@@ -7,6 +7,7 @@ import {UserActions} from '../../actions/user';
 import {ProductsActions} from '../../actions/products';
 import {rateCase} from '../../modules/utils';
 import RateRow from '../rateRow/rate-row';
+import StarsInput from '../starsInput/stars-input';
 
 /**
  * Класс компонента информации об отзывах
@@ -113,6 +114,9 @@ export default class ReviewsSummary {
             destination,
             template(),
         );
+
+        const testStars = new StarsInput(this.self, this.#productId);
+        testStars.render();
 
 
         this.subscribeToEvents();

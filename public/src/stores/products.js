@@ -216,7 +216,20 @@ class ProductsStore {
     }
 
     getReviews(id) {
-
+        const data = [];
+        for (let i = 0; i < 10; i++) {
+            data.push(
+                {
+                    profileName: userStore.loginName + i,
+                    date: new Date(),
+                    rate: 4.4,
+                    advantages: 'lalala',
+                    disadvantages: 'lalala',
+                    comments: 'bimbam',
+                },
+            );
+        }
+        eventEmmiter.emit(Events.REVIEWS, data);
     }
 
     getReviewForm() {

@@ -41,14 +41,26 @@ export default class StarsRow {
         return 'stars-row-' + this.#id;
     }
 
+    getStar(index) {
+        return this.self.querySelector(`#${this.id}-star-${index}`);
+    }
+
+    setStarGrey(index) {
+        this.getStar(index).src = greyStarSrc;
+    }
+
+    setStarYellow(index) {
+        this.getStar(index).src = yellowStarSrc;
+    }
+
     get sources() {
         const sourcesArray = [];
         const roundedRate = Math.round(this.#rate);
         for (let i = 0; i < 5; i++) {
             if (i < roundedRate) {
-                sourcesArray.push(yellowStarSrc);
+                sourcesArray.push({src: yellowStarSrc, id: `${this.id}-star-${i}`});
             } else {
-                sourcesArray.push(greyStarSrc);
+                sourcesArray.push({src: greyStarSrc, id: `${this.id}-star-${i}`});
             }
         }
         return sourcesArray;
