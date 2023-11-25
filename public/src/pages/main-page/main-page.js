@@ -89,6 +89,9 @@ export default class MainPage {
         ProductsActions.getProducts(30, 30, this.#config.popularCarousel);
 
         const count = localStorage.getItem('count');
+        if (!count) {
+            count = 0;
+        }
         if (count % 5 === 0) {
             const iframe = new IFrame();
             iframe.render();
