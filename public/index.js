@@ -5,6 +5,7 @@ import {eventEmmiter} from './src/modules/event-emmiter';
 import {Events} from './src/config/events';
 import {userStore} from './src/stores/user';
 import {renderServerMessage, renderWarningMessage} from './src/modules/server-message';
+import {csatStore} from './src/stores/csat';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js', {scope: '/'})
@@ -17,6 +18,8 @@ if ('serviceWorker' in navigator) {
 }
 
 const ustore = userStore;
+const csstore = csatStore;
+
 
 if (navigator.onLine) {
     UserActions.setOnline();

@@ -1,0 +1,10 @@
+.stars-input {
+    width: 100%;
+    display: grid;
+    gap: 5px;
+}
+
+.stars-input__error-place {
+    color: var(--color-incorrect);
+    font-size: 16px;
+}   

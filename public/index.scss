@@ -5,33 +5,28 @@
     padding: 0;
 }
 
-@media screen and (min-width: 300px) {
-    html {
-        font-size: calc(0.3vw + 0.7vh);
-        height: 100%;
-    }
-}
-
-@media screen and (min-width: 1000px) {
-    html {
-        font-size: 12px;
-        height: 100%;
-    }
+html {
+    font-size: 20px;
 }
 
 body {
+    height: 348px;
+    width: 448px;
     overflow: hidden;
 }
 
 
 #container-main {
     height: 100%;
+    width: 100%;
 }
 
 #root {
     display: grid;
     grid-template-rows: auto 1px;
-    height: 100vh;
+    // height: 100vh;
+    height: 100%;
+    width: 100%;
 }
 
 .main-area {

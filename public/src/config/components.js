@@ -35,3 +35,18 @@ export const reviewForm = {
         imgSrc: '/static/images/black-cross.svg',
     },
 };
+
+export const csatForm = {
+
+    submit: {
+        class: 'csat-form__submit',
+        id: 'send-review-button',
+        text: 'Отправить отзыв',
+    },
+
+    close: {
+        class: 'csat-form__close fake-button',
+        id: 'close-review-button',
+        imgSrc: '/static/images/black-cross.svg',
+    },
+};

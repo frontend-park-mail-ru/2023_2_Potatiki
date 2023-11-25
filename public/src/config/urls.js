@@ -1,6 +1,10 @@
 // export const baseUrl = 'https://www.zuzu-market.ru/api/';
 export const baseUrl = 'http://localhost:8096/api/';
+export const myDomen = 'http://localhost:8084/';
+export const parentDomen = 'http://localhost:8083/';
 
+
+export const getQuestionsUrl = 'survey/get?surveyID=1e461708-6b04-45b9-a4fa-77c32c14d982';
 export const signupUrl = 'auth/signup';
 export const loginUrl = 'auth/signin';
 export const logoutUrl = 'auth/logout';
