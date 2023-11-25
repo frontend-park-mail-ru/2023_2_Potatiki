@@ -1,25 +1,30 @@
 import Header from '../../components/header/header.js';
-import template from './category-page.hbs';
+import template from './reviews-page.hbs';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import './category-page.scss';
+import './reviews-page.scss';
 import CategoryProduct from '../../components/category-product/category-product.js';
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
 import {notFoundRoute, productRoute} from '../../config/urls.js';
+import ReviewProduct from '../../components/reviewProduct/review-product.js';
+import ReviewsSummary from '../../components/reviewsSummary/reviews-summary.js';
+import ReviewForm from '../../components/reviewForm/review-form.js';
 
 /**
  * Класс страницы товаров категории
  */
-export default class CategoryPage {
+export default class ReviewsPage {
     #parent;
     #categoryName;
-    #categoryId;
+    #productId;
+    #productData;
 
-    loadedProducts;
+    loadedReviews;
     endOfPage;
     timer;
-    productsPerRequest;
+    reviewsPerRequest;
+    reviewForm;
 
     /**
    * Конструктор класса
@@ -30,27 +35,27 @@ export default class CategoryPage {
         this.#parent = parent;
         this.endOfPage = false;
         this.timer = null;
-        this.#categoryId = params.idParam;
-        this.productsPerRequest = 5;
+        this.#productId = params.idParam;
+        this.reviewsPerRequest = 5;
     }
 
     /**
     * Получение элемента страницы
     */
     get self() {
-        return document.getElementById('category-page');
+        return document.getElementById('reviews-page');
     }
 
     /**
-     * Взятие конфига для отобрадения карточки товара категории
+     * Взятие конфига для отображения карточки отзыва
      * @param {Object} data Данные для создания конфига
      * @return {Object} Конфиг
      */
-    getConfig(data) {
+    getReviewsConfig(data) {
         return {
-            id: `category-product-${data.productId}`,
+            id: `review-card-${data.productId}`,
             category: data.categoryName,
-            categoryHref: `/category/${data.categoryId}`,
+            categoryHref: `/category/${data.productId}`,
             data: data,
             quantity: data.quantity,
             img: {
@@ -76,33 +81,34 @@ export default class CategoryPage {
         };
     }
 
-    /**
-     * Изменение названия категории
-     * @param {String} name Новое название
-     */
-    updateCategoryName(name) {
-        console.log(document.title);
-        document.title = name;
-        console.log(document.title);
+    // /**
+    //  * Изменение названия категории
+    //  * @param {String} name Новое название
+    //  */
+    // updateProductInfo(name) {
+    //     this.self.querySelector('.page-title').textContent = name;
+    // }
 
-        this.self.querySelector('.page-title').textContent = name;
+    saveProduct(data) {
+        this.#productData = data;
     }
 
     /**
      * Отображение продуктов категории
      * @param {Object} body Данные о продуктах категории
      */
-    renderProducts(body) {
+    renderReviews(body) {
         if (!body || !body.length) {
-            eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
+            eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderReviews);
             this.endOfPage = true;
             return;
         }
         body.forEach((element) => {
             const product = new CategoryProduct(
-                this.self.querySelector('.category-products-container'), this.getConfig(element));
+                this.self.querySelector('.reviews-container'), this.getReviewsConfig(element));
             product.render();
         });
+        this.loadedReviews += this.reviewsPerRequest;
     }
 
     /**
@@ -122,13 +128,21 @@ export default class CategoryPage {
                 return;
             }
             if (position >= threshold) {
-                ProductsActions.getCategoryProducts(
-                    this.loadedProducts, this.productsPerRequest, this.#categoryId);
-                this.loadedProducts += this.productsPerRequest;
+                // ProductsActions.getReviews(
+                //     this.loadedReviews, this.reviewsPerRequest, this.#productId);
             }
             clearTimeout(this.timer);
             this.timer = null;
         }, 250);
+    }
+
+    renderReviewForm() {
+        console.log('render form');
+        if (this.reviewForm?.self) {
+            return;
+        }
+        this.reviewForm = new ReviewForm(this.#parent, this.#productData);
+        this.reviewForm.render();
     }
 
     /**
@@ -138,18 +152,23 @@ export default class CategoryPage {
         router.go({url: notFoundRoute});
     }
 
+    saveProduct = this.saveProduct.bind(this);
+    renderReviewForm = this.renderReviewForm.bind(this);
     redirectToNotFound = this.redirectToNotFound.bind(this);
     checkPosition = this.checkPosition.bind(this);
-    renderProducts = this.renderProducts.bind(this);
-    updateCategoryName = this.updateCategoryName.bind(this);
+    renderReviews = this.renderReviews.bind(this);
+    // updateProductInfo = this.updateProductInfo.bind(this);
 
     /**
      * Подписка на события
      */
     subscribeToEvents() {
+        eventEmmiter.subscribe(Events.PRODUCT, this.saveProduct);
         eventEmmiter.subscribe(Events.NOT_FOUND, this.redirectToNotFound);
-        eventEmmiter.subscribe(Events.CATEGORY_PRODUCTS, this.renderProducts);
-        eventEmmiter.subscribe(Events.CATEGORY_NAME, this.updateCategoryName);
+        eventEmmiter.subscribe(Events.REVIEWS, this.renderReviews);
+        eventEmmiter.subscribe(Events.REVIEW_FORM, this.renderReviewForm);
+
+        // eventEmmiter.subscribe(Events.PRODUCT, this.updateProductInfo);
     }
 
     /**
@@ -172,25 +191,42 @@ export default class CategoryPage {
     * Отриска от событий
     */
     unsubscribeToEvents() {
-        eventEmmiter.unsubscribe(Events.CATEGORY_PRODUCTS, this.renderProducts);
+        eventEmmiter.unsubscribe(Events.PRODUCT, this.saveProduct);
         eventEmmiter.unsubscribe(Events.NOT_FOUND, this.redirectToNotFound);
-        eventEmmiter.unsubscribe(Events.CATEGORY_NAME, this.updateCategoryName);
+        eventEmmiter.unsubscribe(Events.REVIEWS, this.renderReviews);
+        eventEmmiter.unsubscribe(Events.REVIEW_FORM, this.renderReviewForm);
+
+        // eventEmmiter.unsubscribe(Events.PRODUCT, this.updateProductInfo);
     }
 
     /**
     * Отрисовка страницы продуктов категории
     */
     render() {
-        this.#parent.innerHTML = template({category: this.#categoryName});
+        this.#parent.innerHTML = template();
 
         const header = new Header();
         header.render();
         this.subscribeToEvents();
-        this.loadedProducts = 0;
-        ProductsActions.getCategoryProducts(this.loadedProducts,
-            this.productsPerRequest, this.#categoryId);
-        ProductsActions.getCategoryName(this.#categoryId);
-        this.loadedProducts += this.productsPerRequest;
+
+        const productInfo = new ReviewProduct(
+            this.self.querySelector('.reviews-page__product-container'),
+            this.#productId,
+        );
+        productInfo.render();
+
+        const reviewSummary = new ReviewsSummary(
+            this.self.querySelector('.reviews-page__reviews-container'),
+            this.#productId,
+        );
+
+        reviewSummary.render();
+
+
+        // this.loadedReviews = 0;
+        // ProductsActions.getReviews(this.loadedReviews,
+        //     this.reviewsPerRequest, this.#productId);
+
         this.addListeners();
     }
 }

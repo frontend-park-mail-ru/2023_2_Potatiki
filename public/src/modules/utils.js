@@ -63,3 +63,28 @@ export function parseCategories(body) {
     });
     return [categories, categoriesMap];
 }
+
+/**
+ * Получение падежа слова "отзыв" в зависимости от количества
+ * @param {Number} count Количество отзывов
+ * @returns
+ */
+export function rateCase(count) {
+    console.log(count);
+    switch (count % 10) {
+    case 1:
+        if (count % 100 === 11) {
+            return 'отзывов';
+        }
+        return 'отзыв';
+    case 2:
+    case 3:
+    case 4:
+        if (count % 100 > 11 && count % 100 < 15) {
+            return 'отзывов';
+        }
+        return 'отзыва';
+    default:
+        return 'отзывов';
+    }
+}

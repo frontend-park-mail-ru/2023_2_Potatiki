@@ -6,6 +6,7 @@ import {ProductsActionsType} from '../actions/products';
 import {categoryProductsUrl,
     getAllCategoriesUrl, getProductUrl, getProductsUrl} from '../config/urls';
 import {parseCategories, reviver} from '../modules/utils';
+import {userStore} from './user';
 
 /**
  * Класс хранилище для товаров
@@ -51,6 +52,15 @@ class ProductsStore {
                 break;
             case ProductsActionsType.GET_PRODUCT:
                 this.getProduct(action.payload.id);
+                break;
+            case ProductsActionsType.GET_REVIEWS:
+                this.getReviews(action.payload.id);
+                break;
+            case ProductsActionsType.GET_REVIEW_FORM:
+                this.getReviewForm(action.payload.id);
+                break;
+            case ProductsActionsType.GET_REVIEWS_SUMMARY:
+                this.getReviewsSummary(action.payload.id);
                 break;
             default:
                 break;
@@ -203,6 +213,32 @@ class ProductsStore {
         default:
             break;
         }
+    }
+
+    getReviews(id) {
+
+    }
+
+    getReviewForm() {
+        if (!userStore.isAuth) {
+            return;
+        }
+        eventEmmiter.emit(Events.REVIEW_FORM);
+    }
+
+    getReviewsSummary() {
+        const response = {
+            count: 20,
+            rate: 4.5,
+            rows: [
+                2,
+                3,
+                4,
+                5,
+                6,
+            ],
+        };
+        eventEmmiter.emit(Events.REVIEWS_SUMMARY, response);
     }
 }
 

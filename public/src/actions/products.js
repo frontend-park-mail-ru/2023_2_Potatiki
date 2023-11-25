@@ -6,6 +6,9 @@ export const ProductsActionsType = {
     GET_CATEGORY_PRODUCTS: 'GET_CATEGORY_PRODUCTS',
     GET_CATEGORY_NAME: 'GET_CATEGORY_NAME',
     GET_PRODUCT: 'GET_PRODUCT',
+    GET_REVIEWS: 'GET_REVIEWS',
+    GET_REVIEW_FORM: 'GET_REVIEW_FORM',
+    GET_REVIEWS_SUMMARY: 'GET_REVIEWS_SUMMARY',
 };
 
 export const ProductsActions = {
@@ -40,6 +43,27 @@ export const ProductsActions = {
     getProduct(id) {
         AppDispatcher.dispatch({
             type: ProductsActionsType.GET_PRODUCT,
+            payload: {id},
+        });
+    },
+
+    getReviews(id) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_REVIEWS,
+            payload: {id},
+        });
+    },
+
+    getReviewForm(id) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_REVIEW_FORM,
+            payload: {id},
+        });
+    },
+
+    getReviewsSummary(id) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_REVIEWS_SUMMARY,
             payload: {id},
         });
     },

@@ -4,30 +4,24 @@ import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
-import {notFoundRoute, productRoute} from '../../config/urls.js';
+import {notFoundRoute, productRoute, reviewRoute} from '../../config/urls.js';
 import './product-page.scss';
 import Product from '../../components/product/product.js';
 
 /**
- * Класс страницы товара
+ * Класс страницы отзывов
  */
 export default class ProductPage {
     #parent;
     #productId;
 
-    loadedProducts;
-    endOfPage;
-    timer;
-
     /**
    * Конструктор класса
-   * @param {Element} parent Родительский элемен
-   * @param {Object} params Даннае о товаре
+   * @param {Element} parent Родительский элемент
+   * @param {Object} params Данные о товаре
    */
     constructor(parent, params) {
         this.#parent = parent;
-        this.endOfPage = false;
-        this.timer = null;
         this.#productId = params.idParam;
     }
 
@@ -71,6 +65,7 @@ export default class ProductPage {
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating,
             reviewsCount: `${0} отзывов`,
+            reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
@@ -83,6 +78,7 @@ export default class ProductPage {
         if (!body) {
             return;
         }
+        document.title = body.productName;
         const product = new Product(this.self, this.getConfig(body));
         product.render();
     }

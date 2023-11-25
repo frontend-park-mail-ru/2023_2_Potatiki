@@ -1,0 +1,16 @@
+.review-product {
+    display: grid;
+    grid-template-columns: 1fr 20fr 6fr;
+    border-bottom: 2px solid var(--color-stroke);
+    padding-bottom: 1rem;
+    align-items: center;
+}
+
+.review-product__name {
+    padding-left: 4rem;
+    align-self: center;
+}
+
+.review-product__name-text {
+    font-size: 3rem;
+}

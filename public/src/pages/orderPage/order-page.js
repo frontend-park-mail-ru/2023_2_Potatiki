@@ -58,7 +58,7 @@ export default class OrderPage {
      * Перенаправление на страницу авторизации
      */
     redirectToLogin() {
-        router.go({url: loginRoute});
+        router.go({url: loginRoute}, true);
     }
 
     /**
