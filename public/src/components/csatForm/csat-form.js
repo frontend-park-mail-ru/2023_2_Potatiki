@@ -1,10 +1,6 @@
 import './csat-form.scss';
 import Button from '../button/button.js';
-import Input from '../input/input.js';
-import Link from '../link/link.js';
 import template from './csat-form.hbs';
-import {UserActions} from '../../actions/user.js';
-import {config} from '../../../config.js';
 import router from '../../modules/router.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';

@@ -1,3 +1,4 @@
+import CsatForm from '../../components/csatForm/csat-form';
 import template from './CSATPage.hbs';
 import './CSATPage.scss';
 
@@ -6,6 +7,8 @@ import './CSATPage.scss';
  */
 export default class CSATPage {
     #parent;
+
+    form;
 
     constructor(parent) {
         console.log('CSAT');
@@ -16,5 +19,8 @@ export default class CSATPage {
     render() {
         this.#parent.innerHTML = template();
         console.log(template());
+
+        this.form = new CsatForm(document.querySelector('.container-form'), 'Оцените');
+        this.form.render();
     }
 }
