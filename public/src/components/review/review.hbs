@@ -1,0 +1,13 @@
+<div class="review-card" id="{{id}}">
+    <div class="review-card__top-container">
+        <div class="review-card__profile-img-place"></div>
+        <div class="review-card__profile-name">{{profileName}}</div>
+        <div class="review-card__date">{{date}}</div>
+        <span class="review-card__rate">{{rate}}</span>
+    </div>
+    <div class="review-card__bottom-container">
+        {{#if advantages}}<span>Достоинства</span>{{/if}}
+        {{#if disadvantages}}<span>Недостатки</span>{{/if}}
+        {{#if comments}}<span>Комментарии</span>{{/if}}
+    </div>
+</div>

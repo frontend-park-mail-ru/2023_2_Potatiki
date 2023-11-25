@@ -77,7 +77,7 @@ export function checkLogin(login) {
         return ['', true];
     }
 
-    return ['Разрешена только латиница, цифры и спец. символы', false];
+    return ['Неверный формат ввода', false];
 }
 
 /**

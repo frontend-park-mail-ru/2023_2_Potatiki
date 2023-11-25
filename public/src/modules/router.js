@@ -98,7 +98,9 @@ class Router {
 
         this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
         this.#currentView.render();
+        document.title = baseState.name;
         if (replaceState) {
+            console.log('replace', state.url);
             this.#history.replaceState(
                 state,
                 '',
