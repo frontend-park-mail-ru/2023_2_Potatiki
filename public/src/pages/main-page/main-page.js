@@ -88,9 +88,15 @@ export default class MainPage {
         ProductsActions.getProducts(0, 30, this.#config.newCarousel);
         ProductsActions.getProducts(30, 30, this.#config.popularCarousel);
 
-        if (this.#continueUrl) {
+        const count = localStorage.getItem('count');
+        if (count % 5 === 0) {
+            const iframe = new IFrame();
+            iframe.render();
+        } else if (this.#continueUrl) {
             const iframe = new IFrame();
             iframe.render();
         }
+        count++;
+        localStorage.setItem('count', count);
     }
 }
