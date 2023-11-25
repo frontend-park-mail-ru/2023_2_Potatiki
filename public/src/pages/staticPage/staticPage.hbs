@@ -1,0 +1,11 @@
+<div id="static-page">
+    <div class="titile">Статистика по опросу</div>
+    <div class="static">
+        {{#each rows}}
+        <div class="static__row">
+            <div class="question-name">{{this.questionName}}</div>
+             <div class="stat-value">{{this.statValue}}</div>
+        </div>
+        {{/each}}
+    </div>
+</div>

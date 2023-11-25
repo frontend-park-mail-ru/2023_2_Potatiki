@@ -1,6 +1,7 @@
 import {notFoundRoute} from '../config/urls';
 import {UserActions} from '../actions/user';
 import CSATPage from '../pages/CSATPage/CSATPage';
+import StaticPage from '../pages/staticPage/staticPage';
 
 /**
  * Класс роутера
@@ -44,6 +45,7 @@ class Router {
 
         this.#states = new Map([
             ['/blank', {view: CSATPage, url: '/blank', name: 'blank'}],
+            ['/static', {view: StaticPage, url: '/static', name: 'static'}],
         ]);
 
         window.addEventListener('click', this.listenClick.bind(this));
