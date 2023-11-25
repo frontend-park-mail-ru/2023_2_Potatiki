@@ -1,9 +1,12 @@
 .frame {
-    position: absolute;
-    top: 100px;
-    width: 250px;
-    height: 250px;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 450px;
+    height: 350px;
     overflow: hidden;
-    border : 0px;
-    border-radius: 24px;
+    border: 0;
+    // padding: 10px;
+    // border : 1px solid black;
+    // border-radius: 24px;
 }

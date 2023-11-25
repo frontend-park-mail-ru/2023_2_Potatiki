@@ -349,7 +349,7 @@ class CartStore {
                     const [statusCode, body] = result;
                     switch (statusCode) {
                     case 200:
-                        eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});
+                        eventEmmiter.emit(Events.REDIRECT, {url: mainRoute, continue: 'da'});
                         eventEmmiter.emit(Events.SERVER_MESSAGE, 'Заказ успешно оформлен', true);
                         this.cleanCart();
                         this.cartEvents();

@@ -19,14 +19,17 @@ export default class MainPage {
 
     #carousels;
 
+    #continueUrl;
+
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    */
-    constructor(parent) {
+    constructor(parent, params) {
         this.#parent = parent;
         this.#config = config.mainPage;
         this.#carousels = [];
+        this.#continueUrl = params.continue;
     }
 
     /**
@@ -85,7 +88,9 @@ export default class MainPage {
         ProductsActions.getProducts(0, 30, this.#config.newCarousel);
         ProductsActions.getProducts(30, 30, this.#config.popularCarousel);
 
-        const iframe = new IFrame();
-        iframe.render();
+        if (this.#continueUrl) {
+            const iframe = new IFrame();
+            iframe.render();
+        }
     }
 }

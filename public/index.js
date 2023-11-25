@@ -7,6 +7,9 @@ import {cartStore} from './src/stores/cart';
 import {productsStore} from './src/stores/products';
 import {userStore} from './src/stores/user';
 import {renderServerMessage, renderWarningMessage} from './src/modules/server-message';
+import {CsatActions} from './src/actions/csat';
+import {csatStore} from './src/stores/csat';
+import {baseUrl, myDomen} from './src/config/urls';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js', {scope: '/'})
@@ -21,6 +24,7 @@ if ('serviceWorker' in navigator) {
 const ustore = userStore;
 const cstore = cartStore;
 const pstore = productsStore;
+const csstore = csatStore;
 
 if (navigator.onLine) {
     UserActions.setOnline();
@@ -39,3 +43,17 @@ eventEmmiter.subscribe(Events.WARN_MESSAGE, renderWarningMessage);
 eventEmmiter.subscribe(Events.REDIRECT, router.go.bind(router));
 const root = document.getElementById('container-main');
 router.start(root);
+
+const closeIframe = (event) => {
+    // if (event.origin === myDomen) {
+    //     return;
+    // }
+    console.log(event.data);
+    CsatActions.closeIframe();
+};
+
+if (window.addEventListener) {
+    window.addEventListener('message', closeIframe.bind(this));
+} else {
+    window.attachEvent('onmessage', closeIframe.bind(this));
+}

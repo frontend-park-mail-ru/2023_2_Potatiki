@@ -1,3 +1,5 @@
+import {Events} from '../../config/events';
+import {eventEmmiter} from '../../modules/event-emmiter';
 import template from './iframe.hbs';
 import './iframe.scss';
 
@@ -22,7 +24,22 @@ export default class IFrame {
      * Закрытие компонента
      */
     remove() {
+        this.unsubscribeToEvents();
+        document.getElementById('csat-iframe').remove();
+    }
 
+    remove = this.remove.bind(this);
+
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.CLOSE_IFRAME, this.remove);
+        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+    }
+
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.CLOSE_IFRAME, this.remove);
+        eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
     /**
