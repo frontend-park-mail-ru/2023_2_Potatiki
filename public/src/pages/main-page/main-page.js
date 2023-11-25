@@ -6,6 +6,7 @@ import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {ProductsActions} from '../../actions/products.js';
+import IFrame from '../../components/iframe/iframe.js';
 
 
 /**
@@ -83,5 +84,8 @@ export default class MainPage {
 
         ProductsActions.getProducts(0, 30, this.#config.newCarousel);
         ProductsActions.getProducts(30, 30, this.#config.popularCarousel);
+
+        const iframe = new IFrame();
+        iframe.render();
     }
 }

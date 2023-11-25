@@ -12,6 +12,7 @@ import CategoryPage from '../pages/category-page/category-page';
 import ProductPage from '../pages/product-page/product-page';
 import ProfilePage from '../pages/profile-page/profile-page';
 import OrdersPage from '../pages/orders-page/orders-page';
+import CSATPage from '../pages/CSATPage/CSATPage';
 
 /**
  * Класс роутера
@@ -61,6 +62,7 @@ class Router {
             [productRoute, {view: ProductPage, url: productRoute, name: 'product'}],
             [profileRoute, {view: ProfilePage, url: profileRoute, name: 'my-profile'}],
             [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'orders'}],
+            ['/blank', {view: CSATPage, url: '/blank', name: 'blank'}],
         ]);
 
         window.addEventListener('click', this.listenClick.bind(this));
