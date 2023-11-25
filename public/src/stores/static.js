@@ -1,6 +1,8 @@
 import { StaticActionsType } from "../actions/static";
 import { Events } from "../config/events";
 import { eventEmmiter } from "../modules/event-emmiter";
+import { AppDispatcher } from "../modules/dispatcher";
+import Ajax from "../modules/ajax";
 
 /**
  * Класс
@@ -11,7 +13,7 @@ class StaticStore {
      */
     constructor() {
         this.registerEvents();
-        this.subscribeToEvents();
+        // this.subscribeToEvents();
     }
 
     /**
@@ -32,15 +34,13 @@ class StaticStore {
 
     async getStatic(pollId) {
         const [statusCode, body] = await Ajax.prototype.getRequest('/stat/ioajisfbqougbfq8u013-3rouj3hfd');
+        console.log('get static')
         switch (statusCode) {
             case 200:
                 eventEmmiter.emit(Events.SUCCESS_GET_STATIC, body);
                 break;
-            case 401:
-                break;
-            case 429:
-                break;
             default:
+                eventEmmiter.emit(Events.SUCCESS_GET_STATIC, [{questionName: 'Как вам сайт?', statValue: '5'}]);
                 break;
             }
         

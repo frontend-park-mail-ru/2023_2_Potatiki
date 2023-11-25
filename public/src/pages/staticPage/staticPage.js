@@ -23,7 +23,8 @@ export default class StaticPage {
     renderStatic = this.renderStatic.bind(this);
 
     render() {
-        StaticActions.getSattic(1);
+        console.log('static');
+        StaticActions.getStatic(1);
         eventEmmiter.subscribe(Events.SUCCESS_GET_STATIC, this.renderStatic)
     }
 }

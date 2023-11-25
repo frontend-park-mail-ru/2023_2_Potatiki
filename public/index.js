@@ -6,6 +6,7 @@ import {Events} from './src/config/events';
 import {userStore} from './src/stores/user';
 import {renderServerMessage, renderWarningMessage} from './src/modules/server-message';
 import {csatStore} from './src/stores/csat';
+import { staticStore } from './src/stores/static';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js', {scope: '/'})
@@ -19,6 +20,7 @@ if ('serviceWorker' in navigator) {
 
 const ustore = userStore;
 const csstore = csatStore;
+const stStore = staticStore;
 
 
 if (navigator.onLine) {
