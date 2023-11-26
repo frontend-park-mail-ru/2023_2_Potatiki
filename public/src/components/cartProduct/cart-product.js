@@ -12,16 +12,8 @@ import Button from '../button/button.js';
  */
 export default class CartProduct {
     #parent;
-<<<<<<< HEAD
     #config;
     #data;
-=======
-
-    #config;
-
-    #data;
-
->>>>>>> origin/main
     #management;
 
     deleteProductButton;
@@ -37,24 +29,18 @@ export default class CartProduct {
         this.#data = this.#config.data;
     }
 
-<<<<<<< HEAD
     /**
      * Взятие элемента компонента
      */
-=======
->>>>>>> origin/main
     get self() {
         return document.querySelector(`#${this.#config.id}`);
     }
 
-<<<<<<< HEAD
     /**
      * Взятие конфига для отрисовки компонента подсчета количества товара
      * @param {Number} quantity Количество товара
      * @return {String} Конфиг
      */
-=======
->>>>>>> origin/main
     getManagmentConfig(quantity) {
         return {
             id: `cart-page-count-management-${this.#data.productId}`,
@@ -74,7 +60,6 @@ export default class CartProduct {
         };
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовка компонента подсчета количества товара
      * @param {Object} data Данные для отрисовка компонента
@@ -91,26 +76,14 @@ export default class CartProduct {
         this.management = new CountManagement(
             this.self.querySelector('.cart-product__count-management'),
             this.getManagmentConfig(data.quantity));
-=======
-    renderCountManagement(data) {
-        if (data.productId !== this.#data.productId || !this.self?.querySelector('.cart-product__count-management')) {
-            return;
-        }
-        this.self.querySelector('.cart-product__count-management').innerHTML = '';
-        this.#data.quantity = data.quantity;
-        this.management = new CountManagement(this.self.querySelector('.cart-product__count-management'), this.getManagmentConfig(data.quantity));
->>>>>>> origin/main
         this.management.render();
         this.management.left.addEventListener('click', this.decreaseQuantity);
         this.management.right.addEventListener('click', this.increaseQuantity);
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовка компонента кнопки для удаления товара из корзины
      */
-=======
->>>>>>> origin/main
     renderDeleteButton() {
         this.deleteProductButton = new Button(
             this.self.querySelector('.cart-product__management'),
@@ -129,37 +102,28 @@ export default class CartProduct {
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
 
-<<<<<<< HEAD
     /**
      * Уменьшение количества товара в корзине
      * @param {Event} event Событие, вызывающее уменьшение
      */
-=======
->>>>>>> origin/main
     decreaseQuantity(event) {
         event.preventDefault();
         CartActions.changeQuantityLocal(this.#data, true);
     }
 
-<<<<<<< HEAD
     /**
      * Увеличение количества товара в корзине
      * @param {Event} event Событие, вызывающее увеличение
      */
-=======
->>>>>>> origin/main
     increaseQuantity(event) {
         event.preventDefault();
         CartActions.changeQuantityLocal(this.#data);
     }
 
-<<<<<<< HEAD
     /**
      * Удаление компонента карточки товара
      * @param {Object} data Данные для определения удаляемой карточки
      */
-=======
->>>>>>> origin/main
     deleteSelf(data) {
         if (data.productId !== this.#data.productId || !this.self) {
             return;
@@ -170,25 +134,18 @@ export default class CartProduct {
         this.self.remove();
     }
 
-<<<<<<< HEAD
     /**
      * Удаление товара из корзины
      * @param {Event} event Событие, вызывающее удаление
      */
-=======
->>>>>>> origin/main
     deleteProduct(event) {
         event.preventDefault();
         CartActions.deleteProductFromCart(this.#data);
     }
 
-<<<<<<< HEAD
     /**
      * Подписка на события
      */
-=======
-
->>>>>>> origin/main
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CHG_PRODUCT_SUCCESS, this.renderCountManagement);
         eventEmmiter.subscribe(Events.DEL_PRODUCT_SUCCESS, this.deleteSelf);
@@ -197,11 +154,7 @@ export default class CartProduct {
     }
 
     /**
-<<<<<<< HEAD
      * Отписка от событий
-=======
-     *
->>>>>>> origin/main
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.ADD_PRODUCT_SUCCESS, this.renderCountManagement);
@@ -210,12 +163,9 @@ export default class CartProduct {
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
-<<<<<<< HEAD
     /**
      * Удаление листенеров
      */
-=======
->>>>>>> origin/main
     removeListeners() {
         this.management.left.removeEventListener('click', this.decreaseQuantity);
         this.management.right.removeEventListener('click', this.increaseQuantity);

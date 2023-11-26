@@ -1,10 +1,7 @@
 import './addressForm.hbs';
-<<<<<<< HEAD
 import './addressForm.scss';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-=======
->>>>>>> origin/main
 import Button from '../button/button.js';
 import Input from '../input/input.js';
 import template from './addressForm.hbs';
@@ -13,31 +10,17 @@ import {config} from '../../../config.js';
 
 
 /**
-<<<<<<< HEAD
  * Класс формы создания/изменения адреса
  */
 export default class AddressForm {
     #parent;
     #config;
-=======
- * Класс формы авторизации
- */
-export default class AddressForm {
-    #parent;
-
-    #config;
-
->>>>>>> origin/main
     #isAdd;
 
     city;
     street;
     house;
     flat;
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
     submit;
 
     /**
@@ -50,24 +33,15 @@ export default class AddressForm {
     }
 
     /**
-<<<<<<< HEAD
      * Получения элемента формы
-=======
-     *
->>>>>>> origin/main
      */
     get self() {
         return document.getElementById('address-form');
     }
 
     /**
-<<<<<<< HEAD
      * Функция для обработки нажатия на кнопку отправки формы
      * @param {Event} event Событие нажания
-=======
-     *
-     * @param {Evnt} event
->>>>>>> origin/main
      */
     submitHandle(event) {
         event.preventDefault();
@@ -85,7 +59,6 @@ export default class AddressForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Функция вызова валидации поля города
      * @param {Event} event Событие, вызвающее валидцию
      */
@@ -196,48 +169,21 @@ export default class AddressForm {
 
     /**
      * Отписка от событий
-=======
-     *
-     */
-    addListeners() {
-        this.submit.self.addEventListener('click', this.submitHandle);
-    }
-
-    /**
-     *
-     */
-    subscribeToEvents() {
-
-    }
-
-    /**
-     *
->>>>>>> origin/main
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-<<<<<<< HEAD
      * Удаление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     removeListeners() {
     }
 
     /**
-<<<<<<< HEAD
    * Отрисовка компонента формы добавления/изменения адреса
    * @param {Boolean} isAdd флаг для определения функции формы(добавление или изменение)
    * @param {Object} address Данные об адресе
-=======
-   * Отрисовка компонента формы авторизации
-   * @param {*} isAdd
-   * @param {*} address
->>>>>>> origin/main
    */
     render(isAdd, address) {
         this.#isAdd = isAdd;

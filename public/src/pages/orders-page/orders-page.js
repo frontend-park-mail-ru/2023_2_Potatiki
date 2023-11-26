@@ -11,11 +11,7 @@ import {renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
 
 /**
-<<<<<<< HEAD
  * Класс страницы заказов пользователя
-=======
- * Класс главной страницы
->>>>>>> origin/main
  */
 export default class OrdersPage {
     #parent;
@@ -24,11 +20,7 @@ export default class OrdersPage {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    */
-<<<<<<< HEAD
     constructor(parent) {
-=======
-    constructor(parent, params) {
->>>>>>> origin/main
         this.#parent = parent;
     }
 
@@ -39,14 +31,11 @@ export default class OrdersPage {
         return document.getElementById('orders-page');
     }
 
-<<<<<<< HEAD
     /**
      * Взятие конфига для отображения карточки заказа
      * @param {Object} data Данные о заказе
      * @return {Object} Конфиг
      */
-=======
->>>>>>> origin/main
     getConfig(data) {
         let summary = 0;
         let count = 0;
@@ -65,44 +54,31 @@ export default class OrdersPage {
         };
     }
 
-<<<<<<< HEAD
     /**
      * Отображения сообщения об отстутствие заказов
      */
-=======
->>>>>>> origin/main
     noOrders() {
         this.self.querySelector('.orders-container').textContent = 'Заказы не найдены';
     }
 
-<<<<<<< HEAD
     /**
      * Отображение заказов
      * @param {Object} body Данные о заказах
      */
-=======
->>>>>>> origin/main
     renderOrders(body) {
         if (!body) {
             return;
         }
         body.forEach((element) => {
-<<<<<<< HEAD
             const product = new OrderItem(this.self.querySelector('.orders-container'),
                 this.getConfig(element));
-=======
-            const product = new OrderItem(this.self.querySelector('.orders-container'), this.getConfig(element));
->>>>>>> origin/main
             product.render();
         });
     }
 
-<<<<<<< HEAD
     /**
      * Отображение страницы
      */
-=======
->>>>>>> origin/main
     renderAll() {
         this.#parent.innerHTML = template({});
 
@@ -112,12 +88,9 @@ export default class OrdersPage {
         CartActions.getAllOrders();
     }
 
-<<<<<<< HEAD
     /**
      * Перенаправление на страницу авторизации
      */
-=======
->>>>>>> origin/main
     redirectToLogin() {
         router.go({url: loginRoute});
         renderServerMessage('Авторизуйтесь, чтобы просмотреть ваши заказы');
@@ -129,12 +102,9 @@ export default class OrdersPage {
     renderAll = this.renderAll.bind(this);
     noOrders = this.noOrders.bind(this);
 
-<<<<<<< HEAD
     /**
      * подписка на события
      */
-=======
->>>>>>> origin/main
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.ALL_ORDERS, this.renderOrders);
         eventEmmiter.subscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
@@ -143,11 +113,7 @@ export default class OrdersPage {
     }
 
     /**
-<<<<<<< HEAD
     * Отписка от событий
-=======
-    *
->>>>>>> origin/main
     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.ALL_ORDERS, this.renderOrders);
@@ -157,11 +123,7 @@ export default class OrdersPage {
     }
 
     /**
-<<<<<<< HEAD
     * Отрисовка страницы заказов
-=======
-    * Отрисовка страницы регистрации
->>>>>>> origin/main
     */
     render() {
         this.subscribeToEvents();

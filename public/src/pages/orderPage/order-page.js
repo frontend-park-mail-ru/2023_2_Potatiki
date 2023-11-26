@@ -37,14 +37,10 @@ export default class OrderPage {
         return document.getElementById('order-page');
     }
 
-<<<<<<< HEAD
     /**
      * Отображение продуктов заказа
      * @param {*} body Данные о продуктах
      */
-=======
-
->>>>>>> origin/main
     renderProducts(body) {
         if (!body.products || !body.products.length) {
             this.redirectToLogin();
@@ -58,30 +54,23 @@ export default class OrderPage {
         orderProducts.render();
     }
 
-<<<<<<< HEAD
     /**
      * Перенаправление на страницу авторизации
      */
-=======
->>>>>>> origin/main
     redirectToLogin() {
         router.go({url: loginRoute});
     }
 
-<<<<<<< HEAD
     /**
      * Обновление информации о пользователе
      * @param {Object} data Новые данные о пользователя
      */
-=======
->>>>>>> origin/main
     updateUserInfo(data) {
         this.userInfo.self.querySelector('.name').textContent = data.login;
         this.userInfo.self.querySelector('.value').textContent = data.phone;
         this.userInfo.self.querySelector('.order-info__img').src = '/static/images/' + data.img;
     }
 
-<<<<<<< HEAD
     /**
      * Обновление данных об адресе
      * @param {Object} data Новые данные
@@ -106,19 +95,6 @@ export default class OrderPage {
     /**
      * Отбражение данных о заказе
      */
-=======
-    updateAddress(data) {
-        const address = `${data.city}, ${data.street}, ${data.house}, ${data.flat}`;
-        this.delivery.self.querySelector('#address-row').querySelector('.value').textContent = address;
-    }
-
-    addressNotFound() {
-        this.delivery.self.querySelector('.order-info__time-container').innerHTML = '';
-        this.delivery.self.querySelector('.order-info__bottom-container').innerHTML = 'Адрес не найден. Для оформления заказа установите адрес в профиле';
-        this.delivery.self.querySelector('.order-info__bottom-container').setAttribute('class', 'error');
-    }
-
->>>>>>> origin/main
     renderAll() {
         this.#parent.innerHTML = template();
 
@@ -246,12 +222,9 @@ export default class OrderPage {
     redirectToLogin = this.redirectToLogin.bind(this);
     renderAll = this.renderAll.bind(this);
 
-<<<<<<< HEAD
     /**
      * Подписка на события
      */
-=======
->>>>>>> origin/main
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CART_PRODUCTS, this.renderProducts);
         eventEmmiter.subscribe(Events.PROFILE_DATA, this.updateUserInfo);
@@ -261,12 +234,9 @@ export default class OrderPage {
         eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
     }
 
-<<<<<<< HEAD
     /**
      * Отписка от событий
      */
-=======
->>>>>>> origin/main
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
         eventEmmiter.unsubscribe(Events.CART_PRODUCTS, this.renderProducts);
@@ -277,11 +247,7 @@ export default class OrderPage {
     }
 
     /**
-<<<<<<< HEAD
      * Отрисовка страницы заказа
-=======
-     * Отрисовка страницы авторизации
->>>>>>> origin/main
      */
     render() {
         this.subscribeToEvents();

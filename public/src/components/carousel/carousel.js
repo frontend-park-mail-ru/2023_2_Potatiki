@@ -12,16 +12,8 @@ export default class Carousel {
     #config;
     #cardCount;
     #currentPos;
-<<<<<<< HEAD
     #leftPos;
     #rightPos;
-=======
-
-    #leftPos;
-
-    #rightPos;
-
->>>>>>> origin/main
     #data;
 
     /**

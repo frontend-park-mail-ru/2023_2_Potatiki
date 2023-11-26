@@ -6,11 +6,8 @@ export const ProductsActionsType = {
     GET_CATEGORY_PRODUCTS: 'GET_CATEGORY_PRODUCTS',
     GET_CATEGORY_NAME: 'GET_CATEGORY_NAME',
     GET_PRODUCT: 'GET_PRODUCT',
-<<<<<<< HEAD
     GET_SUGGEST: 'GET_SUGGEST',
     GET_SEARCH_PRODUCTS: 'GET_SEARCH_PRODUCTS',
-=======
->>>>>>> origin/main
 };
 
 export const ProductsActions = {
@@ -48,7 +45,6 @@ export const ProductsActions = {
             payload: {id},
         });
     },
-<<<<<<< HEAD
 
     getSuggest(word) {
         AppDispatcher.dispatch({
@@ -63,6 +59,4 @@ export const ProductsActions = {
             payload: {searchValue},
         });
     },
-=======
->>>>>>> origin/main
 };

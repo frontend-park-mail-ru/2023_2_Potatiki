@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 import {baseUrl} from '../config/urls';
-=======
-import {Events} from '../config/events';
-import {baseUrl} from '../config/urls';
-import {eventEmmiter} from './event-emmiter';
-import renderServerMessage from './server-message';
->>>>>>> origin/main
 
 /**
  * Методы для отправки сетевых запросов
@@ -48,10 +41,7 @@ export default class Ajax {
    * POST-запрос
    * @param {String} url Путь запроса
    * @param {Object} data Тело запроса
-<<<<<<< HEAD
    * @param {String} token CSRF-токен
-=======
->>>>>>> origin/main
    * @return {Object} Ответ с сервера
    */
     async postBinRequest(url, data, token) {
@@ -106,14 +96,11 @@ export default class Ajax {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Запрос для CSRF токена
      * @param {String} url Путь запроса
      * @return {Object} Ответ с сервера
      */
-=======
->>>>>>> origin/main
     async getCSRFRequest(url) {
         const options = {
             method: 'GET',
@@ -137,10 +124,7 @@ export default class Ajax {
    * DELETE-запрос
    * @param {String} url Путь запроса
    * @param {Object} data Тело запроса
-<<<<<<< HEAD
    * @param {String} token CSRF-токен
-=======
->>>>>>> origin/main
    * @return {Object} Ответ с сервера
    */
     async deleteRequest(url, data, token) {

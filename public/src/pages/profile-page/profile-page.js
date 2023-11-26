@@ -9,7 +9,6 @@ import {loginRoute} from '../../config/urls.js';
 import {renderServerMessage} from '../../modules/server-message.js';
 
 /**
-<<<<<<< HEAD
  * Класс страницы профиля
  */
 export default class ProfilePage {
@@ -19,16 +18,6 @@ export default class ProfilePage {
 
     /**
      * Конструктор класса страницы
-=======
- *
- */
-export default class ProfilePage {
-    #parent;
-    profile;
-
-    /**
-     *
->>>>>>> origin/main
      *@param {*} parent
      */
     constructor(parent) {
@@ -43,66 +32,43 @@ export default class ProfilePage {
     }
 
     /**
-<<<<<<< HEAD
      * Добавление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     addEventListeners() {
 
     }
 
     /**
-<<<<<<< HEAD
      * Подписка на события
-=======
-     *
->>>>>>> origin/main
      */
     subscribeToEvents() {
 
     }
 
     /**
-<<<<<<< HEAD
      * Удаление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     removeEventListeners() {
 
     }
 
     /**
-<<<<<<< HEAD
      * Отписка от событий
-=======
-     *
->>>>>>> origin/main
      */
     unsubscribeToEvents() {
 
     }
 
-<<<<<<< HEAD
     /**
      * Перенапрвление на страницу авторизации
      */
-=======
->>>>>>> origin/main
     redirectToLogin() {
         router.go({url: loginRoute});
         renderServerMessage('Авторизуйтесь, чтобы просмотреть профиль');
     }
 
     /**
-<<<<<<< HEAD
      * Отрисовка страницы профиля
-=======
-     *
->>>>>>> origin/main
      */
     render() {
         this.#parent.innerHTML = template(config.profilePage);

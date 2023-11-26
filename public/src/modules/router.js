@@ -1,11 +1,7 @@
 import MainPage from '../pages/main-page/main-page';
 import {cartRoute, categoryRoute, loginRoute,
-<<<<<<< HEAD
     mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute,
     signupRoute, profileRoute} from '../config/urls';
-=======
-    mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute, signupRoute, profileRoute} from '../config/urls';
->>>>>>> origin/main
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import CartPage from '../pages/cart-page/cart-page';

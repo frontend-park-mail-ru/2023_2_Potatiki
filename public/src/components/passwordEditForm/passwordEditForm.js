@@ -9,7 +9,6 @@ import {config} from '../../../config.js';
 
 
 /**
-<<<<<<< HEAD
  * Класс формы изменения пароля
  */
 export default class PasswordEditForm {
@@ -19,21 +18,6 @@ export default class PasswordEditForm {
     oldPassword;
     newPassword;
     repeatPassword;
-=======
- * Класс формы авторизации
- */
-export default class PasswordEditForm {
-    #parent;
-
-    #config;
-
-    oldPassword;
-
-    newPassword;
-
-    repeatPassword;
-
->>>>>>> origin/main
     submit;
 
     /**
@@ -46,24 +30,15 @@ export default class PasswordEditForm {
     }
 
     /**
-<<<<<<< HEAD
      * Взятие элеиента компонента
-=======
-     *
->>>>>>> origin/main
      */
     get self() {
         return document.getElementById('password-edit-form');
     }
 
     /**
-<<<<<<< HEAD
      * Функция обрабокти отправки формы
      * @param {Evnt} event Событие нажатие на кнопку отправки
-=======
-     *
-     * @param {Evnt} event
->>>>>>> origin/main
      */
     submitHandle(event) {
         event.preventDefault();
@@ -74,13 +49,8 @@ export default class PasswordEditForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Вызов валидации для поля пароля
      * @param {Event} event Событие, вызывающее валидацию
-=======
-     *
-     * @param {Event} event
->>>>>>> origin/main
      */
     inputPasswordHandle(event) {
         event.preventDefault();
@@ -90,13 +60,8 @@ export default class PasswordEditForm {
     inputPasswordHandle = this.inputPasswordHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Вызова валидации для поля Повторить пароль
      * @param {Event} event Событие, вызывающее валидацию
-=======
-     *
-     * @param {Event} event
->>>>>>> origin/main
      */
     inputRepeatPasswordHandle(event) {
         event.preventDefault();
@@ -107,13 +72,8 @@ export default class PasswordEditForm {
     inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Отображение ошибки для поля старого пароля
      * @param {String} errorText Текст ошибки
-=======
-     *
-     * @param {String} errorText
->>>>>>> origin/main
      */
     renderOldPasswordError(errorText) {
         this.oldPassword.removeError();
@@ -123,13 +83,8 @@ export default class PasswordEditForm {
     renderOldPasswordError = this.renderOldPasswordError.bind(this);
 
     /**
-<<<<<<< HEAD
      * Отображение ошибки для поля нового пароля
      * @param {String} errorText Текст ошибки
-=======
-     *
-     * @param {String} errorText
->>>>>>> origin/main
      */
     renderPasswordError(errorText) {
         this.newPassword.removeError();
@@ -139,13 +94,8 @@ export default class PasswordEditForm {
     renderPasswordError = this.renderPasswordError.bind(this);
 
     /**
-<<<<<<< HEAD
      * Отображение ошибки для поля повторить пароль
      * @param {String} errorText Текст ошибки
-=======
-     *
-     * @param {String} errorText
->>>>>>> origin/main
      */
     renderRepeatPasswordError(errorText) {
         this.repeatPassword.removeError();
@@ -155,11 +105,7 @@ export default class PasswordEditForm {
     renderRepeatPasswordError = this.renderRepeatPasswordError.bind(this);
 
     /**
-<<<<<<< HEAD
      * Добавление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
@@ -168,11 +114,7 @@ export default class PasswordEditForm {
     }
 
     /**
-<<<<<<< HEAD
      * Подписка на события
-=======
-     *
->>>>>>> origin/main
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.PASSWORD_INPUT_ERROR, this.renderPasswordError);
@@ -181,32 +123,20 @@ export default class PasswordEditForm {
     }
 
     /**
-<<<<<<< HEAD
      * Отписка от событий
-=======
-     *
->>>>>>> origin/main
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-<<<<<<< HEAD
      * Удаление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     removeListeners() {
     }
 
     /**
-<<<<<<< HEAD
    * Отрисовка компонента формы изменения пароля
-=======
-   * Отрисовка компонента формы авторизации
->>>>>>> origin/main
    */
     render() {
         this.#parent.innerHTML = template(this.#config);

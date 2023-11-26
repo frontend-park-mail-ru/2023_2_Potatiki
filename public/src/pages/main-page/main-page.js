@@ -35,14 +35,11 @@ export default class MainPage {
         return document.getElementById('main-page');
     }
 
-<<<<<<< HEAD
     /**
      * Отображение продуктов на главной странице
      * @param {Object} body Данные о продуктах
      * @param {Object} config Конфиг для отображения элементов
      */
-=======
->>>>>>> origin/main
     renderProducts(body, config) {
         const carousel = new Carousel(this.self, config, body);
         carousel.render();
@@ -51,22 +48,15 @@ export default class MainPage {
 
     renderProducts = this.renderProducts.bind(this);
 
-<<<<<<< HEAD
     /**
      * Подписка на события
      */
-=======
->>>>>>> origin/main
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
     }
 
     /**
-<<<<<<< HEAD
     * Удаление листенеров
-=======
-    *
->>>>>>> origin/main
     */
     removeListeners() {
         this.#carousels.forEach((cl) => {
@@ -75,22 +65,14 @@ export default class MainPage {
     }
 
     /**
-<<<<<<< HEAD
     * Отписка от событий
-=======
-    *
->>>>>>> origin/main
     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
     }
 
     /**
-<<<<<<< HEAD
     * Отрисовка главной страницы
-=======
-    * Отрисовка страницы регистрации
->>>>>>> origin/main
     */
     render() {
         this.#parent.innerHTML = template();

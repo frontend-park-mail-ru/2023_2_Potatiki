@@ -18,7 +18,6 @@ export default class LoginForm {
     #config;
     #redirectUrl;
 
-<<<<<<< HEAD
     login;
     password;
     submit;
@@ -28,97 +27,10 @@ export default class LoginForm {
      * @param {Element} parent Родительский компонент
      * @param {String} redirectUrl Ссылка для редиректа
      */
-=======
-    #redirectUrl;
-
-    login;
-
-    password;
-
-    submit;
-
-    /**
-   * Конструктор класса
-   * @param {Element} parent Родительский компонент
-   */
->>>>>>> origin/main
     constructor(parent, redirectUrl) {
         this.#parent = parent;
         this.#config = config.loginPage.form;
         this.#redirectUrl = redirectUrl;
-<<<<<<< HEAD
-=======
-    }
-
-    /**
-     *
-     */
-    get self() {
-        return document.getElementById('login-form');
-    }
-
-    /**
-     *
-     * @param {Evnt} event
-     */
-    submitHandle(event) {
-        event.preventDefault();
-        UserActions.login(this.login.self.value, this.password.self.value);
-    }
-
-    submitHandle = this.submitHandle.bind(this);
-
-    /**
-     *
-     * @param {String} errorText
-     */
-    renderError(errorText) {
-        const error = document.getElementById('login-form-error');
-        error.textContent = errorText;
-    }
-
-    /**
-     *
-     */
-    redirect() {
-        if (this.#redirectUrl) {
-            router.go({url: this.#redirectUrl});
-            return;
-        }
-        router.go({url: mainRoute});
-    }
-
-    redirect = this.redirect.bind(this);
-
-    /**
-     *
-     */
-    addListeners() {
-        this.submit.self.addEventListener('click', this.submitHandle);
-    }
-
-    /**
-     *
-     */
-    subscribeToEvents() {
-        eventEmmiter.subscribe(Events.LOGIN_FORM_ERROR, this.renderError);
-        eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.redirect);
-    }
-
-    /**
-     *
-     */
-    unsubscribeToEvents() {
-        eventEmmiter.unsubscribe(Events.LOGIN_FORM_ERROR, this.renderError);
-        eventEmmiter.unsubscribe(Events.SUCCESSFUL_LOGIN, this.redirect);
-    }
-
-    /**
-     *
-     */
-    removeListeners() {
-        this.submit.self.removeEventListener('click', this.submitHandle);
->>>>>>> origin/main
     }
 
     /**

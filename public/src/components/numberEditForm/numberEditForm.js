@@ -9,7 +9,6 @@ import {Events} from '../../config/events.js';
 
 
 /**
-<<<<<<< HEAD
  * Класс формы изменения номера телефона
  */
 export default class NumberEditForm {
@@ -23,47 +22,21 @@ export default class NumberEditForm {
      * Конструктор класса
      * @param {Element} parent Родительский компонент
      */
-=======
- * Класс формы авторизации
- */
-export default class NumberEditForm {
-    #parent;
-
-    #config;
-
-    number;
-
-    submit;
-
-    /**
-   * Конструктор класса
-   * @param {Element} parent Родительский компонент
-   */
->>>>>>> origin/main
     constructor(parent) {
         this.#parent = parent;
         this.#config = config.profilePage.profile.numberEditForm;
     }
 
     /**
-<<<<<<< HEAD
      * Взятие элемента компонента
-=======
-     *
->>>>>>> origin/main
      */
     get self() {
         return document.getElementById('number-edit-form');
     }
 
     /**
-<<<<<<< HEAD
      * Функция обработки отправки формы
      * @param {Evnt} event Собтие нажатие отправки формы
-=======
-     *
-     * @param {Evnt} event
->>>>>>> origin/main
      */
     submitHandle(event) {
         event.preventDefault();
@@ -73,13 +46,8 @@ export default class NumberEditForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Функция вызова валидации поля номера телефона
      * @param {Event} event Событие, вызывающее валидацию
-=======
-     *
-     * @param {Event} event
->>>>>>> origin/main
      */
     inputPhoneHandle(event) {
         event.preventDefault();
@@ -89,11 +57,7 @@ export default class NumberEditForm {
     inputPhoneHandle = this.inputPhoneHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Добавленеи листенеров
-=======
-     *
->>>>>>> origin/main
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
@@ -127,13 +91,8 @@ export default class NumberEditForm {
     }
 
     /**
-<<<<<<< HEAD
      * Отображение ошибки у поля номера телефона
      * @param {String} errorText Текст ошибки
-=======
-     *
-     * @param {String} errorText
->>>>>>> origin/main
      */
     renderPhoneError(errorText) {
         this.number.removeError();
@@ -143,46 +102,29 @@ export default class NumberEditForm {
     renderPhoneError = this.renderPhoneError.bind(this);
 
     /**
-<<<<<<< HEAD
      * Подписка на события
-=======
-     *
->>>>>>> origin/main
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.PHONE_INPUT_ERROR, this.renderPhoneError);
     }
 
     /**
-<<<<<<< HEAD
      * Отписка от событий
-=======
-     *
->>>>>>> origin/main
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-<<<<<<< HEAD
      * Удаление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     removeListeners() {
     }
 
     /**
-<<<<<<< HEAD
      * Отрисовка компонента формы изменения номера телефона
      * @param {String} number Номер телефона для изменения
      */
-=======
-   * Отрисовка компонента формы авторизации
-   */
->>>>>>> origin/main
     render(number) {
         this.#parent.innerHTML = template(this.#config);
 

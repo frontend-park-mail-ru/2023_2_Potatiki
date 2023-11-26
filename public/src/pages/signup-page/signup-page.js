@@ -6,9 +6,7 @@ import template from './signup-page.hbs';
 import {config} from '../../../config.js';
 import {signupRoute} from '../../config/urls.js';
 import {UserActions} from '../../actions/user.js';
-import {config} from '../../../config.js';
-import {signupRoute} from '../../config/urls.js';
-import {UserActions} from '../../actions/user.js';
+
 
 /**
  * Класс страницы регистрации
@@ -65,7 +63,6 @@ export default class SignupPage {
         document.getElementById('container-header').innerHTML = '';
 
 
-        const logo = new Link(this.self, this.#config.logo);
         const logo = new Link(this.self, this.#config.logo);
         logo.render();
 

@@ -19,11 +19,7 @@ const States = {
 };
 
 /**
-<<<<<<< HEAD
  * Компонент карточки профиля
-=======
- *
->>>>>>> origin/main
  */
 export default class Profile {
     #parent;
@@ -38,11 +34,7 @@ export default class Profile {
 
     /**
      *
-<<<<<<< HEAD
      * @param {Element} parent Родительский элемент
-=======
-     * @param {*} parent
->>>>>>> origin/main
      */
     constructor(parent) {
         this.#parent = parent;
@@ -52,11 +44,7 @@ export default class Profile {
     }
 
     /**
-<<<<<<< HEAD
      * Установление состояния карточки в зависимости от нажатия на навбар
-=======
-     *
->>>>>>> origin/main
      * @param {*} event
      */
     setState(event) {
@@ -78,13 +66,8 @@ export default class Profile {
     }
 
     /**
-<<<<<<< HEAD
      * Отрисовка формы изменения номера телефона
      * @param {Event} event
-=======
-     *
-     * @param {*} event
->>>>>>> origin/main
      */
     editNumber(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
@@ -95,13 +78,8 @@ export default class Profile {
     editNumber = this.editNumber.bind(this);
 
     /**
-<<<<<<< HEAD
      * Отрисовка формы изменения пароля
      * @param {Event} event
-=======
-     *
-     * @param {*} event
->>>>>>> origin/main
      */
     editPassword(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
@@ -112,13 +90,8 @@ export default class Profile {
     editPassword = this.editPassword.bind(this);
 
     /**
-<<<<<<< HEAD
      * Отрисовка формы изменения аватарки
      * @param {Event} event
-=======
-     *
-     * @param {*} event
->>>>>>> origin/main
      */
     editImg(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
@@ -129,13 +102,8 @@ export default class Profile {
     editImg = this.editImg.bind(this);
 
     /**
-<<<<<<< HEAD
      * Отрисовк аформы добавления адреса
      * @param {Event} event
-=======
-     *
-     * @param {*} event
->>>>>>> origin/main
      */
     addAddress(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
@@ -147,13 +115,8 @@ export default class Profile {
     addAddress = this.addAddress.bind(this);
 
     /**
-<<<<<<< HEAD
      * Удаление адреса
      * @param {Event} event
-=======
-     *
-     * @param {*} event
->>>>>>> origin/main
      */
     deleteAddress(event) {
         event.preventDefault();
@@ -165,13 +128,8 @@ export default class Profile {
     deleteAddress = this.deleteAddress.bind(this);
 
     /**
-<<<<<<< HEAD
      * Отрисовка формы изменения адреса
      * @param {Event} event
-=======
-     *
-     * @param {*} event
->>>>>>> origin/main
      */
     editAddress(event) {
         event.preventDefault();
@@ -185,13 +143,8 @@ export default class Profile {
     editAddress = this.editAddress.bind(this);
 
     /**
-<<<<<<< HEAD
      * Изменение текущего адреса
      * @param {Event} event
-=======
-     *
-     * @param {*} event
->>>>>>> origin/main
      */
     currentAddress(event) {
         event.preventDefault();
@@ -204,13 +157,8 @@ export default class Profile {
 
 
     /**
-<<<<<<< HEAD
      * Отрисовка карточек адресов
      * @param {Array} addresses
-=======
-     *
-     * @param {*} addresses
->>>>>>> origin/main
      */
     renderAddresses(addresses) {
         this.addresses = addresses;
@@ -238,22 +186,14 @@ export default class Profile {
     renderAddresses = this.renderAddresses.bind(this);
 
     /**
-<<<<<<< HEAD
      * Добавление листенеров, связанные с разделом адресов
-=======
-     *
->>>>>>> origin/main
      */
     addAddressesEventListeners() {
         document.getElementById('add-address').addEventListener('click', this.addAddress);
     }
 
     /**
-<<<<<<< HEAD
      * Добавление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     addEventListeners() {
         document.getElementById('profile-my-data').addEventListener('click',
@@ -269,11 +209,7 @@ export default class Profile {
     }
 
     /**
-<<<<<<< HEAD
      * Отрисовка карточки с информацией пользователя
-=======
-     *
->>>>>>> origin/main
      */
     renderInfoCard() {
         const infoCard = new InfoCard(document.getElementById('profile-data-card'));
@@ -283,11 +219,7 @@ export default class Profile {
         document.querySelector('.password-edit')?.addEventListener('click',
             this.editPassword);
         document.querySelector('.avatar-edit')?.addEventListener('click',
-<<<<<<< HEAD
             this.editImg);
-=======
-            this.editPassword);
->>>>>>> origin/main
     }
 
     /**
@@ -304,33 +236,21 @@ export default class Profile {
     }
 
     /**
-<<<<<<< HEAD
      * Удаление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     removeEventListeners() {
 
     }
 
     /**
-<<<<<<< HEAD
      * Отписка от событий
-=======
-     *
->>>>>>> origin/main
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-<<<<<<< HEAD
      * Отрисовка компонента
-=======
-     *
->>>>>>> origin/main
      */
     render() {
         this.#parent.innerHTML = template(this.#config);

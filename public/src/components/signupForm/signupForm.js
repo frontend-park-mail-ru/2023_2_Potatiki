@@ -11,19 +11,11 @@ import {Events} from '../../config/events.js';
 import {mainRoute} from '../../config/urls.js';
 
 /**
-<<<<<<< HEAD
  * Класс компонента формы авторизацияя
-=======
- *
->>>>>>> origin/main
  */
 export default class SignupForm {
     #parent;
     #config;
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
     login;
     password;
     repeatPassword;
@@ -39,13 +31,10 @@ export default class SignupForm {
         this.#config = config.signupPage.form;
     }
 
-<<<<<<< HEAD
     /**
      * Функция обаботки отправки формы
      * @param {Event} event
      */
-=======
->>>>>>> origin/main
     submitHandle = (event) => {
         event.preventDefault();
         UserActions.signup(
@@ -59,11 +48,7 @@ export default class SignupForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Функция вызова валидации для поля логина
-=======
-     *
->>>>>>> origin/main
      * @param {Event} event
      */
     inputLoginHandle(event) {
@@ -74,11 +59,7 @@ export default class SignupForm {
     inputLoginHandle = this.inputLoginHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Функция вызова валидации для поля пароля
-=======
-     *
->>>>>>> origin/main
      * @param {Event} event
      */
     inputPasswordHandle(event) {
@@ -89,11 +70,7 @@ export default class SignupForm {
     inputPasswordHandle = this.inputPasswordHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Функция вызова валидации для поля повторить пароль
-=======
-     *
->>>>>>> origin/main
      * @param {Event} event
      */
     inputRepeatPasswordHandle(event) {
@@ -105,13 +82,8 @@ export default class SignupForm {
     inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Функция вызова валидации для поля НОМЕРА ТЕЛЕФОНА
      * @param {Event} event
-=======
-     *
-     * @param {*} event
->>>>>>> origin/main
      */
     inputPhoneHandle(event) {
         event.preventDefault();
@@ -121,24 +93,15 @@ export default class SignupForm {
     inputPhoneHandle = this.inputPhoneHandle.bind(this);
 
     /**
-<<<<<<< HEAD
      * Редирект на главную страницу
-=======
-     *
->>>>>>> origin/main
      */
     redirectOnMain() {
         router.go({url: mainRoute});
     }
 
     /**
-<<<<<<< HEAD
      * Отрисовка ошибки поля логина
      * @param {String} errorText Текст ошибки
-=======
-     *
-     * @param {String} errorText
->>>>>>> origin/main
      */
     renderLoginError(errorText) {
         this.login.removeError();
@@ -148,13 +111,8 @@ export default class SignupForm {
     renderLoginError = this.renderLoginError.bind(this);
 
     /**
-<<<<<<< HEAD
      *  Отрисовка ошибки поля пароль
      * @param {String} errorText Текст ошибки
-=======
-     *
-     * @param {String} errorText
->>>>>>> origin/main
      */
     renderPasswordError(errorText) {
         this.password.removeError();
@@ -164,13 +122,8 @@ export default class SignupForm {
     renderPasswordError = this.renderPasswordError.bind(this);
 
     /**
-<<<<<<< HEAD
      * Отрисовка ошибки поля повторить пароль
      * @param {String} errorText Текст ошибки
-=======
-     *
-     * @param {String} errorText
->>>>>>> origin/main
      */
     renderRepeatPasswordError(errorText) {
         this.repeatPassword.removeError();
@@ -179,13 +132,10 @@ export default class SignupForm {
 
     renderRepeatPasswordError = this.renderRepeatPasswordError.bind(this);
 
-<<<<<<< HEAD
     /**
      * Отрисовка ошибки поля номера телефона
      * @param {String} errorText Текст ошибки
      */
-=======
->>>>>>> origin/main
     renderPhoneError(errorText) {
         this.phone.removeError();
         this.phone.renderError(errorText);
@@ -194,11 +144,7 @@ export default class SignupForm {
     renderPhoneError = this.renderPhoneError.bind(this);
 
     /**
-<<<<<<< HEAD
      * Добавление листенеров
-=======
-     *
->>>>>>> origin/main
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
@@ -246,11 +192,7 @@ export default class SignupForm {
     }
 
     /**
-<<<<<<< HEAD
      * Подписка на события
-=======
-     *
->>>>>>> origin/main
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.SIGNUP_FORM_ERROR, this.renderError);
@@ -262,11 +204,7 @@ export default class SignupForm {
     }
 
     /**
-<<<<<<< HEAD
      * Отписк аот событий
-=======
-     *
->>>>>>> origin/main
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.SIGNUP_FORM_ERROR, this.renderError);

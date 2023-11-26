@@ -47,11 +47,7 @@ export default class LoginPage {
     }
 
     /**
-<<<<<<< HEAD
      * Отписка от событий
-=======
-     *
->>>>>>> origin/main
      */
     unsubscribeToEvents() {
         this.loginForm.unsubscribeToEvents();

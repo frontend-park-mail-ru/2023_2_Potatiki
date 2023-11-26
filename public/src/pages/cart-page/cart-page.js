@@ -35,14 +35,11 @@ export default class CartPage {
         return document.getElementById('cart-page');
     }
 
-<<<<<<< HEAD
     /**
      * Получения конфига для отрисовки продукта в корзине
      * @param {Object} data Данные для создания конфига
      * @return {Object} Конфиг
      */
-=======
->>>>>>> origin/main
     getConfig(data) {
         return {
             id: `cart-product-${data.productId}`,
@@ -88,23 +85,17 @@ export default class CartPage {
         };
     }
 
-<<<<<<< HEAD
     /**
      * Отображения сообщения о пустой корзине
      */
-=======
->>>>>>> origin/main
     renderEmptyCartMessage() {
         this.self.querySelector('.cart-container__products').textContent = 'Корзина пуста';
     }
 
-<<<<<<< HEAD
     /**
      * Отображение продуктов в корзине
      * @param {Object} body Данные о содержимом корзины
      */
-=======
->>>>>>> origin/main
     renderProducts(body) {
         if (!body.products || !body.products.length) {
             this.renderEmptyCartMessage();
@@ -120,12 +111,9 @@ export default class CartPage {
         this.renderCartResult();
     }
 
-<<<<<<< HEAD
     /**
      * Отображение итоговой информации о содержании корзины
      */
-=======
->>>>>>> origin/main
     renderCartResult() {
         this.orderResults = new OrderResults(
             this.self.querySelector('.order-container'),
@@ -144,34 +132,23 @@ export default class CartPage {
     renderEmptyCartMessage = this.renderEmptyCartMessage.bind(this);
 
     /**
-<<<<<<< HEAD
      * Подписка на события
-=======
-     *
->>>>>>> origin/main
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CART_PRODUCTS, this.renderProducts);
         eventEmmiter.subscribe(Events.EMPTY_CART, this.renderEmptyCartMessage);
     }
 
-<<<<<<< HEAD
     /**
      * Отписка от событий
      */
-=======
->>>>>>> origin/main
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.CART_PRODUCTS, this.renderProducts);
         eventEmmiter.unsubscribe(Events.EMPTY_CART, this.renderEmptyCartMessage);
     }
 
     /**
-<<<<<<< HEAD
      * Отрисовка страницы корзины
-=======
-     * Отрисовка страницы авторизации
->>>>>>> origin/main
      */
     render() {
         this.#parent.innerHTML = template();
