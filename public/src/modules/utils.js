@@ -88,3 +88,13 @@ export function rateCase(count) {
         return 'отзывов';
     }
 }
+
+export function reduceReviews(data) {
+    let avgRate = 0;
+    const reviewsArray = [0, 0, 0, 0, 0];
+    data.forEach((review) => {
+        reduceReviews[Math.round(review.rating) - 1] += 1;
+        avgRate += review.rating;
+    });
+    return {rows: reviewsArray, count: data.length, rate: (avgRate / data.length).toFixed(1)};
+}

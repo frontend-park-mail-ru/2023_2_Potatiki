@@ -63,7 +63,7 @@ export default class ProductPage {
                 imgSrc: '/static/images/cart.svg',
             },
             starHref: '/static/images/star-purple.svg',
-            productRate: data.rating,
+            productRate: data.rating.toFixed(1),
             reviewsCount: `${0} отзывов`,
             reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',

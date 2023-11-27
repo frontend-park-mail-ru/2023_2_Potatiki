@@ -6,7 +6,7 @@ import './category-page.scss';
 import CategoryProduct from '../../components/category-product/category-product.js';
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
-import {notFoundRoute, productRoute} from '../../config/urls.js';
+import {notFoundRoute, productRoute, reviewRoute} from '../../config/urls.js';
 
 /**
  * Класс страницы товаров категории
@@ -70,8 +70,9 @@ export default class CategoryPage {
                 imgSrc: '/static/images/cart-icon.svg',
             },
             starHref: '/static/images/star-purple.svg',
-            productRate: data.rating,
+            productRate: data.rating.toFixed(1),
             reviewsCount: `0 отзывов`,
+            reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
     }

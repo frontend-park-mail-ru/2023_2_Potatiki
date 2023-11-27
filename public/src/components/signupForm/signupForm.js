@@ -16,6 +16,7 @@ import {mainRoute} from '../../config/urls.js';
 export default class SignupForm {
     #parent;
     #config;
+    #redirectUrl;
 
     login;
     password;
@@ -27,9 +28,10 @@ export default class SignupForm {
      * Конструктор
      * @param {Element} parent Родительский элемент
      */
-    constructor(parent) {
+    constructor(parent, redirectUrl) {
         this.#parent = parent;
         this.#config = config.signupPage.form;
+        this.#redirectUrl = redirectUrl;
     }
 
     /**
@@ -97,8 +99,14 @@ export default class SignupForm {
      * Редирект на главную страницу
      */
     redirectOnMain() {
+        if (this.#redirectUrl) {
+            router.go({url: this.#redirectUrl});
+            return;
+        }
         router.go({url: mainRoute});
     }
+
+    redirectOnMain = this.redirectOnMain.bind(this);
 
     /**
      * Отрисовка ошибки поля логина

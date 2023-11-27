@@ -1,7 +1,10 @@
 .review-card {
-    margin: 0 20px;
-    padding: 20px 20px;
+    margin: 0 40px 0 0;
+    padding: 20px 0;
     border-bottom: 1px solid var(--color-stroke);
+    // display: flex;
+    // flex-direction: column;
+    // gap: 2rem
 }
 
 .review-card__bottom-container {
@@ -13,6 +16,7 @@
 .review-card__text-item {
     display: grid;
     gap: 10px;
+    margin-top: 10px;
 }
 
 .review-card__text {
@@ -31,6 +35,12 @@
 
 .review-card__top-container {
     display: grid;
-    grid-template-columns: 60px 6fr 2fr 2fr;
+    grid-template-columns: 60px 6fr 2fr auto;
     align-items: center;
+}
+
+.rate-row__stars-row-place {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
 }

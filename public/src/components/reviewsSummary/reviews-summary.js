@@ -8,6 +8,8 @@ import {ProductsActions} from '../../actions/products';
 import {rateCase} from '../../modules/utils';
 import RateRow from '../rateRow/rate-row';
 import StarsInput from '../starsInput/stars-input';
+import {loginRoute} from '../../config/urls';
+import Link from '../link/link';
 
 /**
  * Класс компонента информации об отзывах
@@ -41,6 +43,11 @@ export default class ReviewsSummary {
     }
 
     updateRateInfo(data) {
+        if (!data || !data.rate || !data.count) {
+            console.log(data);
+            this.self.querySelector('.reviews-summary__head').innerHTML = '';
+            return;
+        }
         this.self.querySelector('.reviews-summary__count').textContent = `${data.count} ${rateCase(data.count)}`;
         this.self.querySelector('.reviews-summary__rate').textContent = data.rate + ' / 5';
         data.rows.forEach((row, index) => {
@@ -59,8 +66,9 @@ export default class ReviewsSummary {
     }
 
     renderCreateButton() {
+        this.self.querySelector('.reviews-summary__button-place').innerHTML = '';
         this.#createReviewButton = new Button(
-            this.self,
+            this.self.querySelector('.reviews-summary__button-place'),
             {
                 id: 'create-review-btn',
                 text: 'Оставить отзыв',
@@ -115,8 +123,20 @@ export default class ReviewsSummary {
             template(),
         );
 
+        this.#createReviewButton = new Link(
+            this.self.querySelector('.reviews-summary__button-place'),
+            {
+                id: 'create-review-btn',
+                text: 'Авторизуйтесь, чтобы оставить отзыв',
+                href: loginRoute,
+                class: 'reviews-summary__login-link',
+            },
+            true,
+        );
+        this.#createReviewButton.render();
+
         this.subscribeToEvents();
         UserActions.checkAuth();
-        ProductsActions.getReviewsSummary(this.#productId);
+        // ProductsActions.getReviewsSummary(this.#productId);
     }
 }

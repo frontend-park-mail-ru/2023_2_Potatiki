@@ -10,6 +10,7 @@ import ReviewProduct from '../../components/reviewProduct/review-product.js';
 import ReviewsSummary from '../../components/reviewsSummary/reviews-summary.js';
 import ReviewForm from '../../components/reviewForm/review-form.js';
 import Review from '../../components/review/review.js';
+import Link from '../../components/link/link.js';
 
 /**
  * Класс страницы товаров категории
@@ -53,7 +54,8 @@ export default class ReviewsPage {
      */
     getReviewsConfig(data) {
         return {
-            id: `review-card-${data.profileName}`,
+            // id: `review-card-${data.profileName}`,
+            id: `review-card-1`,
             data: data,
             // profileName: data.profileName,
             profileName: 'Иванов Петя',
@@ -87,19 +89,24 @@ export default class ReviewsPage {
      */
     renderReviews(body) {
         if (!body || !body.length) {
-            eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderReviews);
-            this.endOfPage = true;
+            this.self.querySelector('.reviews-page__empty-review').textContent = 'Отзывов не найдено';
             return;
         }
         body.forEach((element) => {
-            console.log(body);
-            const product = new Review(
-                this.self.querySelector(
-                    '.reviews-page__reviews-container'),
-                this.getReviewsConfig(element),
-            );
-            product.render();
+            this.renderReview(element);
         });
+    }
+
+    renderReview(data) {
+        if (!this.self.querySelector('.review-card')) {
+            this.self.querySelector('.reviews-page__empty-review').remove();
+        }
+        const review = new Review(
+            this.self.querySelector(
+                '.reviews-page__reviews-container'),
+            this.getReviewsConfig(data),
+        );
+        review.render();
     }
 
 
@@ -119,6 +126,7 @@ export default class ReviewsPage {
         router.go({url: notFoundRoute});
     }
 
+    renderReview = this.renderReview.bind(this);
     saveProduct = this.saveProduct.bind(this);
     renderReviewForm = this.renderReviewForm.bind(this);
     redirectToNotFound = this.redirectToNotFound.bind(this);
@@ -133,7 +141,7 @@ export default class ReviewsPage {
         eventEmmiter.subscribe(Events.NOT_FOUND, this.redirectToNotFound);
         eventEmmiter.subscribe(Events.REVIEWS, this.renderReviews);
         eventEmmiter.subscribe(Events.REVIEW_FORM, this.renderReviewForm);
-
+        eventEmmiter.subscribe(Events.SUCCESSFUL_REVIEW, this.renderReview);
         // eventEmmiter.subscribe(Events.PRODUCT, this.updateProductInfo);
     }
 
@@ -145,7 +153,7 @@ export default class ReviewsPage {
         eventEmmiter.unsubscribe(Events.NOT_FOUND, this.redirectToNotFound);
         eventEmmiter.unsubscribe(Events.REVIEWS, this.renderReviews);
         eventEmmiter.unsubscribe(Events.REVIEW_FORM, this.renderReviewForm);
-
+        eventEmmiter.unsubscribe(Events.SUCCESSFUL_REVIEW, this.renderReview);
         // eventEmmiter.unsubscribe(Events.PRODUCT, this.updateProductInfo);
     }
 
@@ -158,6 +166,19 @@ export default class ReviewsPage {
         const header = new Header();
         header.render();
         this.subscribeToEvents();
+
+        const backLink = new Link(
+            this.self.querySelector('.reviews-page__back-link-place'),
+            {
+                text: 'К описанию товара',
+                href: productRoute + '/' + this.#productId,
+                class: 'reviews-page__back-link',
+                imgClass: 'reviews-page__back-link-img',
+                imgSrc: '/static/images/arrow-left-black.svg',
+            },
+        );
+
+        backLink.render();
 
         const productInfo = new ReviewProduct(
             this.self.querySelector('.reviews-page__product-container'),

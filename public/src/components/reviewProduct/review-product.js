@@ -54,7 +54,7 @@ export default class ReviewProduct {
             quantity: data.quantity,
             img: {
                 imgSrc: '/static/images/' + data.img,
-                imgClass: 'category-card__img',
+                imgClass: 'review-product__img',
                 href: productRoute + '/' + data.productId,
             },
             name: {

@@ -22,6 +22,8 @@ class Router {
     #root;
     #states;
     #currentView;
+    #currentUrl;
+    #continueUrl;
 
     /**
      * Конструктор для класса роутера
@@ -93,6 +95,19 @@ class Router {
      */
     go(state, replaceState) {
         let baseState = this.#states.get(state.url);
+        if (state.url === signupRoute || state.url === loginRoute) {
+            console.log(state, this.#continueUrl);
+            if (!state.continue && !(this.#currentUrl === signupRoute || this.#currentUrl === loginRoute)) {
+                state.continue = this.#currentUrl;
+            }
+            if (state.url === loginRoute) {
+                this.#continueUrl = this.#currentUrl;
+            }
+
+            if (!state.continue) {
+                state.continue = this.#continueUrl;
+            }
+        }
         let idParam;
         if (!baseState) {
             const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('/'));
@@ -115,6 +130,7 @@ class Router {
             UserActions.removeListeners();
         }
 
+        this.#currentUrl = state.url;
         this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
         this.#currentView.render();
         document.title = baseState.name;

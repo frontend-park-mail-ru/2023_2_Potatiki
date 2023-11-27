@@ -6,7 +6,7 @@ import {ProductsActionsType} from '../actions/products';
 import {categoryProductsUrl,
     createReviewUrl,
     getAllCategoriesUrl, getProductUrl, getProductsUrl, getReviewsUrl} from '../config/urls';
-import {parseCategories, reviver} from '../modules/utils';
+import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
 
@@ -230,23 +230,11 @@ class ProductsStore {
     }
 
     async getReviews(id) {
-        // const data = [];
-        // for (let i = 0; i < 10; i++) {
-        //     data.push(
-        //         {
-        //             profileName: userStore.loginName + i,
-        //             date: new Date(),
-        //             rate: 4.4,
-        //             advantages: 'lalala',
-        //             disadvantages: 'lalala',
-        //             comments: 'bimbam',
-        //         },
-        //     );
-        // }
         const [statusCode, body] = await Ajax.prototype.getRequest(`${getReviewsUrl}?product=${id}`);
         switch (statusCode) {
         case 200:
             eventEmmiter.emit(Events.REVIEWS, body);
+            eventEmmiter.emit(Events.REVIEWS_SUMMARY, reduceReviews(body));
             break;
         case 400:
         case 429:
@@ -296,7 +284,7 @@ class ProductsStore {
 
         switch (statusCode) {
         case 200:
-            eventEmmiter.emit(Events.SUCCESSFUL_REVIEW);
+            eventEmmiter.emit(Events.SUCCESSFUL_REVIEW, {productId, pros, cons, comment, rating, profileName: 'Вася Иванов'});
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ваш отзыв опубликован', true);
             break;
         case 401:
