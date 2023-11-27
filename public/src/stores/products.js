@@ -226,7 +226,11 @@ class ProductsStore {
      * Взятие продуктов по запросу
      * @param {String} searchValue Запрос
      */
-    getSearchProducts(searchValue) {
+    async getSearchProducts(searchValue) {
+        const requestUrl =
+            `search/?product=${searchValue}`;
+        const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
+        console.log(body);
         this.addRequestLocal(searchValue);
     }
 
