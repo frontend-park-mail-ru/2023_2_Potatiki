@@ -21,6 +21,7 @@ class ProductsStore {
      */
     constructor() {
         this.registerEvents();
+        this.getCategories();
     }
 
     /**
@@ -54,8 +55,10 @@ class ProductsStore {
                 break;
             case ProductsActionsType.GET_SUGGEST:
                 this.getSuggest(action.payload.word);
+                break;
             case ProductsActionsType.GET_SEARCH_PRODUCTS:
                 this.getSearchProducts(action.payload.searchValue);
+                break;
             default:
                 break;
             }
@@ -213,13 +216,62 @@ class ProductsStore {
      * Взятие саджеста
      * @param {*} word Поисковый запрос
      */
-    getSuggest(word) {
+    async getSuggest(word) {
         if (!word) {
             eventEmmiter.emit(Events.RECIEVE_SUGGEST, this.getLastSearchRequests());
             return;
         }
-        const rows = ['сыр', 'молоко', 'мясо', 'каша'];
-        eventEmmiter.emit(Events.RECIEVE_SUGGEST, rows);
+
+        let maxSuggestLen = 10;
+
+        let rows = [];
+        let matchCategories = [];
+        let matchProducts = [];
+
+        this.#state.categories.forEach((el) => {
+            if (el.categoryName.toLowerCase().startsWith(word)) {
+                matchCategories.push(el.categoryName);
+                maxSuggestLen--;
+            }
+        });
+
+        const requestUrl =
+            `search/?product=${word}`;
+        const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
+
+        switch (statusCode) {
+        case 200:
+            const products = body;
+
+            if (!products) {
+                return;
+            }
+
+            products.forEach((el) => {
+                if (maxSuggestLen > 0) {
+                    matchProducts.push(el.productName.toLowerCase());
+                    maxSuggestLen--;
+                }
+            });
+
+            rows = [...matchProducts, ...matchCategories];
+
+            if (rows.length === 0) {
+                eventEmmiter.emit(Events.RECIEVE_SUGGEST, this.getLastSearchRequests());
+                return;
+            }
+
+            eventEmmiter.emit(Events.RECIEVE_SUGGEST, rows);
+            break;
+        case 400:
+            eventEmmiter.emit(Events.NOT_FOUND);
+            break;
+        case 429:
+            eventEmmiter.emit(Events.RECIEVE_SUGGEST, this.getLastSearchRequests());
+            break;
+        default:
+            break;
+        }
     }
 
     /**
@@ -230,7 +282,6 @@ class ProductsStore {
         const requestUrl =
             `search/?product=${searchValue}`;
         const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
-        console.log(body);
         this.addRequestLocal(searchValue);
     }
 

@@ -6,6 +6,7 @@ import {ProductsActions} from '../../actions/products.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import Suggest from '../suggest/suggest.js';
 import {Events} from '../../config/events.js';
+import {debounce} from '../../modules/utils.js';
 
 /**
  * Класс компонента формы поиска
@@ -52,7 +53,7 @@ export default class SearchForm {
      * @param {Array} rows Строки
      */
     renderSuggest(rows) {
-        if (!rows) {
+        if (!rows || rows.length === 0) {
             return;
         }
         this.suggest = new Suggest(document.querySelector('.container-suggest'), rows);
@@ -74,7 +75,7 @@ export default class SearchForm {
 
 
     submitHandle = this.submitHandle.bind(this);
-    getSuggest = this.getSuggest.bind(this);
+    getSuggest = debounce(this.getSuggest.bind(this), 500);
     renderSuggest = this.renderSuggest.bind(this);
     hideSuggest = this.hideSuggest.bind(this);
 

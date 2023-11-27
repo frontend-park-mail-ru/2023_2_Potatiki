@@ -10,6 +10,17 @@ export function replacer(key, value) {
     }
 }
 
+export function debounce(callee, timeoutMs) {
+    return function perform(...args) {
+      let previousCall = this.lastCall
+      this.lastCall = Date.now()
+      if (previousCall && this.lastCall - previousCall <= timeoutMs) {
+        clearTimeout(this.lastCallTimer)
+      }
+      this.lastCallTimer = setTimeout(() => callee(...args), timeoutMs)
+    }
+  }
+
 export function reviver(key, value) {
     if (typeof value === 'object' && value !== null) {
         if (value.dataType === 'Map') {
