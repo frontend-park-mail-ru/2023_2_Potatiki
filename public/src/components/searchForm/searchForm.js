@@ -7,6 +7,7 @@ import {eventEmmiter} from '../../modules/event-emmiter.js';
 import Suggest from '../suggest/suggest.js';
 import {Events} from '../../config/events.js';
 import {debounce} from '../../modules/utils.js';
+import router from '../../modules/router.js';
 
 /**
  * Класс компонента формы поиска
@@ -46,7 +47,30 @@ export default class SearchForm {
     submitHandle(event) {
         event.preventDefault();
         ProductsActions.getSearchProducts(this.searchInput.self.value);
+        this.hideSuggest(event);
+        router.go({url: `/search/?product=${this.searchInput.self.value}`});
     }
+
+    /**
+     *
+     * @param {*} event
+     */
+    enterHandle(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            this.searchInput.self.blur();
+            this.submit.self.click();
+        }
+    }
+
+    enterHandle = this.enterHandle.bind(this);
+
+    clickSuggest(event) {
+        this.searchInput.self.value = event.target.innerHTML;
+        this.submit.self.click();
+    }
+
+    clickSuggest = this.clickSuggest.bind(this);
 
     /**
      * Отрисовка саджеста
@@ -59,6 +83,9 @@ export default class SearchForm {
         this.suggest = new Suggest(document.querySelector('.container-suggest'), rows);
         document.querySelector('#container-header').classList.add('container-header_dark');
         this.suggest.render();
+        [...document.querySelectorAll('.suggest__row')].forEach((el) => {
+            el.addEventListener('click', this.clickSuggest);
+        });
     }
 
     /**
@@ -85,6 +112,7 @@ export default class SearchForm {
     addEventListeners() {
         this.searchInput.self.addEventListener('input', this.getSuggest);
         this.searchInput.self.addEventListener('focusin', this.getSuggest);
+        this.searchInput.self.addEventListener('keypress', this.enterHandle);
         this.submit.self.addEventListener('click', this.submitHandle);
         window.addEventListener('click', this.hideSuggest);
     }

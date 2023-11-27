@@ -29,6 +29,13 @@ export default class Suggest {
      * Отрисовка компонента
      */
     render() {
+        this.#rows.forEach((el) => {
+            if (el.isCategory) {
+                el.href = `/category/${el.id}`;
+            } else {
+                el.href = '#';
+            }
+        });
         this.#parent.innerHTML = template({rows: this.#rows});
     }
 }

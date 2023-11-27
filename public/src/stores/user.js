@@ -228,12 +228,11 @@ class UserStore {
             this.#state.loginName = body.login;
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
-            eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname});
+            eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname + location.search});
             break;
         case 401:
             this.#state.isAuth = false;
-            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
-
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname + location.search});
             break;
         case 429:
             renderServerMessage('Ошибка. Попробуйте позже');

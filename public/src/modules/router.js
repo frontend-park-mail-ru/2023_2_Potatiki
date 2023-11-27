@@ -1,7 +1,7 @@
 import MainPage from '../pages/main-page/main-page';
 import {cartRoute, categoryRoute, loginRoute,
     mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute,
-    signupRoute, profileRoute} from '../config/urls';
+    signupRoute, profileRoute, searchRoute} from '../config/urls';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import CartPage from '../pages/cart-page/cart-page';
@@ -12,6 +12,7 @@ import CategoryPage from '../pages/category-page/category-page';
 import ProductPage from '../pages/product-page/product-page';
 import ProfilePage from '../pages/profile-page/profile-page';
 import OrdersPage from '../pages/orders-page/orders-page';
+import SearchPage from '../pages/search-page/search-page';
 
 /**
  * Класс роутера
@@ -61,6 +62,7 @@ class Router {
             [productRoute, {view: ProductPage, url: productRoute, name: 'product'}],
             [profileRoute, {view: ProfilePage, url: profileRoute, name: 'my-profile'}],
             [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'orders'}],
+            [searchRoute, {view: SearchPage, url: searchRoute, name: 'search'}],
         ]);
 
         window.addEventListener('click', this.listenClick.bind(this));

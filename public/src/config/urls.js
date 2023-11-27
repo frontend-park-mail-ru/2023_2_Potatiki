@@ -29,6 +29,7 @@ export const categoryRoute = '/category';
 export const productRoute = '/product';
 export const ordersRoute = '/orders';
 export const profileRoute = '/my-profile';
+export const searchRoute = '/search';
 export const profileUpdateDataRoute = '/my-profile/profile/update-data';
 export const profileAddAddressRoute = '/my-profile/profile/add-address';
 export const addAddressUrl = 'address/add';

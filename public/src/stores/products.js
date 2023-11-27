@@ -230,7 +230,7 @@ class ProductsStore {
 
         this.#state.categories.forEach((el) => {
             if (el.categoryName.toLowerCase().startsWith(word)) {
-                matchCategories.push(el.categoryName);
+                matchCategories.push({name: el.categoryName, isCategory: true, id: el.categoryId});
                 maxSuggestLen--;
             }
         });
@@ -249,7 +249,8 @@ class ProductsStore {
 
             products.forEach((el) => {
                 if (maxSuggestLen > 0) {
-                    matchProducts.push(el.productName.toLowerCase());
+                    matchProducts.push({name: el.productName.toLowerCase(), isCategory: false,
+                        id: el.productId});
                     maxSuggestLen--;
                 }
             });
@@ -282,7 +283,8 @@ class ProductsStore {
         const requestUrl =
             `search/?product=${searchValue}`;
         const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
-        this.addRequestLocal(searchValue);
+        eventEmmiter.emit(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, body);
+        // this.addRequestLocal(searchValue);
     }
 
     /**
