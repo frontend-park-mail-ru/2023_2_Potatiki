@@ -4,9 +4,11 @@ import {eventEmmiter} from '../modules/event-emmiter';
 import {Events} from '../config/events';
 import {ProductsActionsType} from '../actions/products';
 import {categoryProductsUrl,
-    getAllCategoriesUrl, getProductUrl, getProductsUrl} from '../config/urls';
+    createReviewUrl,
+    getAllCategoriesUrl, getProductUrl, getProductsUrl, getReviewsUrl} from '../config/urls';
 import {parseCategories, reviver} from '../modules/utils';
 import {userStore} from './user';
+import {checkReviewInput} from '../modules/validation';
 
 /**
  * Класс хранилище для товаров
@@ -61,6 +63,18 @@ class ProductsStore {
                 break;
             case ProductsActionsType.GET_REVIEWS_SUMMARY:
                 this.getReviewsSummary(action.payload.id);
+                break;
+            case ProductsActionsType.VALIDATE_REVIEW_INPUT:
+                this.validateReviewInput(action.payload.data, action.payload.inputName);
+                break;
+            case ProductsActionsType.CREATE_REVIEW:
+                this.createReview(
+                    action.payload.productId,
+                    action.payload.pros,
+                    action.payload.cons,
+                    action.payload.comment,
+                    action.payload.rating,
+                );
                 break;
             default:
                 break;
@@ -215,21 +229,30 @@ class ProductsStore {
         }
     }
 
-    getReviews(id) {
-        const data = [];
-        for (let i = 0; i < 10; i++) {
-            data.push(
-                {
-                    profileName: userStore.loginName + i,
-                    date: new Date(),
-                    rate: 4.4,
-                    advantages: 'lalala',
-                    disadvantages: 'lalala',
-                    comments: 'bimbam',
-                },
-            );
+    async getReviews(id) {
+        // const data = [];
+        // for (let i = 0; i < 10; i++) {
+        //     data.push(
+        //         {
+        //             profileName: userStore.loginName + i,
+        //             date: new Date(),
+        //             rate: 4.4,
+        //             advantages: 'lalala',
+        //             disadvantages: 'lalala',
+        //             comments: 'bimbam',
+        //         },
+        //     );
+        // }
+        const [statusCode, body] = await Ajax.prototype.getRequest(`${getReviewsUrl}?product=${id}`);
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.REVIEWS, body);
+            break;
+        case 400:
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
+            break;
         }
-        eventEmmiter.emit(Events.REVIEWS, data);
     }
 
     getReviewForm() {
@@ -252,6 +275,56 @@ class ProductsStore {
             ],
         };
         eventEmmiter.emit(Events.REVIEWS_SUMMARY, response);
+    }
+
+    async createReview(productId, pros, cons, comment, rating) {
+        console.log('create in store');
+        const isValidPros = this.validateReviewInput(pros, 'comments');
+        const isValidCons = this.validateReviewInput(pros, 'advantages');
+        const isValidComment = this.validateReviewInput(pros, 'disadvantages');
+
+        if (!(isValidPros && isValidCons && isValidComment)) {
+            console.log;
+            return;
+        }
+
+        const [statusCode, body] = await Ajax.prototype.postRequest(
+            createReviewUrl,
+            {productId, pros, cons, comment, rating},
+            userStore.csrfToken,
+        );
+
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.SUCCESSFUL_REVIEW);
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ваш отзыв опубликован', true);
+            break;
+        case 401:
+        case 406:
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
+            break;
+        case 413:
+            eventEmmiter.emit(Events.REVIEW_EXIST);
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Вы уже оставляли отзыв на этот товар');
+        }
+    }
+
+    /**
+     * Валидация поля формы отзыва
+     * @param {String} data
+     * @param {String} inputName
+     * @return {Boolean} проверка на валидацию
+     */
+    validateReviewInput(data, inputName) {
+        const [error, isValid] = checkReviewInput(data);
+        if (!isValid) {
+            eventEmmiter.emit(Events.REVIEW_INPUT_ERROR, error, inputName);
+            return false;
+        }
+        console.log('valid', data, inputName);
+        eventEmmiter.emit(Events.REVIEW_INPUT_OK, inputName);
+        return true;
     }
 }
 

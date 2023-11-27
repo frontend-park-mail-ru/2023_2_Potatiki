@@ -7,6 +7,8 @@ export const reviewForm = {
         inputName: 'advantages',
         inputPlaceholder: 'Достоинства',
         errorId: 'advantages-error',
+        rows: 4,
+        maxlength: 200,
     },
 
     disadvantages: {
@@ -14,6 +16,8 @@ export const reviewForm = {
         inputName: 'disadvantages',
         inputPlaceholder: 'Недостатки',
         errorId: 'disadvantages-error',
+        rows: 4,
+        maxlength: 200,
     },
 
     comments: {
@@ -21,6 +25,8 @@ export const reviewForm = {
         inputName: 'comments',
         inputPlaceholder: 'Комментарии',
         errorId: 'comments-error',
+        rows: 4,
+        maxlength: 200,
     },
 
     submit: {

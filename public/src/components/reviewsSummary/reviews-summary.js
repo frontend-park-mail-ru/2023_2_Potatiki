@@ -115,10 +115,6 @@ export default class ReviewsSummary {
             template(),
         );
 
-        const testStars = new StarsInput(this.self, this.#productId);
-        testStars.render();
-
-
         this.subscribeToEvents();
         UserActions.checkAuth();
         ProductsActions.getReviewsSummary(this.#productId);

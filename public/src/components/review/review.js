@@ -9,11 +9,7 @@ import StarsRow from '../starsRow/stars-row';
 export default class Review {
     #parent;
 
-    #rate;
-
-    #id;
-
-    #rateCount;
+    #config;
 
     #isAfterBegin;
 
@@ -23,11 +19,9 @@ export default class Review {
    * @param {Object} config Конфиг для отрисовки компонента
    * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
    */
-    constructor(parent, rate, id, rateCount, isAfterBegin) {
+    constructor(parent, config, isAfterBegin) {
         this.#parent = parent;
-        this.#rate = rate;
-        this.#id = id;
-        this.#rateCount = rateCount;
+        this.#config = config;
         this.#isAfterBegin = isAfterBegin;
     }
 
@@ -38,11 +32,8 @@ export default class Review {
         return document.getElementById(this.id);
     }
 
-    /**
-     *
-     */
     get id() {
-        return 'rate-row-' + this.#id;
+        return this.#config.id;
     }
 
     /**
@@ -52,16 +43,15 @@ export default class Review {
         const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(
             destination,
-            template({
-                id: this.id,
-                rate: `${this.#rate} ${rateCase(this.#rate)}`,
-            }),
+            template(
+                this.#config,
+            ),
         );
 
         const starsRow = new StarsRow(
             this.self.querySelector('.rate-row__stars-row-place'),
-            this.#rate,
-            this.#id,
+            this.#config.rate,
+            this.id,
         );
 
         starsRow.render();

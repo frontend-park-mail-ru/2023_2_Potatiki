@@ -12,6 +12,8 @@ export default class StarsRow {
 
     #id;
 
+    #starClass;
+
     #isAfterBegin;
 
     /**
@@ -20,10 +22,12 @@ export default class StarsRow {
    * @param {Object} config Конфиг для отрисовки компонента
    * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
    */
-    constructor(parent, rate, id, isAfterBegin) {
+    constructor(parent, rate, id, starClass, isAfterBegin) {
         this.#parent = parent;
         this.#rate = rate;
         this.#id = id;
+        this.#starClass = starClass;
+        console.log(this.#starClass);
         this.#isAfterBegin = isAfterBegin;
     }
 
@@ -62,6 +66,7 @@ export default class StarsRow {
             } else {
                 sourcesArray.push({src: greyStarSrc, id: `${this.id}-star-${i}`});
             }
+            sourcesArray[i].starClass = this.#starClass;
         }
         return sourcesArray;
     }
@@ -76,6 +81,7 @@ export default class StarsRow {
             template({
                 id: this.id,
                 sources: this.sources,
+                starClass: this.#starClass,
             }),
         );
     }

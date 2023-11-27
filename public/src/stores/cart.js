@@ -13,7 +13,7 @@ import {userStore} from './user';
  */
 class CartStore {
     #state = {
-        csrfToken: '',
+
     };
 
     /**
@@ -85,7 +85,6 @@ class CartStore {
 
     userAuth = this.userAuth.bind(this);
     userLogout = this.userLogout.bind(this);
-    setCSRFToken = this.setCSRFToken.bind(this);
 
     /**
      * Подписка на события
@@ -95,15 +94,6 @@ class CartStore {
         eventEmmiter.subscribe(Events.SUCCESSFUL_LOGIN, this.userAuth);
         eventEmmiter.subscribe(Events.SUCCESSFUL_SIGNUP, this.userAuth);
         eventEmmiter.subscribe(Events.LOGOUT, this.userLogout);
-        eventEmmiter.subscribe(Events.CSRF_TOKEN, this.setCSRFToken);
-    }
-
-    /**
-     * Установление значения для CSRF токена
-     * @param {String} token  CSRF-токен
-     */
-    setCSRFToken(token) {
-        this.#state.csrfToken = token;
     }
 
     /**
@@ -126,7 +116,7 @@ class CartStore {
             });
         }
         Ajax.prototype.postRequest(updateCartUrl, {products: data},
-            this.#state.csrfToken).then((result) => {
+            userStore.csrfToken).then((result) => {
             const [statusCode, body] = result;
             switch (statusCode) {
             case 200:
@@ -267,7 +257,7 @@ class CartStore {
         if (userStore.isAuth && userStore.connection) {
             if (!await this.simpleAjax(addProductUrl,
                 {productId: data.productId, quantity: product.quantity},
-                this.#state.setCSRFToken)) {
+                userStore.csrfToken)) {
                 if (userStore.isAuth) {
                     return;
                 }
@@ -292,7 +282,7 @@ class CartStore {
         if (userStore.isAuth && userStore.connection) {
             const [statusCode, body] = await
             Ajax.prototype.deleteRequest(delProductUrl,
-                {productId: data.productId}, this.#state.setCSRFToken);
+                {productId: data.productId}, userStore.csrfToken);
             switch (statusCode) {
             case 200:
                 break;
@@ -344,7 +334,7 @@ class CartStore {
                     'Невозможно оформить заказ в оффлайн-режиме');
                 return;
             }
-            Ajax.prototype.postRequest(createOrderUrl, {}, this.#state.csrfToken)
+            Ajax.prototype.postRequest(createOrderUrl, {}, userStore.csrfToken)
                 .then((result) => {
                     const [statusCode, body] = result;
                     switch (statusCode) {

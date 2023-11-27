@@ -123,7 +123,7 @@ export default class StarsInput {
                 name: this.#name,
             }),
         );
-        this.#stars = new StarsRow(this.self.querySelector('.stars-input__stars'), 0, this.#id, true);
+        this.#stars = new StarsRow(this.self.querySelector('.stars-input__stars'), 0, this.#id, 'stars-input__star', true);
         this.#stars.render();
         this.addHoverListeners();
         this.addClickListeners();

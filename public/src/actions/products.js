@@ -9,6 +9,8 @@ export const ProductsActionsType = {
     GET_REVIEWS: 'GET_REVIEWS',
     GET_REVIEW_FORM: 'GET_REVIEW_FORM',
     GET_REVIEWS_SUMMARY: 'GET_REVIEWS_SUMMARY',
+    VALIDATE_REVIEW_INPUT: 'VALIDATE_REVIEW_INPUT',
+    CREATE_REVIEW: 'CREATE_REVIEW',
 };
 
 export const ProductsActions = {
@@ -65,6 +67,20 @@ export const ProductsActions = {
         AppDispatcher.dispatch({
             type: ProductsActionsType.GET_REVIEWS_SUMMARY,
             payload: {id},
+        });
+    },
+
+    validateReviewInput(data, inputName) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.VALIDATE_REVIEW_INPUT,
+            payload: {data, inputName},
+        });
+    },
+
+    createReview(productId, pros, cons, comment, rating) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.CREATE_REVIEW,
+            payload: {productId, pros, cons, comment, rating},
         });
     },
 };

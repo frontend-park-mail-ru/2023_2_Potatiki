@@ -38,3 +38,5 @@ export const deleteAddressUrl = 'address/delete';
 export const makeCurrentAddressUrl = 'address/make_current';
 export const updatePhotoUrl = 'profile/update-photo';
 export const reviewRoute = '/reviews';
+export const createReviewUrl = 'comments/create';
+export const getReviewsUrl = 'comments/get_all';

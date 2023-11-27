@@ -1,15 +1,14 @@
 import './review-form.scss';
 import Button from '../button/button.js';
-import Input from '../input/input.js';
-import Link from '../link/link.js';
 import template from './review-form.hbs';
 import {UserActions} from '../../actions/user.js';
-import {config} from '../../../config.js';
-import router from '../../modules/router.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
-import {mainRoute} from '../../config/urls.js';
+import {reviewRoute} from '../../config/urls.js';
 import {reviewForm} from '../../config/components.js';
+import StarsInput from '../starsInput/stars-input.js';
+import Textarea from '../textarea/textarea.js';
+import {ProductsActions} from '../../actions/products.js';
 
 /**
  * Класс компонента формы отзыва
@@ -19,6 +18,7 @@ export default class ReviewForm {
     #config;
     #data;
 
+    starsInput;
     advantages;
     disadvantages;
     comments;
@@ -28,6 +28,7 @@ export default class ReviewForm {
     /**
      * Конструктор
      * @param {Element} parent Родительский элемент
+     * @param {Element} data Информация о продукте
      */
     constructor(parent, data) {
         this.#parent = parent;
@@ -36,8 +37,9 @@ export default class ReviewForm {
         this.#config.productName = this.#data.productName;
     }
 
+    /** */
     get self() {
-        return document.getElementById('review-form');
+        return document.querySelector('.review-form__container');
     }
 
     /**
@@ -46,119 +48,107 @@ export default class ReviewForm {
      */
     submitHandle = (event) => {
         event.preventDefault();
-        // UserActions.signup(
-        //     this.login.self.value,
-        //     this.password.self.value,
-        //     this.repeatPassword.self.value,
-        //     this.phone.self.value,
-        // );
+
+        const rate = this.starsInput.rate;
+        if (!rate) {
+            this.starsInput.renderError('Выберете рейтинг от 1 до 5');
+            return;
+        }
+        ProductsActions.createReview(
+            this.#data.productId,
+            this.advantages.self.value,
+            this.disadvantages.self.value,
+            this.comments.self.value,
+            rate,
+        );
     };
 
 
     /**
-     * Функция вызова валидации для поля логина
+     * Функция вызова валидации для достоинств
      * @param {Event} event
      */
     inputAdvantagesHandle(event) {
         event.preventDefault();
-        // UserActions.validateLogin(this.login.self.value);
+        console.log('inputAdvantagesHandle');
+        ProductsActions.validateReviewInput(this.advantages.self.value, 'advantages');
     }
 
-    // inputLoginHandle = this.inputLoginHandle.bind(this);
-
     /**
-     * Функция вызова валидации для поля пароля
+     * Функция вызова валидации для поля недостатков
      * @param {Event} event
      */
     inputDisadvantagesHandle(event) {
         event.preventDefault();
-        // UserActions.validatePassword(this.password.self.value);
+        ProductsActions.validateReviewInput(this.disadvantages.self.value, 'disadvantages');
     }
 
-    // inputPasswordHandle = this.inputPasswordHandle.bind(this);
-
     /**
-     * Функция вызова валидации для поля повторить пароль
+     * Функция вызова валидации для поля комментариев
      * @param {Event} event
      */
     inputCommentsHandle(event) {
         event.preventDefault();
-        // UserActions.validateRepeatPassword(this.password.self.value,
-        //     this.repeatPassword.self.value);
-    }
-
-    // inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
-
-    /**
-     * Редирект на главную страницу
-     */
-    redirectOnMain() {
-        router.go({url: mainRoute});
+        ProductsActions.validateReviewInput(this.comments.self.value, 'comments');
     }
 
     /**
-     * Отрисовка ошибки поля логина
+     * Отрисовка ошибки поля
      * @param {String} errorText Текст ошибки
+     * @param {String} inputName Название поля
      */
-    renderLoginError(errorText) {
-        this.login.removeError();
-        this.login.renderError(errorText);
-    }
-
-    renderLoginError = this.renderLoginError.bind(this);
-
-    /**
-     *  Отрисовка ошибки поля пароль
-     * @param {String} errorText Текст ошибки
-     */
-    renderPasswordError(errorText) {
-        this.password.removeError();
-        this.password.renderError(errorText);
-    }
-
-    renderPasswordError = this.renderPasswordError.bind(this);
-
-    /**
-     * Отрисовка ошибки поля повторить пароль
-     * @param {String} errorText Текст ошибки
-     */
-    renderRepeatPasswordError(errorText) {
-        this.repeatPassword.removeError();
-        this.repeatPassword.renderError(errorText);
-    }
-
-    renderRepeatPasswordError = this.renderRepeatPasswordError.bind(this);
-
-
-    /**
-     * Отрисовка ошибки в форме
-     * @param {String} error Текст ошибки
-     */
-    renderError(error) {
-        const errorDiv = document.querySelector(`#${this.#config.errorId}`);
-        errorDiv.textContent = error;
+    renderInputError(errorText, inputName) {
+        console.log(errorText, inputName);
+        switch (inputName) {
+        case 'comments':
+            this.comments.removeError();
+            this.comments.renderError(errorText);
+            break;
+        case 'disadvantages':
+            this.disadvantages.removeError();
+            this.disadvantages.renderError(errorText);
+            break;
+        case 'advantages':
+            this.advantages.removeError();
+            this.advantages.renderError(errorText);
+            break;
+        }
     }
 
     /**
-     * Удаление ошибки с формы
+     * Удаление ошибки поля
+     * @param {String} inputName Название поля
      */
-    removeError() {
-        const errorDiv = document.querySelector(`#${this.#config.errorId}`);
-        errorDiv.textContent = '';
+    removeInputError(inputName) {
+        // console.log(errorText, inputName);
+        switch (inputName) {
+        case 'comments':
+            this.comments.removeError();
+            break;
+        case 'disadvantages':
+            this.disadvantages.removeError();
+            break;
+        case 'advantages':
+            this.advantages.removeError();
+            break;
+        }
     }
 
+    /**
+     * Скрытие формы
+     */
     removeSelf() {
         this.unsubscribeToEvents();
         this.removeListeners();
-        this.self.remove();
+        document.getElementById('review-form').remove();
     }
 
+    removeInputError = this.removeInputError.bind(this);
+    renderInputError = this.renderInputError.bind(this);
     submitHandle = this.submitHandle.bind(this);
     inputAdvantagesHandle = this.inputAdvantagesHandle.bind(this);
     inputDisadvantagesHandle = this.inputDisadvantagesHandle.bind(this);
     inputCommentsHandle = this.inputCommentsHandle.bind(this);
-    renderError = this.renderError.bind(this);
-    removeError = this.removeError.bind(this);
     removeSelf = this.removeSelf.bind(this);
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
@@ -168,9 +158,9 @@ export default class ReviewForm {
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
-        this.advantages.self.addEventListener('focusout', this.inputLoginHandle);
-        this.disadvantages.self.addEventListener('focusout', this.inputPasswordHandle);
-        this.comments.self.addEventListener('focusout', this.inputRepeatPasswordHandle);
+        this.advantages.self.addEventListener('focusout', this.inputAdvantagesHandle);
+        this.disadvantages.self.addEventListener('focusout', this.inputDisadvantagesHandle);
+        this.comments.self.addEventListener('focusout', this.inputCommentsHandle);
         this.closeButton.self.addEventListener('click', this.removeSelf);
     }
 
@@ -179,9 +169,9 @@ export default class ReviewForm {
      */
     removeListeners() {
         this.submit.self.removeEventListener('click', this.submitHandle);
-        this.advantages.self.removeEventListener('focusout', this.inputLoginHandle);
-        this.disadvantages.self.removeEventListener('focusout', this.inputPasswordHandle);
-        this.comments.self.removeEventListener('focusout', this.inputRepeatPasswordHandle);
+        this.advantages.self.removeEventListener('focusout', this.inputAdvantagesHandle);
+        this.disadvantages.self.removeEventListener('focusout', this.inputDisadvantagesHandle);
+        this.comments.self.removeEventListener('focusout', this.inputCommentsHandle);
         this.closeButton.self.removeEventListener('click', this.removeSelf);
     }
 
@@ -189,31 +179,24 @@ export default class ReviewForm {
      * Подписка на события
      */
     subscribeToEvents() {
-        eventEmmiter.subscribe(Events.SIGNUP_FORM_ERROR, this.renderError);
-        eventEmmiter.subscribe(Events.SUCCESSFUL_SIGNUP, this.redirectOnMain);
-        eventEmmiter.subscribe(Events.LOGIN_INPUT_ERROR, this.renderLoginError);
-        eventEmmiter.subscribe(Events.PASSWORD_INPUT_ERROR, this.renderPasswordError);
-        eventEmmiter.subscribe(Events.REPEAT_PASSWORD_INPUT_ERROR, this.renderRepeatPasswordError);
-        eventEmmiter.subscribe(Events.PHONE_INPUT_ERROR, this.renderPhoneError);
-
+        eventEmmiter.subscribe(Events.REVIEW_INPUT_ERROR, this.renderInputError);
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.subscribe(Events.SUCCESSFUL_REVIEW, this.removeSelf);
+        eventEmmiter.subscribe(Events.REVIEW_EXIST, this.removeSelf);
+        eventEmmiter.subscribe(Events.REVIEW_INPUT_OK, this.removeInputError);
     }
 
     /**
-     * Отписк аот событий
+     * Отписка от событий
      */
     unsubscribeToEvents() {
-        eventEmmiter.unsubscribe(Events.SIGNUP_FORM_ERROR, this.renderError);
-        eventEmmiter.unsubscribe(Events.SUCCESSFUL_SIGNUP, this.redirectOnMain);
-        eventEmmiter.unsubscribe(Events.LOGIN_INPUT_ERROR, this.renderLoginError);
-        eventEmmiter.unsubscribe(Events.PASSWORD_INPUT_ERROR, this.renderPasswordError);
-        eventEmmiter.unsubscribe(Events.REPEAT_PASSWORD_INPUT_ERROR,
-            this.renderRepeatPasswordError);
-        eventEmmiter.unsubscribe(Events.PHONE_INPUT_ERROR, this.renderPhoneError);
-
+        eventEmmiter.unsubscribe(Events.REVIEW_INPUT_ERROR, this.renderInputError);
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.unsubscribe(Events.SUCCESSFUL_REVIEW, this.removeSelf);
+        eventEmmiter.unsubscribe(Events.REVIEW_EXIST, this.removeSelf);
+        eventEmmiter.unsubscribe(Events.REVIEW_INPUT_OK, this.removeInputError);
     }
 
     /**
@@ -225,19 +208,26 @@ export default class ReviewForm {
             template(this.#config),
         );
 
-        this.advantages = new Input(
+        this.starsInput = new StarsInput(
+            this.self.querySelector('.review-form__stars-input'),
+            'review-form-star-input',
+            'Оцените продукт',
+        );
+        this.starsInput.render();
+
+        this.advantages = new Textarea(
             this.self,
             this.#config.advantages,
         );
         this.advantages.render();
 
-        this.disadvantages = new Input(
+        this.disadvantages = new Textarea(
             this.self,
             this.#config.disadvantages,
         );
         this.disadvantages.render();
 
-        this.comments = new Input(
+        this.comments = new Textarea(
             this.self,
             this.#config.comments,
         );
@@ -256,5 +246,7 @@ export default class ReviewForm {
 
         this.addListeners();
         this.subscribeToEvents();
+
+        UserActions.getCSRFToken(reviewRoute);
     }
 }

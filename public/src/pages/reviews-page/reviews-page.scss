@@ -5,3 +5,9 @@
     justify-content: space-between;
     margin: 80px 10% 30px 10%;
 }
+
+.reviews-page__main-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}

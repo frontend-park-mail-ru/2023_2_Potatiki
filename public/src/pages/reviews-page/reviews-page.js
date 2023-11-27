@@ -10,7 +10,6 @@ import ReviewProduct from '../../components/reviewProduct/review-product.js';
 import ReviewsSummary from '../../components/reviewsSummary/reviews-summary.js';
 import ReviewForm from '../../components/reviewForm/review-form.js';
 import Review from '../../components/review/review.js';
-import CsatForm from '../../components/csatForm/csat-form.js';
 
 /**
  * Класс страницы товаров категории
@@ -56,17 +55,17 @@ export default class ReviewsPage {
         return {
             id: `review-card-${data.profileName}`,
             data: data,
-            profileName: data.profileName,
-            advantages: data.advantages,
-            disadvantages: data.disadvantages,
-            comments: data.comments,
-            date: data.date,
+            // profileName: data.profileName,
+            profileName: 'Иванов Петя',
+            advantages: data.pros,
+            disadvantages: data.cons,
+            comments: data.comment,
+            date: '23 ноября 2023',
             img: {
-                imgSrc: '/static/images/' + data.img,
-                imgClass: 'category-card__img',
-                href: productRoute + '/' + data.productId,
+                imgSrc: '/static/images/user.svg',
+                imgClass: 'review-card__img',
             },
-            rate: data.rate,
+            rate: data.rating,
         };
     }
 
@@ -93,37 +92,16 @@ export default class ReviewsPage {
             return;
         }
         body.forEach((element) => {
-            // const product = new Review(
-            //     this.self.querySelector('.reviews-container'), this.getReviewsConfig(element));
-            // product.render();
+            console.log(body);
+            const product = new Review(
+                this.self.querySelector(
+                    '.reviews-page__reviews-container'),
+                this.getReviewsConfig(element),
+            );
+            product.render();
         });
-        this.loadedReviews += this.reviewsPerRequest;
     }
 
-    /**
-     * Проверка положение скролла и отображения новых продуктов, если он в конце
-     */
-    checkPosition() {
-        if (this.timer) return;
-
-        this.timer = setTimeout(() => {
-            const height = document.body.offsetHeight;
-            const screenHeight = window.innerHeight;
-            const scrolled = window.scrollY;
-            const threshold = height - screenHeight / 3;
-            const position = scrolled + screenHeight;
-            if (this.endOfPage) {
-                this.removeListeners();
-                return;
-            }
-            if (position >= threshold) {
-                // ProductsActions.getReviews(
-                //     this.loadedReviews, this.reviewsPerRequest, this.#productId);
-            }
-            clearTimeout(this.timer);
-            this.timer = null;
-        }, 250);
-    }
 
     renderReviewForm() {
         console.log('render form');
@@ -144,7 +122,6 @@ export default class ReviewsPage {
     saveProduct = this.saveProduct.bind(this);
     renderReviewForm = this.renderReviewForm.bind(this);
     redirectToNotFound = this.redirectToNotFound.bind(this);
-    checkPosition = this.checkPosition.bind(this);
     renderReviews = this.renderReviews.bind(this);
     // updateProductInfo = this.updateProductInfo.bind(this);
 
@@ -158,22 +135,6 @@ export default class ReviewsPage {
         eventEmmiter.subscribe(Events.REVIEW_FORM, this.renderReviewForm);
 
         // eventEmmiter.subscribe(Events.PRODUCT, this.updateProductInfo);
-    }
-
-    /**
-     * Добавление листенеров
-     */
-    addListeners() {
-        window.addEventListener('scroll', this.checkPosition);
-        window.addEventListener('resize', this.checkPosition);
-    }
-
-    /**
-    * Удаление листенеров
-    */
-    removeListeners() {
-        window.removeEventListener('scroll', this.checkPosition);
-        window.removeEventListener('resize', this.checkPosition);
     }
 
     /**
@@ -205,20 +166,12 @@ export default class ReviewsPage {
         productInfo.render();
 
         const reviewSummary = new ReviewsSummary(
-            this.self.querySelector('.reviews-page__reviews-container'),
+            this.self.querySelector('.reviews-page__summary-container'),
             this.#productId,
         );
 
         reviewSummary.render();
 
-        const csatForm = new CsatForm(this.self, 'Оцените наш сайт');
-        csatForm.render();
-
-
-        this.loadedReviews = 0;
-        ProductsActions.getReviews(this.loadedReviews,
-            this.reviewsPerRequest, this.#productId);
-
-        this.addListeners();
+        ProductsActions.getReviews(this.#productId);
     }
 }
