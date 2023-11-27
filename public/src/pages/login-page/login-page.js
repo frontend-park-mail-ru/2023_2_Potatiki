@@ -21,10 +21,7 @@ export default class LoginPage {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
-<<<<<<< HEAD
    * @param {Object} params Данные о переходе на следующую страницу
-=======
->>>>>>> origin/main
    */
     constructor(parent, params) {
         this.#parent = parent;
