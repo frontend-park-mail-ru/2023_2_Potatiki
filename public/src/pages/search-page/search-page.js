@@ -4,6 +4,7 @@ import {eventEmmiter} from '../../modules/event-emmiter';
 import template from './search-page.hbs';
 import CategoryProduct from '../../components/category-product/category-product.js';
 import {productRoute} from '../../config/urls';
+import Header from '../../components/header/header.js';
 import './search-page.scss';
 
 /**
@@ -60,8 +61,10 @@ export default class SearchPage {
     /**
      * Отображение продуктов категории
      * @param {Object} body Данные о продуктах категории
+     * @param {*} queryValue
      */
-    renderProducts(body) {
+    renderProducts(body, queryValue) {
+        document.querySelector("[name='search']").value = queryValue;
         if (!body || !body.length) {
             document.querySelector('.search-products-container').innerHTML =
                 'По данному запросу ничего не найдено';
@@ -134,6 +137,10 @@ export default class SearchPage {
             ProductsActions.getSearchProducts(params.get('product'));
         }
         this.#parent.innerHTML = template();
+
+        const header = new Header();
+        header.render();
+
         this.subscribeToEvents();
         this.addEventListeners();
     }

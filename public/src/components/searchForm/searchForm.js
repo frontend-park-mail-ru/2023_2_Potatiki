@@ -46,8 +46,9 @@ export default class SearchForm {
      */
     submitHandle(event) {
         event.preventDefault();
-        ProductsActions.getSearchProducts(this.searchInput.self.value);
         this.hideSuggest(event);
+        this.searchInput.self.blur();
+        ProductsActions.getSearchProducts(this.searchInput.self.value);
         router.go({url: `/search/?product=${this.searchInput.self.value}`});
     }
 
@@ -58,7 +59,6 @@ export default class SearchForm {
     enterHandle(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
-            this.searchInput.self.blur();
             this.submit.self.click();
         }
     }

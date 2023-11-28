@@ -285,7 +285,7 @@ class ProductsStore {
         const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
         switch (statusCode) {
         case 200:
-            eventEmmiter.emit(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, body);
+            eventEmmiter.emit(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, body, searchValue);
             // this.addRequestLocal(searchValue);
             break;
         case 400:
