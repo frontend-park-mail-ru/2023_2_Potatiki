@@ -11,9 +11,15 @@ import './search-page.scss';
  */
 export default class SearchPage {
     #parent;
+    #products;
 
+    /**
+     *
+     * @param {*} parent
+     */
     constructor(parent) {
         this.#parent = parent;
+        this.#products = [];
     }
 
     /**
@@ -57,9 +63,12 @@ export default class SearchPage {
      */
     renderProducts(body) {
         if (!body || !body.length) {
+            document.querySelector('.search-products-container').innerHTML =
+                'По данному запросу ничего не найдено';
             return;
         }
         document.querySelector('.search-products-container').innerHTML = '';
+        this.#products = body;
         body.forEach((element) => {
             const product = new CategoryProduct(
                 document.querySelector('.search-products-container'), this.getConfig(element));
@@ -67,7 +76,46 @@ export default class SearchPage {
         });
     }
 
+    /**
+     *
+     * @param {*} event
+     */
+    selectHandle(event) {
+        switch (document.querySelector('#sort-select').value) {
+        case 'popular':
+            this.#products.sort((a, b) => {
+                return a.name - b.name;
+            });
+            break;
+        case 'price-asc':
+            this.#products.sort((a, b) => {
+                return a.price - b.price;
+            });
+            break;
+        case 'price-desc':
+            this.#products.sort((a, b) => {
+                return b.price - a.price;
+            });
+            break;
+        case 'rating':
+            this.#products.sort((a, b) => {
+                return b.rating - a.rating;
+            });
+            break;
+        }
+
+        this.renderProducts(this.#products);
+    }
+
+    selectHandle = this.selectHandle.bind(this);
     renderProducts = this.renderProducts.bind(this);
+
+    /**
+     *
+     */
+    addEventListeners() {
+        document.querySelector('#sort-select').addEventListener('change', this.selectHandle);
+    }
 
     /**
      * подписка на события
@@ -87,5 +135,6 @@ export default class SearchPage {
         }
         this.#parent.innerHTML = template();
         this.subscribeToEvents();
+        this.addEventListeners();
     }
 }

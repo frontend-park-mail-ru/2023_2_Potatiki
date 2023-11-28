@@ -283,8 +283,20 @@ class ProductsStore {
         const requestUrl =
             `search/?product=${searchValue}`;
         const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
-        eventEmmiter.emit(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, body);
-        // this.addRequestLocal(searchValue);
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, body);
+            // this.addRequestLocal(searchValue);
+            break;
+        case 400:
+            eventEmmiter.emit(Events.NOT_FOUND);
+            break;
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
+            break;
+        default:
+            break;
+        }
     }
 
     /**
