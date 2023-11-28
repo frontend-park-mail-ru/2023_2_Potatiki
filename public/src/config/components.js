@@ -1,5 +1,9 @@
 export const yellowStarSrc = '/static/images/yellow-star.svg';
 export const greyStarSrc = '/static/images/grey-star.svg';
+export const advantagesName = 'advantages';
+export const disadvantagesName = 'disadvantages';
+export const commentsName = 'comments';
+
 
 export const reviewForm = {
     advantages: {

@@ -50,14 +50,6 @@ export default class Catalog {
      */
     renderCategories(categories) {
         categories.forEach((category) => {
-            // const infoRows = new Array();
-            // const item = new Link(
-            //     this.self.querySelector('.category-container'),
-            //     {id: 'parent-' + category.categoryId,
-            //         text: category.categoryName,
-            //         class: 'category-parent',
-            //         href: `/category/${category.categoryId}`,
-            //     });
             if (category.childs) {
                 category.childs.forEach((child) => {
                     const midCHild = new Link(this.self.querySelector('.category-container'), {

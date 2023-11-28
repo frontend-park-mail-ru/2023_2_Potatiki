@@ -59,8 +59,11 @@ export default class ReviewsPage {
             // profileName: data.profileName,
             profileName: 'Иванов Петя',
             advantages: data.pros,
+            advantagesName: 'Достоинства',
             disadvantages: data.cons,
+            disadvantagesName: 'Недостатки',
             comments: data.comment,
+            commentsName: 'Комментарии',
             date: '23 ноября 2023',
             img: {
                 imgSrc: '/static/images/user.svg',

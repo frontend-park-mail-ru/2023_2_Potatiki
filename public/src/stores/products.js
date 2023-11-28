@@ -9,6 +9,7 @@ import {categoryProductsUrl,
 import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
+import {advantagesName, commentsName, disadvantagesName} from '../config/components';
 
 /**
  * Класс хранилище для товаров
@@ -288,9 +289,9 @@ class ProductsStore {
      * @param {Number} rating рейтинг
      */
     async createReview(productId, pros, cons, comment, rating) {
-        const isValidPros = this.validateReviewInput(pros, 'comments');
-        const isValidCons = this.validateReviewInput(pros, 'advantages');
-        const isValidComment = this.validateReviewInput(pros, 'disadvantages');
+        const isValidPros = this.validateReviewInput(pros, advantagesName);
+        const isValidCons = this.validateReviewInput(cons, disadvantagesName);
+        const isValidComment = this.validateReviewInput(comment, commentsName);
 
         if (!(isValidPros && isValidCons && isValidComment)) {
             return;
