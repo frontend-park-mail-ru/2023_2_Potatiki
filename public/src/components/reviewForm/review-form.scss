@@ -4,13 +4,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    // display: block;
     display: grid;
     grid-template-columns: 500px;
     justify-content: center;
-    // grid-template-rows: auto;
     background-color: rgba(165, 165, 179, 0.3);
-    // opacity: 50%;
 }
 
 .review-form__container {
@@ -21,9 +18,7 @@
     background-color: var(--color-background-header);
     position: relative;
     display: grid;
-    // gap: 2rem;
     grid-template-rows: 4rem 5rem 4rem 9rem 9rem 11rem 4rem ;
-    // grid-template-columns: 400px;
 }
 
 .review-form__close {

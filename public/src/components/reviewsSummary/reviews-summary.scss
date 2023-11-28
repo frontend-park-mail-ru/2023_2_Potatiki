@@ -1,6 +1,5 @@
 .reviews-summary {
     width: 100%;
-    // margin-top: 2rem;
     font-size: 1.5rem;
     display: grid;
     gap: 2rem
@@ -9,7 +8,6 @@
 .reviews-summary__head {
     display: flex;
     justify-content: space-between;
-    // border-bottom: 1px solid var(--color-stroke);
 }
 
 .reviews-summary__button-place {
@@ -27,4 +25,8 @@
 .reviews-summary__body {
     display: grid;
     gap: 1rem;
+}
+
+.reviews-summary__rate {
+    font-weight: 600;
 }

@@ -280,9 +280,10 @@ class CartStore {
             return;
         }
         if (userStore.isAuth && userStore.connection) {
-            const [statusCode, body] = await
-            Ajax.prototype.deleteRequest(delProductUrl,
-                {productId: data.productId}, userStore.csrfToken);
+            const [statusCode] = await Ajax.prototype.deleteRequest(
+                delProductUrl,
+                {productId: data.productId}, userStore.csrfToken,
+            );
             switch (statusCode) {
             case 200:
                 break;
@@ -336,7 +337,7 @@ class CartStore {
             }
             Ajax.prototype.postRequest(createOrderUrl, {}, userStore.csrfToken)
                 .then((result) => {
-                    const [statusCode, body] = result;
+                    const [statusCode] = result;
                     switch (statusCode) {
                     case 200:
                         eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});
@@ -416,7 +417,7 @@ class CartStore {
         return Ajax.prototype
             .postRequest(url, data)
             .then((result) => {
-                const [statusCode, body] = result;
+                const [statusCode] = result;
                 switch (statusCode) {
                 case 200:
                     return true;

@@ -20,6 +20,7 @@ export default class SignupPage {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
+   * @param {Object} params Данные о переходе на следующую страницу
    */
     constructor(parent, params) {
         this.#parent = parent;

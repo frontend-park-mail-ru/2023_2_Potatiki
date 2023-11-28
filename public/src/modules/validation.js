@@ -181,8 +181,13 @@ export function checkAddressField(fieldText, isFlatField) {
     return ['', true];
 }
 
+/**
+ * Валидация поля формы ввода
+ * @param {String} fieldText
+ * @return {[Boolean, String]} Результат проверки
+ */
 export function checkReviewInput(fieldText) {
-    if (fieldText > 200) {
+    if (fieldText.length > 200) {
         return ['Максимальная длина 200 символов', false];
     }
 
@@ -194,7 +199,6 @@ export function checkReviewInput(fieldText) {
         code > UNICODE_OF_RUS_END) &&
         code !== UNICODE_OF_SPACE && code !== UNICODE_OF_TIRE
         ) {
-            console.log(fieldText[i], fieldText.codePointAt(i), UNICODE_OF_RUS_BEGIN, UNICODE_OF_RUS_END, UNICODE_OF_ASCII_START, UNICODE_OF_ASCII_END);
             return ['Разрешены только буквы, цифры и спец. символы', false];
         }
     }

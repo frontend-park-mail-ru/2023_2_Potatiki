@@ -21,11 +21,12 @@ export default class StarsInput {
     #name;
 
     /**
-   * Конструктор класса
-   * @param {Element} parent Родительский компонент
-   * @param {Object} config Конфиг для отрисовки компонента
-   * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
-   */
+     * Конструктор класса
+     * @param {Element} parent Родительский компонент
+     * @param {String} id
+     * @param {String} name
+     * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
+     */
     constructor(parent, id, name, isAfterBegin) {
         this.#parent = parent;
         this.#id = id;
@@ -36,19 +37,22 @@ export default class StarsInput {
     }
 
     /**
-     *
+     * Получение элемента из DOM
      */
     get self() {
         return document.getElementById(this.id);
     }
 
     /**
-     *
+     * Геттер для id
      */
     get id() {
         return 'stars-row-input-' + this.#id;
     }
 
+    /**
+     * Получение выбранного рейтинга
+     */
     get rate() {
         return this.#rate;
     }
@@ -73,6 +77,10 @@ export default class StarsInput {
         errorDiv.innerHTML = '';
     }
 
+    /**
+     * Перекрашивание звезды
+     * @param {Number} count
+     */
     paintStars(count) {
         for (let i = 0; i < 5; i++) {
             if (i <= count) {
@@ -83,6 +91,9 @@ export default class StarsInput {
         }
     }
 
+    /**
+     * Добавление лисенеров на клик
+     */
     addClickListeners() {
         for (let i = 0; i < 5; i++) {
             this.#clickHandles.push(this.removeHoverListeners.bind(this, i));
@@ -90,6 +101,9 @@ export default class StarsInput {
         }
     }
 
+    /**
+     * Добавление лисенеров на наведение
+     */
     addHoverListeners() {
         for (let i = 0; i < 5; i++) {
             this.#hoverHandles.push(this.paintStars.bind(this, i));
@@ -99,6 +113,10 @@ export default class StarsInput {
         this.self.addEventListener('mouseout', this.#overHandle);
     }
 
+    /**
+     * Удаление лисенеров на наведение
+     * @param {Number} index
+     */
     removeHoverListeners(index) {
         this.#rate = index + 1;
         this.removeError();
@@ -123,7 +141,13 @@ export default class StarsInput {
                 name: this.#name,
             }),
         );
-        this.#stars = new StarsRow(this.self.querySelector('.stars-input__stars'), 0, this.#id, 'stars-input__star', true);
+        this.#stars = new StarsRow(
+            this.self.querySelector('.stars-input__stars'),
+            0,
+            this.#id,
+            'stars-input__star',
+            true,
+        );
         this.#stars.render();
         this.addHoverListeners();
         this.addClickListeners();

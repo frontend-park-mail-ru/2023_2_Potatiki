@@ -27,6 +27,7 @@ export default class SignupForm {
     /**
      * Конструктор
      * @param {Element} parent Родительский элемент
+     * @param {Object} redirectUrl Данные о переходе на следующую страницу
      */
     constructor(parent, redirectUrl) {
         this.#parent = parent;

@@ -2,23 +2,13 @@
     width: 100%;
     outline: none;
     resize: none;
-    // border: 2px solid black;
-    // border-radius: 20px;
-    // padding: 2px 20px 2px 20px;
-
-
     background: var(--color-background-header);
     border-radius: 1rem;
     border: 0.1rem solid #babfff;
-    // height: 3rem;
-    // padding-top: 6px;
-    // padding-left: 1.6rem;
-    // padding-right: ;
     padding: 6px 12px;
     box-sizing: border-box;
     width: 100%;
     font-size: 1.2rem;
-
     font-family: inherit;
 }
 
@@ -26,8 +16,8 @@
     width: 0;
   }
 
-  .textarea__error {
-    padding-left: 6px;
-    font-size: 1.1rem;
-    color: var(--color-incorrect);
-  }
+.textarea__error {
+  padding-left: 6px;
+  font-size: 1.1rem;
+  color: var(--color-incorrect);
+}

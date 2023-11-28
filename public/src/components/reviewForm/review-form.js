@@ -70,7 +70,6 @@ export default class ReviewForm {
      */
     inputAdvantagesHandle(event) {
         event.preventDefault();
-        console.log('inputAdvantagesHandle');
         ProductsActions.validateReviewInput(this.advantages.self.value, 'advantages');
     }
 
@@ -98,7 +97,6 @@ export default class ReviewForm {
      * @param {String} inputName Название поля
      */
     renderInputError(errorText, inputName) {
-        console.log(errorText, inputName);
         switch (inputName) {
         case 'comments':
             this.comments.removeError();
@@ -120,7 +118,6 @@ export default class ReviewForm {
      * @param {String} inputName Название поля
      */
     removeInputError(inputName) {
-        // console.log(errorText, inputName);
         switch (inputName) {
         case 'comments':
             this.comments.removeError();
@@ -141,6 +138,7 @@ export default class ReviewForm {
         this.unsubscribeToEvents();
         this.removeListeners();
         document.getElementById('review-form').remove();
+        ProductsActions.onScroll();
     }
 
     removeInputError = this.removeInputError.bind(this);

@@ -1,6 +1,5 @@
 import './review.scss';
 import template from './review.hbs';
-import {rateCase} from '../../modules/utils';
 import StarsRow from '../starsRow/stars-row';
 
 /**
@@ -26,12 +25,15 @@ export default class Review {
     }
 
     /**
-     *
+     * Получение элемента из DOM
      */
     get self() {
         return document.getElementById(this.id);
     }
 
+    /**
+     * Геттер для id
+     */
     get id() {
         return this.#config.id;
     }

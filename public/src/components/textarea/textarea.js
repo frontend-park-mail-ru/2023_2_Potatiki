@@ -43,7 +43,6 @@ export default class Textarea {
      */
     removeError() {
         const errorDiv = document.querySelector(`#${this.#config.errorId}`);
-        console.log('remove err', this.#config.inputName, this.#config.errorId, errorDiv);
         if (!errorDiv) return;
         errorDiv.innerHTML = '';
     }

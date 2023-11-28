@@ -82,10 +82,7 @@ export default class CategoryPage {
      * @param {String} name Новое название
      */
     updateCategoryName(name) {
-        console.log(document.title);
         document.title = name;
-        console.log(document.title);
-
         this.self.querySelector('.page-title').textContent = name;
     }
 

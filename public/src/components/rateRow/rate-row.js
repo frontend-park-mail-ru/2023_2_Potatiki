@@ -18,11 +18,13 @@ export default class RateRow {
     #isAfterBegin;
 
     /**
-   * Конструктор класса
-   * @param {Element} parent Родительский компонент
-   * @param {Object} config Конфиг для отрисовки компонента
-   * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
-   */
+     * Конструктор класса
+     * @param {Element} parent Родительский компонент
+     * @param {Number} rate Рейтинг
+     * @param {String} id id родителя
+     * @param {Number} rateCount количество отзывов
+     * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
+     */
     constructor(parent, rate, id, rateCount, isAfterBegin) {
         this.#parent = parent;
         this.#rate = rate;
@@ -32,17 +34,26 @@ export default class RateRow {
     }
 
     /**
-     *
+     * Получение элемента из DOM
      */
     get self() {
         return document.getElementById(this.id);
     }
 
     /**
-     *
+     * Геттер для id
      */
     get id() {
         return 'rate-row-' + this.#id;
+    }
+
+    /**
+     * Обновление количества отзывов
+     * @param {Number} count Новое количество отзывов
+     */
+    setNewCount(count) {
+        const newCount = count + ' ' + rateCase(count);
+        this.self.querySelector('.rate-row__rate-count-place').textContent = newCount;
     }
 
     /**
@@ -54,7 +65,7 @@ export default class RateRow {
             destination,
             template({
                 id: this.id,
-                rate: `${this.#rate} ${rateCase(this.#rate)}`,
+                rate: `${this.#rateCount} ${rateCase(this.#rateCount)}`,
             }),
         );
 

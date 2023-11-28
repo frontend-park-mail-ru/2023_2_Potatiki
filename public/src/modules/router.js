@@ -94,10 +94,13 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
+        if (state.url === this.#currentUrl) {
+            return;
+        }
         let baseState = this.#states.get(state.url);
         if (state.url === signupRoute || state.url === loginRoute) {
-            console.log(state, this.#continueUrl);
-            if (!state.continue && !(this.#currentUrl === signupRoute || this.#currentUrl === loginRoute)) {
+            if (!state.continue &&
+                !(this.#currentUrl === signupRoute || this.#currentUrl === loginRoute)) {
                 state.continue = this.#currentUrl;
             }
             if (state.url === loginRoute) {
@@ -135,7 +138,6 @@ class Router {
         this.#currentView.render();
         document.title = baseState.name;
         if (replaceState) {
-            console.log('replace', state.url);
             this.#history.replaceState(
                 state,
                 '',

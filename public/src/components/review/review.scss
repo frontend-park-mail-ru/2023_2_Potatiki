@@ -2,9 +2,6 @@
     margin: 0 40px 0 0;
     padding: 20px 0;
     border-bottom: 1px solid var(--color-stroke);
-    // display: flex;
-    // flex-direction: column;
-    // gap: 2rem
 }
 
 .review-card__bottom-container {
@@ -21,6 +18,12 @@
 
 .review-card__text {
     font-size: 1.5rem;
+    word-break: break-all;
+}
+
+.review-card__date {
+    color: var(--color-stroke);
+    font-size: 1.2rem;
 }
 
 .review-card__text-bold {

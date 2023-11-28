@@ -17,46 +17,63 @@ export default class StarsRow {
     #isAfterBegin;
 
     /**
-   * Конструктор класса
-   * @param {Element} parent Родительский компонент
-   * @param {Object} config Конфиг для отрисовки компонента
-   * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
-   */
+     * Конструктор класса
+     * @param {Element} parent Родительский компонент
+     * @param {Number} rate Рейтинг
+     * @param {String} id id родителя
+     * @param {String} starClass класс для звезды
+     * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
+     */
     constructor(parent, rate, id, starClass, isAfterBegin) {
         this.#parent = parent;
         this.#rate = rate;
         this.#id = id;
         this.#starClass = starClass;
-        console.log(this.#starClass);
         this.#isAfterBegin = isAfterBegin;
     }
 
     /**
-     *
+     * Получение жлемента из DOM
      */
     get self() {
         return document.getElementById(this.id);
     }
 
     /**
-     *
+     * Геттер для id
      */
     get id() {
         return 'stars-row-' + this.#id;
     }
 
+    /**
+     * Получение звезды из DOM
+     * @param {Number} index
+     * @return {Element}
+     */
     getStar(index) {
         return this.self.querySelector(`#${this.id}-star-${index}`);
     }
 
+    /**
+     * Изменение цвета звезды на серый
+     * @param {Number} index
+     */
     setStarGrey(index) {
         this.getStar(index).src = greyStarSrc;
     }
 
+    /**
+     * Изменение цвета звезды на желтый
+     * @param {Number} index
+     */
     setStarYellow(index) {
         this.getStar(index).src = yellowStarSrc;
     }
 
+    /**
+     * Получение источников для изображений
+     */
     get sources() {
         const sourcesArray = [];
         const roundedRate = Math.round(this.#rate);

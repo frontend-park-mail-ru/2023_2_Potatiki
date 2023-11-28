@@ -24,6 +24,7 @@ export default class ReviewProduct {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
+   * @param {String} productId id продукта
    * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
    */
     constructor(parent, productId, isAfterBegin) {
@@ -45,7 +46,6 @@ export default class ReviewProduct {
      * @return {Object} Конфиг
      */
     getConfig(data) {
-        console.log(data);
         return {
             id: `review-product-${data.productId}`,
             category: data.categoryName,
@@ -119,6 +119,10 @@ export default class ReviewProduct {
         }
     }
 
+    /**
+     * Отрисовка продукта после получения информации о нем
+     * @param {Object} data Информация о продукте
+     */
     renderAll(data) {
         this.#data = data;
         const config = this.getConfig(this.#data);

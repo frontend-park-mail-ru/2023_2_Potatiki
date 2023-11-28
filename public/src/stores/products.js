@@ -61,9 +61,6 @@ class ProductsStore {
             case ProductsActionsType.GET_REVIEW_FORM:
                 this.getReviewForm(action.payload.id);
                 break;
-            case ProductsActionsType.GET_REVIEWS_SUMMARY:
-                this.getReviewsSummary(action.payload.id);
-                break;
             case ProductsActionsType.VALIDATE_REVIEW_INPUT:
                 this.validateReviewInput(action.payload.data, action.payload.inputName);
                 break;
@@ -75,6 +72,9 @@ class ProductsStore {
                     action.payload.comment,
                     action.payload.rating,
                 );
+                break;
+            case ProductsActionsType.ON_SCROLL:
+                this.onScroll();
                 break;
             default:
                 break;
@@ -229,8 +229,14 @@ class ProductsStore {
         }
     }
 
+    /**
+     * Получение отзывов о товаре
+     * @param {String} id id товара
+     */
     async getReviews(id) {
-        const [statusCode, body] = await Ajax.prototype.getRequest(`${getReviewsUrl}?product=${id}`);
+        const [statusCode, body] = await Ajax.prototype.getRequest(
+            `${getReviewsUrl}?product=${id}`,
+        );
         switch (statusCode) {
         case 200:
             eventEmmiter.emit(Events.REVIEWS, body);
@@ -243,40 +249,54 @@ class ProductsStore {
         }
     }
 
+    /**
+     * Получение информации о рейтинге
+     * @param {String} id id товара
+     */
+    async getReviewsSummary(id) {
+        const [statusCode, body] = await Ajax.prototype.getRequest(
+            `${getReviewsUrl}?product=${id}`,
+        );
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.REVIEWS_SUMMARY, reduceReviews(body));
+            break;
+        case 400:
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
+            break;
+        }
+    }
+
+    /**
+     * Получение формы отзыва
+     */
     getReviewForm() {
         if (!userStore.isAuth) {
             return;
         }
         eventEmmiter.emit(Events.REVIEW_FORM);
+        eventEmmiter.emit(Events.OFF_PAGE_SCROLL);
     }
 
-    getReviewsSummary() {
-        const response = {
-            count: 20,
-            rate: 4.5,
-            rows: [
-                2,
-                3,
-                4,
-                5,
-                6,
-            ],
-        };
-        eventEmmiter.emit(Events.REVIEWS_SUMMARY, response);
-    }
-
+    /**
+     * Создание отзыва
+     * @param {String} productId id товара
+     * @param {String} pros достоинства
+     * @param {String} cons недостатки
+     * @param {String} comment комментарий
+     * @param {Number} rating рейтинг
+     */
     async createReview(productId, pros, cons, comment, rating) {
-        console.log('create in store');
         const isValidPros = this.validateReviewInput(pros, 'comments');
         const isValidCons = this.validateReviewInput(pros, 'advantages');
         const isValidComment = this.validateReviewInput(pros, 'disadvantages');
 
         if (!(isValidPros && isValidCons && isValidComment)) {
-            console.log;
             return;
         }
 
-        const [statusCode, body] = await Ajax.prototype.postRequest(
+        const [statusCode] = await Ajax.prototype.postRequest(
             createReviewUrl,
             {productId, pros, cons, comment, rating},
             userStore.csrfToken,
@@ -284,8 +304,12 @@ class ProductsStore {
 
         switch (statusCode) {
         case 200:
-            eventEmmiter.emit(Events.SUCCESSFUL_REVIEW, {productId, pros, cons, comment, rating, profileName: 'Вася Иванов'});
+            eventEmmiter.emit(
+                Events.SUCCESSFUL_REVIEW,
+                {productId, pros, cons, comment, rating, profileName: 'Вася Иванов', id: 1},
+            );
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ваш отзыв опубликован', true);
+            this.getReviewsSummary(productId);
             break;
         case 401:
         case 406:
@@ -293,7 +317,10 @@ class ProductsStore {
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
             break;
         case 413:
-            eventEmmiter.emit(Events.REVIEW_EXIST);
+            eventEmmiter.emit(
+                Events.REVIEW_EXIST,
+                {productId, pros, cons, comment, rating, profileName: 'Вася Иванов'},
+            );
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Вы уже оставляли отзыв на этот товар');
         }
     }
@@ -310,9 +337,15 @@ class ProductsStore {
             eventEmmiter.emit(Events.REVIEW_INPUT_ERROR, error, inputName);
             return false;
         }
-        console.log('valid', data, inputName);
         eventEmmiter.emit(Events.REVIEW_INPUT_OK, inputName);
         return true;
+    }
+
+    /**
+     * Возвращение скролла на страницу
+     */
+    onScroll() {
+        eventEmmiter.emit(Events.ON_PAGE_SCROLL);
     }
 }
 

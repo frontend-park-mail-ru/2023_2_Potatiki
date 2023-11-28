@@ -7,7 +7,6 @@ import {UserActions} from '../../actions/user';
 import {ProductsActions} from '../../actions/products';
 import {rateCase} from '../../modules/utils';
 import RateRow from '../rateRow/rate-row';
-import StarsInput from '../starsInput/stars-input';
 import {loginRoute} from '../../config/urls';
 import Link from '../link/link';
 
@@ -23,16 +22,19 @@ export default class ReviewsSummary {
 
     #createReviewButton;
 
+    #rateRows;
+
     /**
-   * Конструктор класса
-   * @param {Element} parent Родительский компонент
-   * @param {Object} config Конфиг для отрисовки компонента
-   * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
-   */
+     * Конструктор класса
+     * @param {Element} parent Родительский компонент
+     * @param {String} productId id продукта
+     * @param {Boolean} isAfterBegin Флаг о месте отрисовки элемента
+     */
     constructor(parent, productId, isAfterBegin) {
         this.#parent = parent;
         this.#productId = productId;
         this.#isAfterBegin = isAfterBegin;
+        this.#rateRows = [];
     }
 
     /**
@@ -42,15 +44,25 @@ export default class ReviewsSummary {
         return document.querySelector('.reviews-summary');
     }
 
+    /**
+     * Обновление информации о рейтинге
+     * @param {Object} data Данные о рейтинге
+     */
     updateRateInfo(data) {
         if (!data || !data.rate || !data.count) {
-            console.log(data);
             this.self.querySelector('.reviews-summary__head').innerHTML = '';
             return;
         }
-        this.self.querySelector('.reviews-summary__count').textContent = `${data.count} ${rateCase(data.count)}`;
+        const reviewsCount = `${data.count} ${rateCase(data.count)}`;
+        this.self.querySelector('.reviews-summary__count').textContent = reviewsCount;
         this.self.querySelector('.reviews-summary__rate').textContent = data.rate + ' / 5';
-        data.rows.forEach((row, index) => {
+        if (this.self.querySelector('.reviews-summary__body').innerHTML) {
+            this.#rateRows.forEach((rRow, index) => {
+                rRow.setNewCount(data.rows[4 - index]);
+            });
+            return;
+        }
+        data.rows.reverse().forEach((row, index) => {
             const rateRow = new RateRow(
                 this.self.querySelector('.reviews-summary__body'),
                 5 - index,
@@ -58,13 +70,20 @@ export default class ReviewsSummary {
                 row,
             );
             rateRow.render();
+            this.#rateRows.push(rateRow);
         });
     }
 
+    /**
+     * Получение формы отзыва
+     */
     getReviewForm() {
         ProductsActions.getReviewForm(this.#productId);
     }
 
+    /**
+     * Отрисовка кнопки создания отзыва
+     */
     renderCreateButton() {
         this.self.querySelector('.reviews-summary__button-place').innerHTML = '';
         this.#createReviewButton = new Button(
@@ -105,10 +124,16 @@ export default class ReviewsSummary {
         eventEmmiter.unsubscribe(Events.REVIEWS_SUMMARY, this.updateRateInfo);
     }
 
+    /**
+     * Добавление лисенеров
+     */
     addListeners() {
         this.#createReviewButton.self.addEventListener('click', this.getReviewForm);
     }
 
+    /**
+     * Удаление лисенеров
+     */
     removeListeners() {
         this.#createReviewButton.self.removeEventListener('click', this.getReviewForm);
     }
@@ -137,6 +162,5 @@ export default class ReviewsSummary {
 
         this.subscribeToEvents();
         UserActions.checkAuth();
-        // ProductsActions.getReviewsSummary(this.#productId);
     }
 }

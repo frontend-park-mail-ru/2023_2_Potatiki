@@ -127,3 +127,7 @@ body {
 .error {
     color: var(--color-incorrect);
 }
+
+.no-scrolled {
+    overflow: hidden;
+}

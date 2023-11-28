@@ -11,6 +11,7 @@ export const ProductsActionsType = {
     GET_REVIEWS_SUMMARY: 'GET_REVIEWS_SUMMARY',
     VALIDATE_REVIEW_INPUT: 'VALIDATE_REVIEW_INPUT',
     CREATE_REVIEW: 'CREATE_REVIEW',
+    ON_SCROLL: 'ON_SCROLL',
 };
 
 export const ProductsActions = {
@@ -81,6 +82,12 @@ export const ProductsActions = {
         AppDispatcher.dispatch({
             type: ProductsActionsType.CREATE_REVIEW,
             payload: {productId, pros, cons, comment, rating},
+        });
+    },
+
+    onScroll() {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.ON_SCROLL,
         });
     },
 };

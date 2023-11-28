@@ -54,8 +54,7 @@ export default class ReviewsPage {
      */
     getReviewsConfig(data) {
         return {
-            // id: `review-card-${data.profileName}`,
-            id: `review-card-1`,
+            id: `review-card-${data.id}`,
             data: data,
             // profileName: data.profileName,
             profileName: 'Иванов Петя',
@@ -71,14 +70,10 @@ export default class ReviewsPage {
         };
     }
 
-    // /**
-    //  * Изменение названия категории
-    //  * @param {String} name Новое название
-    //  */
-    // updateProductInfo(name) {
-    //     this.self.querySelector('.page-title').textContent = name;
-    // }
-
+    /**
+     * Сохранение данных о продукте
+     * @param {Object} data Данные о продукте
+     */
     saveProduct(data) {
         this.#productData = data;
     }
@@ -89,15 +84,21 @@ export default class ReviewsPage {
      */
     renderReviews(body) {
         if (!body || !body.length) {
-            this.self.querySelector('.reviews-page__empty-review').textContent = 'Отзывов не найдено';
+            const msg = 'Отзывов не найдено';
+            this.self.querySelector('.reviews-page__empty-review').textContent = msg;
             return;
         }
         body.forEach((element) => {
-            this.renderReview(element);
+            this.renderReview(element, true);
         });
     }
 
-    renderReview(data) {
+    /**
+     * Отрисовка отзыва
+     * @param {Object} data Данные об отзыве
+     * @param {Boolean} fromSelf флаг о том что вызов происходит из метода класса
+     */
+    renderReview(data, fromSelf) {
         if (!this.self.querySelector('.review-card')) {
             this.self.querySelector('.reviews-page__empty-review').remove();
         }
@@ -107,16 +108,49 @@ export default class ReviewsPage {
             this.getReviewsConfig(data),
         );
         review.render();
+        if (!fromSelf) {
+            this.scrollToReview(data);
+        }
     }
 
+    /**
+     * Прокрутка до данного отзыва
+     * @param {Object} data Данные об отзыве
+     */
+    scrollToReview(data) {
+        const review = this.self.querySelector('#' + this.getReviewsConfig(data).id);
+        if (!review) {
+            return;
+        }
+        review.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+        });
+    }
 
+    /**
+     * Отрисовка формы отзыва
+     */
     renderReviewForm() {
-        console.log('render form');
         if (this.reviewForm?.self) {
             return;
         }
         this.reviewForm = new ReviewForm(this.#parent, this.#productData);
         this.reviewForm.render();
+    }
+
+    /**
+     * Убрать скролл со страницы
+     */
+    setNoScrolled() {
+        this.#parent.style.overflow = 'hidden';
+    }
+
+    /**
+     * Вернуть скролл на страницу
+     */
+    setScrolled() {
+        this.#parent.style.overflow = '';
     }
 
     /**
@@ -126,12 +160,14 @@ export default class ReviewsPage {
         router.go({url: notFoundRoute});
     }
 
+    scrollToReview = this.scrollToReview.bind(this);
+    setNoScrolled = this.setNoScrolled.bind(this);
+    setScrolled = this.setScrolled.bind(this);
     renderReview = this.renderReview.bind(this);
     saveProduct = this.saveProduct.bind(this);
     renderReviewForm = this.renderReviewForm.bind(this);
     redirectToNotFound = this.redirectToNotFound.bind(this);
     renderReviews = this.renderReviews.bind(this);
-    // updateProductInfo = this.updateProductInfo.bind(this);
 
     /**
      * Подписка на события
@@ -142,7 +178,9 @@ export default class ReviewsPage {
         eventEmmiter.subscribe(Events.REVIEWS, this.renderReviews);
         eventEmmiter.subscribe(Events.REVIEW_FORM, this.renderReviewForm);
         eventEmmiter.subscribe(Events.SUCCESSFUL_REVIEW, this.renderReview);
-        // eventEmmiter.subscribe(Events.PRODUCT, this.updateProductInfo);
+        eventEmmiter.subscribe(Events.OFF_PAGE_SCROLL, this.setNoScrolled);
+        eventEmmiter.subscribe(Events.ON_PAGE_SCROLL, this.setScrolled);
+        eventEmmiter.subscribe(Events.REVIEW_EXIST, this.scrollToReview);
     }
 
     /**
@@ -154,7 +192,16 @@ export default class ReviewsPage {
         eventEmmiter.unsubscribe(Events.REVIEWS, this.renderReviews);
         eventEmmiter.unsubscribe(Events.REVIEW_FORM, this.renderReviewForm);
         eventEmmiter.unsubscribe(Events.SUCCESSFUL_REVIEW, this.renderReview);
-        // eventEmmiter.unsubscribe(Events.PRODUCT, this.updateProductInfo);
+        eventEmmiter.unsubscribe(Events.OFF_PAGE_SCROLL, this.setNoScrolled);
+        eventEmmiter.unsubscribe(Events.ON_PAGE_SCROLL, this.setScrolled);
+        eventEmmiter.unsubscribe(Events.REVIEW_EXIST, this.scrollToReview);
+    }
+
+    /**
+     * Удаление лисенеров
+     */
+    removeListeners() {
+        this.setScrolled();
     }
 
     /**
