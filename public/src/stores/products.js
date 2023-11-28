@@ -9,6 +9,7 @@ import {categoryProductsUrl,
 import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
+import { SORT_POPULAR, SORT_PRICE_ASC, SORT_PRICE_DESC } from '../config/components';
 
 /**
  * Класс хранилище для товаров
@@ -48,6 +49,7 @@ class ProductsStore {
                     action.payload.offset,
                     action.payload.count,
                     action.payload.categoryId,
+                    action.payload.sortType,
                 );
                 break;
             case ProductsActionsType.GET_CATEGORY_NAME:
@@ -215,9 +217,24 @@ class ProductsStore {
      * @param {Number} count Количество товаров
      * @param {Number} categoryId Idкатегории
      */
-    async getProductsByCategory(paging=0, count=5, categoryId) {
+    async getProductsByCategory(paging=0, count=5, categoryId, sortType) {
+        let sortQuery = '';
+
+        switch (sortType) {
+        case SORT_PRICE_ASC:
+            sortQuery = '&priceBy=ASC';
+            break;
+        case SORT_PRICE_DESC:
+            sortQuery = '&priceBy=DESC';
+            break;
+        case SORT_POPULAR:
+            sortQuery = '&ratingBy=DESC';
+            break;
+        }
+
         const requestUrl =
-            `${categoryProductsUrl}?paging=${paging}&count=${count}&category_id=${categoryId}`;
+            `${categoryProductsUrl}?paging=${paging}&count=${count}&category_id=${categoryId}` +
+            sortQuery;
         const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
         switch (statusCode) {
         case 200:

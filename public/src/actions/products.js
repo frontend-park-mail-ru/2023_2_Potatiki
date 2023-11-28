@@ -31,10 +31,10 @@ export const ProductsActions = {
         });
     },
 
-    getCategoryProducts(offset = 0, count = 5, categoryId) {
+    getCategoryProducts(offset = 0, count = 5, categoryId, sortType) {
         AppDispatcher.dispatch({
             type: ProductsActionsType.GET_CATEGORY_PRODUCTS,
-            payload: {offset, count, categoryId},
+            payload: {offset, count, categoryId, sortType},
         });
     },
 

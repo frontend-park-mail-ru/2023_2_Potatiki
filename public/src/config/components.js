@@ -1,6 +1,11 @@
 export const yellowStarSrc = '/static/images/yellow-star.svg';
 export const greyStarSrc = '/static/images/grey-star.svg';
 
+export const SORT_POPULAR = 'popular';
+export const SORT_PRICE_ASC = 'price-asc';
+export const SORT_PRICE_DESC = 'price-desc';
+export const SORT_RATING = 'rating';
+
 export const reviewForm = {
     advantages: {
         inputClass: 'input review-form__input',

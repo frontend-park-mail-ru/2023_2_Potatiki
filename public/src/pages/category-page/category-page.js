@@ -7,6 +7,8 @@ import CategoryProduct from '../../components/category-product/category-product.
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
 import {notFoundRoute, productRoute, reviewRoute} from '../../config/urls.js';
+import {SORT_POPULAR} from '../../config/components.js';
+
 
 /**
  * Класс страницы товаров категории
@@ -15,6 +17,7 @@ export default class CategoryPage {
     #parent;
     #categoryName;
     #categoryId;
+    #sort;
 
     loadedProducts;
     endOfPage;
@@ -32,6 +35,7 @@ export default class CategoryPage {
         this.timer = null;
         this.#categoryId = params.idParam;
         this.productsPerRequest = 5;
+        this.#sort = SORT_POPULAR;
     }
 
     /**
@@ -87,6 +91,24 @@ export default class CategoryPage {
     }
 
     /**
+     *
+     * @param {*} event
+     */
+    selectHandle(event) {
+        this.endOfPage = false;
+        this.loadedProducts = 0;
+        eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
+        this.#sort = document.querySelector('#sort-select').value;
+        this.self.querySelector('.category-products-container').innerHTML = '';
+        ProductsActions.getCategoryProducts(this.loadedProducts,
+            this.productsPerRequest, this.#categoryId, this.#sort);
+        this.loadedProducts += this.productsPerRequest;
+    }
+
+    selectHandle = this.selectHandle.bind(this);
+
+
+    /**
      * Отображение продуктов категории
      * @param {Object} body Данные о продуктах категории
      */
@@ -116,12 +138,12 @@ export default class CategoryPage {
             const threshold = height - screenHeight / 3;
             const position = scrolled + screenHeight;
             if (this.endOfPage) {
-                this.removeListeners();
-                return;
+                // this.removeListeners();
+                // return;
             }
-            if (position >= threshold) {
+            if (position >= threshold && !this.endOfPage) {
                 ProductsActions.getCategoryProducts(
-                    this.loadedProducts, this.productsPerRequest, this.#categoryId);
+                    this.loadedProducts, this.productsPerRequest, this.#categoryId, this.#sort);
                 this.loadedProducts += this.productsPerRequest;
             }
             clearTimeout(this.timer);
@@ -150,12 +172,14 @@ export default class CategoryPage {
         eventEmmiter.subscribe(Events.CATEGORY_NAME, this.updateCategoryName);
     }
 
+
     /**
      * Добавление листенеров
      */
     addListeners() {
         window.addEventListener('scroll', this.checkPosition);
         window.addEventListener('resize', this.checkPosition);
+        document.querySelector('#sort-select').addEventListener('change', this.selectHandle);
     }
 
     /**
@@ -186,7 +210,7 @@ export default class CategoryPage {
         this.subscribeToEvents();
         this.loadedProducts = 0;
         ProductsActions.getCategoryProducts(this.loadedProducts,
-            this.productsPerRequest, this.#categoryId);
+            this.productsPerRequest, this.#categoryId, this.#sort);
         ProductsActions.getCategoryName(this.#categoryId);
         this.loadedProducts += this.productsPerRequest;
         this.addListeners();
