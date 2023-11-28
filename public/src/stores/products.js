@@ -227,7 +227,7 @@ class ProductsStore {
         case SORT_PRICE_DESC:
             sortQuery = '&priceBy=DESC';
             break;
-        case SORT_POPULAR:
+        case SORT_RATING:
             sortQuery = '&ratingBy=DESC';
             break;
         }
