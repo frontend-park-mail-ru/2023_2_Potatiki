@@ -27,11 +27,7 @@ export default class SignupPage {
     constructor(parent, params) {
         this.#parent = parent;
         this.#config = config.signupPage;
-<<<<<<< HEAD
-        this.#config = config.signupPage;
-=======
         this.#continueUrl = params.continue;
->>>>>>> AddReviews
     }
 
     /**

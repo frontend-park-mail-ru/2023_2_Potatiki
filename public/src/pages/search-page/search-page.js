@@ -64,7 +64,9 @@ export default class SearchPage {
      * @param {*} queryValue
      */
     renderProducts(body, queryValue) {
-        document.querySelector("[name='search']").value = queryValue;
+        if (queryValue) {
+            document.querySelector("[name='search']").value = queryValue;
+        }
         if (!body || !body.length) {
             document.querySelector('.search-products-container').innerHTML =
                 'По данному запросу ничего не найдено';
