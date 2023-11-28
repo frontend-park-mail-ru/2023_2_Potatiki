@@ -1,5 +1,5 @@
-export const baseUrl = 'https://www.zuzu-market.ru/api/';
-// export const baseUrl = 'http://localhost:8096/api/';
+// export const baseUrl = 'https://www.zuzu-market.ru/api/';
+export const baseUrl = 'http://localhost:8096/api/';
 
 export const signupUrl = 'auth/signup';
 export const loginUrl = 'auth/signin';
@@ -38,3 +38,6 @@ export const updateAddressUrl = 'address/update';
 export const deleteAddressUrl = 'address/delete';
 export const makeCurrentAddressUrl = 'address/make_current';
 export const updatePhotoUrl = 'profile/update-photo';
+export const reviewRoute = '/reviews';
+export const createReviewUrl = 'comments/create';
+export const getReviewsUrl = 'comments/get_all';

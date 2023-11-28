@@ -4,8 +4,11 @@ import {eventEmmiter} from '../modules/event-emmiter';
 import {Events} from '../config/events';
 import {ProductsActionsType} from '../actions/products';
 import {categoryProductsUrl,
-    getAllCategoriesUrl, getProductUrl, getProductsUrl} from '../config/urls';
-import {parseCategories, reviver} from '../modules/utils';
+    createReviewUrl,
+    getAllCategoriesUrl, getProductUrl, getProductsUrl, getReviewsUrl} from '../config/urls';
+import {parseCategories, reduceReviews, reviver} from '../modules/utils';
+import {userStore} from './user';
+import {checkReviewInput} from '../modules/validation';
 
 /**
  * Класс хранилище для товаров
@@ -58,6 +61,27 @@ class ProductsStore {
                 break;
             case ProductsActionsType.GET_SEARCH_PRODUCTS:
                 this.getSearchProducts(action.payload.searchValue);
+                break;
+            case ProductsActionsType.GET_REVIEWS:
+                this.getReviews(action.payload.id);
+                break;
+            case ProductsActionsType.GET_REVIEW_FORM:
+                this.getReviewForm(action.payload.id);
+                break;
+            case ProductsActionsType.VALIDATE_REVIEW_INPUT:
+                this.validateReviewInput(action.payload.data, action.payload.inputName);
+                break;
+            case ProductsActionsType.CREATE_REVIEW:
+                this.createReview(
+                    action.payload.productId,
+                    action.payload.pros,
+                    action.payload.cons,
+                    action.payload.comment,
+                    action.payload.rating,
+                );
+                break;
+            case ProductsActionsType.ON_SCROLL:
+                this.onScroll();
                 break;
             default:
                 break;
@@ -276,6 +300,102 @@ class ProductsStore {
     }
 
     /**
+     * Получение отзывов о товаре
+     * @param {String} id id товара
+     */
+    async getReviews(id) {
+        const [statusCode, body] = await Ajax.prototype.getRequest(
+            `${getReviewsUrl}?product=${id}`,
+        );
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.REVIEWS, body);
+            eventEmmiter.emit(Events.REVIEWS_SUMMARY, reduceReviews(body));
+            break;
+        case 400:
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
+            break;
+        }
+    }
+
+    /**
+     * Получение информации о рейтинге
+     * @param {String} id id товара
+     */
+    async getReviewsSummary(id) {
+        const [statusCode, body] = await Ajax.prototype.getRequest(
+            `${getReviewsUrl}?product=${id}`,
+        );
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.REVIEWS_SUMMARY, reduceReviews(body));
+            break;
+        case 400:
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
+            break;
+        }
+    }
+
+    /**
+     * Получение формы отзыва
+     */
+    getReviewForm() {
+        if (!userStore.isAuth) {
+            return;
+        }
+        eventEmmiter.emit(Events.REVIEW_FORM);
+        eventEmmiter.emit(Events.OFF_PAGE_SCROLL);
+    }
+
+    /**
+     * Создание отзыва
+     * @param {String} productId id товара
+     * @param {String} pros достоинства
+     * @param {String} cons недостатки
+     * @param {String} comment комментарий
+     * @param {Number} rating рейтинг
+     */
+    async createReview(productId, pros, cons, comment, rating) {
+        const isValidPros = this.validateReviewInput(pros, 'comments');
+        const isValidCons = this.validateReviewInput(pros, 'advantages');
+        const isValidComment = this.validateReviewInput(pros, 'disadvantages');
+
+        if (!(isValidPros && isValidCons && isValidComment)) {
+            return;
+        }
+
+        const [statusCode] = await Ajax.prototype.postRequest(
+            createReviewUrl,
+            {productId, pros, cons, comment, rating},
+            userStore.csrfToken,
+        );
+
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(
+                Events.SUCCESSFUL_REVIEW,
+                {productId, pros, cons, comment, rating, profileName: 'Вася Иванов', id: 1},
+            );
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ваш отзыв опубликован', true);
+            this.getReviewsSummary(productId);
+            break;
+        case 401:
+        case 406:
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
+            break;
+        case 413:
+            eventEmmiter.emit(
+                Events.REVIEW_EXIST,
+                {productId, pros, cons, comment, rating, profileName: 'Вася Иванов'},
+            );
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Вы уже оставляли отзыв на этот товар');
+        }
+    }
+
+    /**
      * Взятие продуктов по запросу
      * @param {String} searchValue Запрос
      */
@@ -329,6 +449,29 @@ class ProductsStore {
         } else {
             localStorage.setItem('searchRequests', JSON.stringify([searchValue]));
         }
+    }
+
+    /**
+     * Валидация поля формы отзыва
+     * @param {String} data
+     * @param {String} inputName
+     * @return {Boolean} проверка на валидацию
+     */
+    validateReviewInput(data, inputName) {
+        const [error, isValid] = checkReviewInput(data);
+        if (!isValid) {
+            eventEmmiter.emit(Events.REVIEW_INPUT_ERROR, error, inputName);
+            return false;
+        }
+        eventEmmiter.emit(Events.REVIEW_INPUT_OK, inputName);
+        return true;
+    }
+
+    /**
+     * Возвращение скролла на страницу
+     */
+    onScroll() {
+        eventEmmiter.emit(Events.ON_PAGE_SCROLL);
     }
 }
 

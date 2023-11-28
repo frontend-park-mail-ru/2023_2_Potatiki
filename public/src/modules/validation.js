@@ -7,13 +7,19 @@ const UNICODE_OF_LOWERCASE_Z = 0x7A;
 const UNICODE_OF_0 = 0x30;
 const UNICODE_OF_9 = 0x39;
 
+const UNICODE_OF_SPACE = 0x20;
+
 const UNICODE_OF_PLUS = 0x002B;
 const UNICODE_OF_RIGHT_BRACE = 0x0029;
 const UNICODE_OF_LEFT_BRACE = 0x0028;
 const UNICODE_OF_MINUS = 0x002D;
+const UNICODE_OF_TIRE = 8212;
 
 const UNICODE_OF_ASCII_START = 0x21;
 const UNICODE_OF_ASCII_END = 0x7E;
+
+const UNICODE_OF_RUS_BEGIN = 0x410;
+const UNICODE_OF_RUS_END = 0x44F;
 
 
 /**
@@ -171,6 +177,32 @@ export function checkAddressField(fieldText, isFlatField) {
     if (!fieldText && !isFlatField) {
         return ['Заполните поле', false];
     }
+
+    return ['', true];
+}
+
+/**
+ * Валидация поля формы ввода
+ * @param {String} fieldText
+ * @return {[Boolean, String]} Результат проверки
+ */
+export function checkReviewInput(fieldText) {
+    if (fieldText.length > 200) {
+        return ['Максимальная длина 200 символов', false];
+    }
+
+    for (let i = 0; i < fieldText.length; ++i) {
+        const code = fieldText.codePointAt(i);
+        if ((code < UNICODE_OF_ASCII_START ||
+        code > UNICODE_OF_ASCII_END) &&
+        (code < UNICODE_OF_RUS_BEGIN ||
+        code > UNICODE_OF_RUS_END) &&
+        code !== UNICODE_OF_SPACE && code !== UNICODE_OF_TIRE
+        ) {
+            return ['Разрешены только буквы, цифры и спец. символы', false];
+        }
+    }
+
 
     return ['', true];
 }

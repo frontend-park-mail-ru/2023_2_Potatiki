@@ -1,0 +1,30 @@
+<div class="review-card" id="{{id}}">
+    <div class="review-card__top-container">
+        <div class="review-card__profile-img-place">
+            <img src="{{img.imgSrc}}" class="{{img.imgClass}}">
+        </div>
+        <div class="review-card__profile-name review-card__text">{{profileName}}</div>
+        <div class="review-card__date">{{date}}</div>
+        <div class="rate-row__stars-row-place"></div>
+    </div>
+    <div class="review-card__bottom-container">
+        {{#if advantages}}
+        <div class="review-card__text-item">
+            <span class="review-card__text review-card__text-bold">Достоинства</span>
+            <span class="review-card__text">{{advantages}}</span>
+        </div>
+        {{/if}}
+        {{#if disadvantages}}
+        <div class="review-card__text-item">
+            <span class="review-card__text review-card__text-bold">Недостатки</span>
+            <span class="review-card__text">{{disadvantages}}</span>
+        </div>
+        {{/if}}
+        {{#if comments}}
+        <div class="review-card__text-item">
+            <span class="review-card__text review-card__text-bold">Комментарии</span>
+            <span class="review-card__text">{{comments}}</span>
+        </div>
+        {{/if}}
+    </div>
+</div>

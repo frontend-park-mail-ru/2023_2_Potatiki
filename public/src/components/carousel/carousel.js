@@ -1,5 +1,5 @@
 import './carousel.scss';
-import {productRoute} from '../../config/urls.js';
+import {productRoute, reviewRoute} from '../../config/urls.js';
 import Button from '../button/button.js';
 import ProductCard from '../productCard/productCard.js';
 import template from './carousel.hbs';
@@ -62,8 +62,9 @@ export default class Carousel {
                 imgSrc: '/static/images/cart.svg',
             },
             starHref: '/static/images/star-purple.svg',
-            productRate: data.rating,
+            productRate: data.rating.toFixed(1),
             reviewsCount: `${0} отзывов`,
+            reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
     }

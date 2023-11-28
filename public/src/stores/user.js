@@ -8,7 +8,8 @@ import {loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute,
     signupRoute, updateDataUrl, profileUpdateDataRoute,
     addAddressUrl, getAddressesUrl, updateAddressUrl,
     deleteAddressUrl, makeCurrentAddressUrl,
-    getCurrentAddressUrl, orderRoute, createOrderUrl, updatePhotoUrl} from '../config/urls';
+    getCurrentAddressUrl, orderRoute, createOrderUrl,
+    updatePhotoUrl, reviewRoute, createReviewUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {removeWarningMessage,
     renderServerMessage} from '../modules/server-message';
@@ -32,6 +33,13 @@ class UserStore {
      */
     constructor() {
         this.registerEvents();
+    }
+
+    /**
+     * Получение CSRF-токена
+     */
+    get csrfToken() {
+        return this.#state.csrfToken;
     }
 
     /**
@@ -491,7 +499,6 @@ class UserStore {
         switch (statusCode) {
         case 200:
             this.#state.csrfToken = token;
-            eventEmmiter.emit(Events.CSRF_TOKEN, token);
             break;
         default:
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка подключения');
@@ -516,6 +523,9 @@ class UserStore {
             break;
         case profileUpdateDataRoute:
             this.recordCSRFToken(updateDataUrl);
+            break;
+        case reviewRoute:
+            this.recordCSRFToken(createReviewUrl);
             break;
         default:
             break;
@@ -582,7 +592,7 @@ class UserStore {
         }
 
         number = cleanPhone(number);
-        const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
+        const [statusCode] = await Ajax.prototype.postRequest(updateDataUrl, {
             'passwords': {
                 'newPass': '',
                 'oldPass': ''},
@@ -623,7 +633,7 @@ class UserStore {
             return;
         }
 
-        const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
+        const [statusCode] = await Ajax.prototype.postRequest(updateDataUrl, {
             'passwords': {
                 'newPass': newPassword,
                 'oldPass': oldPassword},
@@ -755,7 +765,7 @@ class UserStore {
      * @param {String} addressId Id адреса
      */
     async deleteAddress(addressId) {
-        const [statusCode, body] = await Ajax.prototype.deleteRequest(deleteAddressUrl, {
+        const [statusCode] = await Ajax.prototype.deleteRequest(deleteAddressUrl, {
             addressId,
         },
         this.#state.csrfToken,
@@ -789,7 +799,7 @@ class UserStore {
      * @param {*} addressId Новый текущий адрес
      */
     async makeCurrentAddress(addressId) {
-        const [statusCode, body] = await Ajax.prototype.postRequest(makeCurrentAddressUrl, {
+        const [statusCode] = await Ajax.prototype.postRequest(makeCurrentAddressUrl, {
             addressId,
         },
         this.#state.csrfToken,

@@ -14,17 +14,24 @@ import {UserActions} from '../../actions/user.js';
 export default class SignupPage {
     #parent;
     #config;
+    #continueUrl;
+
 
     signupForm;
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
+   * @param {Object} params Данные о переходе на следующую страницу
    */
-    constructor(parent) {
+    constructor(parent, params) {
         this.#parent = parent;
         this.#config = config.signupPage;
+<<<<<<< HEAD
         this.#config = config.signupPage;
+=======
+        this.#continueUrl = params.continue;
+>>>>>>> AddReviews
     }
 
     /**
@@ -68,6 +75,7 @@ export default class SignupPage {
 
         this.signupForm = new SignupForm(
             this.self,
+            this.#continueUrl,
         );
 
         this.signupForm.render();
