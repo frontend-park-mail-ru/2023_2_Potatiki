@@ -7,6 +7,7 @@ import CategoryProduct from '../../components/category-product/category-product.
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
 import {notFoundRoute, productRoute, reviewRoute} from '../../config/urls.js';
+import {rateCase} from '../../modules/utils.js';
 
 /**
  * Класс страницы товаров категории
