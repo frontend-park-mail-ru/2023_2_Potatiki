@@ -63,7 +63,7 @@ export default class Carousel {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating.toFixed(1),
-            reviewsCount: `${0} отзывов`,
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
             reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };

@@ -71,7 +71,7 @@ export default class ReviewProduct {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating,
-            reviewsCount: `0 отзывов`,
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
             price: data.price.toLocaleString() + ' ₽',
         };
     }
