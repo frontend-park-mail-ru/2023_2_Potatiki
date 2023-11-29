@@ -307,7 +307,7 @@ class ProductsStore {
         case 200:
             eventEmmiter.emit(
                 Events.SUCCESSFUL_REVIEW,
-                {productId, pros, cons, comment, rating, profileName: 'Вася Иванов', id: 1},
+                body,
             );
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ваш отзыв опубликован', true);
             this.getReviewsSummary(productId);
@@ -320,7 +320,7 @@ class ProductsStore {
         case 413:
             eventEmmiter.emit(
                 Events.REVIEW_EXIST,
-                {productId, pros, cons, comment, rating, profileName: 'Вася Иванов'},
+                body,
             );
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Вы уже оставляли отзыв на этот товар');
         }
