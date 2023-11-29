@@ -121,10 +121,13 @@ export default class ReviewsPage {
      * @param {Object} data Данные об отзыве
      */
     scrollToReview(data) {
+        console.log('scroll');
         const review = this.self.querySelector('#' + this.getReviewsConfig(data).id);
         if (!review) {
+            console.log('scroll');
             return;
         }
+        console.log(review);
         review.scrollIntoView({
             behavior: 'smooth',
             block: 'nearest',
