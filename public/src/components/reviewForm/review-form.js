@@ -5,7 +5,10 @@ import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {reviewRoute} from '../../config/urls.js';
-import {reviewForm} from '../../config/components.js';
+import {advantagesName,
+    commentsName,
+    disadvantagesName,
+    reviewForm} from '../../config/components.js';
 import StarsInput from '../starsInput/stars-input.js';
 import Textarea from '../textarea/textarea.js';
 import {ProductsActions} from '../../actions/products.js';
@@ -70,7 +73,7 @@ export default class ReviewForm {
      */
     inputAdvantagesHandle(event) {
         event.preventDefault();
-        ProductsActions.validateReviewInput(this.advantages.self.value, 'advantages');
+        ProductsActions.validateReviewInput(this.advantages.self.value, advantagesName);
     }
 
     /**
@@ -79,7 +82,7 @@ export default class ReviewForm {
      */
     inputDisadvantagesHandle(event) {
         event.preventDefault();
-        ProductsActions.validateReviewInput(this.disadvantages.self.value, 'disadvantages');
+        ProductsActions.validateReviewInput(this.disadvantages.self.value, disadvantagesName);
     }
 
     /**
@@ -88,7 +91,7 @@ export default class ReviewForm {
      */
     inputCommentsHandle(event) {
         event.preventDefault();
-        ProductsActions.validateReviewInput(this.comments.self.value, 'comments');
+        ProductsActions.validateReviewInput(this.comments.self.value, commentsName);
     }
 
     /**
@@ -98,15 +101,15 @@ export default class ReviewForm {
      */
     renderInputError(errorText, inputName) {
         switch (inputName) {
-        case 'comments':
+        case commentsName:
             this.comments.removeError();
             this.comments.renderError(errorText);
             break;
-        case 'disadvantages':
+        case disadvantagesName:
             this.disadvantages.removeError();
             this.disadvantages.renderError(errorText);
             break;
-        case 'advantages':
+        case advantagesName:
             this.advantages.removeError();
             this.advantages.renderError(errorText);
             break;
@@ -119,13 +122,13 @@ export default class ReviewForm {
      */
     removeInputError(inputName) {
         switch (inputName) {
-        case 'comments':
+        case commentsName:
             this.comments.removeError();
             break;
-        case 'disadvantages':
+        case disadvantagesName:
             this.disadvantages.removeError();
             break;
-        case 'advantages':
+        case advantagesName:
             this.advantages.removeError();
             break;
         }

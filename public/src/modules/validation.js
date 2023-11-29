@@ -199,7 +199,7 @@ export function checkReviewInput(fieldText) {
         code > UNICODE_OF_RUS_END) &&
         code !== UNICODE_OF_SPACE && code !== UNICODE_OF_TIRE
         ) {
-            return ['Разрешены только буквы, цифры и спец. символы', false];
+            return ['Разрешены только буквы, цифры и знаки препинания', false];
         }
     }
 

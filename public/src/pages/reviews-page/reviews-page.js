@@ -11,6 +11,7 @@ import ReviewsSummary from '../../components/reviewsSummary/reviews-summary.js';
 import ReviewForm from '../../components/reviewForm/review-form.js';
 import Review from '../../components/review/review.js';
 import Link from '../../components/link/link.js';
+import {getDateForReview} from '../../modules/utils.js';
 
 /**
  * Класс страницы товаров категории
@@ -56,12 +57,14 @@ export default class ReviewsPage {
         return {
             id: `review-card-${data.id}`,
             data: data,
-            // profileName: data.profileName,
-            profileName: 'Иванов Петя',
+            profileName: data.userName,
             advantages: data.pros,
+            advantagesName: 'Достоинства',
             disadvantages: data.cons,
+            disadvantagesName: 'Недостатки',
             comments: data.comment,
-            date: '23 ноября 2023',
+            commentsName: 'Комментарии',
+            date: getDateForReview(data.creationDate),
             img: {
                 imgSrc: '/static/images/user.svg',
                 imgClass: 'review-card__img',

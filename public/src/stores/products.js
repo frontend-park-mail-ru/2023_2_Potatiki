@@ -10,6 +10,7 @@ import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
 import { SORT_POPULAR, SORT_PRICE_ASC, SORT_PRICE_DESC } from '../config/components';
+import {advantagesName, commentsName, disadvantagesName} from '../config/components';
 
 /**
  * Класс хранилище для товаров
@@ -375,15 +376,15 @@ class ProductsStore {
      * @param {Number} rating рейтинг
      */
     async createReview(productId, pros, cons, comment, rating) {
-        const isValidPros = this.validateReviewInput(pros, 'comments');
-        const isValidCons = this.validateReviewInput(pros, 'advantages');
-        const isValidComment = this.validateReviewInput(pros, 'disadvantages');
+        const isValidPros = this.validateReviewInput(pros, advantagesName);
+        const isValidCons = this.validateReviewInput(cons, disadvantagesName);
+        const isValidComment = this.validateReviewInput(comment, commentsName);
 
         if (!(isValidPros && isValidCons && isValidComment)) {
             return;
         }
 
-        const [statusCode] = await Ajax.prototype.postRequest(
+        const [statusCode, body] = await Ajax.prototype.postRequest(
             createReviewUrl,
             {productId, pros, cons, comment, rating},
             userStore.csrfToken,
@@ -393,7 +394,7 @@ class ProductsStore {
         case 200:
             eventEmmiter.emit(
                 Events.SUCCESSFUL_REVIEW,
-                {productId, pros, cons, comment, rating, profileName: 'Вася Иванов', id: 1},
+                body,
             );
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ваш отзыв опубликован', true);
             this.getReviewsSummary(productId);
@@ -406,7 +407,7 @@ class ProductsStore {
         case 413:
             eventEmmiter.emit(
                 Events.REVIEW_EXIST,
-                {productId, pros, cons, comment, rating, profileName: 'Вася Иванов'},
+                body,
             );
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Вы уже оставляли отзыв на этот товар');
         }

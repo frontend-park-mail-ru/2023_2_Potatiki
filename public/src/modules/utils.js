@@ -134,3 +134,17 @@ export function reduceReviews(data) {
     });
     return {rows: reviewsArray, count: data.length, rate: (avgRate / data.length).toFixed(1)};
 }
+
+/**
+ * Форматирование даты для отзыва
+ * @param {String} rawDate дата
+ * @return {String} форматированная дата
+ */
+export function getDateForReview(rawDate) {
+    const date = new Date(rawDate);
+    const months = [
+        'января', 'февраля', 'марта', 'апреля', 'июня', 'июля',
+        'августа', 'сентября', 'октября', 'ноября', 'декабря',
+    ];
+    return (date.getDate() + ' ' + months[date.getMonth() - 1] + ' ' + date.getFullYear());
+}

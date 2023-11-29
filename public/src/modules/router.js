@@ -137,7 +137,6 @@ class Router {
 
         this.#currentUrl = state.url;
         this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
-        this.#currentView.render();
         document.title = baseState.name;
         if (replaceState) {
             this.#history.replaceState(
@@ -146,12 +145,14 @@ class Router {
                 state.url,
             );
             return;
+        } else {
+            this.#history.pushState(
+                state,
+                '',
+                state.url,
+            );
         }
-        this.#history.pushState(
-            state,
-            '',
-            state.url,
-        );
+        this.#currentView.render();
     }
 
     /**

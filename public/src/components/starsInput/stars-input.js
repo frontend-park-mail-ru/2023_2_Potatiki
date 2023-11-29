@@ -127,8 +127,6 @@ export default class StarsInput {
         this.self.removeEventListener('mouseout', this.#overHandle);
     }
 
-    // removeHoverListeners = this.removeHoverListeners.bind(this);
-
     /**
    * Отрисовка компонента
    */

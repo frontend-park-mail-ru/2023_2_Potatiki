@@ -92,10 +92,8 @@ export default class OrdersPage {
      * Перенаправление на страницу авторизации
      */
     redirectToLogin() {
-        setTimeout(() => {
-            router.go({url: loginRoute}, true);
-            renderServerMessage('Авторизуйтесь, чтобы просмотреть ваши заказы');
-        }, 0.5);
+        router.go({url: loginRoute}, true);
+        renderServerMessage('Авторизуйтесь, чтобы просмотреть ваши заказы');
     }
 
 

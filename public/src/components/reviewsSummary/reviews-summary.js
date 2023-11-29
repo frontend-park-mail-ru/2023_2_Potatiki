@@ -50,7 +50,7 @@ export default class ReviewsSummary {
      */
     updateRateInfo(data) {
         if (!data || !data.rate || !data.count) {
-            this.self.querySelector('.reviews-summary__head').innerHTML = '';
+            // this.self.querySelector('.reviews-summary__head').innerHTML = '';
             return;
         }
         const reviewsCount = `${data.count} ${rateCase(data.count)}`;

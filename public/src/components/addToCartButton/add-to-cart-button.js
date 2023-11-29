@@ -57,7 +57,7 @@ export default class AddToCartButton {
 
     /**
      * Обновление количества товаров, добавленных в корзину
-     * @param {Object} data
+     * @param {Object} data Данные для рендера кнопки
      */
     updateManagement(data) {
         if (data.productId !== this.#data.productId || !this.self) {
