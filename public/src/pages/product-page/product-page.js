@@ -7,6 +7,7 @@ import router from '../../modules/router.js';
 import {notFoundRoute, productRoute, reviewRoute} from '../../config/urls.js';
 import './product-page.scss';
 import Product from '../../components/product/product.js';
+import {rateCase} from '../../modules/utils.js';
 
 /**
  * Класс страницы отзывов
@@ -64,7 +65,7 @@ export default class ProductPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating.toFixed(1),
-            reviewsCount: `${0} отзывов`,
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
             reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
