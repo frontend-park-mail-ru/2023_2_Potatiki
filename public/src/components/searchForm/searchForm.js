@@ -102,7 +102,7 @@ export default class SearchForm {
 
 
     submitHandle = this.submitHandle.bind(this);
-    getSuggest = debounce(this.getSuggest.bind(this), 500);
+    getSuggest = debounce(this.getSuggest.bind(this), 100);
     renderSuggest = this.renderSuggest.bind(this);
     hideSuggest = this.hideSuggest.bind(this);
 
