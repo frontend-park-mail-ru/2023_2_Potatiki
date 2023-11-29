@@ -9,6 +9,7 @@ import router from '../../modules/router.js';
 import {notFoundRoute, productRoute, reviewRoute} from '../../config/urls.js';
 import {SORT_POPULAR} from '../../config/components.js';
 
+import {rateCase} from '../../modules/utils.js';
 
 /**
  * Класс страницы товаров категории

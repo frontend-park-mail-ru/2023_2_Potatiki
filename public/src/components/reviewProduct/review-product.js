@@ -8,6 +8,7 @@ import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import Button from '../button/button.js';
 import {ProductsActions} from '../../actions/products.js';
+import {rateCase} from '../../modules/utils.js';
 
 /**
  * Класс компонента карточки товара на странице товара
