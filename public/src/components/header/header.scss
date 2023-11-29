@@ -33,6 +33,11 @@
     gap: 0.2rem;
 }
 
+.header__link_size_logo {
+    display: flex;
+    width: 2rem;
+}
+
 .header__button_size_catalog {
     gap: 10px;
     gap: 1rem;
@@ -49,4 +54,22 @@
 
 .dark-text {
     color: var(--color-headline);
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .header__icons-container {
+        position: absolute;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.2rem;
+        top: 96vh;
+        left: 0;
+        width: 100vw;
+        background-color: var(--color-background-header);
+        height: 4vh;
+    }
+
+    .header {
+        grid-template-columns: 9rem 12rem minmax(13rem, 50rem);
+    }
 }
