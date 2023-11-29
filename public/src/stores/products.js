@@ -297,7 +297,7 @@ class ProductsStore {
             return;
         }
 
-        const [statusCode] = await Ajax.prototype.postRequest(
+        const [statusCode, body] = await Ajax.prototype.postRequest(
             createReviewUrl,
             {productId, pros, cons, comment, rating},
             userStore.csrfToken,
