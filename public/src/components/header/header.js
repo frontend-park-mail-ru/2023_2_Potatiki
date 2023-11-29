@@ -88,6 +88,7 @@ export default class Header {
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
         eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
+        eventEmmiter.subscribe(Events.LOGOUT, this.unauthorizedHeader);
     }
 
     /**
@@ -98,6 +99,7 @@ export default class Header {
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
         eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
+        eventEmmiter.unsubscribe(Events.LOGOUT, this.unauthorizedHeader);
     }
 
     /**

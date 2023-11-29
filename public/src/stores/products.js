@@ -392,6 +392,7 @@ class ProductsStore {
 
         switch (statusCode) {
         case 200:
+            eventEmmiter.emit(Events.ON_PAGE_SCROLL);
             eventEmmiter.emit(
                 Events.SUCCESSFUL_REVIEW,
                 body,
@@ -405,6 +406,7 @@ class ProductsStore {
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
             break;
         case 413:
+            eventEmmiter.emit(Events.ON_PAGE_SCROLL);
             eventEmmiter.emit(
                 Events.REVIEW_EXIST,
                 body,
