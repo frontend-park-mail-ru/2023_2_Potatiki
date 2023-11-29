@@ -144,7 +144,6 @@ class Router {
                 '',
                 state.url,
             );
-            return;
         } else {
             this.#history.pushState(
                 state,
