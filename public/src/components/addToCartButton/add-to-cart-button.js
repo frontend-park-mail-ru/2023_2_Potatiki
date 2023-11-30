@@ -161,7 +161,13 @@ export default class AddToCartButton {
         CartActions.changeQuantityLocal(this.#data);
     }
 
+    localRemoveListeners() {
+        console.log('rmove');
+        this.removeListeners();
+        this.unsubscribeToEvents();
+    }
 
+    localRemoveListeners = this.localRemoveListeners.bind(this);
     addToCart = this.addToCart.bind(this);
     decreaseQuantity = this.decreaseQuantity.bind(this);
     increaseQuantity = this.increaseQuantity.bind(this);
@@ -180,6 +186,7 @@ export default class AddToCartButton {
         eventEmmiter.subscribe(Events.CHG_PRODUCT_SUCCESS, this.updateManagement);
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.subscribe(Events.LOCAL_REMOVE_LISTENERS, this.localRemoveListeners);
     }
 
     /**
@@ -191,6 +198,7 @@ export default class AddToCartButton {
         eventEmmiter.unsubscribe(Events.CHG_PRODUCT_SUCCESS, this.updateManagement);
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.unsubscribe(Events.LOCAL_REMOVE_LISTENERS, this.localRemoveListeners);
     }
 
     /**

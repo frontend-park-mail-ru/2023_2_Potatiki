@@ -52,8 +52,9 @@ export default class SearchPage {
                 imgSrc: '/static/images/cart-icon.svg',
             },
             starHref: '/static/images/star-purple.svg',
-            productRate: data.rating,
-            reviewsCount: `0 отзывов`,
+            productRate: data.rating.toFixed(1),
+            reviewsCount: `${0} отзывов`,
+            reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
@@ -65,7 +66,7 @@ export default class SearchPage {
      */
     renderProducts(body, queryValue) {
         if (queryValue) {
-            document.querySelector("[name='search']").value = queryValue;
+            document.querySelector('[name=\'search\']').value = queryValue;
         }
         if (!body || !body.length) {
             document.querySelector('.search-products-container').innerHTML =

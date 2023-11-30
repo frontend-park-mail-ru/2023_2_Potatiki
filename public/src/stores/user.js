@@ -176,6 +176,9 @@ class UserStore {
             case UserActionsType.SET_ONLINE:
                 this.setOnline();
                 break;
+            case UserActionsType.LOCAL_REMOVE_LISTENERS:
+                this.localRemoveListeners();
+                break;
             default:
                 break;
             }
@@ -846,6 +849,14 @@ class UserStore {
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
+    }
+
+    /**
+     * Удаление лисенеров у части элементов на странице
+     */
+    localRemoveListeners() {
+        console.log('store');
+        eventEmmiter.emit(Events.LOCAL_REMOVE_LISTENERS);
     }
 }
 
