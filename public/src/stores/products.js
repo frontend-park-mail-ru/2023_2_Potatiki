@@ -9,7 +9,7 @@ import {categoryProductsUrl,
 import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
-import { SORT_POPULAR, SORT_PRICE_ASC, SORT_PRICE_DESC } from '../config/components';
+import { SORT_PRICE_ASC, SORT_PRICE_DESC, SORT_POPULAR, SORT_RATING} from '../config/components';
 import {advantagesName, commentsName, disadvantagesName} from '../config/components';
 
 /**
