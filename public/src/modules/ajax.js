@@ -1,7 +1,4 @@
-import {Events} from '../config/events';
 import {baseUrl} from '../config/urls';
-import {eventEmmiter} from './event-emmiter';
-import renderServerMessage from './server-message';
 
 /**
  * Методы для отправки сетевых запросов
@@ -11,6 +8,7 @@ export default class Ajax {
    * POST-запрос
    * @param {String} url Путь запроса
    * @param {Object} data Тело запроса
+   * @param {Strring} token CSRF-токен
    * @return {Object} Ответ с сервера
    */
     async postRequest(url, data, token) {
@@ -43,6 +41,7 @@ export default class Ajax {
    * POST-запрос
    * @param {String} url Путь запроса
    * @param {Object} data Тело запроса
+   * @param {String} token CSRF-токен
    * @return {Object} Ответ с сервера
    */
     async postBinRequest(url, data, token) {
@@ -97,6 +96,11 @@ export default class Ajax {
         }
     }
 
+    /**
+     * Запрос для CSRF токена
+     * @param {String} url Путь запроса
+     * @return {Object} Ответ с сервера
+     */
     async getCSRFRequest(url) {
         const options = {
             method: 'GET',
@@ -120,6 +124,7 @@ export default class Ajax {
    * DELETE-запрос
    * @param {String} url Путь запроса
    * @param {Object} data Тело запроса
+   * @param {String} token CSRF-токен
    * @return {Object} Ответ с сервера
    */
     async deleteRequest(url, data, token) {

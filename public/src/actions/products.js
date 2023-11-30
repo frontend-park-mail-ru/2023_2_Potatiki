@@ -6,6 +6,12 @@ export const ProductsActionsType = {
     GET_CATEGORY_PRODUCTS: 'GET_CATEGORY_PRODUCTS',
     GET_CATEGORY_NAME: 'GET_CATEGORY_NAME',
     GET_PRODUCT: 'GET_PRODUCT',
+    GET_REVIEWS: 'GET_REVIEWS',
+    GET_REVIEW_FORM: 'GET_REVIEW_FORM',
+    GET_REVIEWS_SUMMARY: 'GET_REVIEWS_SUMMARY',
+    VALIDATE_REVIEW_INPUT: 'VALIDATE_REVIEW_INPUT',
+    CREATE_REVIEW: 'CREATE_REVIEW',
+    ON_SCROLL: 'ON_SCROLL',
 };
 
 export const ProductsActions = {
@@ -41,6 +47,47 @@ export const ProductsActions = {
         AppDispatcher.dispatch({
             type: ProductsActionsType.GET_PRODUCT,
             payload: {id},
+        });
+    },
+
+    getReviews(id) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_REVIEWS,
+            payload: {id},
+        });
+    },
+
+    getReviewForm(id) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_REVIEW_FORM,
+            payload: {id},
+        });
+    },
+
+    getReviewsSummary(id) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_REVIEWS_SUMMARY,
+            payload: {id},
+        });
+    },
+
+    validateReviewInput(data, inputName) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.VALIDATE_REVIEW_INPUT,
+            payload: {data, inputName},
+        });
+    },
+
+    createReview(productId, pros, cons, comment, rating) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.CREATE_REVIEW,
+            payload: {productId, pros, cons, comment, rating},
+        });
+    },
+
+    onScroll() {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.ON_SCROLL,
         });
     },
 };

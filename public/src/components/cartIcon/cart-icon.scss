@@ -1,0 +1,32 @@
+
+.cart-icon__count {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    position: absolute;
+    right: 0.5rem;
+    top: -0.5rem;
+    background-color: var(--color-secondary);
+    border-radius: 2.4rem;
+    font-size: 1rem;
+    color: var(--color-button-text)
+}
+
+.cart-icon__container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.3rem;
+    min-width: 6rem;
+    background-color: var(--color-background-header);
+    font-size: 1.6rem;
+}
+
+.hidden {
+    display: none;
+}

@@ -9,7 +9,6 @@ import {Events} from '../../config/events.js';
  */
 export default class InfoRow {
     #parent;
-
     #config;
 
     /**
@@ -22,10 +21,17 @@ export default class InfoRow {
         this.#config = config;
     }
 
+    /**
+     * Взятие элемента компонента строчки
+     */
     get self() {
         return this.#parent.querySelector(`#${this.#config.id}`);
     }
 
+    /**
+     * Обновление строчки
+     * @param {Object} data Данные для обновления строчки
+     */
     updateInfoRow(data) {
         if (data.profile) {
             self.querySelector(`.name`).textContent = data.profile.login;
@@ -36,7 +42,7 @@ export default class InfoRow {
     updateInfoRow = this.updateInfoRow.bind(this);
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.UPDATE_INFO_ROW, this.updateInfoRow);
@@ -44,7 +50,7 @@ export default class InfoRow {
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.UPDATE_INFO_ROW, this.updateInfoRow);

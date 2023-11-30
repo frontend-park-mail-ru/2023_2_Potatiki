@@ -7,10 +7,19 @@ const UNICODE_OF_LOWERCASE_Z = 0x7A;
 const UNICODE_OF_0 = 0x30;
 const UNICODE_OF_9 = 0x39;
 
+const UNICODE_OF_SPACE = 0x20;
+
 const UNICODE_OF_PLUS = 0x002B;
 const UNICODE_OF_RIGHT_BRACE = 0x0029;
 const UNICODE_OF_LEFT_BRACE = 0x0028;
 const UNICODE_OF_MINUS = 0x002D;
+const UNICODE_OF_TIRE = 8212;
+
+const UNICODE_OF_ASCII_START = 0x21;
+const UNICODE_OF_ASCII_END = 0x7E;
+
+const UNICODE_OF_RUS_BEGIN = 0x410;
+const UNICODE_OF_RUS_END = 0x44F;
 
 
 /**
@@ -27,28 +36,28 @@ export function checkPassword(pass) {
         return ['Максимальная длина 32 символа', false];
     }
 
-    let isHasUpperLetter = false;
-    let isHasLowerLetter = false;
+    let isHasLetter = false;
     let isHasDigit = false;
 
     for (let i = 0; i < pass.length; ++i) {
         if (pass.codePointAt(i) >= UNICODE_OF_UPPERCASE_A &&
         pass.codePointAt(i) <= UNICODE_OF_UPPERCASE_Z) {
-            isHasUpperLetter = true;
+            isHasLetter = true;
         } else if (pass.codePointAt(i) >= UNICODE_OF_LOWERCASE_A &&
         pass.codePointAt(i) <= UNICODE_OF_LOWERCASE_Z) {
-            isHasLowerLetter = true;
+            isHasLetter = true;
         } else if (pass.codePointAt(i) >= UNICODE_OF_0 && pass.codePointAt(i) <= UNICODE_OF_9) {
             isHasDigit = true;
-        } else {
-            return ['Разрешена только латиница и цифры', false];
+        } else if (pass.codePointAt(i) < UNICODE_OF_ASCII_START ||
+        pass.codePointAt(i) > UNICODE_OF_ASCII_END) {
+            return ['Разрешена только латиница, цифры и спец. символы', false];
         }
     }
 
-    if (isHasDigit && isHasLowerLetter && isHasUpperLetter) {
+    if (isHasDigit && isHasLetter) {
         return ['', true];
     }
-    return ['Должны быть заглавные, прописные буквы латиницы и цифры', false];
+    return ['Должны быть буквы латиницы и цифры', false];
 }
 
 /**
@@ -66,23 +75,20 @@ export function checkLogin(login) {
     }
 
     const isValid = [...login].every((_, index) => {
-        return login.codePointAt(index) >= UNICODE_OF_UPPERCASE_A &&
-        login.codePointAt(index) <= UNICODE_OF_UPPERCASE_Z ||
-        login.codePointAt(index) >= UNICODE_OF_LOWERCASE_A &&
-        login.codePointAt(index) <= UNICODE_OF_LOWERCASE_Z ||
-        login.codePointAt(index) >= UNICODE_OF_0 && login.codePointAt(index) <= UNICODE_OF_9;
+        return login.codePointAt(index) >= UNICODE_OF_ASCII_START &&
+        login.codePointAt(index) <= UNICODE_OF_ASCII_END;
     });
 
     if (isValid) {
         return ['', true];
     }
 
-    return ['Разрешена только латиница и цифры', false];
+    return ['Неверный формат ввода', false];
 }
 
 /**
  * Валидация телефона +7(___)-___-__-__
- * @param {String} phone Логин пользователя
+ * @param {String} phone Номер телефона пользователя
  * @return {[String, Boolean]} Сообщение об ошибке и статус проверки
  */
 export function checkPhone(phone) {
@@ -116,8 +122,9 @@ export function checkPhone(phone) {
 }
 
 /**
- *
- * @param {*} phone
+ * Очищение номера телефона от формата
+ * @param {String} phone Форматированный номер телефона
+ * @return {String} Приведенный номер телефона
  */
 export function cleanPhone(phone) {
     let cleanPhone = '';
@@ -131,8 +138,9 @@ export function cleanPhone(phone) {
 }
 
 /**
- *
- * @param {*} phone
+ * Форматирование номера телефона
+ * @param {String} phone Номер телефона
+ * @return {String} Форматированный номер телефона
  */
 export function formatPhone(phone) {
     let formatPhone = '';
@@ -155,17 +163,46 @@ export function formatPhone(phone) {
     });
     return formatPhone;
 }
-
-export function checkAddressField(fieldText) {
+/**
+ * Валидация полей адреса
+ * @param {String} fieldText Текст поля
+ * @param {Boolean} isFlatField Флаг для определения является ли поле полем квартиры
+ * @return {[Boolean, String]} Результат проверки
+ */
+export function checkAddressField(fieldText, isFlatField) {
     if (fieldText > 30) {
         return ['Максимальная длина 30 символов', false];
     }
+
+    if (!fieldText && !isFlatField) {
+        return ['Заполните поле', false];
+    }
+
     return ['', true];
 }
 
-export function checkAddressForm(city, street, house, flat) {
-    if (city && street && house && flat) {
-        return ['', true];
+/**
+ * Валидация поля формы ввода
+ * @param {String} fieldText
+ * @return {[Boolean, String]} Результат проверки
+ */
+export function checkReviewInput(fieldText) {
+    if (fieldText.length > 200) {
+        return ['Максимальная длина 200 символов', false];
     }
-    return ['Все поля должны бать заполнены', false];
+
+    for (let i = 0; i < fieldText.length; ++i) {
+        const code = fieldText.codePointAt(i);
+        if ((code < UNICODE_OF_ASCII_START ||
+        code > UNICODE_OF_ASCII_END) &&
+        (code < UNICODE_OF_RUS_BEGIN ||
+        code > UNICODE_OF_RUS_END) &&
+        code !== UNICODE_OF_SPACE && code !== UNICODE_OF_TIRE
+        ) {
+            return ['Разрешены только буквы, цифры и знаки препинания', false];
+        }
+    }
+
+
+    return ['', true];
 }

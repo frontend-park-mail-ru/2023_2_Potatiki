@@ -19,7 +19,7 @@ const States = {
 };
 
 /**
- *
+ * Компонент карточки профиля
  */
 export default class Profile {
     #parent;
@@ -34,7 +34,7 @@ export default class Profile {
 
     /**
      *
-     * @param {*} parent
+     * @param {Element} parent Родительский элемент
      */
     constructor(parent) {
         this.#parent = parent;
@@ -44,7 +44,7 @@ export default class Profile {
     }
 
     /**
-     *
+     * Установление состояния карточки в зависимости от нажатия на навбар
      * @param {*} event
      */
     setState(event) {
@@ -66,8 +66,8 @@ export default class Profile {
     }
 
     /**
-     *
-     * @param {*} event
+     * Отрисовка формы изменения номера телефона
+     * @param {Event} event
      */
     editNumber(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
@@ -78,8 +78,8 @@ export default class Profile {
     editNumber = this.editNumber.bind(this);
 
     /**
-     *
-     * @param {*} event
+     * Отрисовка формы изменения пароля
+     * @param {Event} event
      */
     editPassword(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
@@ -90,8 +90,8 @@ export default class Profile {
     editPassword = this.editPassword.bind(this);
 
     /**
-     *
-     * @param {*} event
+     * Отрисовка формы изменения аватарки
+     * @param {Event} event
      */
     editImg(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
@@ -102,8 +102,8 @@ export default class Profile {
     editImg = this.editImg.bind(this);
 
     /**
-     *
-     * @param {*} event
+     * Отрисовк аформы добавления адреса
+     * @param {Event} event
      */
     addAddress(event) {
         UserActions.getCSRFToken(profileUpdateDataRoute);
@@ -115,8 +115,8 @@ export default class Profile {
     addAddress = this.addAddress.bind(this);
 
     /**
-     *
-     * @param {*} event
+     * Удаление адреса
+     * @param {Event} event
      */
     deleteAddress(event) {
         event.preventDefault();
@@ -128,8 +128,8 @@ export default class Profile {
     deleteAddress = this.deleteAddress.bind(this);
 
     /**
-     *
-     * @param {*} event
+     * Отрисовка формы изменения адреса
+     * @param {Event} event
      */
     editAddress(event) {
         event.preventDefault();
@@ -143,8 +143,8 @@ export default class Profile {
     editAddress = this.editAddress.bind(this);
 
     /**
-     *
-     * @param {*} event
+     * Изменение текущего адреса
+     * @param {Event} event
      */
     currentAddress(event) {
         event.preventDefault();
@@ -157,8 +157,8 @@ export default class Profile {
 
 
     /**
-     *
-     * @param {*} addresses
+     * Отрисовка карточек адресов
+     * @param {Array} addresses
      */
     renderAddresses(addresses) {
         this.addresses = addresses;
@@ -186,14 +186,14 @@ export default class Profile {
     renderAddresses = this.renderAddresses.bind(this);
 
     /**
-     *
+     * Добавление листенеров, связанные с разделом адресов
      */
     addAddressesEventListeners() {
         document.getElementById('add-address').addEventListener('click', this.addAddress);
     }
 
     /**
-     *
+     * Добавление листенеров
      */
     addEventListeners() {
         document.getElementById('profile-my-data').addEventListener('click',
@@ -209,7 +209,7 @@ export default class Profile {
     }
 
     /**
-     *
+     * Отрисовка карточки с информацией пользователя
      */
     renderInfoCard() {
         const infoCard = new InfoCard(document.getElementById('profile-data-card'));
@@ -219,7 +219,7 @@ export default class Profile {
         document.querySelector('.password-edit')?.addEventListener('click',
             this.editPassword);
         document.querySelector('.avatar-edit')?.addEventListener('click',
-            this.editPassword);
+            this.editImg);
     }
 
     /**
@@ -236,21 +236,21 @@ export default class Profile {
     }
 
     /**
-     *
+     * Удаление листенеров
      */
     removeEventListeners() {
 
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-     *
+     * Отрисовка компонента
      */
     render() {
         this.#parent.innerHTML = template(this.#config);

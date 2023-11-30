@@ -2,19 +2,20 @@ import {AppDispatcher} from '../modules/dispatcher';
 import {UserActionsType} from '../actions/user';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
-import {checkLogin, checkPassword, checkPhone, cleanPhone,
+import {checkAddressField, checkLogin, checkPassword, checkPhone, cleanPhone,
     formatPhone} from '../modules/validation';
 import {loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute,
     signupRoute, updateDataUrl, profileUpdateDataRoute,
     addAddressUrl, getAddressesUrl, updateAddressUrl,
     deleteAddressUrl, makeCurrentAddressUrl,
-    getCurrentAddressUrl, orderRoute, createOrderUrl, updatePhotoUrl} from '../config/urls';
+    getCurrentAddressUrl, orderRoute, createOrderUrl,
+    updatePhotoUrl, reviewRoute, createReviewUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {removeWarningMessage,
     renderServerMessage} from '../modules/server-message';
 
 /**
- * Класс store для работы с данными пользователя
+ * Класс хранилище для работы с данными пользователя
  */
 class UserStore {
     #state = {
@@ -32,6 +33,13 @@ class UserStore {
      */
     constructor() {
         this.registerEvents();
+    }
+
+    /**
+     * Получение CSRF-токена
+     */
+    get csrfToken() {
+        return this.#state.csrfToken;
     }
 
     /**
@@ -109,6 +117,18 @@ class UserStore {
                 break;
             case UserActionsType.VALIDATE_PHONE:
                 this.validatePhone(action.payload.phone);
+                break;
+            case UserActionsType.VALIDATE_CITY:
+                this.validateCity(action.payload.city);
+                break;
+            case UserActionsType.VALIDATE_STREET:
+                this.validateStreet(action.payload.street);
+                break;
+            case UserActionsType.VALIDATE_HOUSE:
+                this.validateHouse(action.payload.house);
+                break;
+            case UserActionsType.VALIDATE_FLAT:
+                this.validateFlat(action.payload.flat);
                 break;
             case UserActionsType.CHECK_AUTH:
                 this.checkAuth();
@@ -381,9 +401,9 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} number
-     * @returns
+     * Валидация номера телефона
+     * @param {String} number
+     * @return {Boolean} проверка на валидацию
      */
     validatePhone(number) {
         const [error, isValidNumber] = checkPhone(number);
@@ -394,6 +414,65 @@ class UserStore {
         return true;
     }
 
+    /**
+     * Валидация номера телефона
+     * @param {String} city
+     * @return {Boolean} проверка на валидацию
+     */
+    validateCity(city) {
+        const [error, isValidCity] = checkAddressField(city, false);
+        if (!isValidCity) {
+            eventEmmiter.emit(Events.CITY_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Валидация номера телефона
+     * @param {String} street
+     * @return {Boolean} проверка на валидацию
+     */
+    validateStreet(street) {
+        const [error, isValidStreet] = checkAddressField(street, false);
+        if (!isValidStreet) {
+            eventEmmiter.emit(Events.STREET_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Валидация номера телефона
+     * @param {String} house
+     * @return {Boolean} проверка на валидацию
+     */
+    validateHouse(house) {
+        const [error, isValidHouse] = checkAddressField(house, false);
+        if (!isValidHouse) {
+            eventEmmiter.emit(Events.HOUSE_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Валидация квартиры
+     * @param {String} flat
+     * @return {Boolean} проверка на валидацию
+     */
+    validateFlat(flat) {
+        const [error, isValidFlat] = checkAddressField(flat, true);
+        if (!isValidFlat) {
+            eventEmmiter.emit(Events.FLAT_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Взятие данных о пользователе
+     */
     async getProfileData() {
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
         switch (statusCode) {
@@ -412,12 +491,15 @@ class UserStore {
         }
     }
 
+    /**
+     * Запись CSRF-токена
+     * @param {String} url Путь для взятия
+     */
     async recordCSRFToken(url) {
         const [statusCode, token] = await Ajax.prototype.getCSRFRequest(url);
         switch (statusCode) {
         case 200:
             this.#state.csrfToken = token;
-            eventEmmiter.emit(Events.CSRF_TOKEN, token);
             break;
         default:
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка подключения');
@@ -425,6 +507,10 @@ class UserStore {
         }
     }
 
+    /**
+     * Взятие CSRF-токена
+     * @param {String} page Страница, которая запрашивает токен
+     */
     async getCsrfToken(page) {
         switch (page) {
         case loginRoute:
@@ -439,11 +525,17 @@ class UserStore {
         case profileUpdateDataRoute:
             this.recordCSRFToken(updateDataUrl);
             break;
+        case reviewRoute:
+            this.recordCSRFToken(createReviewUrl);
+            break;
         default:
             break;
         }
     }
 
+    /**
+     * Вязтие текущего адреса
+     */
     async getCurrentAddress() {
         const [statusCode, body] = await Ajax.prototype.getRequest(getCurrentAddressUrl);
         switch (statusCode) {
@@ -467,7 +559,7 @@ class UserStore {
     }
 
     /**
-     *
+     * Взятие адресов пользователя
      */
     async getAddresses() {
         const [statusCode, body] = await Ajax.prototype.getRequest(getAddressesUrl);
@@ -491,8 +583,8 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} number
+     * Обновление номера телефона пользователя
+     * @param {*} number Новый номер телефона
      */
     async updateNuber(number) {
         const isValidNumber = this.validatePhone(number);
@@ -501,7 +593,7 @@ class UserStore {
         }
 
         number = cleanPhone(number);
-        const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
+        const [statusCode] = await Ajax.prototype.postRequest(updateDataUrl, {
             'passwords': {
                 'newPass': '',
                 'oldPass': ''},
@@ -526,8 +618,10 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} number
+     * Обновление пароля пользователя
+     * @param {String} oldPassword Старый пароль
+     * @param {String} newPassword Новый пароль
+     * @param {String} repeatPassword Повторенный пароль
      */
     async updatePassword(oldPassword, newPassword, repeatPassword) {
         const isValidPassword = this.validatePassword(newPassword);
@@ -540,7 +634,7 @@ class UserStore {
             return;
         }
 
-        const [statusCode, body] = await Ajax.prototype.postRequest(updateDataUrl, {
+        const [statusCode] = await Ajax.prototype.postRequest(updateDataUrl, {
             'passwords': {
                 'newPass': newPassword,
                 'oldPass': oldPassword},
@@ -566,17 +660,20 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} city
-     * @param {*} street
-     * @param {*} house
-     * @param {*} flat
-     * @returns
+     * Добавление адреса
+     * @param {String} city Город адреса
+     * @param {String} street Улица адреса
+     * @param {String} house Номер дома адреса
+     * @param {String} flat Номер квартиры адреса
      */
     async addAddress(city, street, house, flat) {
         this.recordCSRFToken(addAddressUrl);
-        if (!city || !street || !house || !flat) {
-            eventEmmiter.emit(Events.ADD_ADDRESS_FORM_ERROR);
+        const isValidCity = this.validateCity(city);
+        const isValidStreet = this.validateStreet(street);
+        const isValidHouse = this.validateHouse(house);
+        const isValidFlat = this.validateFlat(flat);
+
+        if (!isValidCity || !isValidStreet || !isValidHouse || !isValidFlat) {
             return;
         }
 
@@ -596,7 +693,8 @@ class UserStore {
             });
             this.#state.addresses.push(body);
             if (this.#state.addresses.length > 1) {
-                [this.#state.addresses[0], this.#state.addresses[this.#state.addresses.length - 1]] =
+                [this.#state.addresses[0],
+                    this.#state.addresses[this.#state.addresses.length - 1]] =
                 [this.#state.addresses[this.#state.addresses.length - 1], this.#state.addresses[0]];
             }
             eventEmmiter.emit(Events.SUCCESSFUL_ADD_ADDRESS, this.#state.addresses);
@@ -612,17 +710,21 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} addressId
-     * @param {*} isCurrent
-     * @param {*} city
-     * @param {*} street
-     * @param {*} house
-     * @param {*} flat
+     *  Обновление данных адреса
+     * @param {String} addressId Id адреса
+     * @param {Boolean} addressIsCurrent Флаг о текущем адресе
+     * @param {String} city Город адреса
+     * @param {String} street Улица адреса
+     * @param {String} house Номер дома адреса
+     * @param {String} flat Номер квартиры адреса
      */
     async updateAddress(addressId, addressIsCurrent, city, street, house, flat) {
-        if (!city || !street || !house || !flat) {
-            eventEmmiter.emit(Events.ADD_ADDRESS_FORM_ERROR);
+        const isValidCity = this.validateCity(city);
+        const isValidStreet = this.validateStreet(street);
+        const isValidHouse = this.validateHouse(house);
+        const isValidFlat = this.validateFlat(flat);
+
+        if (!isValidCity || !isValidStreet || !isValidHouse || !isValidFlat) {
             return;
         }
 
@@ -660,11 +762,11 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} addressId
+     * Удаление адреса
+     * @param {String} addressId Id адреса
      */
     async deleteAddress(addressId) {
-        const [statusCode, body] = await Ajax.prototype.deleteRequest(deleteAddressUrl, {
+        const [statusCode] = await Ajax.prototype.deleteRequest(deleteAddressUrl, {
             addressId,
         },
         this.#state.csrfToken,
@@ -694,11 +796,11 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} addressId
+     * Обновление текущего адреса
+     * @param {*} addressId Новый текущий адрес
      */
     async makeCurrentAddress(addressId) {
-        const [statusCode, body] = await Ajax.prototype.postRequest(makeCurrentAddressUrl, {
+        const [statusCode] = await Ajax.prototype.postRequest(makeCurrentAddressUrl, {
             addressId,
         },
         this.#state.csrfToken,
@@ -729,8 +831,8 @@ class UserStore {
     }
 
     /**
-     *
-     * @param {*} img
+     * Обновление аватарки пользователя
+     * @param {Blob} img
      */
     async updateImg(img) {
         const [statusCode, body] = await Ajax.prototype.postBinRequest(updatePhotoUrl, img,

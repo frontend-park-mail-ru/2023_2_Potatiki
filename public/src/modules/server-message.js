@@ -1,6 +1,7 @@
 /**
  * Отрисовка сообщений
  * @param {String} msg сообщение
+ *  @param {Boolean} isCorrect Флаг для определния типа сообщения
  */
 export function renderServerMessage(msg, isCorrect) {
     const msgClass = isCorrect ? 'server-msg' : 'server-msg server-error';
@@ -21,6 +22,10 @@ export function renderServerMessage(msg, isCorrect) {
     }, 5000);
 }
 
+/**
+ * Отрисовка предупреждений
+ * @param {String} msg Текст сообщения
+ */
 export function renderWarningMessage(msg) {
     const msgClass = 'warning-message';
     const serverMsg = document.createElement('div');
@@ -36,7 +41,9 @@ export function renderWarningMessage(msg) {
     msgDiv.appendChild(serverMsg);
 }
 
-
+/**
+ * Удвление сообщения
+ */
 export function removeWarningMessage() {
     const msgDiv = document.getElementById('warning-msg-container');
     if (msgDiv) {

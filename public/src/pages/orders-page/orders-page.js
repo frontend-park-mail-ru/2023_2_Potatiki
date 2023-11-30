@@ -11,7 +11,7 @@ import {renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
 
 /**
- * Класс главной страницы
+ * Класс страницы заказов пользователя
  */
 export default class OrdersPage {
     #parent;
@@ -20,7 +20,7 @@ export default class OrdersPage {
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    */
-    constructor(parent, params) {
+    constructor(parent) {
         this.#parent = parent;
     }
 
@@ -31,6 +31,11 @@ export default class OrdersPage {
         return document.getElementById('orders-page');
     }
 
+    /**
+     * Взятие конфига для отображения карточки заказа
+     * @param {Object} data Данные о заказе
+     * @return {Object} Конфиг
+     */
     getConfig(data) {
         let summary = 0;
         let count = 0;
@@ -49,20 +54,31 @@ export default class OrdersPage {
         };
     }
 
+    /**
+     * Отображения сообщения об отстутствие заказов
+     */
     noOrders() {
         this.self.querySelector('.orders-container').textContent = 'Заказы не найдены';
     }
 
+    /**
+     * Отображение заказов
+     * @param {Object} body Данные о заказах
+     */
     renderOrders(body) {
         if (!body) {
             return;
         }
         body.forEach((element) => {
-            const product = new OrderItem(this.self.querySelector('.orders-container'), this.getConfig(element));
+            const product = new OrderItem(this.self.querySelector('.orders-container'),
+                this.getConfig(element));
             product.render();
         });
     }
 
+    /**
+     * Отображение страницы
+     */
     renderAll() {
         this.#parent.innerHTML = template({});
 
@@ -72,8 +88,11 @@ export default class OrdersPage {
         CartActions.getAllOrders();
     }
 
+    /**
+     * Перенаправление на страницу авторизации
+     */
     redirectToLogin() {
-        router.go({url: loginRoute});
+        router.go({url: loginRoute}, true);
         renderServerMessage('Авторизуйтесь, чтобы просмотреть ваши заказы');
     }
 
@@ -83,6 +102,9 @@ export default class OrdersPage {
     renderAll = this.renderAll.bind(this);
     noOrders = this.noOrders.bind(this);
 
+    /**
+     * подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.ALL_ORDERS, this.renderOrders);
         eventEmmiter.subscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
@@ -91,7 +113,7 @@ export default class OrdersPage {
     }
 
     /**
-    *
+    * Отписка от событий
     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.ALL_ORDERS, this.renderOrders);
@@ -101,7 +123,7 @@ export default class OrdersPage {
     }
 
     /**
-    * Отрисовка страницы регистрации
+    * Отрисовка страницы заказов
     */
     render() {
         this.subscribeToEvents();

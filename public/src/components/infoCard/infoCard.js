@@ -4,15 +4,15 @@ import template from './infoCard.hbs';
 import {config} from '../../../config';
 
 /**
- *
+ * Класс карточки личной информации
  */
 export default class InfoCard {
     #parent;
     #config;
 
     /**
-     *
-     * @param {*} parent
+     * Конструктор класса
+     * @param {*} parent Родительсктй компонент
      */
     constructor(parent) {
         this.#parent = parent;
@@ -23,35 +23,35 @@ export default class InfoCard {
     }
 
     /**
-     *
+     * Добавление листенеров
      */
     addEventListeners() {
 
     }
 
     /**
-     *
+     * Подписка на событие
      */
     subscribeToEvents() {
 
     }
 
     /**
-     *
+     * Удаление листенеров
      */
     removeEventListeners() {
 
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-     *
+     * Отрисовка компонента карточки
      */
     render() {
         this.#parent.innerHTML = template(this.#config);

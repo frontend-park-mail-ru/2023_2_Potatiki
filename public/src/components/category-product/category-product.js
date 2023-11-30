@@ -9,9 +9,7 @@ import template from './category-product.hbs';
  */
 export default class CategoryProduct {
     #parent;
-
     #config;
-
     #isAfterBegin;
 
     button;

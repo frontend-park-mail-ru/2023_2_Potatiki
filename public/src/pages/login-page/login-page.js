@@ -21,6 +21,7 @@ export default class LoginPage {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
+   * @param {Object} params Данные о переходе на следующую страницу
    */
     constructor(parent, params) {
         this.#parent = parent;
@@ -43,7 +44,7 @@ export default class LoginPage {
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
         this.loginForm.unsubscribeToEvents();

@@ -1,40 +1,28 @@
 import Header from '../../components/header/header.js';
 import template from './product-page.hbs';
-import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
-import {notFoundRoute, productRoute} from '../../config/urls.js';
+import {notFoundRoute, productRoute, reviewRoute} from '../../config/urls.js';
 import './product-page.scss';
 import Product from '../../components/product/product.js';
+import {rateCase} from '../../modules/utils.js';
 
 /**
- * Класс главной страницы
+ * Класс страницы отзывов
  */
 export default class ProductPage {
     #parent;
-
-    #config;
-
     #productId;
-
-    loadedProducts;
-
-    endOfPage;
-
-    timer;
-
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
+   * @param {Object} params Данные о товаре
    */
     constructor(parent, params) {
         this.#parent = parent;
-        this.#config = config.mainPage;
-        this.endOfPage = false;
-        this.timer = null;
         this.#productId = params.idParam;
     }
 
@@ -45,6 +33,11 @@ export default class ProductPage {
         return document.getElementById('product-page');
     }
 
+    /**
+     * Взятие конфига для отображения карточки товара
+     * @param {Object} data Данные о товаре
+     * @return {Object} Конфиг
+     */
     getConfig(data) {
         return {
             id: `category-product-${data.productId}`,
@@ -71,20 +64,29 @@ export default class ProductPage {
                 imgSrc: '/static/images/cart.svg',
             },
             starHref: '/static/images/star-purple.svg',
-            productRate: data.rating,
-            reviewsCount: `${0} отзывов`,
+            productRate: data.rating.toFixed(1),
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
+            reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
 
+    /**
+     * Отображение карточки товара
+     * @param {Object} body Данные для отображения продукта
+     */
     renderProduct(body) {
         if (!body) {
             return;
         }
+        document.title = body.productName;
         const product = new Product(this.self, this.getConfig(body));
         product.render();
     }
 
+    /**
+     * Перенаправление на страницу 404
+     */
     redirectToNotFound() {
         router.go({url: notFoundRoute});
     }
@@ -92,13 +94,16 @@ export default class ProductPage {
     redirectToNotFound = this.redirectToNotFound.bind(this);
     renderProduct = this.renderProduct.bind(this);
 
+    /**
+     * Подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.NOT_FOUND, this.redirectToNotFound);
         eventEmmiter.subscribe(Events.PRODUCT, this.renderProduct);
     }
 
     /**
-    *
+    * Отписка от событий
     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.PRODUCT, this.renderProduct);
@@ -106,7 +111,7 @@ export default class ProductPage {
     }
 
     /**
-    * Отрисовка страницы регистрации
+    * Отрисовка страницы товара
     */
     render() {
         this.#parent.innerHTML = template();

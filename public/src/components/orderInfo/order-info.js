@@ -4,7 +4,7 @@ import template from './order-info.hbs';
 import InfoRow from '../infoRow/info-row';
 
 /**
- * Класс компонента карточки товара
+ * Класс компонента информации о заказе
  */
 export default class OrderInfo {
     #parent;
@@ -21,10 +21,16 @@ export default class OrderInfo {
         this.#config = config;
     }
 
+    /**
+     * Взятие элемента компонента
+     */
     get self() {
         return this.#parent.querySelector(`#${this.#config.id}`);
     }
 
+    /**
+     * Взятие элемента содержащего время заказа
+     */
     get time() {
         return this.self.querySelector('.order-info__time-container');
     }

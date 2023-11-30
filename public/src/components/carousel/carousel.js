@@ -1,25 +1,20 @@
 import './carousel.scss';
-import {productRoute} from '../../config/urls.js';
+import {productRoute, reviewRoute} from '../../config/urls.js';
 import Button from '../button/button.js';
 import ProductCard from '../productCard/productCard.js';
 import template from './carousel.hbs';
+import {rateCase} from '../../modules/utils.js';
 
 /**
  * Класс карусели продуктов
  */
 export default class Carousel {
     #parent;
-
     #config;
-
     #cardCount;
-
     #currentPos;
-
     #leftPos;
-
     #rightPos;
-
     #data;
 
     /**
@@ -68,8 +63,9 @@ export default class Carousel {
                 imgSrc: '/static/images/cart.svg',
             },
             starHref: '/static/images/star-purple.svg',
-            productRate: data.rating,
-            reviewsCount: `${0} отзывов`,
+            productRate: data.rating.toFixed(1),
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
+            reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
     }

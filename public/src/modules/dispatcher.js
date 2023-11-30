@@ -1,26 +1,27 @@
 /**
- *
+ * Класс, реализующий функцию Dispatcher во Flux
  */
 class Dispatcher {
     #callbacks;
-    #isDispatching;
 
     /**
-     *
+     * Конструктор класса
      */
     constructor() {
         this.#callbacks = [];
     }
 
     /**
-     *@param {Function} callback
+     * Функция регистрирующая функции Store
+     *@param {Function} callback Функция для обработки событий
      */
     register(callback) {
         this.#callbacks.push(callback);
     }
 
     /**
-     *@param {Object} action
+     * Вызов обработки события у всех зарегестрированных Store
+     *@param {Object} action Событие, которое вызывается
      */
     dispatch(action) {
         this.#callbacks.forEach((callback) => {

@@ -1,6 +1,7 @@
 import MainPage from '../pages/main-page/main-page';
 import {cartRoute, categoryRoute, loginRoute,
-    mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute, signupRoute, profileRoute} from '../config/urls';
+    mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute,
+    signupRoute, profileRoute, reviewRoute} from '../config/urls';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import CartPage from '../pages/cart-page/cart-page';
@@ -11,6 +12,7 @@ import CategoryPage from '../pages/category-page/category-page';
 import ProductPage from '../pages/product-page/product-page';
 import ProfilePage from '../pages/profile-page/profile-page';
 import OrdersPage from '../pages/orders-page/orders-page';
+import ReviewsPage from '../pages/reviews-page/reviews-page';
 
 /**
  * Класс роутера
@@ -20,6 +22,8 @@ class Router {
     #root;
     #states;
     #currentView;
+    #currentUrl;
+    #continueUrl;
 
     /**
      * Конструктор для класса роутера
@@ -50,16 +54,17 @@ class Router {
         };
 
         this.#states = new Map([
-            [mainRoute, {view: MainPage, url: mainRoute, name: 'main'}],
-            [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
-            [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
-            [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
-            [cartRoute, {view: CartPage, url: cartRoute, name: 'cart'}],
-            [orderRoute, {view: OrderPage, url: orderRoute, name: 'order'}],
-            [categoryRoute, {view: CategoryPage, url: categoryRoute, name: 'category'}],
-            [productRoute, {view: ProductPage, url: productRoute, name: 'product'}],
-            [profileRoute, {view: ProfilePage, url: profileRoute, name: 'my-profile'}],
-            [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'orders'}],
+            [mainRoute, {view: MainPage, url: mainRoute, name: 'Zuzu'}],
+            [signupRoute, {view: SignupPage, url: signupRoute, name: 'Регистрация'}],
+            [loginRoute, {view: LoginPage, url: loginRoute, name: 'Авторизация'}],
+            [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'Страница не найдена'}],
+            [cartRoute, {view: CartPage, url: cartRoute, name: 'Корзина'}],
+            [orderRoute, {view: OrderPage, url: orderRoute, name: 'Оформление заказа'}],
+            [categoryRoute, {view: CategoryPage, url: categoryRoute, name: 'Товары'}],
+            [productRoute, {view: ProductPage, url: productRoute, name: 'Товары'}],
+            [profileRoute, {view: ProfilePage, url: profileRoute, name: 'Профиль'}],
+            [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'Мои заказы'}],
+            [reviewRoute, {view: ReviewsPage, url: reviewRoute, name: 'Отзывы'}],
         ]);
 
         window.addEventListener('click', this.listenClick.bind(this));
@@ -89,7 +94,23 @@ class Router {
      *                               иначе добавляем новое
      */
     go(state, replaceState) {
+        if (state.url === this.#currentUrl) {
+            return;
+        }
         let baseState = this.#states.get(state.url);
+        if (state.url === signupRoute || state.url === loginRoute) {
+            if (!state.continue &&
+                !(this.#currentUrl === signupRoute || this.#currentUrl === loginRoute)) {
+                state.continue = this.#currentUrl;
+            }
+            if (state.url === loginRoute) {
+                this.#continueUrl = this.#currentUrl;
+            }
+
+            if (!state.continue) {
+                state.continue = this.#continueUrl;
+            }
+        }
         let idParam;
         if (!baseState) {
             const urlWithoutParams = state.url.substring(0, state.url.lastIndexOf('/'));
@@ -112,21 +133,23 @@ class Router {
             UserActions.removeListeners();
         }
 
+        this.#currentUrl = state.url;
         this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
-        this.#currentView.render();
+        document.title = baseState.name;
         if (replaceState) {
             this.#history.replaceState(
                 state,
                 '',
                 state.url,
             );
-            return;
+        } else {
+            this.#history.pushState(
+                state,
+                '',
+                state.url,
+            );
         }
-        this.#history.pushState(
-            state,
-            '',
-            state.url,
-        );
+        this.#currentView.render();
     }
 
     /**

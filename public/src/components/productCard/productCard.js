@@ -8,9 +8,7 @@ import './productCard.scss';
  */
 export default class ProductCard {
     #parent;
-
     #config;
-
     #isAfterBegin;
 
     button;

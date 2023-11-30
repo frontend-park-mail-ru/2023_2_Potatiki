@@ -9,19 +9,15 @@ import {config} from '../../../config.js';
 
 
 /**
- * Класс формы авторизации
+ * Класс формы изменения пароля
  */
 export default class PasswordEditForm {
     #parent;
-
     #config;
 
     oldPassword;
-
     newPassword;
-
     repeatPassword;
-
     submit;
 
     /**
@@ -34,15 +30,15 @@ export default class PasswordEditForm {
     }
 
     /**
-     *
+     * Взятие элеиента компонента
      */
     get self() {
         return document.getElementById('password-edit-form');
     }
 
     /**
-     *
-     * @param {Evnt} event
+     * Функция обрабокти отправки формы
+     * @param {Evnt} event Событие нажатие на кнопку отправки
      */
     submitHandle(event) {
         event.preventDefault();
@@ -53,8 +49,8 @@ export default class PasswordEditForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-     *
-     * @param {Event} event
+     * Вызов валидации для поля пароля
+     * @param {Event} event Событие, вызывающее валидацию
      */
     inputPasswordHandle(event) {
         event.preventDefault();
@@ -64,8 +60,8 @@ export default class PasswordEditForm {
     inputPasswordHandle = this.inputPasswordHandle.bind(this);
 
     /**
-     *
-     * @param {Event} event
+     * Вызова валидации для поля Повторить пароль
+     * @param {Event} event Событие, вызывающее валидацию
      */
     inputRepeatPasswordHandle(event) {
         event.preventDefault();
@@ -76,8 +72,8 @@ export default class PasswordEditForm {
     inputRepeatPasswordHandle = this.inputRepeatPasswordHandle.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Отображение ошибки для поля старого пароля
+     * @param {String} errorText Текст ошибки
      */
     renderOldPasswordError(errorText) {
         this.oldPassword.removeError();
@@ -87,8 +83,8 @@ export default class PasswordEditForm {
     renderOldPasswordError = this.renderOldPasswordError.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Отображение ошибки для поля нового пароля
+     * @param {String} errorText Текст ошибки
      */
     renderPasswordError(errorText) {
         this.newPassword.removeError();
@@ -98,8 +94,8 @@ export default class PasswordEditForm {
     renderPasswordError = this.renderPasswordError.bind(this);
 
     /**
-     *
-     * @param {String} errorText
+     * Отображение ошибки для поля повторить пароль
+     * @param {String} errorText Текст ошибки
      */
     renderRepeatPasswordError(errorText) {
         this.repeatPassword.removeError();
@@ -109,7 +105,7 @@ export default class PasswordEditForm {
     renderRepeatPasswordError = this.renderRepeatPasswordError.bind(this);
 
     /**
-     *
+     * Добавление листенеров
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
@@ -118,7 +114,7 @@ export default class PasswordEditForm {
     }
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.PASSWORD_INPUT_ERROR, this.renderPasswordError);
@@ -127,20 +123,20 @@ export default class PasswordEditForm {
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-     *
+     * Удаление листенеров
      */
     removeListeners() {
     }
 
     /**
-   * Отрисовка компонента формы авторизации
+   * Отрисовка компонента формы изменения пароля
    */
     render() {
         this.#parent.innerHTML = template(this.#config);

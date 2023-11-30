@@ -9,36 +9,34 @@ import {Events} from '../../config/events.js';
 
 
 /**
- * Класс формы авторизации
+ * Класс формы изменения номера телефона
  */
 export default class NumberEditForm {
     #parent;
-
     #config;
 
     number;
-
     submit;
 
     /**
-   * Конструктор класса
-   * @param {Element} parent Родительский компонент
-   */
+     * Конструктор класса
+     * @param {Element} parent Родительский компонент
+     */
     constructor(parent) {
         this.#parent = parent;
         this.#config = config.profilePage.profile.numberEditForm;
     }
 
     /**
-     *
+     * Взятие элемента компонента
      */
     get self() {
         return document.getElementById('number-edit-form');
     }
 
     /**
-     *
-     * @param {Evnt} event
+     * Функция обработки отправки формы
+     * @param {Evnt} event Собтие нажатие отправки формы
      */
     submitHandle(event) {
         event.preventDefault();
@@ -48,8 +46,8 @@ export default class NumberEditForm {
     submitHandle = this.submitHandle.bind(this);
 
     /**
-     *
-     * @param {Event} event
+     * Функция вызова валидации поля номера телефона
+     * @param {Event} event Событие, вызывающее валидацию
      */
     inputPhoneHandle(event) {
         event.preventDefault();
@@ -59,7 +57,7 @@ export default class NumberEditForm {
     inputPhoneHandle = this.inputPhoneHandle.bind(this);
 
     /**
-     *
+     * Добавленеи листенеров
      */
     addListeners() {
         this.submit.self.addEventListener('click', this.submitHandle);
@@ -93,8 +91,8 @@ export default class NumberEditForm {
     }
 
     /**
-     *
-     * @param {String} errorText
+     * Отображение ошибки у поля номера телефона
+     * @param {String} errorText Текст ошибки
      */
     renderPhoneError(errorText) {
         this.number.removeError();
@@ -104,28 +102,29 @@ export default class NumberEditForm {
     renderPhoneError = this.renderPhoneError.bind(this);
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.PHONE_INPUT_ERROR, this.renderPhoneError);
     }
 
     /**
-     *
+     * Отписка от событий
      */
     unsubscribeToEvents() {
 
     }
 
     /**
-     *
+     * Удаление листенеров
      */
     removeListeners() {
     }
 
     /**
-   * Отрисовка компонента формы авторизации
-   */
+     * Отрисовка компонента формы изменения номера телефона
+     * @param {String} number Номер телефона для изменения
+     */
     render(number) {
         this.#parent.innerHTML = template(this.#config);
 

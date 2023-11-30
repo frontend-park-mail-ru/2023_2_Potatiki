@@ -10,7 +10,6 @@ import {ProductsActions} from '../../actions/products.js';
  */
 export default class Catalog {
     #parent;
-
     #config;
 
     /**
@@ -21,10 +20,18 @@ export default class Catalog {
     constructor() {
     }
 
+    /**
+     * Взятие элемента компонента
+     */
     get self() {
         return document.querySelector('.catalog');
     }
 
+    /**
+     * Взятие конфига для отрисовки компонента
+     * @param {Object} data Данные для создания конфига
+     * @return {Object} Конфиг
+     */
     getConfig(data) {
         return {
             id: `${this.#config.id}-order-product-${data.id}`,
@@ -37,17 +44,12 @@ export default class Catalog {
         };
     }
 
+    /**
+     * Отрисовка категорий
+     * @param {Array} categories Массив категорий
+     */
     renderCategories(categories) {
         categories.forEach((category) => {
-            const infoRows = new Array();
-
-            const item = new Link(
-                this.self.querySelector('.category-container'),
-                {id: 'parent-' + category.categoryId,
-                    text: category.categoryName,
-                    class: 'category-parent',
-                    href: `/category/${category.categoryId}`,
-                });
             if (category.childs) {
                 category.childs.forEach((child) => {
                     const midCHild = new Link(this.self.querySelector('.category-container'), {
@@ -60,7 +62,8 @@ export default class Catalog {
                     midCHild.render();
                     if (child.childs) {
                         child.childs.forEach((leaf) => {
-                            const leafChild = new Link(this.self.querySelector('.category-container'), {
+                            const leafChild = new Link(this.self.
+                                querySelector('.category-container'), {
                                 id: 'child-' + leaf.categoryId,
                                 text: leaf.categoryName,
                                 class: 'category-leaf',
@@ -78,11 +81,17 @@ export default class Catalog {
     renderCategories = this.renderCategories.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
 
+    /**
+     * Подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.CATEGORIES, this.renderCategories);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
+    /**
+     * Отписка от событий
+     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.CATEGORIES, this.renderCategories);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);

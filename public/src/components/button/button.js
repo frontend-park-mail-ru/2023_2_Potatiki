@@ -25,19 +25,22 @@ export default class Button {
     }
 
     /**
-   * Получение элемента компонента кнопик
-   */
+     * Получение элемента компонента кнопик
+     */
     get self() {
         return document.querySelector(`#${this.#config.id}`);
     }
 
+    /**
+     * Получение элемента изображения кнопки
+     */
     get img() {
         return this.self.querySelector(`.${this.#config.imgClass}`);
     }
 
     /**
-   * Отрисовка компонента кнопки
-   */
+     * Отрисовка компонента кнопки
+     */
     render() {
         const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(

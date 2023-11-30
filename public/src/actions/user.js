@@ -10,6 +10,10 @@ export const UserActionsType = {
     VALIDATE_REPEAT_PASSWORD: 'VALIDATE_REPEAT_PASSWORD',
     REMOVE_LISTENERS: 'REMOVE_LISTENERS',
     VALIDATE_PHONE: 'VALIDATE_PHONE',
+    VALIDATE_CITY: 'VALIDATE_CITY',
+    VALIDATE_STREET: 'VALIDATE_STREET',
+    VALIDATE_HOUSE: 'VALIDATE_HOUSE',
+    VALIDATE_FLAT: 'VALIDATE_FLAT',
     CHECK_AUTH: 'CHECK_AUTH',
     GET_PROFILE_DATA: 'GET_PROFILE_DATA',
     GET_CSRF_TOKEN: 'GET_CSRF_TOKEN',
@@ -68,6 +72,42 @@ export const UserActions = {
             payload: {
                 password: password,
                 repeatPassword: repeatPassword,
+            },
+        });
+    },
+
+    validateCity(city) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.VALIDATE_CITY,
+            payload: {
+                city: city,
+            },
+        });
+    },
+
+    validateStreet(street) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.VALIDATE_STREET,
+            payload: {
+                street: street,
+            },
+        });
+    },
+
+    validateHouse(house) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.VALIDATE_HOUSE,
+            payload: {
+                house: house,
+            },
+        });
+    },
+
+    validateFlat(flat) {
+        AppDispatcher.dispatch({
+            type: UserActionsType.VALIDATE_FLAT,
+            payload: {
+                flat: flat,
             },
         });
     },

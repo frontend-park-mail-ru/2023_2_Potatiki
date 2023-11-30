@@ -11,9 +11,7 @@ import {renderServerMessage} from '../../modules/server-message.js';
  */
 export default class OrderResults {
     #parent;
-
     #config;
-
     #page;
 
     button;
@@ -29,22 +27,37 @@ export default class OrderResults {
         this.#page = config.page;
     }
 
+    /**
+     * Взятие элемента компонента
+     */
     get self() {
         return document.querySelector(`.order-results`);
     }
 
+    /**
+     * Взятие элемента количества товаров
+     */
     get count() {
         return this.self.querySelector('#products-count');
     }
 
+    /**
+     * Взятие элемента скидки
+     */
     get subprice() {
         return this.self.querySelector('#subprice');
     }
 
+    /**
+     * Взятие элемента итоговоай цены
+     */
     get result() {
         return this.self.querySelector('#result-price');
     }
 
+    /**
+     * Вязтие кнопки создания заказа
+     */
     get button() {
         return this.self.querySelector('.order-results__make-result-btn');
     }
@@ -58,6 +71,9 @@ export default class OrderResults {
     addressNotFound = this.addressNotFound.bind(this);
     serverMessage = this.serverMessage.bind(this);
 
+    /**
+     * Удаление компонента
+     */
     deleteSelf() {
         this.removeListeners();
         this.unsubscribeToEvents();
@@ -65,6 +81,11 @@ export default class OrderResults {
         return;
     }
 
+    /**
+     * Обновление данных заказа
+     * @param {Number} count Количество товара
+     * @param {Nuber} price Сумма заказа
+     */
     updateOrderResult(count, price) {
         price = price.toLocaleString('ru') + ' ₽';
         this.count.textContent = `Товары(${count})`;
@@ -72,23 +93,33 @@ export default class OrderResults {
         this.result.textContent = price;
     }
 
+    /**
+     * Обновление заказа при его создании
+     * @param {Event} event
+     */
     updateOrder(event) {
         event.preventDefault();
         CartActions.updateOrder(this.#page);
     }
 
+    /**
+     * Навешивание листенера для отображение ошибки, что адрес не найден
+     */
     addressNotFound() {
         this.removeListeners();
         this.button.self.addEventListener('click', this.serverMessage);
     }
 
+    /**
+     * Отображение ошибки
+     */
     serverMessage() {
         renderServerMessage('Для оформления заказа установите адрес в профиле', false);
     }
 
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.UPDATE_CART_RESULT, this.updateOrderResult);
@@ -98,6 +129,9 @@ export default class OrderResults {
         eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
     }
 
+    /**
+     * Отписка от событий
+     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.UPDATE_CART_RESULT, this.updateOrderResult);
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
@@ -108,7 +142,7 @@ export default class OrderResults {
 
 
     /**
-     *
+     * Удаление листенеров
      */
     removeListeners() {
         this.button.self.removeEventListener('click', this.updateOrder);
