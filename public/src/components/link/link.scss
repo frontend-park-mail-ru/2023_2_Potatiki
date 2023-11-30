@@ -21,3 +21,15 @@ a {
 .link_disabled {
     cursor: not-allowed;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .link_icon__img{
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .link_icon {
+        font-size: 2rem;
+        gap: 4px;
+    }
+}

@@ -24,3 +24,9 @@ textarea:focus, input:focus{
     font-size: 1.1rem;
     color: var(--color-incorrect);
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .input__field {
+        height: 4rem;
+    }
+}

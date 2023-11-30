@@ -1,6 +1,5 @@
 .carousel {
     margin: 1rem 3rem 1rem 3rem;
-
     display: flex;
     justify-content: center;
 }
@@ -33,4 +32,19 @@
 
 .carousel__container::-webkit-scrollbar {
     display: none;
-  }
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .carousel {
+        margin: 0;
+    }
+
+    .carousel__cards {
+        margin-top: 2rem;
+    
+    }
+
+    .carousel__container {
+        margin-top: 2rem;
+    }
+}

@@ -1,8 +1,16 @@
 #main-page {
     display: flex;
     flex-direction: column;
-    padding-top: 10vh;
-    padding-bottom: 10vh;
     background-color: var(--color-background);
     height: 100%;
+    padding-top: 10vh;
+    box-sizing: border-box;
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    #main-page {
+        align-items: stretch;
+        padding-top: 12rem;
+        gap: 12rem;
+    }
 }

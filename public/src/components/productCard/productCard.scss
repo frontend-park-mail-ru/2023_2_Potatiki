@@ -1,7 +1,7 @@
 .product-card {
     display: flex;
     flex-direction: column;
-    height: 25rem;
+    height: 25%;
     border-radius: 1.2rem;
     background: var(--color-card-background);
     padding-bottom: 1.4rem;
@@ -9,7 +9,7 @@
 }
 
 .star-icon__img {
-    width: 1.4rem;
+    width: 30%;
 }
 
 .product-card__reviews {
@@ -107,4 +107,19 @@
     padding-right: 1.6rem;
     text-wrap: nowrap;
     font-size: 1rem;
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .product-card__rate__text {
+        font-size: 100%;
+    }
+
+    .product-card__name {
+        font-size: 16px;
+        height: 4rem;
+    }
+
+    .product-card__img-place { 
+        height: 8rem;
+    }
 }

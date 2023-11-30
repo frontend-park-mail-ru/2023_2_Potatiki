@@ -18,3 +18,12 @@
     margin-left: 15%;
     align-self: start;
 }
+
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .category-products-container {
+        display: grid;
+        grid-template-columns: repeat(2, 40%);
+        margin: 0;
+    }
+}
