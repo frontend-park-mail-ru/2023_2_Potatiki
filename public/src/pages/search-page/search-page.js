@@ -4,7 +4,7 @@ import {eventEmmiter} from '../../modules/event-emmiter';
 import template from './search-page.hbs';
 import CategoryProduct from '../../components/category-product/category-product.js';
 import {productRoute, reviewRoute} from '../../config/urls';
-import Header from '../../components/header/header.js';
+import {header} from '../../components/header/header.js';
 import './search-page.scss';
 import {rateCase} from '../../modules/utils.js';
 import {UserActions} from '../../actions/user.js';
@@ -129,8 +129,9 @@ export default class SearchPage {
     /**
      * Удаление листенеров
      */
-    removeEventListeners() {
+    removeListeners() {
         document.querySelector('#sort-select').removeEventListener('change', this.selectHandle);
+        document.querySelector(`[name='search']`).value = '';
     }
 
     /**
@@ -158,7 +159,6 @@ export default class SearchPage {
         }
         this.#parent.innerHTML = template();
 
-        const header = new Header();
         header.render();
 
         this.subscribeToEvents();

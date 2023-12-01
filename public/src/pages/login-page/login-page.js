@@ -1,4 +1,5 @@
 import './login-page.scss';
+import {header} from '../../components/header/header.js';
 import Link from '../../components/link/link.js';
 import LoginForm from '../../components/loginForm/loginForm.js';
 import template from './login-page.hbs';
@@ -56,6 +57,8 @@ export default class LoginPage {
     render() {
         document.getElementById('container-header').innerHTML = '';
         this.#parent.innerHTML = template();
+
+        header.hide();
         UserActions.getCSRFToken(loginRoute);
 
         const logo = new Link(this.self, this.#config.logo);

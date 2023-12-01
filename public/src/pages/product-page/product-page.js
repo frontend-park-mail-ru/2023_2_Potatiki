@@ -1,4 +1,4 @@
-import Header from '../../components/header/header.js';
+import {header} from '../../components/header/header.js';
 import template from './product-page.hbs';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
@@ -116,7 +116,6 @@ export default class ProductPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header();
         header.render();
         this.subscribeToEvents();
         ProductsActions.getProduct(this.#productId);

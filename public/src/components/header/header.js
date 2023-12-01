@@ -24,6 +24,7 @@ export default class Header {
     catalog;
     logoutButton;
     user;
+    isRendered;
 
     /**
    * Конструктор класса
@@ -32,6 +33,7 @@ export default class Header {
     constructor(parent) {
         this.#parent = parent;
         this.#config = config.mainPage.header;
+        this.isRendered = false;
     }
 
     /**
@@ -68,8 +70,8 @@ export default class Header {
         this.catalogButton.img.src = '/static/images/burger.svg';
         this.catalogButton.self.removeEventListener('click', this.hideCatalog);
         this.catalogButton.self.addEventListener('click', this.renderCatalog);
-        this.catalog.self.remove();
-        this.catalog.unsubscribeToEvents();
+        this.catalog?.self?.remove();
+        this.catalog?.unsubscribeToEvents();
     }
 
     hideCatalog = this.hideCatalog.bind(this);
@@ -80,6 +82,12 @@ export default class Header {
     authorizedHeader = this.authorizedHeader.bind(this);
     unauthorizedHeader = this.unauthorizedHeader.bind(this);
 
+    // /**
+    //  * Добавление листенеров
+    //  */
+    // addListeners() {
+    //     document.addEventListener('click')
+    // }
     /**
      * Подписка на события
      */
@@ -89,6 +97,7 @@ export default class Header {
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
         eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.subscribe(Events.LOGOUT, this.unauthorizedHeader);
+        eventEmmiter.subscribe(Events.CATEGORY_NAME, this.hideCatalog);
     }
 
     /**
@@ -148,9 +157,22 @@ export default class Header {
     }
 
     /**
+     * Убрать хедер
+     */
+    hide() {
+        this.isRendered = false;
+        document.getElementById('container-header').innerHTML = '';
+    }
+
+    /**
      * Отрисовка компонента хедера
      */
     render() {
+        if (this.isRendered) {
+            return;
+        }
+
+        this.isRendered = true;
         document.getElementById('container-header').innerHTML = template();
 
         const self = document.getElementById('header');
@@ -203,3 +225,5 @@ export default class Header {
         CartActions.getCartCount();
     }
 }
+
+export const header = new Header();

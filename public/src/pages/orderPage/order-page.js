@@ -1,7 +1,7 @@
 import './order-page.scss';
 import template from './order-page.hbs';
 import router from '../../modules/router.js';
-import Header from '../../components/header/header';
+import {header} from '../../components/header/header.js';
 import OrderResults from '../../components/orderResults/order-results';
 import OrderInfo from '../../components/orderInfo/order-info';
 import OrderProducts from '../../components/orderProducts/order-products';
@@ -98,7 +98,6 @@ export default class OrderPage {
     renderAll() {
         this.#parent.innerHTML = template();
 
-        const header = new Header;
         header.render();
 
         const payment = new OrderInfo(

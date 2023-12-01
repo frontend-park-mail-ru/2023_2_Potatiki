@@ -1,4 +1,4 @@
-import Header from '../../components/header/header.js';
+import {header} from '../../components/header/header.js';
 import template from './orders-page.hbs';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -82,7 +82,6 @@ export default class OrdersPage {
     renderAll() {
         this.#parent.innerHTML = template({});
 
-        const header = new Header();
         header.render();
 
         CartActions.getAllOrders();
