@@ -144,7 +144,7 @@ export default class AddressForm {
         this.flat.renderError(errorText);
     }
 
-    renderStreetError = this.renderStreetError.bind(this);
+    renderFlatError = this.renderFlatError.bind(this);
 
     /**
      * Добавление листенеров элементам компонента
