@@ -59,3 +59,32 @@
     gap: 1.3rem;
     justify-items: center;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .info-card{
+        width: 100%;
+        height: 15rem;
+        font-size: 2.5rem;
+    }
+
+    .password-edit {
+        font-size: 1.5rem;
+    }
+
+    .avatar__border {
+        width: 12rem;
+        height: 12rem;
+    }
+    
+    .avatar__img {
+       width: 12rem;
+    }
+    
+    .avatar-edit {
+        width: 3rem;
+    }
+
+    .number-edit {
+        width: 1.6rem;
+    }
+}

@@ -34,7 +34,7 @@ export default class SearchForm {
     }
 
     /**
-     * Создание саджеста для текущей строки
+     * Создание саджеста для текущей строки в поле поиска
      */
     getSuggest() {
         ProductsActions.getSuggest(this.searchInput.self.value);
@@ -53,8 +53,8 @@ export default class SearchForm {
     }
 
     /**
-     *
-     * @param {*} event
+     * Обработка нажатия на кнопку enter
+     * @param {Event} event
      */
     enterHandle(event) {
         if (event.key === 'Enter') {
@@ -63,14 +63,14 @@ export default class SearchForm {
         }
     }
 
-    enterHandle = this.enterHandle.bind(this);
-
+    /**
+     * Обработка нажатия на саджест
+     * @param {Event} event
+     */
     clickSuggest(event) {
         this.searchInput.self.value = event.target.innerHTML;
         this.submit.self.click();
     }
-
-    clickSuggest = this.clickSuggest.bind(this);
 
     /**
      * Отрисовка саджеста
@@ -102,9 +102,11 @@ export default class SearchForm {
 
 
     submitHandle = this.submitHandle.bind(this);
+    clickSuggest = this.clickSuggest.bind(this);
     getSuggest = debounce(this.getSuggest.bind(this), 500);
     renderSuggest = this.renderSuggest.bind(this);
     hideSuggest = this.hideSuggest.bind(this);
+    enterHandle = this.enterHandle.bind(this);
 
     /**
      * Добавление листенеров

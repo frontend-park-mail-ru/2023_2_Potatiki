@@ -39,7 +39,7 @@ export default class OrderPage {
 
     /**
      * Отображение продуктов заказа
-     * @param {*} body Данные о продуктах
+     * @param {Object} body Данные о продуктах
      */
     renderProducts(body) {
         if (!body.products || !body.products.length) {

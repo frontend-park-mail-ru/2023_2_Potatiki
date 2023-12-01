@@ -91,8 +91,8 @@ export default class CategoryPage {
     }
 
     /**
-     *
-     * @param {*} event
+     * Обработка выбора сортровки
+     * @param {Event} event
      */
     selectHandle(event) {
         this.endOfPage = false;

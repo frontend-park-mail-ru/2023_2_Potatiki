@@ -583,7 +583,7 @@ class UserStore {
 
     /**
      * Обновление номера телефона пользователя
-     * @param {*} number Новый номер телефона
+     * @param {String} number Новый номер телефона
      */
     async updateNuber(number) {
         const isValidNumber = this.validatePhone(number);
@@ -796,7 +796,7 @@ class UserStore {
 
     /**
      * Обновление текущего адреса
-     * @param {*} addressId Новый текущий адрес
+     * @param {String} addressId Новый текущий адрес
      */
     async makeCurrentAddress(addressId) {
         const [statusCode] = await Ajax.prototype.postRequest(makeCurrentAddressUrl, {

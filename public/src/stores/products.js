@@ -9,7 +9,7 @@ import {categoryProductsUrl,
 import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
-import { SORT_PRICE_ASC, SORT_PRICE_DESC, SORT_POPULAR, SORT_RATING} from '../config/components';
+import {SORT_PRICE_ASC, SORT_PRICE_DESC, SORT_RATING} from '../config/components';
 import {advantagesName, commentsName, disadvantagesName} from '../config/components';
 
 /**
@@ -217,6 +217,7 @@ class ProductsStore {
      * @param {Number} paging Отступ
      * @param {Number} count Количество товаров
      * @param {Number} categoryId Idкатегории
+     * @param {String} sortType Тип сортировки продуктов
      */
     async getProductsByCategory(paging=0, count=5, categoryId, sortType) {
         let sortQuery = '';
@@ -256,7 +257,7 @@ class ProductsStore {
 
     /**
      * Взятие саджеста
-     * @param {*} word Поисковый запрос
+     * @param {String} word Поисковый запрос
      */
     async getSuggest(word) {
         if (!word) {

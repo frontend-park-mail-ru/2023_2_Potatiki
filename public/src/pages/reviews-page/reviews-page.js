@@ -14,7 +14,7 @@ import Link from '../../components/link/link.js';
 import {getDateForReview} from '../../modules/utils.js';
 
 /**
- * Класс страницы товаров категории
+ * Класс страницы отзывов
  */
 export default class ReviewsPage {
     #parent;
@@ -31,7 +31,7 @@ export default class ReviewsPage {
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
-   * @param {Object} params Данные о категории страницы
+   * @param {Object} params Данные о товаре
    */
     constructor(parent, params) {
         this.#parent = parent;
@@ -82,8 +82,8 @@ export default class ReviewsPage {
     }
 
     /**
-     * Отображение продуктов категории
-     * @param {Object} body Данные о продуктах категории
+     * Отображение отзывов на товар
+     * @param {Object} body Данные об отзывах на товар
      */
     renderReviews(body) {
         if (!body || !body.length) {
@@ -190,7 +190,7 @@ export default class ReviewsPage {
     }
 
     /**
-    * Отриска от событий
+    * Отписка от событий
     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.PRODUCT, this.saveProduct);
@@ -211,7 +211,7 @@ export default class ReviewsPage {
     }
 
     /**
-    * Отрисовка страницы продуктов категории
+    * Отрисовка страницы отзывов на товар
     */
     render() {
         this.#parent.innerHTML = template();

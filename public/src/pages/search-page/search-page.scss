@@ -30,4 +30,21 @@
     .page-title {
         margin-left: 0;
     }
+
+    #search-page {
+        align-items: normal;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    .search-products-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 2rem;
+        column-gap: 2rem;
+        margin: 0;
+        width: 100%;
+        padding-top: 2rem;
+        align-items: center;
+    }
 }

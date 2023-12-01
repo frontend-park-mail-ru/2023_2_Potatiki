@@ -8,15 +8,15 @@ import Header from '../../components/header/header.js';
 import './search-page.scss';
 
 /**
- * Класс страницы товаров поиска
+ * Класс страницы товаров поискового запроса
  */
 export default class SearchPage {
     #parent;
     #products;
 
     /**
-     *
-     * @param {*} parent
+     * Конструктор компонента страницы
+     * @param {Element} parent Родительский элемент
      */
     constructor(parent) {
         this.#parent = parent;
@@ -24,7 +24,7 @@ export default class SearchPage {
     }
 
     /**
-     * Взятие конфига для отображения карточки товара категории
+     * Взятие конфига для отображения карточки товара поискового запроса
      * @param {Object} data Данные для создания конфига
      * @return {Object} Конфиг
      */
@@ -59,13 +59,13 @@ export default class SearchPage {
     }
 
     /**
-     * Отображение продуктов категории
-     * @param {Object} body Данные о продуктах категории
-     * @param {*} queryValue
+     * Отображение продуктов поискового запроса
+     * @param {Object} body Данные о продуктах запроса
+     * @param {String} queryValue Запрос поля поиска
      */
     renderProducts(body, queryValue) {
         if (queryValue) {
-            document.querySelector("[name='search']").value = queryValue;
+            document.querySelector(`[name='search']`).value = queryValue;
         }
         if (!body || !body.length) {
             document.querySelector('.search-products-container').innerHTML =
@@ -82,8 +82,8 @@ export default class SearchPage {
     }
 
     /**
-     *
-     * @param {*} event
+     * Обработка выбора сортировки
+     * @param {Event} event
      */
     selectHandle(event) {
         switch (document.querySelector('#sort-select').value) {
@@ -116,16 +116,30 @@ export default class SearchPage {
     renderProducts = this.renderProducts.bind(this);
 
     /**
-     *
+     * Добавление листенеров
      */
     addEventListeners() {
         document.querySelector('#sort-select').addEventListener('change', this.selectHandle);
     }
 
     /**
-     * подписка на события
+     * Удаление листенеров
+     */
+    removeEventListeners() {
+        document.querySelector('#sort-select').removeEventListener('change', this.selectHandle);
+    }
+
+    /**
+     * Подписка на события
      */
     subscribeToEvents() {
+        eventEmmiter.subscribe(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, this.renderProducts);
+    }
+
+    /**
+     * Отиска на события
+     */
+    unsubscribeToEvents() {
         eventEmmiter.subscribe(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, this.renderProducts);
     }
 

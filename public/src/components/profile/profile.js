@@ -45,7 +45,7 @@ export default class Profile {
 
     /**
      * Установление состояния карточки в зависимости от нажатия на навбар
-     * @param {*} event
+     * @param {Event} event
      */
     setState(event) {
         switch (event.target.id) {

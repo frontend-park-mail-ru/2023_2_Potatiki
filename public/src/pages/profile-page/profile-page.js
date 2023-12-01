@@ -18,7 +18,7 @@ export default class ProfilePage {
 
     /**
      * Конструктор класса страницы
-     *@param {*} parent
+     *@param {Element} parent Родительский элемент
      */
     constructor(parent) {
         this.#parent = parent;

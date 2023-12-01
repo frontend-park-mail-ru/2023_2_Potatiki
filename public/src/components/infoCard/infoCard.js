@@ -12,7 +12,7 @@ export default class InfoCard {
 
     /**
      * Конструктор класса
-     * @param {*} parent Родительсктй компонент
+     * @param {Element} parent Родительсктй компонент
      */
     constructor(parent) {
         this.#parent = parent;
