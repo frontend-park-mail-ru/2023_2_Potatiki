@@ -13,3 +13,15 @@
 .select-title {
     margin-right: 10%;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .select-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .select {
+        margin-top: 0;
+    }
+}
