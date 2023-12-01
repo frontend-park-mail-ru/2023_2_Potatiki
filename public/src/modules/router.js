@@ -65,7 +65,7 @@ class Router {
             [productRoute, {view: ProductPage, url: productRoute, name: 'Товары'}],
             [profileRoute, {view: ProfilePage, url: profileRoute, name: 'Профиль'}],
             [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'Мои заказы'}],
-            [searchRoute, {view: SearchPage, url: searchRoute, name: 'search'}],
+            [searchRoute, {view: SearchPage, url: searchRoute, name: 'Поиск'}],
             [reviewRoute, {view: ReviewsPage, url: reviewRoute, name: 'Отзывы'}],
         ]);
 
