@@ -63,8 +63,8 @@
 @media (min-device-width: 320px) and (max-device-width: 568px) {
     .info-card{
         width: 100%;
-        height: 15rem;
-        font-size: 2.5rem;
+        height: 16rem;
+        font-size: 2rem;
     }
 
     .password-edit {
@@ -86,5 +86,10 @@
 
     .number-edit {
         width: 1.6rem;
+    }
+
+    .info-card__login {
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
