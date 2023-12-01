@@ -170,7 +170,7 @@ export function formatPhone(phone) {
  * @return {[Boolean, String]} Результат проверки
  */
 export function checkAddressField(fieldText, isFlatField) {
-    if (fieldText > 30) {
+    if (fieldText.length > 30) {
         return ['Максимальная длина 30 символов', false];
     }
 
