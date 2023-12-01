@@ -20,3 +20,18 @@
 .white-background-color {
     background-color: var(--color-card-background);
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+
+    #order-page {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 80px;
+    }
+
+    .order-info-container__payment-and-user {
+        display: flex;
+        flex-direction: column;
+    }
+
+}

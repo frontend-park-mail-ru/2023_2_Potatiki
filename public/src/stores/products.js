@@ -268,8 +268,8 @@ class ProductsStore {
         let maxSuggestLen = 10;
 
         let rows = [];
-        let matchCategories = [];
-        let matchProducts = [];
+        const matchCategories = [];
+        const matchProducts = [];
 
         this.#state.categories.forEach((el) => {
             if (el.categoryName.toLowerCase().startsWith(word)) {

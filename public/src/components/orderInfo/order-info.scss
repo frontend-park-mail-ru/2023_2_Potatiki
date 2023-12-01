@@ -32,3 +32,10 @@
     display: grid;
     grid-template-columns: 0.5fr 1fr;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .order-info__time-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+

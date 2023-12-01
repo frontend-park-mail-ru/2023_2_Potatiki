@@ -8,6 +8,8 @@ import {ProductsActions} from '../../actions/products.js';
 import router from '../../modules/router.js';
 import {notFoundRoute, productRoute, reviewRoute} from '../../config/urls.js';
 import {SORT_POPULAR} from '../../config/components.js';
+import {rateCase} from '../../modules/utils.js';
+import {UserActions} from '../../actions/user.js';
 
 
 /**
@@ -75,7 +77,7 @@ export default class CategoryPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating.toFixed(1),
-            reviewsCount: `0 отзывов`,
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
             reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
@@ -99,6 +101,7 @@ export default class CategoryPage {
         this.loadedProducts = 0;
         eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
         this.#sort = document.querySelector('#sort-select').value;
+        UserActions.localRemoveListeners();
         this.self.querySelector('.category-products-container').innerHTML = '';
         ProductsActions.getCategoryProducts(this.loadedProducts,
             this.productsPerRequest, this.#categoryId, this.#sort);
@@ -137,10 +140,6 @@ export default class CategoryPage {
             const scrolled = window.scrollY;
             const threshold = height - screenHeight / 3;
             const position = scrolled + screenHeight;
-            if (this.endOfPage) {
-                // this.removeListeners();
-                // return;
-            }
             if (position >= threshold && !this.endOfPage) {
                 ProductsActions.getCategoryProducts(
                     this.loadedProducts, this.productsPerRequest, this.#categoryId, this.#sort);
@@ -188,6 +187,7 @@ export default class CategoryPage {
     removeListeners() {
         window.removeEventListener('scroll', this.checkPosition);
         window.removeEventListener('resize', this.checkPosition);
+        document.querySelector('#sort-select').removeEventListener('change', this.selectHandle);
     }
 
     /**

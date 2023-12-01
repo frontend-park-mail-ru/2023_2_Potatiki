@@ -83,4 +83,11 @@
         padding-top: 2rem;
         padding-bottom: 0;
     }
+
+    .category-card__reviews-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
 }

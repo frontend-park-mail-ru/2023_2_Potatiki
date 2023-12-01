@@ -45,9 +45,10 @@
 
 @media (min-device-width: 320px) and (max-device-width: 568px) {
     .button {
-        height: 4rem;
         min-width: 4rem;
     }
+
+    .button__text {
+        font-size: 1.7rem;
+    }
 }
-
-

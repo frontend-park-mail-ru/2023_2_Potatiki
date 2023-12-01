@@ -28,6 +28,7 @@ export const UserActionsType = {
     UPDATE_IMG: 'UPDATE_IMG',
     SET_OFFLINE: 'SET_OFFLINE',
     SET_ONLINE: 'SET_ONLINE',
+    LOCAL_REMOVE_LISTENERS: 'LOCAL_REMOVE_LISTENERS',
 };
 
 export const UserActions = {
@@ -258,6 +259,12 @@ export const UserActions = {
     setOnline() {
         AppDispatcher.dispatch({
             type: UserActionsType.SET_ONLINE,
+        });
+    },
+
+    localRemoveListeners() {
+        AppDispatcher.dispatch({
+            type: UserActionsType.LOCAL_REMOVE_LISTENERS,
         });
     },
 

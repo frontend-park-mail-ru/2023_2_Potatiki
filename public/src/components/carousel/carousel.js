@@ -3,6 +3,7 @@ import {productRoute, reviewRoute} from '../../config/urls.js';
 import Button from '../button/button.js';
 import ProductCard from '../productCard/productCard.js';
 import template from './carousel.hbs';
+import {rateCase} from '../../modules/utils.js';
 
 /**
  * Класс карусели продуктов
@@ -14,6 +15,7 @@ export default class Carousel {
     #currentPos;
     #leftPos;
     #rightPos;
+    #singlePos;
     #data;
 
     /**
@@ -26,6 +28,7 @@ export default class Carousel {
         this.#parent = parent;
         this.#config = config;
         this.#data = data;
+        this.#singlePos = 0;
     }
 
     /**
@@ -48,11 +51,13 @@ export default class Carousel {
             img: {
                 imgSrc: '/static/images/' + data.img,
                 imgClass: 'product-card__img',
+                class: 'product-card__img-link',
                 href: productRoute + '/' + data.productId,
             },
             name: {
                 text: data.productName,
                 href: productRoute + '/' + data.productId,
+                spanClass: 'product-card__name-text',
             },
             button: {
                 class: 'product-card__button_size_in-cart button_disabled',
@@ -63,7 +68,7 @@ export default class Carousel {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating.toFixed(1),
-            reviewsCount: `${0} отзывов`,
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
             reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
@@ -78,9 +83,9 @@ export default class Carousel {
             .getBoundingClientRect().width;
         const cardWidth = document
             .querySelector('.product-card').getBoundingClientRect().width;
-        this.#cardCount = Math.min(Math.round(containerWidth / cardWidth) - 1,
+        this.#cardCount = Math.max(1, Math.min(Math.round(containerWidth / cardWidth) - 1,
             this.#data.length,
-        );
+        ));
     }
 
     /**
@@ -93,7 +98,7 @@ export default class Carousel {
         this.calcCardCount();
         this.#rightPos = Math.min(
             this.#data.length - 1,
-            this.#rightPos + this.#cardCount - 1,
+            this.#rightPos + this.#cardCount,
         );
 
         this.#leftPos = Math.min(
@@ -101,6 +106,15 @@ export default class Carousel {
             this.#leftPos + this.#cardCount,
         );
 
+        if (this.#cardCount === 1) {
+            this.#singlePos = Math.min(this.#singlePos + 1, this.#data.length - 1);
+            newCard[this.#singlePos].scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center',
+            });
+            return;
+        }
         newCard[this.#rightPos].scrollIntoView({
             behavior: 'smooth',
             block: 'nearest',
@@ -117,13 +131,24 @@ export default class Carousel {
         this.calcCardCount();
         this.#leftPos = Math.max(
             0,
-            Math.min(this.#data.length - 1 - this.#cardCount, this.#leftPos - this.#cardCount + 1),
+            Math.min(this.#data.length - 1 - this.#cardCount, this.#leftPos - this.#cardCount),
         );
 
         this.#rightPos = Math.max(
             this.#cardCount,
             this.#rightPos - this.#cardCount,
         );
+
+        if (this.#cardCount === 1) {
+            this.#singlePos = Math.max(this.#singlePos - 1, 0);
+            newCard[this.#singlePos].scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center',
+            });
+            return;
+        }
+
 
         newCard[this.#leftPos].scrollIntoView({
             behavior: 'smooth',
@@ -183,6 +208,14 @@ export default class Carousel {
             );
             product.render();
         });
+
+
+        // const newCard = this.self.querySelectorAll('.product-card');
+        // newCard[this.#singlePos].scrollIntoView({
+        //     behavior: 'instant',
+        //     block: 'center',
+        //     inline: 'center',
+        // });
 
         this.calcCardCount();
         this.#rightPos = this.#cardCount;

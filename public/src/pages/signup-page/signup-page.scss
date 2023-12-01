@@ -12,3 +12,10 @@
     width: 200;
     height: 66px;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    #signup-page {
+        justify-content: center;
+    }
+
+}

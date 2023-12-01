@@ -13,3 +13,11 @@
     height: 10rem;
     margin-top: 4rem;
 }
+
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    #login-page {
+        justify-content: center;
+    }
+
+}
