@@ -68,6 +68,15 @@
         border: 1px solid var(--color-stroke);
     }
 
+    .category-card__info {
+        box-sizing: border-box;
+    }
+
+    .category-card__name {
+       height: 4rem;
+       overflow: hidden;
+    }
+
     .category-card__img-place {
         height: 18rem;
     }

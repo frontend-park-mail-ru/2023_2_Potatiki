@@ -27,5 +27,9 @@
     width: 46.7rem;
 }
 
-
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .container-suggest {
+        width: 20.5rem;
+    }
+}
 
