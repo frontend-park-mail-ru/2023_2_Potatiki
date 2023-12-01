@@ -169,6 +169,13 @@ export default class Header {
      */
     render() {
         if (this.isRendered) {
+            const queryString = location.search;
+            if (queryString) {
+                const params = new URLSearchParams(queryString);
+                document.querySelector(`[name='search']`).value = params.get('product');
+            } else {
+                document.querySelector(`[name='search']`).value = '';
+            }
             return;
         }
 
