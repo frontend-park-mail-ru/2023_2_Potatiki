@@ -161,8 +161,10 @@ export default class AddToCartButton {
         CartActions.changeQuantityLocal(this.#data);
     }
 
+    /**
+     * Частичное удаление лисенеров
+     */
     localRemoveListeners() {
-        console.log('rmove');
         this.removeListeners();
         this.unsubscribeToEvents();
     }

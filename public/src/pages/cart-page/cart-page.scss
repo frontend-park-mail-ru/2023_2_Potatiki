@@ -26,3 +26,26 @@
     flex-direction: column;
     gap: 2rem;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .order-container {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 2rem;
+        justify-content: center;
+        margin: 2.5rem 0;
+        font-size: 1.4rem;
+        width: 100%;
+    }
+
+    #cart-page {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .page-title {
+        margin-top: 80px;
+        font-size: 3.3rem;
+    }
+
+}

@@ -113,13 +113,10 @@ const header = {
     logout: {
         id: 'logout-button',
         class: 'link_icon fake-button',
-        class: 'link_icon fake-button',
         text: 'Выйти',
         imgSrc: '/static/images/login.svg',
-        imgSrc: '/static/images/login.svg',
         imgClass: 'link_icon__img',
-        spanClass: 'dark-text',
-        spanClass: 'dark-text',
+        spanClass: 'dark-text icon__text',
     },
 };
 

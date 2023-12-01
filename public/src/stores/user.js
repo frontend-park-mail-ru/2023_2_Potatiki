@@ -855,7 +855,6 @@ class UserStore {
      * Удаление лисенеров у части элементов на странице
      */
     localRemoveListeners() {
-        console.log('store');
         eventEmmiter.emit(Events.LOCAL_REMOVE_LISTENERS);
     }
 }

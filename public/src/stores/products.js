@@ -9,7 +9,7 @@ import {categoryProductsUrl,
 import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
-import { SORT_PRICE_ASC, SORT_PRICE_DESC, SORT_POPULAR, SORT_RATING} from '../config/components';
+import {SORT_PRICE_ASC, SORT_PRICE_DESC, SORT_RATING} from '../config/components';
 import {advantagesName, commentsName, disadvantagesName} from '../config/components';
 
 /**
@@ -217,6 +217,7 @@ class ProductsStore {
      * @param {Number} paging Отступ
      * @param {Number} count Количество товаров
      * @param {Number} categoryId Idкатегории
+     * @param {String} sortType Типо сортировки
      */
     async getProductsByCategory(paging=0, count=5, categoryId, sortType) {
         let sortQuery = '';
@@ -267,8 +268,8 @@ class ProductsStore {
         let maxSuggestLen = 10;
 
         let rows = [];
-        let matchCategories = [];
-        let matchProducts = [];
+        const matchCategories = [];
+        const matchProducts = [];
 
         this.#state.categories.forEach((el) => {
             if (el.categoryName.toLowerCase().startsWith(word)) {

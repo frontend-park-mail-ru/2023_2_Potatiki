@@ -55,16 +55,16 @@ class Router {
         };
 
         this.#states = new Map([
-            [mainRoute, {view: MainPage, url: mainRoute, name: 'main'}],
-            [signupRoute, {view: SignupPage, url: signupRoute, name: 'signup'}],
-            [loginRoute, {view: LoginPage, url: loginRoute, name: 'login'}],
-            [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'not-found'}],
-            [cartRoute, {view: CartPage, url: cartRoute, name: 'cart'}],
-            [orderRoute, {view: OrderPage, url: orderRoute, name: 'order'}],
-            [categoryRoute, {view: CategoryPage, url: categoryRoute, name: 'category'}],
-            [productRoute, {view: ProductPage, url: productRoute, name: 'product'}],
-            [profileRoute, {view: ProfilePage, url: profileRoute, name: 'my-profile'}],
-            [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'orders'}],
+            [mainRoute, {view: MainPage, url: mainRoute, name: 'Zuzu'}],
+            [signupRoute, {view: SignupPage, url: signupRoute, name: 'Регистрация'}],
+            [loginRoute, {view: LoginPage, url: loginRoute, name: 'Авторизация'}],
+            [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'Страница не найдена'}],
+            [cartRoute, {view: CartPage, url: cartRoute, name: 'Корзина'}],
+            [orderRoute, {view: OrderPage, url: orderRoute, name: 'Оформление заказа'}],
+            [categoryRoute, {view: CategoryPage, url: categoryRoute, name: 'Товары'}],
+            [productRoute, {view: ProductPage, url: productRoute, name: 'Товары'}],
+            [profileRoute, {view: ProfilePage, url: profileRoute, name: 'Профиль'}],
+            [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'Мои заказы'}],
             [searchRoute, {view: SearchPage, url: searchRoute, name: 'search'}],
             [reviewRoute, {view: ReviewsPage, url: reviewRoute, name: 'Отзывы'}],
         ]);
@@ -144,7 +144,6 @@ class Router {
                 '',
                 state.url,
             );
-            return;
         } else {
             this.#history.pushState(
                 state,

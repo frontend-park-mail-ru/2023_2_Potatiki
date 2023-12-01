@@ -3,9 +3,11 @@ import {Events} from '../../config/events';
 import {eventEmmiter} from '../../modules/event-emmiter';
 import template from './search-page.hbs';
 import CategoryProduct from '../../components/category-product/category-product.js';
-import {productRoute} from '../../config/urls';
+import {productRoute, reviewRoute} from '../../config/urls';
 import Header from '../../components/header/header.js';
 import './search-page.scss';
+import {rateCase} from '../../modules/utils.js';
+import {UserActions} from '../../actions/user.js';
 
 /**
  * Класс страницы товаров поиска
@@ -53,7 +55,7 @@ export default class SearchPage {
             },
             starHref: '/static/images/star-purple.svg',
             productRate: data.rating.toFixed(1),
-            reviewsCount: `${0} отзывов`,
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
             reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
@@ -87,6 +89,7 @@ export default class SearchPage {
      * @param {*} event
      */
     selectHandle(event) {
+        UserActions.localRemoveListeners();
         switch (document.querySelector('#sort-select').value) {
         case 'popular':
             this.#products.sort((a, b) => {

@@ -38,3 +38,38 @@
     width: 26rem;
     padding: 0.7rem 0 1.4rem 1.4rem;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    
+    .signup-form__input {
+        width: 260px;
+        margin-top: 3.5rem;
+        height: 4.1rem;
+    }
+    
+    .signup-form__button {
+        background: var(--color-highlight); 
+        width: 260px;
+        margin-top: 20px;
+    }
+    
+    .signup-form__name {
+        margin-top: 2.1rem;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal; 
+    }
+    
+    .signup-form__link {
+        margin-top: 2.6rem;
+    }
+    
+    .signup-form__error {
+        height: 1.2rem;
+        width: 26rem;
+        padding: 0.7rem 0 1.4rem 1.4rem;
+    }
+
+}

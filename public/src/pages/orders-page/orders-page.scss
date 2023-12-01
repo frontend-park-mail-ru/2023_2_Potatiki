@@ -15,3 +15,11 @@
     align-items: center;
     grid-template-columns: minmax(50rem, 80rem);
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .orders-container {
+        margin: 20px 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
