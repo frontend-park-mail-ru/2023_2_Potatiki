@@ -135,9 +135,7 @@ class Router {
             UserActions.removeListeners();
         }
 
-        this.#currentUrl = state.url;
-        this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
-        document.title = baseState.name;
+
         if (replaceState) {
             this.#history.replaceState(
                 state,
@@ -151,6 +149,9 @@ class Router {
                 state.url,
             );
         }
+        this.#currentUrl = state.url;
+        this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
+        document.title = baseState.name;
         this.#currentView.render();
     }
 
