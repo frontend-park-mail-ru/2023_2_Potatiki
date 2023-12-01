@@ -20,4 +20,12 @@
     .stars-input {
         grid-template-columns: 2fr 3fr;
     }
+
+    .stars-input__error-place {
+        grid-column: span 2;
+    }
+    
+    .stars-input__star {
+        min-height: 20px;
+    }
 } 

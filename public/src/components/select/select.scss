@@ -18,7 +18,9 @@
     .select-container {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: start;
+        gap: 10px;
+        flex-direction: column;
     }
     
     .select {
