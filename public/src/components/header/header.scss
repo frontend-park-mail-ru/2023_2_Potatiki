@@ -61,7 +61,7 @@
     }
 
     .header__icons-container {
-        position: absolute;
+        position: fixed;
         display: flex;
         flex-direction: row;
         box-sizing: border-box;
@@ -80,7 +80,7 @@
 
     .header {
         display: grid;
-        grid-template-columns:8rem 10rem minmax(13rem, 29rem);
+        grid-template-columns:8rem 10.5rem minmax(13rem, 29rem);
         align-items: center;
         gap: 2rem;
         width: 100%;
