@@ -82,18 +82,10 @@ export default class Header {
     authorizedHeader = this.authorizedHeader.bind(this);
     unauthorizedHeader = this.unauthorizedHeader.bind(this);
 
-    // /**
-    //  * Добавление листенеров
-    //  */
-    // addListeners() {
-    //     document.addEventListener('click')
-    // }
     /**
      * Подписка на события
      */
     subscribeToEvents() {
-        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
-        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
         eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.subscribe(Events.LOGOUT, this.unauthorizedHeader);
@@ -104,11 +96,10 @@ export default class Header {
      * Отписка от событий
      */
     unsubscribeToEvents() {
-        eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
-        eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
         eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.unsubscribe(Events.LOGOUT, this.unauthorizedHeader);
+        eventEmmiter.unsubscribe(Events.CATEGORY_NAME, this.hideCatalog);
     }
 
     /**
@@ -161,6 +152,8 @@ export default class Header {
      */
     hide() {
         this.isRendered = false;
+        this.removeListeners();
+        this.unsubscribeToEvents();
         document.getElementById('container-header').innerHTML = '';
     }
 
