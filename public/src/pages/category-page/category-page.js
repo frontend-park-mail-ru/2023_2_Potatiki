@@ -99,7 +99,6 @@ export default class CategoryPage {
     selectHandle(event) {
         this.endOfPage = false;
         this.loadedProducts = 0;
-        // eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
         this.#sort = document.querySelector('#sort-select').value;
         UserActions.localRemoveListeners();
         this.self.querySelector('.category-products-container').innerHTML = '';
@@ -117,7 +116,6 @@ export default class CategoryPage {
      */
     renderProducts(body) {
         if (!body || !body.length) {
-            // eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
             this.endOfPage = true;
             return;
         }
@@ -132,6 +130,7 @@ export default class CategoryPage {
      * Проверка положение скролла и отображения новых продуктов, если он в конце
      */
     checkPosition() {
+        console.log('scroll');
         if (this.timer) return;
 
         this.timer = setTimeout(() => {
@@ -176,6 +175,7 @@ export default class CategoryPage {
      * Добавление листенеров
      */
     addListeners() {
+        console.log('add ls');
         window.addEventListener('scroll', this.checkPosition);
         window.addEventListener('resize', this.checkPosition);
         document.querySelector('#sort-select').addEventListener('change', this.selectHandle);
@@ -185,6 +185,7 @@ export default class CategoryPage {
     * Удаление листенеров
     */
     removeListeners() {
+        console.log('rmv ls');
         window.removeEventListener('scroll', this.checkPosition);
         window.removeEventListener('resize', this.checkPosition);
         document.querySelector('#sort-select').removeEventListener('change', this.selectHandle);
