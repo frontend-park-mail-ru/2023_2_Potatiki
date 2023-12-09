@@ -1,4 +1,4 @@
-const CURRENT_CACHE = 'main-cache' + new Date().toDateString;
+const CURRENT_CACHE = 'main-cache' + new Date().toDateString();
 
 
 self.addEventListener('activate', (evt) =>
@@ -44,16 +44,6 @@ const update = (request, response) =>
         );
 
 self.addEventListener('fetch', (event) => {
-    if (event.request.headers.length) {
-        console.log(event, event.request, event.request.headers);
-        if (event.request.headers.get['content-type'].includes('image')) {
-            event.respondWith(
-                fromCache(event.request).catch(() => fromNetwork(event.request, 2000)),
-            );
-            return;
-        }
-    }
-
     event.respondWith(
         fromNetwork(event.request, 2000).catch(() => fromCache(event.request)),
     );
