@@ -44,6 +44,7 @@ const update = (request, response) =>
         );
 
 self.addEventListener('fetch', (event) => {
+    console.log(event.request);
     if (event.request['Content-type'].includes('image')) {
         event.respondWith(
             fromCache(event.request).catch(() => fromNetwork(event.request, 2000)),
