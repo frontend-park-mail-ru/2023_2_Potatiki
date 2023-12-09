@@ -45,6 +45,6 @@ const update = (request, response) =>
 
 self.addEventListener('fetch', (event) => {
     event.respondWith(
-        fromNetwork(event.request, 5000).catch(() => fromCache(event.request)),
+        fromNetwork(event.request, 2000).catch(() => fromCache(event.request)),
     );
 });
