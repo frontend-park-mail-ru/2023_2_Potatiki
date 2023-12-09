@@ -101,6 +101,7 @@ export default class CartPage {
             this.renderEmptyCartMessage();
             return;
         }
+        this.self.querySelector('.cart-container__products').innerHTML = '';
         body.products.forEach((element) => {
             const product = new CartProduct(
                 this.self.querySelector('.cart-container__products'),
