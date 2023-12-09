@@ -44,7 +44,7 @@ const update = (request, response) =>
         );
 
 self.addEventListener('fetch', (event) => {
-    if (event.request.headers) {
+    if (event.request.headers.length) {
         console.log(event, event.request, event.request.headers);
         if (event.request.headers.get['content-type'].includes('image')) {
             event.respondWith(
