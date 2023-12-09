@@ -123,7 +123,7 @@ export default class AddToCartButton {
         if (data.productId !== this.#data.productId || !this.self) {
             return;
         }
-        if (this.button) {
+        if (this.button && this.button.self) {
             this.button?.self.removeEventListener('click', this.addToCart);
             this.button = undefined;
         }

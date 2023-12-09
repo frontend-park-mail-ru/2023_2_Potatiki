@@ -106,7 +106,7 @@ export default class Header {
      * Удаление листенеров
      */
     removeListeners() {
-        this.logoutButton?.removeEventListener('click', logout);
+        this.logoutButton?.removeEventListener('click', this.logout);
     }
 
     /**
@@ -125,7 +125,7 @@ export default class Header {
      * Удаление кнопки выхода
      */
     removeLogoutButton() {
-        if (this.logoutButton) {
+        if (this.logoutButton.innerHTML) {
             this.logoutButton.self.removeEventListener('click', this.logout);
             this.logoutButton.self.remove();
         }
