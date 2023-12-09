@@ -102,6 +102,7 @@ class CartStore {
     cleanCart() {
         const EmptyCart = new Map();
         localStorage.setItem('products_map', JSON.stringify(EmptyCart, replacer));
+        this.cartEvents();
     }
 
     /**
