@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "npx webpack && cp -r dist/* /data/public/",
     "build": "npx webpack && npm run server",
     "server": "npx webpack serve",
     "deploy": "screen -d -m -S frontend sudo npm build",
