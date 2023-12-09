@@ -105,6 +105,7 @@ class CartStore {
         localStorage.setItem('products_map', JSON.stringify(EmptyCart, replacer));
         this.cartEvents();
         deletedProducts.forEach((product) => {
+            console.log(product);
             eventEmmiter.emit(Events.DEL_PRODUCT_SUCCESS, product);
         });
     }
