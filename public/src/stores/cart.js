@@ -122,7 +122,7 @@ class CartStore {
             switch (statusCode) {
             case 200:
                 const productsMap = new Map();
-                eventEmmiter.emit(Events.CART_PRODUCTS, {products: body.products});
+                eventEmmiter.emit(Events.CART_PRODUCTS, {products: body.products, isUpdate: true});
                 body.products.forEach((product) => {
                     productsMap.set(product.productId, product);
                 });

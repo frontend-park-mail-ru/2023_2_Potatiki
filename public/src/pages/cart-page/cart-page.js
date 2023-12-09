@@ -104,7 +104,7 @@ export default class CartPage {
             this.renderEmptyCartMessage();
             return;
         }
-        if (this.#isRendered) {
+        if (this.#isRendered && !body.isUpdate) {
             return;
         }
         body.products.forEach((element) => {
@@ -114,6 +114,9 @@ export default class CartPage {
             );
             product.render();
         });
+        if (this.#isRendered) {
+            return;
+        }
         this.renderCartResult();
         this.#isRendered = true;
     }
