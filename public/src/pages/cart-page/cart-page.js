@@ -19,6 +19,8 @@ export default class CartPage {
 
     orderResults;
 
+    #isRendered;
+
     /**
      * Конструктор класса
      * @param {Element} parent Родительский элемент
@@ -26,6 +28,7 @@ export default class CartPage {
     constructor(parent) {
         this.#parent = parent;
         this.#config = config;
+        this.#isRendered = false;
     }
 
     /**
@@ -101,7 +104,9 @@ export default class CartPage {
             this.renderEmptyCartMessage();
             return;
         }
-        this.self.querySelector('.cart-container__products').innerHTML = '';
+        if (this.#isRendered) {
+            return;
+        }
         body.products.forEach((element) => {
             const product = new CartProduct(
                 this.self.querySelector('.cart-container__products'),
@@ -110,6 +115,7 @@ export default class CartPage {
             product.render();
         });
         this.renderCartResult();
+        this.#isRendered = true;
     }
 
     /**
