@@ -107,6 +107,7 @@ export default class CartPage {
         if (this.#isRendered && !body.isUpdate) {
             return;
         }
+        this.self.querySelector('.cart-container__products').innerHTML = '';
         body.products.forEach((element) => {
             const product = new CartProduct(
                 this.self.querySelector('.cart-container__products'),
@@ -125,6 +126,9 @@ export default class CartPage {
      * Отображение итоговой информации о содержании корзины
      */
     renderCartResult() {
+        if (this.orderResults) {
+            return;
+        }
         this.orderResults = new OrderResults(
             this.self.querySelector('.order-container'),
             {
