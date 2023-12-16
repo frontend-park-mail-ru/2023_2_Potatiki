@@ -7,6 +7,7 @@ import {Events} from '../config/events';
 import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
 import {userStore} from './user';
+import {checkPromoInput} from '../modules/validation';
 
 /**
  * Класс хранилище корзины
@@ -67,7 +68,11 @@ class CartStore {
                 this.createOrder(
                     action.payload.deliveryDate,
                     action.payload.deliveryTime,
+                    action.payload.promo,
                 );
+                break;
+            case CartActionsType.APPLY_PROMO:
+                this.applyPromo(action.payload.promo);
                 break;
             default:
                 break;
@@ -356,11 +361,11 @@ class CartStore {
 
     /**
      * Создание заказа
-     * @param {String} deliveryDate
-     * @param {String} deliveryTime
+     * @param {String} deliveryDate дата доставки
+     * @param {String} deliveryTime время доставки
+     * @param {String} promocode промокод
      */
-    async createOrder(deliveryDate, deliveryTime) {
-        console.log('store createOrder');
+    async createOrder(deliveryDate, deliveryTime, promocode) {
         const [statusCode] = await Ajax.prototype.postRequest(
             createOrderUrl,
             {
@@ -467,6 +472,50 @@ class CartStore {
         const [productCount, productsPrice] = this.getProductsInfo();
         eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
         eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
+    }
+
+    /**
+     * Применение промокода
+     * @param {String} promocode введенный промокод
+     */
+    applyPromo(promocode) {
+        const isValidPromo = this.validatePromoInput(promocode);
+        if (!isValidPromo) {
+            eventEmmiter.emit(Events.SET_PROMO, undefined);
+            eventEmmiter.emit(Events.CANCEL_PROMO);
+            return;
+        }
+        eventEmmiter.emit(Events.PROMO_APPLIED); // del
+        eventEmmiter.emit(Events.APPLY_PROMO, '20');
+
+        // const [statusCode, body] = //Ajax.prototype.postRequest;
+        // switch (statusCode) {
+        // case 200:
+        //     eventEmmiter.emit(Events.SET_PROMO, promocode);
+        //     eventEmmiter.emit(Events.PROMO_APPLIED);
+        //      eventEmmiter.emit(Events.APPLY_PROMO, body.discount);
+
+        //     // отправить цену с учетом скидки
+        //     return;
+        // default:
+        //     break;
+        // }
+        // eventEmmiter.emit(Events.CANCEL_PROMO);
+        eventEmmiter.emit(Events.SET_PROMO, undefined);
+    }
+
+    /**
+     * Валидация поля ввода промокода
+     * @param {String} data
+     * @return {Boolean} проверка на валидацию
+     */
+    validatePromoInput(data) {
+        const [error, isValid] = checkPromoInput(data);
+        if (!isValid) {
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
     }
 }
 

@@ -206,3 +206,32 @@ export function checkReviewInput(fieldText) {
 
     return ['', true];
 }
+
+/**
+ * Валидация поля формы ввода
+ * @param {String} fieldText
+ * @return {[Boolean, String]} Результат проверки
+ */
+export function checkPromoInput(fieldText) {
+    if (fieldText.length < 1) {
+        return ['', false];
+    }
+    if (fieldText.length > 10) {
+        return ['Промокод недействителен', false];
+    }
+
+    for (let i = 0; i < fieldText.length; ++i) {
+        const code = fieldText.codePointAt(i);
+        console.log(code);
+        console.log(UNICODE_OF_0, UNICODE_OF_9);
+        console.log(UNICODE_OF_LOWERCASE_A, UNICODE_OF_LOWERCASE_Z);
+        if (!((code >= UNICODE_OF_0 && code <= UNICODE_OF_9) ||
+            (code <= UNICODE_OF_LOWERCASE_Z && code >= UNICODE_OF_LOWERCASE_A) ||
+            (code <= UNICODE_OF_UPPERCASE_Z && code >= UNICODE_OF_UPPERCASE_A)
+        )) {
+            return ['Промокод недействителен', false];
+        }
+    }
+
+    return ['', true];
+}

@@ -12,12 +12,14 @@ import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Select from '../../components/select/select.js';
 import {formatDate} from '../../modules/utils.js';
+import Promocode from '../../components/promocode/promocode.js';
 
 /**
  * Класс страницы оформления заказа
  */
 export default class OrderPage {
     #parent;
+    #promo;
 
     userInfo;
     timeSelect;
@@ -107,7 +109,15 @@ export default class OrderPage {
     sendOrderInfo() {
         const deliveryDate = this.dateSelect.getSelected();
         const deliveryTime = this.timeSelect.getSelected();
-        CartActions.orderInfo(deliveryDate, deliveryTime);
+        CartActions.orderInfo(deliveryDate, deliveryTime, this.#promo);
+    }
+
+    /**
+     * Сохранение промокода
+     * @param {String} promo промокод
+     */
+    setPromo(promo) {
+        this.#promo = promo;
     }
 
     /**
@@ -218,7 +228,7 @@ export default class OrderPage {
 
 
         const orderResults = new OrderResults(
-            this.self.querySelector('.order-container'),
+            this.self.querySelector('.order-container__support'),
             {
                 page: orderRoute,
                 text: 'Оформить',
@@ -228,12 +238,23 @@ export default class OrderPage {
         );
         orderResults.render();
 
+        const promocode = new Promocode(
+            this.self.querySelector('.order-container__support'),
+            {
+                text: 'Применить промокод',
+                id: 'apply-promo-btn',
+                class: 'order-results__make-result-btn',
+            },
+        );
+        promocode.render();
+
         CartActions.getCartProducts();
         UserActions.getProfileData();
         UserActions.getCurrentAddress();
         UserActions.getCSRFToken(orderRoute);
     }
 
+    setPromo = this.setPromo.bind(this);
     sendOrderInfo = this.sendOrderInfo.bind(this);
     addressNotFound = this.addressNotFound.bind(this);
     updateAddress = this.updateAddress.bind(this);
@@ -253,6 +274,7 @@ export default class OrderPage {
         eventEmmiter.subscribe(Events.CURRENT_ADDRESS, this.updateAddress);
         eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
         eventEmmiter.subscribe(Events.SEND_ORDER_INFO, this.sendOrderInfo);
+        eventEmmiter.subscribe(Events.SET_PROMO, this.setPromo);
     }
 
     /**
@@ -265,7 +287,7 @@ export default class OrderPage {
         eventEmmiter.unsubscribe(Events.CURRENT_ADDRESS, this.updateAddress);
         eventEmmiter.unsubscribe(Events.PROFILE_DATA, this.updateUserInfo);
         eventEmmiter.unsubscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
-        eventEmmiter.unsubscribe(Events.SEND_ORDER_INFO, this.sendOrderInfo);
+        eventEmmiter.unsubscribe(Events.SET_PROMO, this.setPromo);
     }
 
     /**

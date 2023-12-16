@@ -130,7 +130,7 @@ export default class CartPage {
             return;
         }
         this.orderResults = new OrderResults(
-            this.self.querySelector('.order-container'),
+            this.self.querySelector('.order-container__support'),
             {
                 page: cartRoute,
                 text: 'Перейти к оформлению',

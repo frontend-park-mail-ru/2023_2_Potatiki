@@ -17,6 +17,12 @@
     gap: 2rem;
 }
 
+.order-container__support {
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+}
+
 .white-background-color {
     background-color: var(--color-card-background);
 }

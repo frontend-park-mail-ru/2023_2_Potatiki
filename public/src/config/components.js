@@ -50,3 +50,10 @@ export const reviewForm = {
         imgSrc: '/static/images/black-cross.svg',
     },
 };
+
+export const promocodeInput = {
+    inputClass: 'input',
+    inputName: 'promocode',
+    inputPlaceholder: 'Введите промокод',
+    errorId: 'promocode-error',
+};
