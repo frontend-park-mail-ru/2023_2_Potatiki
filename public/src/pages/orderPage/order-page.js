@@ -20,6 +20,9 @@ export default class OrderPage {
     #parent;
 
     userInfo;
+    timeSelect;
+    dateSelect;
+    isRendered;
 
     /**
      * Конструктор класса
@@ -28,6 +31,7 @@ export default class OrderPage {
      */
     constructor(parent) {
         this.#parent = parent;
+        this.isRendered = false;
     }
 
     /**
@@ -42,16 +46,21 @@ export default class OrderPage {
      * @param {Object} body Данные о продуктах
      */
     renderProducts(body) {
+        console.log('render cart order');
         if (!body.products || !body.products.length) {
             this.redirectToLogin();
             return;
         }
+        if (this.isRendered) {
+            return;
+        }
         const orderProducts = new OrderProducts(
-            this.self.querySelector('.order-info-container'),
+            this.self.querySelector('.order-info-container_cart-products'),
             body.products,
             true,
         );
         orderProducts.render();
+        this.isRendered = true;
     }
 
     /**
@@ -90,6 +99,15 @@ export default class OrderPage {
             innerHTML = 'Адрес не найден. Для оформления заказа установите адрес в профиле';
         this.delivery.self.querySelector('.order-info__bottom-container').
             setAttribute('class', 'error');
+    }
+
+    /**
+     * Отправка информации для создания заказа
+     */
+    sendOrderInfo() {
+        const deliveryDate = this.dateSelect.getSelected();
+        const deliveryTime = this.timeSelect.getSelected();
+        CartActions.orderInfo(deliveryDate, deliveryTime);
     }
 
     /**
@@ -144,7 +162,7 @@ export default class OrderPage {
         this.userInfo.render();
 
         this.delivery = new OrderInfo(
-            this.self.querySelector('.order-info-container'),
+            this.self.querySelector('.order-info-container_delivery-info'),
             {
                 id: 'delivery-info-card',
                 name: 'Доставка',
@@ -174,17 +192,19 @@ export default class OrderPage {
                 data: date,
             });
         }
-        const dateSelect = new Select(
+        this.dateSelect = new Select(
             this.delivery.time,
             {
+                id: 'date-select',
                 name: 'Дата',
                 options: dates,
             },
         );
-        dateSelect.render();
-        const timeSelect = new Select(
+        this.dateSelect.render();
+        this.timeSelect = new Select(
             this.delivery.time,
             {
+                id: 'time-select',
                 name: 'Время',
                 options: [
                     {data: '10:00 - 12:00'},
@@ -194,7 +214,7 @@ export default class OrderPage {
                 ],
             },
         );
-        timeSelect.render();
+        this.timeSelect.render();
 
 
         const orderResults = new OrderResults(
@@ -214,6 +234,7 @@ export default class OrderPage {
         UserActions.getCSRFToken(orderRoute);
     }
 
+    sendOrderInfo = this.sendOrderInfo.bind(this);
     addressNotFound = this.addressNotFound.bind(this);
     updateAddress = this.updateAddress.bind(this);
     updateUserInfo = this.updateUserInfo.bind(this);
@@ -231,6 +252,7 @@ export default class OrderPage {
         eventEmmiter.subscribe(Events.PAGE_ALLOWED, this.renderAll);
         eventEmmiter.subscribe(Events.CURRENT_ADDRESS, this.updateAddress);
         eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
+        eventEmmiter.subscribe(Events.SEND_ORDER_INFO, this.sendOrderInfo);
     }
 
     /**
@@ -243,6 +265,7 @@ export default class OrderPage {
         eventEmmiter.unsubscribe(Events.CURRENT_ADDRESS, this.updateAddress);
         eventEmmiter.unsubscribe(Events.PROFILE_DATA, this.updateUserInfo);
         eventEmmiter.unsubscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
+        eventEmmiter.unsubscribe(Events.SEND_ORDER_INFO, this.sendOrderInfo);
     }
 
     /**

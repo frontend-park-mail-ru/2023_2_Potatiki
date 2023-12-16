@@ -63,6 +63,12 @@ class CartStore {
             case CartActionsType.GET_ALL_ORDERS:
                 this.getALlOrders();
                 break;
+            case CartActionsType.ORDER_INFO:
+                this.createOrder(
+                    action.payload.deliveryDate,
+                    action.payload.deliveryTime,
+                );
+                break;
             default:
                 break;
             }
@@ -341,27 +347,42 @@ class CartStore {
                     'Невозможно оформить заказ в оффлайн-режиме');
                 return;
             }
-            Ajax.prototype.postRequest(createOrderUrl, {}, userStore.csrfToken)
-                .then((result) => {
-                    const [statusCode] = result;
-                    switch (statusCode) {
-                    case 200:
-                        eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});
-                        eventEmmiter.emit(Events.SERVER_MESSAGE, 'Заказ успешно оформлен', true);
-                        this.cleanCart();
-                        this.cartEvents();
-                        break;
-                    case 401:
-                        eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
-                        break;
-                    case 429:
-                        eventEmmiter.emit(Events.SERVER_MESSAGE,
-                            'Возникла ошибка при создании заказа');
-                        break;
-                    default:
-                        break;
-                    }
-                });
+            eventEmmiter.emit(Events.SEND_ORDER_INFO);
+            break;
+        default:
+            break;
+        }
+    }
+
+    /**
+     * Создание заказа
+     * @param {String} deliveryDate
+     * @param {String} deliveryTime
+     */
+    async createOrder(deliveryDate, deliveryTime) {
+        console.log('store createOrder');
+        const [statusCode] = await Ajax.prototype.postRequest(
+            createOrderUrl,
+            {
+                deliveryDate,
+                deliveryTime,
+            },
+            userStore.csrfToken,
+        );
+
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Заказ успешно оформлен', true);
+            this.cleanCart();
+            this.cartEvents();
+            break;
+        case 401:
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
+            break;
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE,
+                'Возникла ошибка при создании заказа');
             break;
         default:
             break;

@@ -9,6 +9,7 @@ import {loginRoute} from '../../config/urls.js';
 import {CartActions} from '../../actions/cart.js';
 import {renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
+import {formatDate} from '../../modules/utils.js';
 
 /**
  * Класс страницы заказов пользователя
@@ -46,11 +47,14 @@ export default class OrdersPage {
         return {
             id: `order-item-${data.id}`,
             uuid: data.id,
-            status: data.statusId,
+            status: data.status,
             products: data.products,
             summary: summary.toLocaleString() + ' ₽',
             count: count,
             address: `${data.city}, ${data.street}, ${data.house}, ${data.flat}`,
+            creationDate: formatDate(new Date(data.creationDate)),
+            deliveryDate: data.deliveryDate,
+            deliveryTime: data.deliveryTime,
         };
     }
 

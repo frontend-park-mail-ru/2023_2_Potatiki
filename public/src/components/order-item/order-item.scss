@@ -8,6 +8,30 @@
     margin-top: 0.8rem;
 }
 
+.order-info__column-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 0.8rem;
+}
+
 .order-product__text {
     font-size: 1.2rem;
+}
+
+.order-info__head-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-info__head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-info__status {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: var(--color-stroke);
+    color: var(--color-button-text);
+    margin-top: 0.8rem;
 }

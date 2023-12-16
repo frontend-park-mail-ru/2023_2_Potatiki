@@ -8,6 +8,7 @@ export const CartActionsType = {
     GET_CART_COUNT: 'GET_CART_COUNT',
     UPDATE_ORDER: 'UPDATE_ORDER',
     GET_ALL_ORDERS: 'GET_ALL_ORDERS',
+    ORDER_INFO: 'ORDER_INFO',
 };
 
 export const CartActions = {
@@ -56,6 +57,13 @@ export const CartActions = {
     getAllOrders() {
         AppDispatcher.dispatch({
             type: CartActionsType.GET_ALL_ORDERS,
+        });
+    },
+
+    orderInfo(deliveryDate, deliveryTime) {
+        AppDispatcher.dispatch({
+            type: CartActionsType.ORDER_INFO,
+            payload: {deliveryDate, deliveryTime},
         });
     },
 };
