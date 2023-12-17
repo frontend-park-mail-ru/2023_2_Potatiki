@@ -121,6 +121,7 @@ export default class CategoryPage {
             this.endOfPage = true;
             return;
         }
+        this.endOfPage = false;
         body.forEach((element) => {
             const product = new CategoryProduct(
                 this.self.querySelector('.category-products-container'), this.getConfig(element));
