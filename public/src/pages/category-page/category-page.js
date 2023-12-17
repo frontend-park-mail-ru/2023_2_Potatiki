@@ -99,7 +99,7 @@ export default class CategoryPage {
     selectHandle(event) {
         this.endOfPage = false;
         this.loadedProducts = 0;
-        eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
+        // eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
         this.#sort = document.querySelector('#sort-select').value;
         UserActions.localRemoveListeners();
         this.self.querySelector('.category-products-container').innerHTML = '';
@@ -117,7 +117,7 @@ export default class CategoryPage {
      */
     renderProducts(body) {
         if (!body || !body.length) {
-            eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
+            // eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
             this.endOfPage = true;
             return;
         }
