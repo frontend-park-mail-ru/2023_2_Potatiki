@@ -105,8 +105,7 @@ const header = {
         class: 'link_icon',
         href: '/my-profile',
         text: 'Профиль',
-        imgSrc: '/static/images/user.svg',
-        imgSrc: '/static/images/user.svg',
+        imgSrc: '/static/images/profile.svg',
         imgClass: 'link_icon__img',
     },
 

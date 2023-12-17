@@ -11,6 +11,7 @@ import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
 import CartIcon from '../cartIcon/cart-icon.js';
+import ProfileMenu from '../profileMenu/profileMenu.js';
 
 /**
  * Класс хедера страницы
@@ -25,6 +26,7 @@ export default class Header {
     logoutButton;
     user;
     isRendered;
+    profileMenu;
 
     /**
    * Конструктор класса
@@ -64,6 +66,14 @@ export default class Header {
     }
 
     /**
+     * Отрисовка меню профиля
+     */
+    renderProfileMenu() {
+        this.profileMenu = new ProfileMenu(document.getElementById('profile-button'));
+        this.profileMenu.render();
+    }
+
+    /**
      * Удаление отображение каталога
      */
     hideCatalog() {
@@ -74,8 +84,17 @@ export default class Header {
         this.catalog?.unsubscribeToEvents();
     }
 
+    /**
+     * Удаление отображение меню профиля
+     */
+    hideProfileMenu() {
+        this.profileMenu?.self?.remove();
+    }
+
     hideCatalog = this.hideCatalog.bind(this);
     renderCatalog = this.renderCatalog.bind(this);
+    hideProfileMenu = this.hideProfileMenu.bind(this);
+    renderProfileMenu = this.renderProfileMenu.bind(this);
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
     logout = this.logout.bind(this);
@@ -86,8 +105,8 @@ export default class Header {
      * Подписка на события
      */
     subscribeToEvents() {
-        eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
-        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
+        // eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        // eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.subscribe(Events.LOGOUT, this.unauthorizedHeader);
         eventEmmiter.subscribe(Events.CATEGORY_NAME, this.hideCatalog);
     }
@@ -96,8 +115,8 @@ export default class Header {
      * Отписка от событий
      */
     unsubscribeToEvents() {
-        eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
-        eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
+        // eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        // eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.unsubscribe(Events.LOGOUT, this.unauthorizedHeader);
         eventEmmiter.unsubscribe(Events.CATEGORY_NAME, this.hideCatalog);
     }
@@ -119,18 +138,6 @@ export default class Header {
         this.user = new Link(this.self.querySelector('.header__icons-container'),
             this.#config.login);
         this.user.render();
-
-        this.removeLogoutButton();
-    }
-
-    /**
-     * Удаление кнопки выхода
-     */
-    removeLogoutButton() {
-        if (this.logoutButton && this.logoutButton.self) {
-            this.logoutButton.self.removeEventListener('click', this.logout);
-            this.logoutButton.self.remove();
-        }
     }
 
     /**
@@ -142,11 +149,7 @@ export default class Header {
             this.#config.profile);
         this.user.render();
 
-        this.removeLogoutButton();
-        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'),
-            this.#config.logout);
-        this.logoutButton.render();
-        this.logoutButton.self.addEventListener('click', this.logout);
+        this.renderProfileMenu();
     }
 
     /**
@@ -209,18 +212,12 @@ export default class Header {
             self.querySelector('.header__icons-container'), this.#config.basket);
         this.cart.render();
 
-        const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
-
+        const profileState = true ? this.#config.profile : this.#config.login; //вернуть userStore.isAuth
         this.user = new Link(self.querySelector('.header__icons-container'), profileState);
         this.user.render();
 
-        if (userStore.isAuth) {
-            this.logoutButton = new Button(
-                self.querySelector('.header__icons-container'),
-                this.#config.logout,
-            );
-            this.logoutButton.render();
-            this.logoutButton.self.addEventListener('click', this.logout);
+        if (true) {
+            this.renderProfileMenu();
         }
 
         this.subscribeToEvents();

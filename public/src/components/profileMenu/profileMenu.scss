@@ -1,0 +1,40 @@
+.profile-menu-container {
+    position: absolute;
+    display: none;
+    z-index: 1;
+    padding-top: 58px;
+}
+
+.profile-menu {
+   height: 102px; 
+   width: 130px;
+   padding: 10px;
+   border-radius: 16px;
+   background-color: #FFFFFE;
+   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.30);
+   display: flex;
+   flex-direction: column;
+   box-sizing: border-box;
+}
+
+.profile-menu__elem {
+    display: inline-block;
+    height: 25px;
+    padding: 6px 0;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.profile-menu__divider {
+    margin: 2px 0;
+    background-color: #A5A5B3;
+    height: 0.6px; ;
+}
+
+#profile-button {
+    position: relative;
+}
+
+#profile-button:hover .profile-menu-container {
+    display: block;
+}
