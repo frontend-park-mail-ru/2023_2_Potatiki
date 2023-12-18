@@ -10,16 +10,16 @@ export default class WS {
      *
      */
     constructor() {
-        socket = new WebSocket(wsUrl);
-        socket.onopen = function(e) {
+        this.socket = new WebSocket(wsUrl);
+        this.socket.onopen = function(e) {
             console.log('succes');
         };
 
-        socket.onmessage = function(event) {
+        this.socket.onmessage = function(event) {
             console.log(`[message] Данные получены с сервера: ${event.data}`);
         };
 
-        socket.onclose = function(event) {
+        this.socket.onclose = function(event) {
             if (event.wasClean) {
                 console.log(`[close] Соединение закрыто чисто, код=${event.code}
                 причина=${event.reason}`);
@@ -29,7 +29,8 @@ export default class WS {
                 console.log('[close] Соединение прервано');
             }
         };
-        socket.onerror = function(error) {
+
+        this.socket.onerror = function(error) {
         };
     }
 }
