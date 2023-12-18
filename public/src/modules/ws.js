@@ -27,7 +27,7 @@ export default class WS {
             } else {
                 // например, сервер убил процесс или сеть недоступна
                 // обычно в этом случае event.code 1006
-                console.log('[close] Соединение прервано');
+                console.log(`[close] Соединение прервано код=${event.code}`);
             }
         };
 
