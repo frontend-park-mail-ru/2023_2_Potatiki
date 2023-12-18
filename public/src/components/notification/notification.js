@@ -122,7 +122,7 @@ export default class Notification {
             this.changeIconState();
         }
 
-        // this.subscribeToEvents();
+        this.subscribeToEvents();
         this.addEventListeners();
     }
 }
