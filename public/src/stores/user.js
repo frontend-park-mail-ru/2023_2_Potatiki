@@ -13,7 +13,7 @@ import {loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute,
 import {Events} from '../config/events';
 import {removeWarningMessage,
     renderServerMessage} from '../modules/server-message';
-import { notificationStore } from './notification';
+import {notificationStore} from './notification';
 
 /**
  * Класс хранилище для работы с данными пользователя

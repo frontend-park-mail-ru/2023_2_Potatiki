@@ -1,6 +1,6 @@
 import './notificationWindow.scss';
 import template from './notificationWindow.hbs';
-import { notificationStore } from '../../stores/notification';
+import {notificationStore} from '../../stores/notification';
 
 
 // TO DO подправить верстку иконой

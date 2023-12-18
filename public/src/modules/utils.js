@@ -15,16 +15,22 @@ export function replacer(key, value) {
     }
 }
 
+/**
+ * debounce
+ * @param {Function} callee
+ * @param {Number} timeoutMs
+ * @return {Function}
+ */
 export function debounce(callee, timeoutMs) {
     return function perform(...args) {
-      let previousCall = this.lastCall
-      this.lastCall = Date.now()
-      if (previousCall && this.lastCall - previousCall <= timeoutMs) {
-        clearTimeout(this.lastCallTimer)
-      }
-      this.lastCallTimer = setTimeout(() => callee(...args), timeoutMs)
-    }
-  }
+        const previousCall = this.lastCall;
+        this.lastCall = Date.now();
+        if (previousCall && this.lastCall - previousCall <= timeoutMs) {
+            clearTimeout(this.lastCallTimer);
+        }
+        this.lastCallTimer = setTimeout(() => callee(...args), timeoutMs);
+    };
+}
 
 /**
  * Служебная функция для работы с LocalStorage
