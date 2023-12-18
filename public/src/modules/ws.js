@@ -31,6 +31,7 @@ export default class WS {
         };
 
         this.socket.onerror = function(error) {
+            console.log(error);
         };
     }
 }
