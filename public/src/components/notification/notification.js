@@ -98,7 +98,8 @@ export default class Notification {
      *
      */
     addEventListeners() {
-        document.addEventListener('click', this.renderNotificationWindow);
+        document.querySelector('.notification__icon').addEventListener('click',
+            this.renderNotificationWindow);
     }
 
     /**
