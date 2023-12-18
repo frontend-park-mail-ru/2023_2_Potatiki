@@ -1,0 +1,25 @@
+.notification-window {
+    display: flex;
+    width: 180px;
+    height: 120px;
+    padding: 10px;
+   border-radius: 16px;
+   background-color: #FFFFFE;
+   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.30);
+   flex-direction: column;
+   box-sizing: border-box;
+   overflow-y: auto;
+}
+
+.notification-window__elem {
+    display: inline-block;
+    height: fit-content;
+    padding: 6px 0;
+    font-size: 12px;
+}
+
+.notification-window__divider {
+    margin: 2px 0;
+    background-color: #A5A5B3;
+    height: 0.6px; ;
+}

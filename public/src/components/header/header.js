@@ -12,6 +12,7 @@ import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
 import CartIcon from '../cartIcon/cart-icon.js';
 import ProfileMenu from '../profileMenu/profileMenu.js';
+import Notification from '../notification/notification.js';
 
 /**
  * Класс хедера страницы
@@ -202,9 +203,9 @@ export default class Header {
         );
         orders.render();
 
-        const favorite = new Link(
+        const favorite = new Notification(
             self.querySelector('.header__icons-container'),
-            this.#config.favorite,
+            this.#config.notification,
         );
         favorite.render();
 
@@ -212,11 +213,11 @@ export default class Header {
             self.querySelector('.header__icons-container'), this.#config.basket);
         this.cart.render();
 
-        const profileState = true ? this.#config.profile : this.#config.login; //вернуть userStore.isAuth
+        const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
         this.user = new Link(self.querySelector('.header__icons-container'), profileState);
         this.user.render();
 
-        if (true) {
+        if (userStore.isAuth) {
             this.renderProfileMenu();
         }
 

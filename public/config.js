@@ -65,15 +65,13 @@ const header = {
         imgClass: 'link_icon__img',
     },
 
-    favorite: {
-        id: 'favorite-button',
-        class: 'link_icon link_disabled',
-        text: 'Избранное',
-        href: '',
-        imgSrc: '/static/images/like-icon.svg',
-        href: '',
-        imgSrc: '/static/images/like-icon.svg',
-        imgClass: 'link_icon__img',
+    notification: {
+        id: 'notification-button',
+        class: 'link_icon fake-button',
+        text: 'Уведомления',
+        imgSrc: '/static/images/not-icon.svg',
+        imgClass: 'link_icon__img_notification',
+        spanClass: 'dark-text icon__text',
     },
 
     basket: {

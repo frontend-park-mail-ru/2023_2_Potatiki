@@ -1,0 +1,13 @@
+<div class="notification-window">
+    {{#each notifications}}
+      <div class="notification-window__elem">
+        <div class="notification__text">{{this.text}}</div>
+        <div class="notification__date">{{this.date}}</div>
+        <div class="notification__delete-btn"></div>
+      </div>
+      <div class="notification-window__divider"></div>
+    {{/each}}
+    {{#unless notifications}}
+        <span class="notification_empty">У Вас пока нет уведомлений</span>
+    {{/unless}}
+</div>

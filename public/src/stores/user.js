@@ -13,6 +13,7 @@ import {loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute,
 import {Events} from '../config/events';
 import {removeWarningMessage,
     renderServerMessage} from '../modules/server-message';
+import { notificationStore } from './notification';
 
 /**
  * Класс хранилище для работы с данными пользователя
@@ -240,6 +241,7 @@ class UserStore {
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
             eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname + location.search});
+            notificationStore.connectWS();
             break;
         case 401:
             this.#state.isAuth = false;
@@ -282,6 +284,7 @@ class UserStore {
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
             eventEmmiter.emit(Events.SUCCESSFUL_LOGIN);
+            notificationStore.connectWS();
             break;
         case 403:
             renderServerMessage('Ошибка доступа');
@@ -331,6 +334,7 @@ class UserStore {
             this.#state.imgSrc = body.img;
             this.#state.isAuth = true;
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
+            notificationStore.connectWS();
             break;
         case 400:
             eventEmmiter.emit(
