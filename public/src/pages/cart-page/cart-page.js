@@ -107,10 +107,7 @@ export default class CartPage {
         if (this.#isRendered && !body.isUpdate) {
             return;
         }
-<<<<<<< HEAD
-=======
         this.#isRendered = true;
->>>>>>> Potatiki-1.20-Recommendations
         this.self.querySelector('.cart-container__products').innerHTML = '';
         body.products.forEach((element) => {
             const product = new CartProduct(
