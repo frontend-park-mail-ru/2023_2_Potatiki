@@ -16,7 +16,7 @@ export default class WS {
         };
 
         this.socket.onmessage = function(event) {
-            handle(event.data);
+            handle(JSON.parse(event.data));
             // console.log(`[message] Данные получены с сервера: ${event.data}`);
         };
 
