@@ -288,6 +288,7 @@ export default class OrderPage {
         eventEmmiter.unsubscribe(Events.CURRENT_ADDRESS, this.updateAddress);
         eventEmmiter.unsubscribe(Events.PROFILE_DATA, this.updateUserInfo);
         eventEmmiter.unsubscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
+        eventEmmiter.subscribe(Events.SEND_ORDER_INFO, this.sendOrderInfo);
         eventEmmiter.unsubscribe(Events.SET_PROMO, this.setPromo);
     }
 

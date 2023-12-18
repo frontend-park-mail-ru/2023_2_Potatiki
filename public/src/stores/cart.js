@@ -372,7 +372,7 @@ class CartStore {
             {
                 deliveryDate,
                 deliveryTime,
-                promocode,
+                promocodeName: promocode,
             },
             userStore.csrfToken,
         );
