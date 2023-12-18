@@ -43,3 +43,6 @@ export const updatePhotoUrl = 'profile/update-photo';
 export const reviewRoute = '/reviews';
 export const createReviewUrl = 'comments/create';
 export const getReviewsUrl = 'comments/get_all';
+export const getAnonRecsUrl = 'recommendations/get_anon';
+export const getRecsUrl = 'recommendations/get_all';
+export const updateActivityUrl = 'recommendations/update';

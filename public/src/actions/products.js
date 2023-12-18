@@ -14,6 +14,7 @@ export const ProductsActionsType = {
     VALIDATE_REVIEW_INPUT: 'VALIDATE_REVIEW_INPUT',
     CREATE_REVIEW: 'CREATE_REVIEW',
     ON_SCROLL: 'ON_SCROLL',
+    GET_REC_PRODUCTS: 'GET_REC_PRODUCTS',
 };
 
 export const ProductsActions = {
@@ -104,6 +105,13 @@ export const ProductsActions = {
     onScroll() {
         AppDispatcher.dispatch({
             type: ProductsActionsType.ON_SCROLL,
+        });
+    },
+
+    getRecProducts(productId, categoryId) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_REC_PRODUCTS,
+            payload: {productId, categoryId},
         });
     },
 };

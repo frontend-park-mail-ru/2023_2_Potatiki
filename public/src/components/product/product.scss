@@ -1,7 +1,10 @@
 .product  {
     display: grid;
     height: auto;
-    width: 100%;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 100%;
 }
 
 .product__data {

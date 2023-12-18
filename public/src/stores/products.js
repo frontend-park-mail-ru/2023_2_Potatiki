@@ -4,8 +4,9 @@ import {eventEmmiter} from '../modules/event-emmiter';
 import {Events} from '../config/events';
 import {ProductsActionsType} from '../actions/products';
 import {categoryProductsUrl,
-    createReviewUrl,
-    getAllCategoriesUrl, getProductUrl, getProductsUrl, getReviewsUrl} from '../config/urls';
+    createReviewUrl, getAllCategoriesUrl, getAnonRecsUrl,
+    getProductUrl, getProductsUrl, getRecsUrl, getReviewsUrl,
+    updateActivityUrl} from '../config/urls';
 import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
@@ -19,6 +20,9 @@ class ProductsStore {
     #state = {
         categories: undefined,
         categoriesTree: undefined,
+        productsActivity: new Map(),
+        categoryActivity: new Map(),
+        activityRecords: 0,
     };
 
     /**
@@ -86,6 +90,12 @@ class ProductsStore {
             case ProductsActionsType.ON_SCROLL:
                 this.onScroll();
                 break;
+            case ProductsActionsType.GET_REC_PRODUCTS:
+                this.getRecommendations(
+                    action.payload.productId,
+                    action.payload.categoryId,
+                );
+                break;
             default:
                 break;
             }
@@ -137,7 +147,7 @@ class ProductsStore {
             } else {
                 const data = productsMap.get(product.productId);
                 if (data) {
-                    product.quantity = data.quantity;
+                    product.quantity = data.quantity || 0;
                 } else {
                     product.quantity = 0;
                 }
@@ -178,6 +188,15 @@ class ProductsStore {
         case 200:
             const product = this.isProductInCart([body])[0];
             eventEmmiter.emit(Events.PRODUCT, product);
+            this.recordActivity([{
+                productId: product.productId,
+                activityPoints: 1,
+            }],
+            [{
+                categoryId: Number(product.categoryId),
+                activityPoints: 1,
+            }],
+            );
             break;
         case 400:
             eventEmmiter.emit(Events.NOT_FOUND);
@@ -233,6 +252,13 @@ class ProductsStore {
             sortQuery = '&ratingBy=DESC';
             break;
         }
+
+        this.recordActivity([],
+            [{
+                categoryId: Number(categoryId),
+                activityPoints: 1,
+            }],
+        );
 
         const requestUrl =
             `${categoryProductsUrl}?paging=${paging}&count=${count}&category_id=${categoryId}` +
@@ -325,6 +351,13 @@ class ProductsStore {
     async getReviews(id) {
         const [statusCode, body] = await Ajax.prototype.getRequest(
             `${getReviewsUrl}?product=${id}`,
+        );
+
+        this.recordActivity([{
+            productId: id,
+            activityPoints: 1,
+        }],
+        [],
         );
         switch (statusCode) {
         case 200:
@@ -427,7 +460,6 @@ class ProductsStore {
         switch (statusCode) {
         case 200:
             eventEmmiter.emit(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, body, searchValue);
-            // this.addRequestLocal(searchValue);
             break;
         case 400:
             eventEmmiter.emit(Events.NOT_FOUND);
@@ -493,6 +525,98 @@ class ProductsStore {
      */
     onScroll() {
         eventEmmiter.emit(Events.ON_PAGE_SCROLL);
+    }
+
+    /**
+     * Получение рекомендаций для продукта
+     * @param {String} productId id продукта
+     * @param {String} categoryId id категории
+     */
+    async getRecommendations(productId, categoryId) {
+        if (userStore.isAuth) {
+            const [statusCode, body] = await Ajax.prototype.getRequest(
+                `${getRecsUrl}?id=${productId}&category_id=${categoryId || 6}`,
+            );
+            switch (statusCode) {
+            case 200:
+                eventEmmiter.emit(Events.REC_PRODUCTS, body);
+                return;
+            case 401:
+                break;
+            case 429:
+                eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
+                return;
+            }
+        }
+        const [statusCode, body] = await Ajax.prototype.getRequest(
+            `${getAnonRecsUrl}?id=${productId}&category_id=${categoryId || 6}`,
+        );
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.REC_PRODUCTS, body);
+            break;
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
+            break;
+        }
+    }
+
+    /**
+     * Отправка данных об активности пользователя
+     */
+    async sendActivity() {
+        if (!userStore.isAuth) {
+            return;
+        }
+        const productsArray = Array.from(this.#state.productsActivity.values());
+        const categoryArray = Array.from(this.#state.categoryActivity.values());
+
+        const body = {
+            product: productsArray,
+            category: categoryArray,
+        };
+        Ajax.prototype.postRequest(updateActivityUrl, body);
+        this.#state.productsActivity = new Map();
+        this.#state.categoryActivity = new Map();
+    }
+
+    /**
+     * Запись данных об активности пользователя
+     * @param {Array} products данные об активности по продуктам
+     * @param {Array} category данные об активности по категориям
+     */
+    recordActivity(products, category) {
+        this.#state.activityRecords += 1;
+        products.forEach((product) => {
+            if (this.#state.productsActivity.has(product.productId)) {
+                const productActivity = this.#state.productsActivity.get(product.productId);
+                productActivity.activityPoints += product.activityPoints;
+                productActivity.isBought = product.isBought || productActivity.isBought;
+                productActivity.isReviewed = product.isReviewed || productActivity.isReviewed;
+                this.#state.productsActivity.set(product.productId, productActivity);
+            } else {
+                this.#state.productsActivity.set(product.productId, product);
+            }
+        });
+
+        category.forEach((categoryItem) => {
+            if (categoryItem.categoryId) {
+                const categoryId = Number(categoryItem.categoryId);
+                if (this.#state.productsActivity.has(categoryId)) {
+                    const categoryActivity = this.#state.categoryActivity.get(
+                        categoryId,
+                    );
+                    categoryActivity.activityPoints += categoryItem.activityPoints;
+                    this.#state.categoryActivity.set(categoryId, categoryActivity);
+                } else {
+                    this.#state.categoryActivity.set(categoryId, categoryItem);
+                }
+            }
+        });
+
+        if (this.#state.activityRecords % 5 === 0) {
+            this.sendActivity();
+        }
     }
 }
 

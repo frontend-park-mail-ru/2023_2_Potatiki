@@ -51,6 +51,26 @@ export const reviewForm = {
     },
 };
 
+export const recCarousel = {
+    id: 'rec-carousel',
+    name: 'Рекомендуем',
+    buttonLeft: {
+        class: 'button carousel__button',
+        type: 'button',
+        id: 'popular-carousel-button-left',
+        imgSrc: '/static/images/arrow-left.svg',
+        imgClass: 'button__img_size_m',
+    },
+    buttonRight: {
+        class: 'button carousel__button',
+        type: 'button',
+        id: 'popular-carousel-button-right',
+        imgSrc: '/static/images/arrow-right.svg',
+        imgSrc: '/static/images/arrow-right.svg',
+        imgClass: 'button__img_size_m',
+    },
+};
+
 export const promocodeInput = {
     inputClass: 'input',
     inputName: 'promocode',
