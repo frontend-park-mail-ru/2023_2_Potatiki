@@ -9,14 +9,15 @@ export default class WS {
     /**
      *
      */
-    constructor() {
+    constructor(handle) {
         this.socket = new WebSocket(wsUrl);
         this.socket.onopen = function(e) {
             console.log('succes');
         };
 
         this.socket.onmessage = function(event) {
-            console.log(`[message] Данные получены с сервера: ${event.data}`);
+            handle(event.data);
+            // console.log(`[message] Данные получены с сервера: ${event.data}`);
         };
 
         this.socket.onclose = function(event) {

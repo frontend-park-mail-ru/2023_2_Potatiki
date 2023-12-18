@@ -5,12 +5,11 @@ import WS from '../modules/ws';
  */
 class NotificationStore {
     #state = {
-        notifications: [{text: 'Ваш заказ доставлен'},
-            {text: 'Специально для вас промокод NEW25 скидка 25%'}],
+        notifications: [],
     };
 
     /**
-     * Конструктора
+     * Конструктор
      */
     constructor() {
     }
@@ -24,9 +23,19 @@ class NotificationStore {
 
     /**
      *
+     * @param {Object} message
+     */
+    addNotification(message) {
+        console.log(message);
+    }
+
+    addNotification = this.addNotification.bind(this);
+
+    /**
+     *
      */
     connectWS() {
-        const ws = new WS();
+        const ws = new WS(this.addNotification);
     }
 }
 
