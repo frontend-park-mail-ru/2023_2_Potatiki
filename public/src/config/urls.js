@@ -41,3 +41,4 @@ export const updatePhotoUrl = 'profile/update-photo';
 export const reviewRoute = '/reviews';
 export const createReviewUrl = 'comments/create';
 export const getReviewsUrl = 'comments/get_all';
+export const checkPromoUrl = 'promo/check';

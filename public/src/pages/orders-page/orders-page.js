@@ -9,7 +9,7 @@ import {loginRoute} from '../../config/urls.js';
 import {CartActions} from '../../actions/cart.js';
 import {renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
-import {formatDate, getDateForReview} from '../../modules/utils.js';
+import {getDateForReview} from '../../modules/utils.js';
 
 /**
  * Класс страницы заказов пользователя

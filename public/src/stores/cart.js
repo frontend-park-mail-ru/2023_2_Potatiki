@@ -2,7 +2,8 @@ import {AppDispatcher} from '../modules/dispatcher';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl, loginRoute,
-    cartRoute, createOrderUrl, orderRoute, mainRoute, getAllOrdersUrl} from '../config/urls';
+    cartRoute, createOrderUrl, orderRoute, mainRoute,
+    getAllOrdersUrl, checkPromoUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
@@ -478,29 +479,37 @@ class CartStore {
      * Применение промокода
      * @param {String} promocode введенный промокод
      */
-    applyPromo(promocode) {
+    async applyPromo(promocode) {
         const isValidPromo = this.validatePromoInput(promocode);
         if (!isValidPromo) {
             eventEmmiter.emit(Events.SET_PROMO, undefined);
             eventEmmiter.emit(Events.CANCEL_PROMO);
             return;
         }
-        eventEmmiter.emit(Events.PROMO_APPLIED); // del
-        eventEmmiter.emit(Events.APPLY_PROMO, '20');
 
-        // const [statusCode, body] = //Ajax.prototype.postRequest;
-        // switch (statusCode) {
-        // case 200:
-        //     eventEmmiter.emit(Events.SET_PROMO, promocode);
-        //     eventEmmiter.emit(Events.PROMO_APPLIED);
-        //      eventEmmiter.emit(Events.APPLY_PROMO, body.discount);
-
-        //     // отправить цену с учетом скидки
-        //     return;
-        // default:
-        //     break;
-        // }
-        // eventEmmiter.emit(Events.CANCEL_PROMO);
+        const [statusCode, body] = await Ajax.prototype.getRequest(
+            `${checkPromoUrl}?name=${promocode}`,
+        );
+        switch (statusCode) {
+        case 200:
+            const {discount} = body;
+            eventEmmiter.emit(Events.SET_PROMO, promocode);
+            eventEmmiter.emit(Events.PROMO_APPLIED);
+            eventEmmiter.emit(Events.APPLY_PROMO, discount);
+            return;
+        case 404:
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Промокод не найден');
+            break;
+        case 413:
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Использованы все промокоды');
+        case 419:
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Время действия промокода истекло');
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
+        default:
+            break;
+        }
+        eventEmmiter.emit(Events.CANCEL_PROMO);
         eventEmmiter.emit(Events.SET_PROMO, undefined);
     }
 
