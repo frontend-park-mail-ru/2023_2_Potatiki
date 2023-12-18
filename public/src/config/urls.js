@@ -1,6 +1,6 @@
 export const baseUrl = 'https://www.zuzu-market.ru/api/';
 // export const baseUrl = 'http://localhost:8096/api/';
-export const wsUrl = 'wss://www.zuzu-market.ru/api/notifications/get_all';
+export const wsUrl = 'ws://www.zuzu-market.ru/api/notifications/get_all';
 
 export const signupUrl = 'auth/signup';
 export const loginUrl = 'auth/signin';
