@@ -57,8 +57,10 @@ export default class Notification {
         this.notificationWindow = new NotificationWindow(
             document.querySelector('.notification__window-container'));
         this.notificationWindow.render();
-        document.addEventListener('click', this.hideNotificationWindow);
-        document.removeEventListener('click', this.renderNotificationWindow);
+        document.querySelector('.notification__icon').addEventListener('click',
+            this.hideNotificationWindow);
+        document.querySelector('.notification__icon').removeEventListener('click',
+            this.renderNotificationWindow);
     }
 
     /**
@@ -66,8 +68,10 @@ export default class Notification {
      */
     hideNotificationWindow() {
         this.notificationWindow.hide();
-        document.removeEventListener('click', this.hideNotificationWindow);
-        document.addEventListener('click', this.renderNotificationWindow);
+        document.querySelector('.notification__icon').removeEventListener('click',
+            this.hideNotificationWindow);
+        document.querySelector('.notification__icon').addEventListener('click',
+            this.renderNotificationWindow);
     }
 
     /**
