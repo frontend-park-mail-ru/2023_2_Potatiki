@@ -218,6 +218,21 @@ export default class Carousel {
         window.removeEventListener('scroll', this.cancelMove);
     }
 
+    removeListeners = this.removeListeners.bind(this);
+
+    subscribeToEvents = this.subscribeToEvents.bind(this);
+    unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
+
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+    }
+
+    unsubscribeToEvents() {
+        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+    }
+
     /**
      * Отрисовка компонента карусели
      */
