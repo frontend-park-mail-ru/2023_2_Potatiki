@@ -372,6 +372,7 @@ class CartStore {
             {
                 deliveryDate,
                 deliveryTime,
+                promocode,
             },
             userStore.csrfToken,
         );
@@ -482,7 +483,7 @@ class CartStore {
     async applyPromo(promocode) {
         const isValidPromo = this.validatePromoInput(promocode);
         if (!isValidPromo) {
-            eventEmmiter.emit(Events.SET_PROMO, undefined);
+            eventEmmiter.emit(Events.SET_PROMO, '');
             eventEmmiter.emit(Events.CANCEL_PROMO);
             return;
         }
@@ -510,7 +511,7 @@ class CartStore {
             break;
         }
         eventEmmiter.emit(Events.CANCEL_PROMO);
-        eventEmmiter.emit(Events.SET_PROMO, undefined);
+        eventEmmiter.emit(Events.SET_PROMO, '');
     }
 
     /**

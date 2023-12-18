@@ -34,6 +34,7 @@ export default class OrderPage {
     constructor(parent) {
         this.#parent = parent;
         this.isRendered = false;
+        this.#promo = '';
     }
 
     /**
