@@ -1,5 +1,6 @@
 import './profileMenu.scss';
 import template from './profileMenu.hbs';
+import {UserActions} from '../../actions/user';
 
 // TO DO: вынести в конфиг наполнение меню
 
@@ -22,6 +23,21 @@ export default class ProfileMenu {
      */
     get self() {
         return document.querySelector('.profile-menu-container');
+    }
+
+    /**
+     *
+     */
+    logoutHandle(event) {
+        event.preventDefault();
+        UserActions.logout();
+    }
+
+    /**
+     *
+     */
+    addEventListeners() {
+        document.getElementById('logout-menu-elem').addEventListener(this.logoutHandle);
     }
 
     /**

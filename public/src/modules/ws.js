@@ -13,6 +13,9 @@ export default class WS {
         this.socket = new WebSocket(wsUrl);
         this.socket.onopen = function(e) {
             console.log('succes');
+            setInterval(() => {
+                socket.send('');
+            }, 6000);
         };
 
         this.socket.onmessage = function(event) {

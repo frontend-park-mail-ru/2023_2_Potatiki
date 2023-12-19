@@ -25,7 +25,7 @@ export default class Notification {
     constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.isUnread = true;
+        this.isUnread = false;
     }
 
     /**
