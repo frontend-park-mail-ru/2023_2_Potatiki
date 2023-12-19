@@ -25,7 +25,7 @@ export default class Notification {
     constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.isUnread = false;
+        this.isUnread = true;
     }
 
     /**
@@ -51,24 +51,27 @@ export default class Notification {
     /**
      *
      */
-    renderNotificationWindow() {
+    renderNotificationWindow(event) {
+        event.stopPropagation();
         this.isUnread = false;
         this.changeIconState();
         this.notificationWindow = new NotificationWindow(
             document.querySelector('.notification__window-container'));
         this.notificationWindow.render();
-        document.querySelector('.notification__icon').addEventListener('click',
-            this.hideNotificationWindow);
         document.querySelector('.notification__icon').removeEventListener('click',
             this.renderNotificationWindow);
+        document.addEventListener('click',
+            this.hideNotificationWindow);
+        document.querySelector('.notification__window-container').addEventListener('click',
+            (event)=>event.stopPropagation());
     }
 
     /**
      *
      */
-    hideNotificationWindow() {
+    hideNotificationWindow(event) {
         this.notificationWindow.hide();
-        document.querySelector('.notification__icon').removeEventListener('click',
+        document.removeEventListener('click',
             this.hideNotificationWindow);
         document.querySelector('.notification__icon').addEventListener('click',
             this.renderNotificationWindow);
