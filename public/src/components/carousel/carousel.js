@@ -5,6 +5,7 @@ import ProductCard from '../productCard/productCard.js';
 import template from './carousel.hbs';
 import {rateCase} from '../../modules/utils.js';
 import { eventEmmiter } from '../../modules/event-emmiter.js';
+import { Events } from '../../config/events.js';
 
 /**
  * Класс карусели продуктов
