@@ -229,8 +229,8 @@ export default class Carousel {
     }
 
     unsubscribeToEvents() {
-        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
-        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+        eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
     /**
@@ -241,6 +241,8 @@ export default class Carousel {
             'beforeend',
             template(this.#config),
         );
+
+        this.subscribeToEvents();
 
         const buttonLeft = new Button(
             this.self.querySelector('.left-button'),
