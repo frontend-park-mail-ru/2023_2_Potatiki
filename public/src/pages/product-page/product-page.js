@@ -41,8 +41,8 @@ export default class ProductPage {
     getConfig(data) {
         return {
             id: `category-product-${data.productId}`,
-            category: data.categoryName,
-            categoryHref: `/category/${data.categoryId}`,
+            category: data.category.categoryName,
+            categoryHref: `/category/${data.category.categoryId}`,
             data: data,
             quantity: data.quantity,
             description: data.description,

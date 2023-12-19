@@ -153,7 +153,7 @@ export default class Product {
         const recs = new Recommendations(
             this.self.querySelector('.recommendations'),
             this.#config.data.productId,
-            this.#config.data.categoryId,
+            this.#config.data.category.categoryId,
         );
         recs.render();
     }
