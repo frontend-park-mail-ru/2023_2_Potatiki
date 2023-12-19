@@ -193,7 +193,7 @@ class ProductsStore {
                 activityPoints: 1,
             }],
             [{
-                categoryId: Number(product.categoryId),
+                categoryId: Number(product.category.categoryId),
                 activityPoints: 1,
             }],
             );

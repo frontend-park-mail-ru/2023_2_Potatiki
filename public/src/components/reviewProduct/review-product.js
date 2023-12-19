@@ -49,8 +49,8 @@ export default class ReviewProduct {
     getConfig(data) {
         return {
             id: `review-product-${data.productId}`,
-            category: data.categoryName,
-            categoryHref: `/category/${data.productId}`,
+            category: data.category.categoryName,
+            categoryHref: `/category/${data.categoryId}`,
             data: data,
             quantity: data.quantity,
             img: {
