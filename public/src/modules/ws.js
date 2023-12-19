@@ -14,7 +14,7 @@ export default class WS {
         this.socket.onopen = function(e) {
             console.log('succes');
             setInterval(() => {
-                socket.send('');
+                this.socket.send('');
             }, 6000);
         };
 
