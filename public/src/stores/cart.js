@@ -501,6 +501,8 @@ class CartStore {
         case 404:
             eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Промокод не найден');
             break;
+        case 410:
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Промокод был применен вами ранее');
         case 413:
             eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Использованы все промокоды');
         case 419:

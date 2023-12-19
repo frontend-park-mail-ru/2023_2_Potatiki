@@ -209,14 +209,6 @@ export default class Carousel {
             product.render();
         });
 
-
-        // const newCard = this.self.querySelectorAll('.product-card');
-        // newCard[this.#singlePos].scrollIntoView({
-        //     behavior: 'instant',
-        //     block: 'center',
-        //     inline: 'center',
-        // });
-
         this.calcCardCount();
         this.#rightPos = this.#cardCount;
         this.#leftPos = 0;
