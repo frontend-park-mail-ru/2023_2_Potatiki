@@ -271,16 +271,5 @@ export default class Carousel {
         );
         buttonRight.render();
         this.addListeners();
-        if (this.#config.id === 'rec-carousel') {
-            return;
-        }
-        const isTimeout = this.#config.id === 'new-carousel' ? true : false;
-        if (isTimeout) {
-            setTimeout(() => {
-                this.#interval = setInterval(this.moveCarousel, 4000);
-            }, 2000);
-        } else {
-            this.#interval = setInterval(this.moveCarousel, 4000);
-        }
     }
 }
