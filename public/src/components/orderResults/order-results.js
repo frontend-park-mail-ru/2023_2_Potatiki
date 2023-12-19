@@ -60,6 +60,13 @@ export default class OrderResults {
     }
 
     /**
+     * Взятие элемента скидки
+     */
+    get discount() {
+        return this.self.querySelector('#discount');
+    }
+
+    /**
      * Вязтие кнопки создания заказа
      */
     get button() {
@@ -85,6 +92,7 @@ export default class OrderResults {
         price = price.toLocaleString('ru') + ' ₽';
         this.count.textContent = `Товары(${count})`;
         this.subprice.textContent = price;
+        this.discount.textContent = '0%';
         this.result.textContent = price;
     }
 
@@ -96,7 +104,7 @@ export default class OrderResults {
         console.log('applu promo');
         this.#discountPrice = Number((this.#price * (1-Number(discount)/100)).toFixed(0));
         const price = this.#discountPrice.toLocaleString('ru') + ' ₽';
-        this.subprice.textContent = price;
+        this.discount.textContent = discount + '%';
         this.result.textContent = price;
         console.log(price);
     }
@@ -106,8 +114,9 @@ export default class OrderResults {
      */
     cancelPromo() {
         const price = this.#price.toLocaleString('ru') + ' ₽';
-        this.subprice.textContent = price;
+
         this.result.textContent = price;
+        this.discount.textContent = '0%';
     }
 
     /**
