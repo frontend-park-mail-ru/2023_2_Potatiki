@@ -214,12 +214,19 @@ export default class Header {
         this.cart.render();
 
         const profileState = userStore.isAuth ? this.#config.profile : this.#config.login;
+
         this.user = new Link(self.querySelector('.header__icons-container'), profileState);
         this.user.render();
 
         if (userStore.isAuth) {
-            this.renderProfileMenu();
+            this.logoutButton = new Button(
+                self.querySelector('.header__icons-container'),
+                this.#config.logout,
+            );
+            this.logoutButton.render();
+            this.logoutButton.self.addEventListener('click', this.logout);
         }
+
 
         this.subscribeToEvents();
         CartActions.getCartCount();

@@ -1,6 +1,7 @@
 import './profileMenu.scss';
 import template from './profileMenu.hbs';
 import {UserActions} from '../../actions/user';
+import Link from '../link/link';
 
 // TO DO: вынести в конфиг наполнение меню
 
@@ -9,13 +10,15 @@ import {UserActions} from '../../actions/user';
  */
 export default class ProfileMenu {
     #parent;
+    #config;
 
     /**
      *
      * @param {Element} parent Родительский элемент
      */
-    constructor(parent) {
+    constructor(parent, config) {
         this.#parent = parent;
+        this.#config = config;
     }
 
     /**
@@ -29,15 +32,16 @@ export default class ProfileMenu {
      *
      */
     logoutHandle(event) {
-        event.preventDefault();
-        UserActions.logout();
+        console.log('click');
+        // event.preventDefault();
+        // UserActions.logout();
     }
 
     /**
      *
      */
     addEventListeners() {
-        document.getElementById('logout-menu-elem').addEventListener(this.logoutHandle);
+        document.getElementById('logout-menu-elem').addEventListener('click', this.logoutHandle);
     }
 
     /**
@@ -48,5 +52,14 @@ export default class ProfileMenu {
             'beforeend',
             template(),
         );
+
+        const icon = new Link(
+            document.querySelector('.profile-menu__icon'),
+            this.#config,
+            true,
+        );
+        icon.render();
+
+        this.addEventListeners();
     }
 }
