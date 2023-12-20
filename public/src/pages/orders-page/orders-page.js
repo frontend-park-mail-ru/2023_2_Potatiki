@@ -51,7 +51,7 @@ export default class OrdersPage {
             products: data.products,
             summary: summary.toLocaleString() + ' ₽',
             count: count,
-            address: `${data.city}, ${data.street}, ${data.house}, ${data.flat}`,
+            address: `${data.address.city}, ${data.address.street}, ${data.address.house}, ${data.address.flat}`,
             creationDate: getDateForReview(data.creationDate),
             deliveryDate: data.deliveryDate,
             deliveryTime: data.deliveryTime,
