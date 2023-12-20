@@ -145,7 +145,7 @@ export default class Header {
      * Изменение хэдера при неавторизованном пользователе
      */
     unauthorizedHeader() {
-        tthis.user.self.remove();
+        this.user.self.remove();
         this.user = new Link(this.self.querySelector('.header__icons-container'),
             this.#config.profile);
         this.user.render();
