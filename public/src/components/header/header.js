@@ -106,8 +106,8 @@ export default class Header {
      * Подписка на события
      */
     subscribeToEvents() {
-        // eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
-        // eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
+        eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.subscribe(Events.LOGOUT, this.unauthorizedHeader);
         eventEmmiter.subscribe(Events.CATEGORY_NAME, this.hideCatalog);
     }
@@ -116,8 +116,8 @@ export default class Header {
      * Отписка от событий
      */
     unsubscribeToEvents() {
-        // eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
-        // eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
+        eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
+        eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.unsubscribe(Events.LOGOUT, this.unauthorizedHeader);
         eventEmmiter.unsubscribe(Events.CATEGORY_NAME, this.hideCatalog);
     }
