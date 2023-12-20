@@ -17,7 +17,6 @@ export default class Carousel {
     #rightPos;
     #singlePos;
     #data;
-    #interval;
 
     /**
      * Конструктор класса
@@ -75,19 +74,6 @@ export default class Carousel {
         };
     }
 
-    moveCarousel() {
-        if (this.#rightPos < this.#data.length - 1) {
-            this.slideRightListener();
-        } else {
-            this.#leftPos = 0;
-
-            this.#rightPos = this.#cardCount;
-
-            this.slideLeft();
-        }
-    }
-    moveCarousel = this.moveCarousel.bind(this);
-
     /**
      * Рассчитывает количество видимых карточек
      */
@@ -107,9 +93,6 @@ export default class Carousel {
      * @param {Event} event Событие
      */
     slideRight(event) {
-        if (event) {
-            clearInterval(this.#interval);
-        }
         const newCard = this.self.querySelectorAll('.product-card');
         this.calcCardCount();
         this.#rightPos = Math.min(
@@ -143,9 +126,6 @@ export default class Carousel {
      * @param {Event} event Событие
      */
     slideLeft(event) {
-        if (event) {
-            clearInterval(this.#interval);
-        }
         const newCard = this.self.querySelectorAll('.product-card');
         this.calcCardCount();
         this.#leftPos = Math.max(
@@ -176,18 +156,10 @@ export default class Carousel {
         });
     }
 
-    cancelMove(event) {
-        clearInterval(this.#interval);
-    }
-    cancelMove = this.cancelMove.bind(this);
-
     /**
      * Прослушиватели событий для кнопки карусели
      */
     addListeners() {
-        window.addEventListener('click', this.cancelMove);
-        window.addEventListener('scroll', this.cancelMove);
-
         this.slideRightListener = this.slideRight.bind(this);
 
         document
@@ -212,26 +184,10 @@ export default class Carousel {
         document
             .querySelector(`#${this.#config.buttonLeft.id}`)
             .removeEventListener('click', this.slideLeftListener);
-
-        clearInterval(this.#interval);
-        window.removeEventListener('click', this.cancelMove);
-        window.removeEventListener('scroll', this.cancelMove);
     }
 
     removeListeners = this.removeListeners.bind(this);
 
-    subscribeToEvents = this.subscribeToEvents.bind(this);
-    unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
-
-    subscribeToEvents() {
-        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
-        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
-    }
-
-    unsubscribeToEvents() {
-        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
-        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
-    }
 
     /**
      * Отрисовка компонента карусели
@@ -266,16 +222,5 @@ export default class Carousel {
         );
         buttonRight.render();
         this.addListeners();
-        if (this.#config.id === 'rec-carousel') {
-            return;
-        }
-        const isTimeout = this.#config.id === 'new-carousel' ? true : false;
-        if (isTimeout) {
-            setTimeout(() => {
-                this.#interval = setInterval(this.moveCarousel, 4000);
-            }, 2000);
-        } else {
-            this.#interval = setInterval(this.moveCarousel, 4000);
-        }
     }
 }
