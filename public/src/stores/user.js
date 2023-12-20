@@ -404,6 +404,7 @@ class UserStore {
         this.#state.isAuth = false;
         Ajax.prototype.getRequest(logoutUrl);
         eventEmmiter.emit(Events.LOGOUT, {url: '/'});
+        notificationStore.disconnectWS();
     }
 
     /**

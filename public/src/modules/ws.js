@@ -5,6 +5,7 @@ import {wsUrl} from '../config/urls';
  */
 export default class WS {
     socket;
+    timerId;
 
     /**
      *
@@ -20,12 +21,6 @@ export default class WS {
         };
 
         this.socket.onclose = function(event) {
-            if (event.wasClean) {
-                console.log(`[close] Соединение закрыто чисто, код=${event.code}
-                причина=${event.reason}`);
-            } else {
-                console.log(`[close] Соединение прервано код=${event.code}`);
-            }
         };
 
         this.socket.onerror = function(error) {
@@ -37,11 +32,21 @@ export default class WS {
      *
      */
     keepAlive() {
-        setInterval(() => {
+        this.timerId = setInterval(() => {
             if (this.socket.readyState == this.socket.OPEN) {
                 this.socket.send('');
             }
         }, 6000);
+    }
+
+    /**
+     *
+     */
+    closeSocket() {
+        if (this.timerId) {
+            clearTimeout(this.timerId);
+        }
+        this.socket.close();
     }
 
     keepAlive = this.keepAlive.bind(this);

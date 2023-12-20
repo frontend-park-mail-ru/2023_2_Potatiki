@@ -10,6 +10,7 @@ class NotificationStore {
         notifications: [],
     };
 
+    #ws;
     /**
      * Конструктор
      */
@@ -38,8 +39,15 @@ class NotificationStore {
      *
      */
     connectWS() {
-        const ws = new WS(this.addNotification);
-        ws.keepAlive();
+        this.#ws = new WS(this.addNotification);
+        this.#ws.keepAlive();
+    }
+
+    /**
+     *
+     */
+    disconnectWS() {
+        this.#ws.closeSocket();
     }
 }
 
