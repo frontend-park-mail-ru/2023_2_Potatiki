@@ -47,7 +47,7 @@ class NotificationStore {
      *
      */
     disconnectWS() {
-        this.#ws.closeSocket();
+        // this.#ws.closeSocket();
     }
 }
 
