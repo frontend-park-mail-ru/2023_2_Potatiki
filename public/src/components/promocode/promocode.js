@@ -47,7 +47,6 @@ export default class Promocode {
     applyPromo() {
         this.self.querySelector('.promocode__status').textContent = '';
         const promo = this.input.self.value.trim();
-        console.log(promo);
         CartActions.applyPromo(promo);
     }
 

@@ -12,9 +12,7 @@ export default class WS {
      */
     constructor(handle) {
         this.socket = new WebSocket(wsUrl);
-        this.socket.onopen = function(e) {
-            console.log('succes');
-        };
+        this.socket.onopen = function(e) {};
 
         this.socket.onmessage = function(event) {
             handle(JSON.parse(event.data));
@@ -23,9 +21,7 @@ export default class WS {
         this.socket.onclose = function(event) {
         };
 
-        this.socket.onerror = function(error) {
-            console.log(error);
-        };
+        this.socket.onerror = function(error) {};
     }
 
     /**

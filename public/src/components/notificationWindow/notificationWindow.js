@@ -28,7 +28,6 @@ export default class NotificationWindow {
    * Отрисовка компонента ссылки
    */
     render() {
-        console.log('render window');
         this.#parent.innerHTML = template({notifications: notificationStore.notifications});
     }
 
@@ -36,7 +35,6 @@ export default class NotificationWindow {
      *
      */
     hide() {
-        console.log('hide window');
         this.#parent.innerHTML = '';
     }
 }

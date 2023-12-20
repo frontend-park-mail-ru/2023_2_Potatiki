@@ -49,7 +49,6 @@ export default class OrderPage {
      * @param {Object} body Данные о продуктах
      */
     renderProducts(body) {
-        console.log('render cart order');
         if (!body.products || !body.products.length) {
             this.redirectToLogin();
             return;

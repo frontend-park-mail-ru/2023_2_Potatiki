@@ -34,7 +34,6 @@ export default class Select {
      * @return {String} Значение выбранной опции
      */
     getSelected() {
-        console.log(this.self.querySelector('.select').selectedOptions[0].label);
         return this.self.querySelector('.select').selectedOptions[0].label;
     }
 

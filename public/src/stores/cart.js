@@ -377,8 +377,6 @@ class CartStore {
             userStore.csrfToken,
         );
 
-        console.log('create order');
-
         switch (statusCode) {
         case 200:
             eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});

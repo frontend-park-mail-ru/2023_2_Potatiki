@@ -101,12 +101,10 @@ export default class OrderResults {
      * @param {String} discount Размер скидки
      */
     applyPromo(discount) {
-        console.log('applu promo');
         this.#discountPrice = Number((this.#price * (1-Number(discount)/100)).toFixed(0));
         const price = this.#discountPrice.toLocaleString('ru') + ' ₽';
         this.discount.textContent = discount + '%';
         this.result.textContent = price;
-        console.log(price);
     }
 
     /**

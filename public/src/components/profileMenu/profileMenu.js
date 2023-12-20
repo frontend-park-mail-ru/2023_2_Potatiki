@@ -32,7 +32,7 @@ export default class ProfileMenu {
      *
      */
     logoutHandle(event) {
-        console.log('click');
+
         // event.preventDefault();
         // UserActions.logout();
     }

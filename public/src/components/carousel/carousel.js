@@ -207,7 +207,6 @@ export default class Carousel {
      * Удаление прослушивателей событий кнопок карусели
      */
     removeListeners() {
-        console.log('remove');
         document
             .querySelector(`#${this.#config.buttonRight.id}`)
             .removeEventListener('click', this.slideRightListener);
