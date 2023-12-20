@@ -132,13 +132,29 @@ export default class Header {
     }
 
     /**
+     * Удаление кнопки выхода
+     */
+    removeLogoutButton() {
+        if (this.logoutButton && this.logoutButton.self) {
+            this.logoutButton.self.removeEventListener('click', this.logout);
+            this.logoutButton.self.remove();
+        }
+    }
+
+    /**
      * Изменение хэдера при неавторизованном пользователе
      */
     unauthorizedHeader() {
-        this.user.self.remove();
+        tthis.user.self.remove();
         this.user = new Link(this.self.querySelector('.header__icons-container'),
-            this.#config.login);
+            this.#config.profile);
         this.user.render();
+
+        this.removeLogoutButton();
+        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'),
+            this.#config.logout);
+        this.logoutButton.render();
+        this.logoutButton.self.addEventListener('click', this.logout);
     }
 
     /**
@@ -150,7 +166,11 @@ export default class Header {
             this.#config.profile);
         this.user.render();
 
-        this.renderProfileMenu();
+        this.removeLogoutButton();
+        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'),
+            this.#config.logout);
+        this.logoutButton.render();
+        this.logoutButton.self.addEventListener('click', this.logout);
     }
 
     /**
