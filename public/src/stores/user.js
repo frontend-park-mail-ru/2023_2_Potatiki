@@ -405,6 +405,7 @@ class UserStore {
         Ajax.prototype.getRequest(logoutUrl);
         eventEmmiter.emit(Events.LOGOUT, {url: '/'});
         notificationStore.disconnectWS();
+        notificationStore.deleteNotifications();
     }
 
     /**

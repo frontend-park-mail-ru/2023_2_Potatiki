@@ -1,5 +1,5 @@
-import { Events } from '../config/events';
-import { eventEmmiter } from '../modules/event-emmiter';
+import {Events} from '../config/events';
+import {eventEmmiter} from '../modules/event-emmiter';
 import WS from '../modules/ws';
 
 /**
@@ -31,6 +31,14 @@ class NotificationStore {
     addNotification(message) {
         this.notifications.push(message);
         eventEmmiter.emit(Events.RECIEVE_NOTIFICATION);
+    }
+
+    /**
+     *
+     */
+    deleteNotifications() {
+        this.notifications = [];
+        eventEmmiter.emit(Events.CLEAN_NOTIFICATIONS);
     }
 
     addNotification = this.addNotification.bind(this);

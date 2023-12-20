@@ -85,8 +85,17 @@ export default class Notification {
         this.changeIconState();
     }
 
+    /**
+     *
+     */
+    cleanNotifications() {
+        this.isUnread = false;
+        this.changeIconState();
+    }
+
     changeIconState = this.changeIconState.bind(this);
     receiveNotification = this.receiveNotification.bind(this);
+    cleanNotifications = this.cleanNotifications.bind(this);
     renderNotificationWindow = this.renderNotificationWindow.bind(this);
     hideNotificationWindow = this.hideNotificationWindow.bind(this);
 
@@ -95,6 +104,7 @@ export default class Notification {
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.RECIEVE_NOTIFICATION, this.receiveNotification);
+        eventEmmiter.subscribe(Events.CLEAN_NOTIFICATIONS, this.cleanNotifications);
     }
 
     /**

@@ -44,6 +44,10 @@ export default class OrdersPage {
             count += product.quantity;
             summary += product.quantity * product.price;
         });
+
+        const discount = +data.promocodeName.substring(data.promocodeName.lenght - 2);
+        summary = summary * (100 - discount) / 100;
+
         return {
             id: `order-item-${data.id}`,
             uuid: data.id,
