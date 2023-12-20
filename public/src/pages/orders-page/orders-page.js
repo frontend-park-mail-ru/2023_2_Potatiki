@@ -49,7 +49,7 @@ export default class OrdersPage {
         const promo = data.promocodeName.substring(data.promocodeName.length - 2);
         console.log(data.promocodeName.substring(data.promocodeName.lenght - 2));
         const discount = +promo;
-        summary = summary * (100 - discount) / 100;
+        summary = Number((summary * (1-Number(discount)/100)).toFixed(0));
 
         return {
             id: `order-item-${data.id}`,
