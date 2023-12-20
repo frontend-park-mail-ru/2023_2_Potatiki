@@ -46,8 +46,9 @@ export default class OrdersPage {
         });
 
         console.log(data.promocodeName);
+        const promo = data.promocodeName.substring(data.promocodeName.length - 2);
         console.log(data.promocodeName.substring(data.promocodeName.lenght - 2));
-        const discount = +data.promocodeName.substring(data.promocodeName.lenght - 2);
+        const discount = +promo;
         summary = summary * (100 - discount) / 100;
 
         return {
