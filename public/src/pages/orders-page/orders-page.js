@@ -45,6 +45,8 @@ export default class OrdersPage {
             summary += product.quantity * product.price;
         });
 
+        console.log(data.promocodeName);
+        console.log(data.promocodeName.substring(data.promocodeName.lenght - 2));
         const discount = +data.promocodeName.substring(data.promocodeName.lenght - 2);
         summary = summary * (100 - discount) / 100;
 
