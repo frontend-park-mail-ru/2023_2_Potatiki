@@ -29,7 +29,7 @@ class NotificationStore {
      * @param {Object} message
      */
     addNotification(message) {
-        this.notifications.push(message);
+        this.#state.notifications.push(message);
         eventEmmiter.emit(Events.RECIEVE_NOTIFICATION);
     }
 
@@ -37,11 +37,12 @@ class NotificationStore {
      *
      */
     deleteNotifications() {
-        this.notifications = [];
+        this.#state.notifications = [];
         eventEmmiter.emit(Events.CLEAN_NOTIFICATIONS);
     }
 
     addNotification = this.addNotification.bind(this);
+    deleteNotifications = this.deleteNotifications.bind(this);
 
     /**
      *
