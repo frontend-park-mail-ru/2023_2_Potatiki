@@ -11,7 +11,6 @@ import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
 import CartIcon from '../cartIcon/cart-icon.js';
-import ProfileMenu from '../profileMenu/profileMenu.js';
 import Notification from '../notification/notification.js';
 
 /**
@@ -27,7 +26,6 @@ export default class Header {
     logoutButton;
     user;
     isRendered;
-    profileMenu;
 
     /**
    * Конструктор класса
@@ -67,14 +65,6 @@ export default class Header {
     }
 
     /**
-     * Отрисовка меню профиля
-     */
-    renderProfileMenu() {
-        this.profileMenu = new ProfileMenu(document.getElementById('profile-button'));
-        this.profileMenu.render();
-    }
-
-    /**
      * Удаление отображение каталога
      */
     hideCatalog() {
@@ -85,17 +75,8 @@ export default class Header {
         this.catalog?.unsubscribeToEvents();
     }
 
-    /**
-     * Удаление отображение меню профиля
-     */
-    hideProfileMenu() {
-        this.profileMenu?.self?.remove();
-    }
-
     hideCatalog = this.hideCatalog.bind(this);
     renderCatalog = this.renderCatalog.bind(this);
-    hideProfileMenu = this.hideProfileMenu.bind(this);
-    renderProfileMenu = this.renderProfileMenu.bind(this);
     removeListeners = this.removeListeners.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
     logout = this.logout.bind(this);
@@ -132,6 +113,18 @@ export default class Header {
     }
 
     /**
+     * Изменение хэдера при неавторизованном пользователе
+     */
+    unauthorizedHeader() {
+        this.user.self.remove();
+        this.user = new Link(this.self.querySelector('.header__icons-container'),
+            this.#config.login);
+        this.user.render();
+
+        this.removeLogoutButton();
+    }
+
+    /**
      * Удаление кнопки выхода
      */
     removeLogoutButton() {
@@ -139,22 +132,6 @@ export default class Header {
             this.logoutButton.self.removeEventListener('click', this.logout);
             this.logoutButton.self.remove();
         }
-    }
-
-    /**
-     * Изменение хэдера при неавторизованном пользователе
-     */
-    unauthorizedHeader() {
-        this.user.self.remove();
-        this.user = new Link(this.self.querySelector('.header__icons-container'),
-            this.#config.profile);
-        this.user.render();
-
-        this.removeLogoutButton();
-        this.logoutButton = new Button(this.self.querySelector('.header__icons-container'),
-            this.#config.logout);
-        this.logoutButton.render();
-        this.logoutButton.self.addEventListener('click', this.logout);
     }
 
     /**
@@ -246,7 +223,6 @@ export default class Header {
             this.logoutButton.render();
             this.logoutButton.self.addEventListener('click', this.logout);
         }
-
 
         this.subscribeToEvents();
         CartActions.getCartCount();
