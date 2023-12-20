@@ -39,6 +39,7 @@ class NotificationStore {
      */
     connectWS() {
         const ws = new WS(this.addNotification);
+        ws.keepAlive();
     }
 }
 

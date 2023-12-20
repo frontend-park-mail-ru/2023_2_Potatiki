@@ -13,7 +13,6 @@ export default class WS {
         this.socket = new WebSocket(wsUrl);
         this.socket.onopen = function(e) {
             console.log('succes');
-            this.keepAlive();
         };
 
         this.socket.onmessage = function(event) {
@@ -39,7 +38,9 @@ export default class WS {
      */
     keepAlive() {
         setInterval(() => {
-            this.socket.send('');
+            if (this.socket.readyState == this.socket.OPEN) {
+                this.socket.send('');
+            }
         }, 6000);
     }
 
