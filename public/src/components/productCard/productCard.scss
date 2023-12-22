@@ -6,7 +6,7 @@
     background: var(--color-card-background);
     padding-bottom: 1.4rem;
     justify-content: center;
-
+    border: 0.1rem solid var(--color-stroke);
     display: grid;
     grid-template-rows: 8fr 2fr 2fr 1fr 1fr;
     grid-template-columns: 220px;
