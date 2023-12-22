@@ -503,10 +503,13 @@ class CartStore {
             break;
         case 410:
             eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Промокод был применен вами ранее');
+            break;
         case 413:
             eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Использованы все промокоды');
+            break;
         case 419:
             eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Время действия промокода истекло');
+            break;
         case 429:
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
         default:
