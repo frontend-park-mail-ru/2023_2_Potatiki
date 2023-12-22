@@ -15,6 +15,7 @@ export default class WS {
         this.socket.onopen = function(e) {};
 
         this.socket.onmessage = function(event) {
+            console.log(event.data);
             handle(JSON.parse(event.data));
         };
 

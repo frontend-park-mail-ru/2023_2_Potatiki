@@ -333,6 +333,7 @@ class UserStore {
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
             this.#state.isAuth = true;
+            console.log('signup');
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
             notificationStore.connectWS();
             break;
