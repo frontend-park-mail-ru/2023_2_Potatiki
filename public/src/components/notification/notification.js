@@ -84,8 +84,9 @@ export default class Notification {
         if (this.notificationWindow) {
             notificationStore.readNotifications();
             this.notificationWindow.render();
+        } else {
+            this.changeIconState();
         }
-        this.changeIconState();
     }
 
     /**
