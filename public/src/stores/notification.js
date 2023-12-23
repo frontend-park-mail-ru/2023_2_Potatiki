@@ -56,6 +56,7 @@ class NotificationStore {
         this.#state.notifications.push(message);
         this.#state.isUnread = true;
         eventEmmiter.emit(Events.RECIEVE_NOTIFICATION);
+        console.log(this.#state.notifications());
         this.addLocalNotifiacation();
     }
 
