@@ -40,10 +40,8 @@ class NotificationStore {
      */
     addLocalNotifiacation() {
         let localNotifications = JSON.parse(localStorage.getItem('notification-info'));
-        if (!localNotifications) {
-            localNotifications = this.#state;
-            localStorage.setItem('notification-info', JSON.stringify(localNotifications));
-        }
+        localNotifications = this.#state;
+        localStorage.setItem('notification-info', JSON.stringify(localNotifications));
         console.log(localNotifications);
         localStorage.setItem('notification-info', JSON.stringify(localNotifications));
     }
