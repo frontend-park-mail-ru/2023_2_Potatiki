@@ -31,6 +31,13 @@ class NotificationStore {
     /**
      *
      */
+    get isUnread() {
+        return this.#state.isUnread;
+    }
+
+    /**
+     *
+     */
     addLocalNotifiacation() {
         let localNotifications = JSON.parse(localStorage.getItem('notification-info'));
         if (!localNotifications) {
@@ -55,11 +62,19 @@ class NotificationStore {
     /**
      *
      */
+    readNotifications() {
+        this.#state.isUnread = false;
+        this.addLocalNotifiacation();
+    }
+
+    /**
+     *
+     */
     deleteNotifications() {
         this.#state.notifications = [];
         this.#state.isUnread = false;
         eventEmmiter.emit(Events.CLEAN_NOTIFICATIONS);
-        localStorage.setItem('notification-info', JSON.stringify(this.#state));
+        this.addLocalNotifiacation();
     }
 
     addNotification = this.addNotification.bind(this);

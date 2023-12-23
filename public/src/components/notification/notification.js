@@ -4,7 +4,7 @@ import Button from '../button/button';
 import {eventEmmiter} from '../../modules/event-emmiter';
 import {Events} from '../../config/events';
 import NotificationWindow from '../notificationWindow/notificationWindow';
-import { notificationStore } from '../../stores/notification';
+import {notificationStore} from '../../stores/notification';
 
 // TO DO подправить верстку иконой
 
@@ -15,7 +15,6 @@ export default class Notification {
     #parent;
     #config;
 
-    isUnread;
     notificationWindow;
 
     /**
@@ -26,7 +25,6 @@ export default class Notification {
     constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
-        this.isUnread = false;
     }
 
     /**
@@ -40,7 +38,7 @@ export default class Notification {
      *
      */
     changeIconState() {
-        if (this.isUnread) {
+        if (notificationStore.isUnread) {
             document.querySelector('.notification__icon')?.classList.
                 add('notification__icon_active');
         } else {
@@ -54,7 +52,7 @@ export default class Notification {
      */
     renderNotificationWindow(event) {
         event.stopPropagation();
-        this.isUnread = false;
+        notificationStore.readNotifications();
         this.changeIconState();
         this.notificationWindow = new NotificationWindow(
             document.querySelector('.notification__window-container'));
@@ -82,7 +80,6 @@ export default class Notification {
      *
      */
     receiveNotification() {
-        this.isUnread = true;
         this.changeIconState();
     }
 
@@ -90,7 +87,6 @@ export default class Notification {
      *
      */
     cleanNotifications() {
-        this.isUnread = false;
         this.changeIconState();
     }
 
@@ -132,13 +128,7 @@ export default class Notification {
         );
         icon.render();
 
-        if (notificationStore.notifications) {
-            this.isUnread = true;
-        }
-
-        if (this.isUnread) {
-            this.changeIconState();
-        }
+        this.changeIconState();
 
         this.subscribeToEvents();
         this.addEventListeners();
