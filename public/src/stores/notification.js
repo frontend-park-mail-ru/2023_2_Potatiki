@@ -31,6 +31,7 @@ class NotificationStore {
     addNotification(message) {
         this.#state.notifications.push(message);
         eventEmmiter.emit(Events.RECIEVE_NOTIFICATION);
+        this.addLocalNotifiacations();
     }
 
     /**
@@ -39,6 +40,7 @@ class NotificationStore {
     deleteNotifications() {
         this.#state.notifications = [];
         eventEmmiter.emit(Events.CLEAN_NOTIFICATIONS);
+        this.addLocalNotifiacations();
     }
 
     addNotification = this.addNotification.bind(this);

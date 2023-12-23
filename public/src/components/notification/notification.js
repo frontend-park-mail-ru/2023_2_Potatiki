@@ -4,6 +4,7 @@ import Button from '../button/button';
 import {eventEmmiter} from '../../modules/event-emmiter';
 import {Events} from '../../config/events';
 import NotificationWindow from '../notificationWindow/notificationWindow';
+import { notificationStore } from '../../stores/notification';
 
 // TO DO подправить верстку иконой
 
@@ -40,10 +41,10 @@ export default class Notification {
      */
     changeIconState() {
         if (this.isUnread) {
-            document.querySelector('.notification__icon').classList.
+            document.querySelector('.notification__icon')?.classList.
                 add('notification__icon_active');
         } else {
-            document.querySelector('.notification__icon').classList.
+            document.querySelector('.notification__icon')?.classList.
                 remove('notification__icon_active');
         }
     }
@@ -130,6 +131,10 @@ export default class Notification {
             true,
         );
         icon.render();
+
+        if (notificationStore.notifications) {
+            this.isUnread = true;
+        }
 
         if (this.isUnread) {
             this.changeIconState();
