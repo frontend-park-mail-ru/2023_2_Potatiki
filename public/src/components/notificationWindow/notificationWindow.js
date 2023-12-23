@@ -28,6 +28,7 @@ export default class NotificationWindow {
    * Отрисовка компонента ссылки
    */
     render() {
+        console.log(notificationStore.notifications);
         this.#parent.innerHTML = template({notifications: notificationStore.notifications});
     }
 
