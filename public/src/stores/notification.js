@@ -17,6 +17,7 @@ class NotificationStore {
      * Конструктор
      */
     constructor() {
+        this.#state = JSON.parse(localStorage.getItem('notification-info'));
         console.log(localStorage.getItem('notification-info'));
     }
 
@@ -30,14 +31,13 @@ class NotificationStore {
     /**
      *
      */
-    addLocalNotifiacation(message) {
+    addLocalNotifiacation() {
         let localNotifications = JSON.parse(localStorage.getItem('notification-info'));
         if (!localNotifications) {
             localNotifications = this.#state;
             localStorage.setItem('notification-info', JSON.stringify(localNotifications));
         }
 
-        localNotifications.notifications.push(message);
         localStorage.setItem('notification-info', JSON.stringify(localNotifications));
     }
 
@@ -49,7 +49,7 @@ class NotificationStore {
         this.#state.notifications.push(message);
         this.#state.isUnread = true;
         eventEmmiter.emit(Events.RECIEVE_NOTIFICATION);
-        this.addLocalNotifiacation(message);
+        this.addLocalNotifiacation();
     }
 
     /**
@@ -59,6 +59,7 @@ class NotificationStore {
         this.#state.notifications = [];
         this.#state.isUnread = false;
         eventEmmiter.emit(Events.CLEAN_NOTIFICATIONS);
+        localStorage.setItem('notification-info', JSON.stringify(this.#state));
     }
 
     addNotification = this.addNotification.bind(this);
