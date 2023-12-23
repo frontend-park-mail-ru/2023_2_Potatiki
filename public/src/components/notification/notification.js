@@ -81,10 +81,11 @@ export default class Notification {
      *
      */
     receiveNotification() {
-        this.changeIconState();
         if (this.notificationWindow) {
+            notificationStore.readNotifications();
             this.notificationWindow.render();
         }
+        this.changeIconState();
     }
 
     /**
