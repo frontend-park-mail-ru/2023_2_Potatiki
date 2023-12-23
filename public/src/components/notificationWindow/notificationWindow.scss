@@ -1,7 +1,7 @@
 .notification-window {
     display: flex;
-    width: 180px;
-    height: 120px;
+    width: 34rem;
+    max-height: 18rem;
     padding: 10px;
    border-radius: 16px;
    background-color: #FFFFFE;
@@ -14,8 +14,8 @@
 .notification-window__elem {
     display: inline-block;
     height: fit-content;
-    padding: 6px 0;
-    font-size: 12px;
+    padding: 10px 0;
+    font-size: 1.4rem;
 }
 
 .notification-window__divider {
