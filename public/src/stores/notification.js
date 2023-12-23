@@ -18,6 +18,12 @@ class NotificationStore {
      */
     constructor() {
         this.#state = JSON.parse(localStorage.getItem('notification-info'));
+        if (!this.#state) {
+            this.#state = {
+                notifications: [],
+                isUnread: false,
+            };
+        }
         console.log(localStorage.getItem('notification-info'));
     }
 
