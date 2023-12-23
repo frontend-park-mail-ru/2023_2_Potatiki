@@ -70,6 +70,7 @@ export default class Notification {
      */
     hideNotificationWindow(event) {
         this.notificationWindow.hide();
+        this.notificationWindow = undefined;
         document.removeEventListener('click',
             this.hideNotificationWindow);
         document.querySelector('.notification__icon').addEventListener('click',
@@ -81,6 +82,9 @@ export default class Notification {
      */
     receiveNotification() {
         this.changeIconState();
+        if (!this.notificationWindow) {
+            this.notificationWindow.render();
+        }
     }
 
     /**
