@@ -17,7 +17,7 @@ class NotificationStore {
      * Конструктор
      */
     constructor() {
-        console.log(localStorage.getItem(userStore.loginName));
+        console.log(localStorage.getItem('notification-info'));
     }
 
     /**
@@ -31,14 +31,14 @@ class NotificationStore {
      *
      */
     addLocalNotifiacation() {
-        let localNotifications = JSON.parse(localStorage.getItem(userStore.loginName));
+        let localNotifications = JSON.parse(localStorage.getItem('notification-info'));
         if (!localNotifications) {
             localNotifications = this.#state;
-            localStorage.setItem(JSON.stringify(localNotifications));
+            localStorage.setItem('notification-info', JSON.stringify(localNotifications));
         }
 
         localNotifications.notifications.push(message);
-        localStorage.setItem(JSON.stringify(localNotifications));
+        localStorage.setItem('notification-info', JSON.stringify(localNotifications));
     }
 
     /**
