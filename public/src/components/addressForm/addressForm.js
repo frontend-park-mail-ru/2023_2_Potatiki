@@ -64,6 +64,7 @@ export default class AddressForm {
      */
     inputCityHandle(event) {
         event.preventDefault();
+        this.city.removeError();
         UserActions.validateCity(this.city.self.value);
     }
 
@@ -75,6 +76,7 @@ export default class AddressForm {
      */
     inputStreetHandle(event) {
         event.preventDefault();
+        this.street.removeError();
         UserActions.validateStreet(this.street.self.value);
     }
 
@@ -86,6 +88,7 @@ export default class AddressForm {
      */
     inputHouseHandle(event) {
         event.preventDefault();
+        this.house.removeError();
         UserActions.validateHouse(this.house.self.value);
     }
 
@@ -97,6 +100,7 @@ export default class AddressForm {
      */
     inputFlatHandle(event) {
         event.preventDefault();
+        this.flat.removeError();
         UserActions.validateFlat(this.flat.self.value);
     }
 
