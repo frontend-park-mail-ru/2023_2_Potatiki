@@ -1,15 +1,86 @@
 name: CI
 run-name: Deploy
-on: push
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  DEPLOY_FOLDER: "zuzu-frontend-deploy"
+
 jobs:
-  Build-and-Deploy:
+  linter:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-    - name: Install npm deps
-      run: npm ci
-    - name: Run linter
-      run: npm run check
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+      
+  build:
+    runs-on: ubuntu-latest
+    needs: linter
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Build Webpack
+        run: npx webpack
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Copy dist dir to target machine
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSHKEY }}
+          rm: true
+          source: "dist"
+          target: ~/${{ env.DEPLOY_FOLDER }}
+
+      - name: Copy dist dir to work dir
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSHKEY }}
+          envs: DEPLOY_FOLDER
+          script: |
+            sudo bash
+            cd $(echo $FOLDER_COMPOSE)
+
+            cp -r dist/* /data/public/
+          
