@@ -1,7 +1,6 @@
 import {Events} from '../config/events';
 import {eventEmmiter} from '../modules/event-emmiter';
 import WS from '../modules/ws';
-import {userStore} from './user';
 
 /**
  *

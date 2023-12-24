@@ -77,19 +77,6 @@ export default class Carousel {
         };
     }
 
-    moveCarousel() {
-        if (this.#rightPos < this.#data.length - 1) {
-            this.slideRightListener();
-        } else {
-            this.#leftPos = 0;
-
-            this.#rightPos = this.#cardCount;
-
-            this.slideLeft();
-        }
-    }
-    moveCarousel = this.moveCarousel.bind(this);
-
     /**
      * Рассчитывает количество видимых карточек
      */
@@ -178,11 +165,6 @@ export default class Carousel {
         });
     }
 
-    cancelMove(event) {
-        clearInterval(this.#interval);
-    }
-    cancelMove = this.cancelMove.bind(this);
-
     /**
      * Прослушиватели событий для кнопки карусели
      */
@@ -225,11 +207,17 @@ export default class Carousel {
     subscribeToEvents = this.subscribeToEvents.bind(this);
     unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
 
+    /**
+     * Подписка на события
+     */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
+    /**
+     * Отписка от событий
+     */
     unsubscribeToEvents() {
         eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
