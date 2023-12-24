@@ -1,22 +1,22 @@
+import './carousel.scss';
+import {productRoute, reviewRoute} from '../../config/urls.js';
 import Button from '../button/button.js';
 import ProductCard from '../productCard/productCard.js';
-import '../templates.js';
+import template from './carousel.hbs';
+import {rateCase} from '../../modules/utils.js';
 
 /**
  * Класс карусели продуктов
  */
 export default class Carousel {
     #parent;
-
     #config;
-
-    #leftBorder;
-
-    #rightBorder;
-
     #cardCount;
-
+    #currentPos;
+    #leftPos;
+    #rightPos;
     #data;
+
     /**
      * Конструктор класса
      * @param {Element} parent Родительский элемент
@@ -27,14 +27,13 @@ export default class Carousel {
         this.#parent = parent;
         this.#config = config;
         this.#data = data;
-        this.#leftBorder = 0;
     }
 
     /**
      * Получение элемента класса
      */
     get self() {
-        return document.getElementById(this.#config.id);
+        return document.querySelector(`#${this.#config.id}`);
     }
 
     /**
@@ -44,87 +43,110 @@ export default class Carousel {
      */
     getConfig(data) {
         return {
-            id: `${this.#config.id}-product-${data.id}`,
-            data: `data-id=${data.id}`,
+            id: `${this.#config.id}-product-${data.productId}`,
+            data: data,
+            quantity: data.quantity,
             img: {
-                imgSrc: './static/images/' + data.img,
+                imgSrc: '/static/images/' + data.img,
                 imgClass: 'product-card__img',
+                href: productRoute + '/' + data.productId,
             },
             name: {
-                text: data.name,
+                text: data.productName,
+                href: productRoute + '/' + data.productId,
             },
             button: {
-                class: 'product-card__button_size_in-cart',
+                class: 'product-card__button_size_in-cart button_disabled',
                 type: 'button',
-                id: `product-${data.id}-button`,
+                id: `product-${data.productId}-button`,
                 text: 'В корзину',
-                imgSrc: './static/images/cart.svg',
+                imgSrc: '/static/images/cart.svg',
             },
-            starHref: './static/images/star-purple.svg',
-            productRate: data.rating,
-            reviewsCount: `${data.reviews_count || 1139} отзывов`,
+            starHref: '/static/images/star-purple.svg',
+            productRate: data.rating.toFixed(1),
+            reviewsCount: data.countComments + ' ' + rateCase(data.countComments),
+            reviewsHref: reviewRoute + '/' + data.productId,
             price: data.price.toLocaleString() + ' ₽',
         };
     }
 
     /**
-     * Получение индекса элемента из карусели
-     * @param {Number} index Текущий индекс
-     * @param {Number} diff Величина изменения
-     * @return {Number} Новый  индекс
+     * Рассчитывает количество видимых карточек
      */
-    getIndex(index, diff) {
-        const newIndex = index + diff;
-        if (newIndex < 0) {
-            return this.#data.length - 1;
-        }
-        if (newIndex > this.#data.length - 1) {
-            return 0;
-        }
-        return newIndex;
+    calcCardCount() {
+        const containerWidth = document
+            .querySelector('.carousel__container')
+            .getBoundingClientRect().width;
+        const cardWidth = document
+            .querySelector('.product-card').getBoundingClientRect().width;
+        this.#cardCount = Math.min(Math.round(containerWidth / cardWidth) - 1,
+            this.#data.length,
+        );
     }
 
     /**
      * Прокуручивание карусели вправо
-     * @param {Object} event Событие
+     * @param {Event} event Событие
      */
     slideRight(event) {
         event.preventDefault();
-        const parent = this.self.querySelector('.carousel__container');
-        const cards = this.self.querySelectorAll('.product-card');
-        parent.removeChild(cards[0]);
-        this.#rightBorder = this.getIndex(this.#rightBorder, 1);
-        this.#leftBorder = this.getIndex(this.#leftBorder, 1);
-        const product = new ProductCard(parent, this.getConfig(this.#data[this.#rightBorder]));
-        product.render();
+        const newCard = this.self.querySelectorAll('.product-card');
+        this.calcCardCount();
+        this.#rightPos = Math.min(
+            this.#data.length - 1,
+            this.#rightPos + this.#cardCount - 1,
+        );
+
+        this.#leftPos = Math.min(
+            this.#data.length - 1 - this.#cardCount,
+            this.#leftPos + this.#cardCount,
+        );
+
+        newCard[this.#rightPos].scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+        });
     }
 
     /**
      * Прокуручивание карусели влево
-     * @param {Object} event Событие
+     * @param {Event} event Событие
      */
     slideLeft(event) {
         event.preventDefault();
-        const parent = this.self.querySelector('.carousel__container');
-        const cards = this.self.querySelectorAll('.product-card');
-        parent.removeChild(cards[this.#cardCount - 1]);
-        this.#leftBorder = this.getIndex(this.#leftBorder, -1);
-        this.#rightBorder = this.getIndex(this.#rightBorder, -1);
-        const product = new ProductCard(parent, this.getConfig(this.#data[this.#leftBorder]), true);
-        product.render();
+        const newCard = this.self.querySelectorAll('.product-card');
+        this.calcCardCount();
+        this.#leftPos = Math.max(
+            0,
+            Math.min(this.#data.length - 1 - this.#cardCount, this.#leftPos - this.#cardCount + 1),
+        );
+
+        this.#rightPos = Math.max(
+            this.#cardCount,
+            this.#rightPos - this.#cardCount,
+        );
+
+        newCard[this.#leftPos].scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+        });
     }
 
     /**
      * Прослушиватели событий для кнопки карусели
      */
     addListeners() {
-        document
-            .getElementById(this.#config.buttonRight.id)
-            .addEventListener('click', this.slideRight.bind(this));
+        this.slideRightListener = this.slideRight.bind(this);
 
         document
-            .getElementById(this.#config.buttonLeft.id)
-            .addEventListener('click', this.slideLeft.bind(this));
+            .querySelector(`#${this.#config.buttonRight.id}`)
+            .addEventListener('click', this.slideRightListener);
+
+        this.slideLeftListener = this.slideLeft.bind(this);
+
+        document
+            .querySelector(`#${this.#config.buttonLeft.id}`)
+            .addEventListener('click', this.slideLeftListener);
     }
 
     /**
@@ -132,12 +154,12 @@ export default class Carousel {
      */
     removeListeners() {
         document
-            .getElementById(this.#config.buttonRight.id)
-            .removeEventListener('click', this.slideRight.bind(this));
+            .querySelector(`#${this.#config.buttonRight.id}`)
+            .removeEventListener('click', this.slideRightListener);
 
         document
-            .getElementById(this.#config.buttonLeft.id)
-            .removeEventListener('click', this.slideLeft.bind(this));
+            .querySelector(`#${this.#config.buttonLeft.id}`)
+            .removeEventListener('click', this.slideLeftListener);
     }
 
     /**
@@ -146,7 +168,7 @@ export default class Carousel {
     render() {
         this.#parent.insertAdjacentHTML(
             'beforeend',
-            window.Handlebars.templates['carousel.hbs'](this.#config),
+            template(this.#config),
         );
 
         const buttonLeft = new Button(
@@ -155,17 +177,17 @@ export default class Carousel {
         );
         buttonLeft.render();
 
-        const cardWidth = 300;
-        this.#cardCount = Math.min(Math.round(window.innerWidth / cardWidth), this.#data.length);
-        this.#rightBorder = this.#cardCount - 1;
-
-        for (let i = 0; i < this.#cardCount; i++) {
+        this.#data.forEach((element) => {
             const product = new ProductCard(
                 this.self.querySelector('.carousel__container'),
-                this.getConfig(this.#data[i]),
+                this.getConfig(element),
             );
             product.render();
-        }
+        });
+
+        this.calcCardCount();
+        this.#rightPos = this.#cardCount;
+        this.#leftPos = 0;
 
         const buttonRight = new Button(
             this.self.querySelector('.right-button'),

@@ -1,21 +1,27 @@
-
-export const baseURL = 'http://84.23.52.212:8082/api/';
+const requests = {
+    signup: 'auth/signup',
+    login: 'auth/signin',
+    checkSession: 'auth/check_auth',
+    getProducts: 'products/get_all',
+};
 
 const header = {
     logo: {
         id: 'logo-link',
         class: 'header__link_size_logo',
-        href: 'main',
-        altText: 'ZuZu',
-        imgSrc: './static/images/logo.svg',
+        href: '/',
+        altText: 'ZuZu logo',
+        imgSrc: '/static/images/logo.svg',
+        imgClass: 'logo-img ',
     },
 
     catalog: {
-        class: 'header__button_size_catalog button-disabled',
+        class: 'header__button_size_catalog',
         type: 'button',
         text: 'Каталог',
         id: 'catalog-button',
-        imgSrc: './static/images/burger.svg',
+        imgSrc: '/static/images/burger.svg',
+        imgClass: 'button__img_size_s',
     },
 
     search: {
@@ -28,64 +34,73 @@ const header = {
             inputPlaceholder: 'Я хочу найти',
             error: false,
             label: false,
+            disabled: true,
         },
         submit: {
-            class: 'button-disabled search-form__button_size_search',
+            class: 'button_disabled search-form__button_size_search',
             type: '',
             text: '',
             id: 'search-button',
             altText: 'Поиск',
-            imgSrc: './static/images/search.svg',
+            imgSrc: '/static/images/search.svg',
+            imgClass: 'button__img_size_s',
         },
 
     },
 
     orders: {
         id: 'orders-button',
-        class: 'link__icon link-disabled',
-        href: '#',
+        class: 'link_icon',
+        href: '/orders',
         text: 'Заказы',
-        imgSrc: './static/images/order-box.svg',
+        imgSrc: '/static/images/order-box.svg',
+        imgClass: 'link_icon__img',
     },
 
     favorite: {
         id: 'favorite-button',
-        class: 'link__icon link-disabled',
+        class: 'link_icon link_disabled',
         text: 'Избранное',
-        href: '#',
-        imgSrc: './static/images/like-icon.svg',
+        href: '',
+        imgSrc: '/static/images/like-icon.svg',
+        imgClass: 'link_icon__img',
     },
 
     basket: {
         id: 'basket-button',
-        class: 'link__icon  link-disabled',
-        href: '#',
+        class: 'link_icon cart-icon',
+        href: '/cart',
         text: 'Корзина',
-        imgSrc: './static/images/cart-icon.svg',
+        imgSrc: '/static/images/cart-icon.svg',
+        imgClass: 'link_icon__img cart-icon__img',
+        textClass: 'cart-count',
     },
 
     login: {
         id: 'login-button',
-        class: 'link__icon',
+        class: 'link_icon',
         text: 'Войти',
-        href: 'login',
-        imgSrc: './static/images/login.svg',
+        href: '/login',
+        imgSrc: '/static/images/login.svg',
+        imgClass: 'link_icon__img',
     },
 
     profile: {
         id: 'profile-button',
-        class: 'link__icon link-disabled',
-        href: 'profile',
+        class: 'link_icon',
+        href: '/my-profile',
         text: 'Профиль',
-        imgSrc: './static/images/user.svg',
+        imgSrc: '/static/images/user.svg',
+        imgClass: 'link_icon__img',
     },
 
     logout: {
         id: 'logout-button',
-        class: 'link__icon',
-        href: 'logout',
+        class: 'link_icon fake-button',
         text: 'Выйти',
-        imgSrc: './static/images/login.svg',
+        imgSrc: '/static/images/login.svg',
+        imgClass: 'link_icon__img',
+        spanClass: 'dark-text',
     },
 };
 
@@ -97,13 +112,15 @@ const newCarousel = {
         class: 'button carousel__button',
         type: 'button',
         id: 'new-carousel-button-left',
-        imgSrc: './static/images/arrow-left.svg',
+        imgSrc: '/static/images/arrow-left.svg',
+        imgClass: 'button__img_size_m',
     },
     buttonRight: {
         class: 'button carousel__button',
         type: 'button',
         id: 'new-carousel-button-right',
-        imgSrc: './static/images/arrow-right.svg',
+        imgSrc: '/static/images/arrow-right.svg',
+        imgClass: 'button__img_size_m',
     },
 };
 
@@ -114,13 +131,15 @@ const popularCarousel = {
         class: 'button carousel__button',
         type: 'button',
         id: 'popular-carousel-button-left',
-        imgSrc: './static/images/arrow-left.svg',
+        imgSrc: '/static/images/arrow-left.svg',
+        imgClass: 'button__img_size_m',
     },
     buttonRight: {
         class: 'button carousel__button',
         type: 'button',
         id: 'popular-carousel-button-right',
-        imgSrc: './static/images/arrow-right.svg',
+        imgSrc: '/static/images/arrow-right.svg',
+        imgClass: 'button__img_size_m',
     },
 };
 
@@ -134,9 +153,10 @@ const loginPage = {
     logo: {
         id: 'logo-button',
         class: 'login-page__logo',
-        href: 'main',
-        altText: 'ZuZu',
-        imgSrc: './static/images/logo.svg',
+        href: '/',
+        altText: 'ZuZu logo',
+        imgSrc: '/static/images/logo.svg',
+        imgClass: 'login-page__logo-img',
     },
 
     form: {
@@ -166,7 +186,7 @@ const loginPage = {
             id: 'signup-link',
             class: 'link login-form__link',
             text: 'Зарегистрироваться',
-            href: 'signup',
+            href: '/signup',
         },
     },
 };
@@ -175,9 +195,10 @@ const signupPage = {
     logo: {
         id: 'logo-button',
         class: 'login-page__logo',
-        href: 'main',
-        altText: 'ZuZu',
-        imgSrc: './static/images/logo.svg',
+        href: '/',
+        altText: 'ZuZu logo',
+        imgSrc: '/static/images/logo.svg',
+        imgClass: 'login-page__logo-img',
     },
 
     form: {
@@ -189,6 +210,13 @@ const signupPage = {
             inputName: 'login',
             inputPlaceholder: 'Придумайте логин',
             errorId: 'login-error',
+        },
+
+        phone: {
+            inputClass: 'input login-form__input',
+            inputName: 'phone',
+            inputPlaceholder: '+7(___)-___-__-__',
+            errorId: 'number-error',
         },
 
         password: {
@@ -218,7 +246,81 @@ const signupPage = {
             id: 'login-link',
             class: 'link signup-form__link',
             text: 'Уже есть аккаунт?',
-            href: 'login',
+            href: '/login',
+        },
+    },
+};
+
+const profilePage = {
+    title: 'Мой профиль',
+    profile: {
+        navElem1: 'Мои данные',
+        navElem2: 'Мои адреса',
+        infoCard: {
+        },
+        passwordEditForm: {
+            oldPassword: {
+                inputName: 'old-password',
+                inputPlaceholder: 'Старый пароль',
+                inputType: 'password',
+                errorId: 'old-password-error',
+            },
+            newPassword: {
+                inputName: 'new-password',
+                inputPlaceholder: 'Новый пароль',
+                inputType: 'password',
+                errorId: 'new-password-error',
+            },
+            repeatPassword: {
+                inputName: 'repeat-password',
+                inputPlaceholder: 'Повторите пароль',
+                inputType: 'password',
+                errorId: 'repeat-password-error',
+            },
+            submit: {
+                id: 'save-button',
+                text: 'Сохранить',
+            },
+        },
+        numberEditForm: {
+            number: {
+                inputName: 'number',
+                inputClass: 'number-edit-form__input',
+                inputPlaceholder: '+7(___)-___-__-__',
+                errorId: 'number-error',
+            },
+            submit: {
+                id: 'save-button',
+                text: 'Сохранить',
+            },
+        },
+
+        addressForm: {
+            city: {
+                inputName: 'number',
+                inputPlaceholder: 'Город',
+                errorId: 'city-error',
+            },
+            street: {
+                inputName: 'street',
+                inputPlaceholder: 'Улица',
+                errorId: 'street-error',
+            },
+            house: {
+                inputName: 'house',
+                inputPlaceholder: 'Дом',
+                errorId: 'house-error',
+            },
+            flat: {
+                inputName: 'flat',
+                inputPlaceholder: 'Квартира',
+                errorId: 'flat-error',
+            },
+            submit: {
+                class: 'address-form__submit',
+                id: 'save-button',
+                text: 'Сохранить',
+            },
         },
     },
 };
@@ -229,4 +331,6 @@ export const config = {
     mainPage: mainPage,
     signupPage: signupPage,
     loginPage: loginPage,
+    profilePage: profilePage,
+    requests: requests,
 };

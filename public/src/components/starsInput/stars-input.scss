@@ -1,0 +1,17 @@
+.stars-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.stars-input__name {
+    font-size: 1.5rem;
+}
+
+.stars-input__error-place {
+    color: var(--color-incorrect);
+}
+
+.stars-input__star {
+    min-height: 26px;
+}

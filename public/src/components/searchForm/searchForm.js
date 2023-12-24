@@ -1,6 +1,7 @@
+import './searchForm.scss';
 import Button from '../button/button.js';
 import Input from '../input/input.js';
-import '../templates.js';
+import template from './searchForm.hbs';
 
 /**
  * Класс компонента формы поиска
@@ -8,16 +9,18 @@ import '../templates.js';
 export default class SearchForm {
     #parent;
     #config;
-    #submitHandle;
+    #isAfterBegin;
 
     /**
      * Конструктор класса
      * @param {Element} parent Родительский компонент
      * @param {Object} config Конфиг для отрисовки класса
+     * @param {Bollean} isAfterBegin
      */
-    constructor(parent, config) {
+    constructor(parent, config, isAfterBegin) {
         this.#parent = parent;
         this.#config = config;
+        this.#isAfterBegin = isAfterBegin;
     }
 
 
@@ -25,9 +28,10 @@ export default class SearchForm {
    * Отрисовка компонента формы поиска
    */
     render() {
+        const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(
-            'beforeend',
-            window.Handlebars.templates['searchForm.hbs'](this.#config),
+            destination,
+            template(this.#config),
         );
 
         const self = document.getElementById('search-form');

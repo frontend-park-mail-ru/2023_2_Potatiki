@@ -1,4 +1,5 @@
-import '../templates.js';
+import './button.scss';
+import template from './button.hbs';
 
 /**
  * Класс кнопки
@@ -8,53 +9,43 @@ export default class Button {
 
     #config;
 
-    #submitHandle;
+    #isAfterBegin;
+
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
    * @param {Object} config Конфиг для отрисовки класса
-   * @param {Function} submitHandle Функция, вызываемая при нажатии на кнопку
+   * @param {Boolean} isAfterBegin Флаг при котором элемент вставляется в начало
    */
-    constructor(parent, config, submitHandle) {
+    constructor(parent, config, isAfterBegin) {
         this.#parent = parent;
         this.#config = config;
-        this.#submitHandle = submitHandle;
+        this.#isAfterBegin = isAfterBegin;
     }
 
     /**
-   * Получение элемента компонента кнопик
-   */
-    get self() {
-        return document.getElementById(this.#config.id);
-    }
-
-    /**
-   * Добавление прослушивателя на событие 'click'
-   */
-    addListeners() {
-        document
-            .getElementById(this.#config.id)
-            .addEventListener('click', this.#submitHandle);
-    }
-
-    /**
-     * Удаление прослушивателя
+     * Получение элемента компонента кнопик
      */
-    removeListeners() {
-        document
-            .getElementById(this.#config.id)
-            .removeEventListener('click', this.#submitHandle);
+    get self() {
+        return document.querySelector(`#${this.#config.id}`);
     }
 
     /**
-   * Отрисовка компонента кнопки
-   */
+     * Получение элемента изображения кнопки
+     */
+    get img() {
+        return this.self.querySelector(`.${this.#config.imgClass}`);
+    }
+
+    /**
+     * Отрисовка компонента кнопки
+     */
     render() {
+        const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(
-            'beforeend',
-            window.Handlebars.templates['button.hbs'](this.#config),
+            destination,
+            template(this.#config),
         );
-        this.addListeners();
     }
 }

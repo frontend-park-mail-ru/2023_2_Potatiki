@@ -1,4 +1,4 @@
-import {baseURL} from '../../config.js';
+import {baseUrl} from '../config/urls';
 
 /**
  * Методы для отправки сетевых запросов
@@ -8,9 +8,10 @@ export default class Ajax {
    * POST-запрос
    * @param {String} url Путь запроса
    * @param {Object} data Тело запроса
+   * @param {Strring} token CSRF-токен
    * @return {Object} Ответ с сервера
    */
-    async postRequest(url, data) {
+    async postRequest(url, data, token) {
         const options = {
             method: 'POST',
             mode: 'cors',
@@ -21,12 +22,49 @@ export default class Ajax {
             },
             body: JSON.stringify(data),
         };
+        if (token) {
+            options.headers['X-Csrf-Token'] = token;
+        }
         try {
-            const response = await fetch(baseURL + url, options);
-            const body = await response.json();
-            return [response.status, body];
+            const response = await fetch(baseUrl + url, options);
+            const body = await response.text();
+            if (!body) {
+                return [response.status, {}];
+            }
+            return [response.status, JSON.parse(body)];
         } catch (error) {
-            return [500, error];
+            return [429, error];
+        }
+    }
+
+    /**
+   * POST-запрос
+   * @param {String} url Путь запроса
+   * @param {Object} data Тело запроса
+   * @param {String} token CSRF-токен
+   * @return {Object} Ответ с сервера
+   */
+    async postBinRequest(url, data, token) {
+        const options = {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            body: data,
+            headers: {},
+        };
+        if (token) {
+            options.headers['X-Csrf-Token'] = token;
+        }
+
+        try {
+            const response = await fetch(baseUrl + url, options);
+            const body = await response.text();
+            if (!body) {
+                return [response.status, {}];
+            }
+            return [response.status, JSON.parse(body)];
+        } catch (error) {
+            return [429, error];
         }
     }
 
@@ -47,11 +85,71 @@ export default class Ajax {
             },
         };
         try {
-            const response = await fetch(baseURL + url, options);
-            const body = await response.json();
-            return [response.status, body];
+            const response = await fetch(baseUrl + url, options);
+            const body = await response.text();
+            if (!body) {
+                return [response.status, {}];
+            }
+            return [response.status, JSON.parse(body)];
         } catch (error) {
-            return [500, error];
+            return [429, error];
+        }
+    }
+
+    /**
+     * Запрос для CSRF токена
+     * @param {String} url Путь запроса
+     * @return {Object} Ответ с сервера
+     */
+    async getCSRFRequest(url) {
+        const options = {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Access-Control-Request-Method': 'GET',
+            },
+        };
+        try {
+            const response = await fetch(baseUrl + url, options);
+            return [response.status, response.headers.get('X-Csrf-Token')];
+        } catch (error) {
+            return [429, error];
+        }
+    }
+
+    /**
+   * DELETE-запрос
+   * @param {String} url Путь запроса
+   * @param {Object} data Тело запроса
+   * @param {String} token CSRF-токен
+   * @return {Object} Ответ с сервера
+   */
+    async deleteRequest(url, data, token) {
+        const options = {
+            method: 'DELETE',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+        if (token) {
+            options.headers['X-Csrf-Token'] = token;
+        }
+        try {
+            const response = await fetch(baseUrl + url, options);
+            const body = await response.text();
+            if (!body) {
+                return [response.status, {}];
+            }
+            return [response.status, JSON.parse(body)];
+        } catch (error) {
+            return [429, error];
         }
     }
 }

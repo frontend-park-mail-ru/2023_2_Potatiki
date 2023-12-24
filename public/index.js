@@ -1,109 +1,41 @@
-import MainPage from './src/pages/main-page/main-page.js';
-import LoginPage from './src/pages/login-page/login-page.js';
-import SignupPage from './src/pages/signup-page/signup-page.js';
-import Ajax from './src/modules/ajax.js';
-import renderServerError from './src/modules/server-error.js';
-import {config} from './config.js';
+import './index.scss';
+import router from './src/modules/router';
+import {UserActions} from './src/actions/user';
+import {eventEmmiter} from './src/modules/event-emmiter';
+import {Events} from './src/config/events';
+import {cartStore} from './src/stores/cart';
+import {productsStore} from './src/stores/products';
+import {userStore} from './src/stores/user';
+import {renderServerMessage, renderWarningMessage} from './src/modules/server-message';
 
-const root = document.getElementById('root');
-let pageObject;
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js', {scope: '/'})
+        .then((reg) => {
+            console.log('sw registered', reg);
+        })
+        .catch((e) => {
+            console.error(e);
+        });
+}
 
-/**
- * Отрисовка главной страницы
- * @param {Boolean} isAuth Статус авторизации
- */
-const renderMainPage = (isAuth) => {
-    config.isAuthorized = isAuth;
-    pageObject?.removeListeners();
-    pageObject = new MainPage(root, config, changePage);
-    pageObject.render();
-    config.page = 'main';
-};
+const ustore = userStore;
+const cstore = cartStore;
+const pstore = productsStore;
 
-/**
- *  Отрисовка страницы
- * @param {String} page Название страницы
- */
-const renderPage = (page) => {
-    pageObject.removeListeners();
-    switch (page) {
-    case 'login':
-        pageObject = new LoginPage(root, config, changePage);
-        break;
-    case 'signup':
-        pageObject = new SignupPage(root, config, changePage);
-        break;
-    default:
-        break;
-    }
-    pageObject.render();
-    config.page = page;
-};
+if (navigator.onLine) {
+    UserActions.setOnline();
+} else {
+    UserActions.setOffline();
+}
 
-/**
- * Функция осуществляющая переход на нужную страницу
- * @param {String} href Путь к странице
- * @param {Boolean} isAuth статус авторизации
- */
-const changePage = (href, isAuth) => {
-    switch (href) {
-    case 'main':
-        if (config.page !== 'main') {
-            renderMainPage(isAuth);
-        }
-        break;
-    case 'login':
-        if (config.page !== 'login') {
-            renderPage('login');
-        }
-        break;
-    case 'signup':
-        if (config.page !== 'signup') {
-            renderPage('signup');
-        }
-        break;
-    case 'logout':
-        renderMainPage(false);
-        Ajax.prototype.getRequest('auth/logout');
-        break;
-    default:
-    }
-};
-
-/**
- * Listener для нажатий по ссылкам
- * @param {Object} event Событие нажатия по ссылке
- */
-const listenClick = (event) => {
-    event.preventDefault();
-    const anchor = event.target.closest('a');
-    if (!anchor) return;
-    changePage(anchor.getAttribute('href'));
-};
-
-window.addEventListener('click', listenClick);
-
-/**
- * Функция проверяет авторизован ли пользователь и
- * отображает соответствующий вид страницы
- */
-const checkSession = () => {
-    Ajax.prototype.getRequest('auth/check_auth').then((result) => {
-        const [statusCode, body] = result;
-        switch (statusCode) {
-        case 200:
-            renderMainPage(true);
-            break;
-        case 401:
-            renderMainPage(false);
-            break;
-        case 429:
-            renderServerError(body.error);
-            break;
-        default:
-            break;
-        }
-    });
-};
-
-document.addEventListener('DOMContentLoaded', checkSession, {once: true});
+window.addEventListener('online', UserActions.setOnline);
+window.addEventListener('offline', UserActions.setOffline);
+document.addEventListener('DOMContentLoaded', UserActions.checkSession());
+eventEmmiter.subscribe(Events.USER_IS_AUTH, router.go.bind(router));
+eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, router.go.bind(router));
+eventEmmiter.subscribe(Events.LOGOUT, router.go.bind(router));
+eventEmmiter.subscribe(Events.SERVER_MESSAGE, renderServerMessage);
+eventEmmiter.subscribe(Events.WARN_MESSAGE, renderWarningMessage);
+eventEmmiter.subscribe(Events.REDIRECT, router.go.bind(router));
+const root = document.getElementById('container-main');
+router.start(root);

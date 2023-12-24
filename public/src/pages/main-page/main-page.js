@@ -1,9 +1,12 @@
+import './main-page.scss';
 import Carousel from '../../components/carousel/carousel.js';
 import Header from '../../components/header/header.js';
-import Ajax from '../../modules/ajax.js';
-import renderServerError from '../../modules/server-error.js';
+import template from './main-page.hbs';
+import {config} from '../../../config.js';
+import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {Events} from '../../config/events.js';
+import {ProductsActions} from '../../actions/products.js';
 
-import '../templates.js';
 
 /**
  * Класс главной страницы
@@ -13,87 +16,72 @@ export default class MainPage {
 
     #config;
 
-    #router;
-
     #carousels;
 
     /**
    * Конструктор класса
    * @param {Element} parent Родительский элемент
-   * @param {Object} config Конфиг для отрисовки страницы
-   * @param {Function} router Функция осуществляющая переход на другую страницу
    */
-    constructor(parent, config, router) {
+    constructor(parent) {
         this.#parent = parent;
-        this.#config = config;
-        this.#router = router;
+        this.#config = config.mainPage;
         this.#carousels = [];
     }
 
     /**
-     * Получение элемента страницы
-     */
+    * Получение элемента страницы
+    */
     get self() {
         return document.getElementById('main-page');
     }
 
     /**
-   * Получение и отрисовка карусели товаров
-   * @param {Number} offset Сдвиг в списке товаров
-   * @param {Number} count Количество запрашиваемых товаров
-   * @param {Object} config Конфиг карусели
-   */
-    getProducts(offset=0, count=5, config) {
-        Ajax.prototype.getRequest(
-            `products/get_all?paging=${offset}&count=${count}`).then((result) => {
-            const [statusCode, body] = result;
-            switch (statusCode) {
-            case 200:
-                const carousel = new Carousel(this.self, config, body);
-                carousel.render();
-                this.#carousels.push(carousel);
-                break;
-            case 429:
-                renderServerError(body.error);
-                break;
-            default:
-                break;
-            }
-        });
-    }
-
-    /**
-     *
+     * Отображение продуктов на главной странице
+     * @param {Object} body Данные о продуктах
+     * @param {Object} config Конфиг для отображения элементов
      */
+    renderProducts(body, config) {
+        const carousel = new Carousel(this.self, config, body);
+        carousel.render();
+        this.#carousels.push(carousel);
+    }
+
+    renderProducts = this.renderProducts.bind(this);
+
+    /**
+     * Подписка на события
+     */
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.PRODUCTS, this.renderProducts);
+    }
+
+    /**
+    * Удаление листенеров
+    */
     removeListeners() {
-        const buttonId = this.#config.mainPage.header.search.submit.id;
-        const button = document.getElementById(buttonId);
-        button.removeEventListener('click', this.searchFormListener);
-        this.#carousels.forEach((elem) => {
-            elem.removeListeners();
+        this.#carousels.forEach((cl) => {
+            cl.removeListeners();
         });
     }
 
     /**
-   * Отрисовка страницы регистрации
-   */
+    * Отписка от событий
+    */
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.PRODUCTS, this.renderProducts);
+    }
+
+    /**
+    * Отрисовка главной страницы
+    */
     render() {
-        this.#parent.innerHTML = '';
+        this.#parent.innerHTML = template();
 
-        this.#parent.insertAdjacentHTML(
-            'beforeend',
-            window.Handlebars.templates['main-page.hbs'](),
-        );
-
-        const header = new Header(
-            this.self,
-            this.#config.mainPage.header,
-            this.#config.isAuthorized,
-        );
+        const header = new Header();
         header.render();
+        this.subscribeToEvents();
 
-        this.getProducts(0, 10, this.#config.mainPage.newCarousel);
-
-        this.getProducts(0, 10, this.#config.mainPage.popularCarousel);
+        ProductsActions.getProducts(0, 30, this.#config.newCarousel);
+        ProductsActions.getProducts(30, 30, this.#config.popularCarousel);
     }
 }

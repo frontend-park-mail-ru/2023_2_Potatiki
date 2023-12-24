@@ -1,0 +1,23 @@
+.textarea__field, .textarea__field:focus {
+    width: 100%;
+    outline: none;
+    resize: none;
+    background: var(--color-background-header);
+    border-radius: 1rem;
+    border: 0.1rem solid #babfff;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.2rem;
+    font-family: inherit;
+}
+
+.textarea__field::-webkit-scrollbar {
+    width: 0;
+  }
+
+.textarea__error {
+  padding-left: 6px;
+  font-size: 1.1rem;
+  color: var(--color-incorrect);
+}

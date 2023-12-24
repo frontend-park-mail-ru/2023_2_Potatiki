@@ -1,4 +1,6 @@
-<a class="link {{class}}" href="{{href}}" id="{{id}}" data-href="{{href}}">
+<a class="link {{class}} {{spanClass}}" href="{{href}}" id="{{id}}" data-href="{{href}}">
     {{#if imgSrc}} <img class="{{imgClass}}" src="{{imgSrc}}" alt="{{altText}}"/> {{/if}}
-    {{#if text}} <span class="{{spanClass}}">{{text}}</span> {{/if}}
+    {{#if textClass}}<span class="{{textClass}}">{{text}}</span>
+    {{else}} {{text}}
+    {{/if}}
 </a>

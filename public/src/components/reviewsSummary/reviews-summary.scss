@@ -1,0 +1,32 @@
+.reviews-summary {
+    width: 100%;
+    font-size: 1.5rem;
+    display: grid;
+    gap: 2rem
+}
+
+.reviews-summary__head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reviews-summary__button-place {
+    display: grid;
+}
+
+.reviews-summary__login-link:hover {
+    color: var(--color-incorrect);
+}
+
+.reviews-summary__login-link {
+    text-align: end;
+}
+
+.reviews-summary__body {
+    display: grid;
+    gap: 1rem;
+}
+
+.reviews-summary__rate {
+    font-weight: 600;
+}

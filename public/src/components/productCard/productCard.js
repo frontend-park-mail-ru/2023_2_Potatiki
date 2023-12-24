@@ -1,16 +1,17 @@
-import Button from '../button/button.js';
+import AddToCartButton from '../addToCartButton/add-to-cart-button.js';
 import Link from '../link/link.js';
-import '../templates.js';
+import template from './productCard.hbs';
+import './productCard.scss';
 
 /**
  * Класс компонента карточки товара
  */
 export default class ProductCard {
     #parent;
-
     #config;
-
     #isAfterBegin;
+
+    button;
 
     /**
    * Конструктор класса
@@ -31,10 +32,10 @@ export default class ProductCard {
         const destination = this.#isAfterBegin ? 'afterbegin' : 'beforeend';
         this.#parent.insertAdjacentHTML(
             destination,
-            window.Handlebars.templates['productCard.hbs'](this.#config),
+            template(this.#config),
         );
 
-        const self = document.getElementById(this.#config.id);
+        const self = document.querySelector(`#${this.#config.id}`);
 
         const img = new Link(
             self.querySelector('.product-card__img-place'),
@@ -48,7 +49,12 @@ export default class ProductCard {
         );
         name.render();
 
-        const button = new Button(self, this.#config.button);
+        const button = new AddToCartButton(
+            self,
+            this.#config.data,
+            this.#config.id,
+            this.#config.quantity,
+        );
         button.render();
     }
 }

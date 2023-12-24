@@ -1,0 +1,17 @@
+#orders-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10vh;
+    background-color: var(--color-background);
+    min-height: 100vh;
+}
+
+.orders-container {
+    margin-top: 20px;
+    display: grid;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: minmax(50rem, 80rem);
+}

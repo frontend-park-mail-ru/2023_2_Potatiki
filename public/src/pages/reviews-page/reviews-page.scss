@@ -1,0 +1,43 @@
+#reviews-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 80px 10% 30px 10%;
+    gap: 2rem;
+}
+
+.reviews-page__main-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.reviews-page__product-container {
+    width: 100%;
+    height: 100%;
+}
+
+.reviews-page__back-link-place {
+    align-self: start;
+    width: 100%;
+}
+
+.reviews-page__back-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.reviews-page__back-link-img {
+    height: 16px;
+}
+
+.reviews-page__empty-review {
+    align-self: flex-start;
+    font-size: 1.5rem;
+}
+
+.reviews-page__reviews-container {
+    margin-right: 4rem;
+}

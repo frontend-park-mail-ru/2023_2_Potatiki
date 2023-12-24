@@ -1,0 +1,61 @@
+.info-card{
+    display: flex;
+    flex-direction: row;
+    border: 0.5px solid #E5E2EB;
+    border-radius: 2rem;
+    width: 78rem;
+    height: 15rem;
+    font-size: 2rem;
+}
+
+.number-edit {
+    cursor: pointer;
+}
+
+.password-edit {
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #5E64FF;
+}
+
+.info-card__avatar {
+    display: flex;
+    padding-left: 1.3rem;
+    padding-bottom: 0.5rem;
+    align-items: flex-end;
+}
+
+.avatar__border {
+    display: flex;
+    width: 14.6rem;
+    height: 14.6rem;
+    overflow: hidden;
+    border-radius: 50%;
+    justify-content: center;
+}
+
+.avatar__img {
+   display: inline-block;
+   width: 14.6rem;
+   height: auto;
+}
+
+.avatar-edit {
+    cursor: pointer;
+    width: 13rem;
+    height: 1.6rem;
+    margin-bottom: 1.3rem;
+}
+
+.info-card__number {
+    color: #999AAD;
+}
+
+.info-card__data {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+    padding-top: 3.1rem;
+    gap: 1.3rem;
+    justify-items: center;
+}
