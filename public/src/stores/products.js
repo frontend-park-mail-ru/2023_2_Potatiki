@@ -12,6 +12,7 @@ import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
 import {SORT_PRICE_ASC, SORT_PRICE_DESC, SORT_RATING} from '../config/components';
 import {advantagesName, commentsName, disadvantagesName} from '../config/components';
+import {cartStore} from './cart';
 
 /**
  * Класс хранилище для товаров
@@ -24,6 +25,7 @@ class ProductsStore {
         categoryActivity: new Map(),
         activityRecords: 0,
     };
+    #cs;
 
     /**
      * Конструктор для класса
@@ -31,6 +33,7 @@ class ProductsStore {
     constructor() {
         this.registerEvents();
         this.getCategories();
+        this.#cs = cartStore;
     }
 
     /**

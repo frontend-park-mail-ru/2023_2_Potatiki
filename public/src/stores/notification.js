@@ -1,10 +1,10 @@
 import {Events} from '../config/events';
+import {getRecentNotifications} from '../config/urls';
 import {eventEmmiter} from '../modules/event-emmiter';
 import WS from '../modules/ws';
-import {userStore} from './user';
 
 /**
- *
+ * Класс хранилище уведомлений
  */
 class NotificationStore {
     #state = {
@@ -13,6 +13,7 @@ class NotificationStore {
     };
 
     #ws;
+
     /**
      * Конструктор
      */
@@ -24,69 +25,81 @@ class NotificationStore {
                 isUnread: false,
             };
         }
-        console.log(localStorage.getItem('notification-info'));
     }
 
     /**
-     * Получение
+     * Получение уведомлений
      */
     get notifications() {
         return this.#state.notifications;
     }
 
     /**
-     *
+     * Получения флага о прочитанности уведомлений
      */
     get isUnread() {
         return this.#state.isUnread;
     }
 
     /**
-     *
+     * Синхронизация local storage с хранилицем уведомлений
      */
-    addLocalNotifiacation() {
-        let localNotifications = JSON.parse(localStorage.getItem('notification-info'));
-        localNotifications = this.#state;
+    syncLocalNotifiacation() {
+        const localNotifications = this.#state;
         localStorage.setItem('notification-info', JSON.stringify(localNotifications));
-        console.log(localNotifications);
         localStorage.setItem('notification-info', JSON.stringify(localNotifications));
     }
 
     /**
-     *
-     * @param {Object} message
+     * Обработка нового уведомления
+     * @param {Object} message Полученное сообщений
      */
     addNotification(message) {
         this.#state.notifications.push(message);
         this.#state.isUnread = true;
         eventEmmiter.emit(Events.RECIEVE_NOTIFICATION);
-        console.log(this.#state.notifications);
-        this.addLocalNotifiacation();
+        this.syncLocalNotifiacation();
     }
 
     /**
-     *
+     * Прочитано уведомления
      */
     readNotifications() {
         this.#state.isUnread = false;
-        this.addLocalNotifiacation();
+        this.syncLocalNotifiacation();
     }
 
     /**
-     *
+     * Взятие уведомлений с сервера
+     */
+    async getNotifications() {
+        console.log('get');
+        const [statusCode, body] = await Ajax.prototype.getRequest(getRecentNotifications);
+
+        console.log(body);
+
+        if (statusCode === 200) {
+            this.#state.notifications = body;
+            this.#state.isUnread = false;
+            this.syncLocalNotifiacation();
+        }
+    }
+
+    /**
+     * Удаление уведомлений
      */
     deleteNotifications() {
         this.#state.notifications = [];
         this.#state.isUnread = false;
         eventEmmiter.emit(Events.CLEAN_NOTIFICATIONS);
-        this.addLocalNotifiacation();
+        this.syncLocalNotifiacation();
     }
 
     addNotification = this.addNotification.bind(this);
     deleteNotifications = this.deleteNotifications.bind(this);
 
     /**
-     *
+     * Открытие web socket
      */
     connectWS() {
         this.#ws = new WS(this.addNotification);
@@ -94,10 +107,10 @@ class NotificationStore {
     }
 
     /**
-     *
+     * Закрытие web socket
      */
     disconnectWS() {
-        // this.#ws.closeSocket();
+        this.#ws.closeSocket();
     }
 }
 

@@ -3,10 +3,8 @@ import template from './notificationWindow.hbs';
 import {notificationStore} from '../../stores/notification';
 
 
-// TO DO подправить верстку иконой
-
 /**
- * Класс компонента уведомлений
+ * Класс компонента окна уведомлений
  */
 export default class NotificationWindow {
     #parent;
@@ -25,15 +23,14 @@ export default class NotificationWindow {
 
 
     /**
-   * Отрисовка компонента ссылки
+   * Отрисовка компонента окна уведомлений
    */
     render() {
-        console.log(notificationStore.notifications);
         this.#parent.innerHTML = template({notifications: notificationStore.notifications});
     }
 
     /**
-     *
+     * Скрытие окна уведомлений
      */
     hide() {
         this.#parent.innerHTML = '';

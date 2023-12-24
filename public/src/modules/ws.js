@@ -1,21 +1,21 @@
 import {wsUrl} from '../config/urls';
 
 /**
- *
+ * Класс для работы с Web Socket
  */
 export default class WS {
     socket;
     timerId;
 
     /**
-     *
+     * Конструктор класса
+     * @param {Function} handle Обработчик получения сообщения
      */
     constructor(handle) {
         this.socket = new WebSocket(wsUrl);
         this.socket.onopen = function(e) {};
 
         this.socket.onmessage = function(event) {
-            console.log(event.data);
             handle(JSON.parse(event.data));
         };
 
@@ -26,7 +26,7 @@ export default class WS {
     }
 
     /**
-     *
+     * Пинг для сохранения соединия Web Socket
      */
     keepAlive() {
         this.timerId = setInterval(() => {
@@ -37,7 +37,7 @@ export default class WS {
     }
 
     /**
-     *
+     * Закрытие Web Socket
      */
     closeSocket() {
         if (this.timerId) {
@@ -47,5 +47,6 @@ export default class WS {
     }
 
     keepAlive = this.keepAlive.bind(this);
+    closeSocket = this.closeSocket.bind(this);
 }
 
