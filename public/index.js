@@ -3,10 +3,11 @@ import router from './src/modules/router';
 import {UserActions} from './src/actions/user';
 import {eventEmmiter} from './src/modules/event-emmiter';
 import {Events} from './src/config/events';
+import {renderServerMessage, renderWarningMessage} from './src/modules/server-message';
 import {cartStore} from './src/stores/cart';
 import {productsStore} from './src/stores/products';
 import {userStore} from './src/stores/user';
-import {renderServerMessage, renderWarningMessage} from './src/modules/server-message';
+import {notificationStore} from './src/stores/notification';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js', {scope: '/'})
@@ -21,6 +22,7 @@ if ('serviceWorker' in navigator) {
 const ustore = userStore;
 const cstore = cartStore;
 const pstore = productsStore;
+const nstore = notificationStore;
 
 if (navigator.onLine) {
     UserActions.setOnline();

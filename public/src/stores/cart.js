@@ -9,6 +9,7 @@ import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkPromoInput} from '../modules/validation';
+import {productsStore} from './products';
 
 /**
  * Класс хранилище корзины
@@ -17,6 +18,7 @@ class CartStore {
     #state = {
 
     };
+    #ps;
 
     /**
      * конструктор класса
@@ -24,6 +26,7 @@ class CartStore {
     constructor() {
         this.registerEvents();
         this.subscribeToEvents();
+        this.#ps = productsStore;
     }
 
     /**
