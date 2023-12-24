@@ -90,7 +90,7 @@ jobs:
           envs: DEPLOY_FOLDER
           script: |
             sudo bash
-            cd $(echo $FOLDER_COMPOSE)
+            cd $(echo $DEPLOY_FOLDER)
 
             cp -r ./dist/* /data/public/
           
