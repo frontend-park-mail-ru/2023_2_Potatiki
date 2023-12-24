@@ -242,6 +242,7 @@ class UserStore {
             this.#state.imgSrc = body.img;
             eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname + location.search});
             notificationStore.connectWS();
+            console.log('call get');
             notificationStore.getNotifications();
             break;
         case 401:
