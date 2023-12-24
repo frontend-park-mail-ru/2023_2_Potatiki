@@ -245,6 +245,7 @@ class UserStore {
             break;
         case 401:
             this.#state.isAuth = false;
+            notificationStore.deleteNotifications();
             eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname + location.search});
             break;
         case 429:
