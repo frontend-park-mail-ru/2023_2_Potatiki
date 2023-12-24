@@ -240,10 +240,10 @@ class UserStore {
             this.#state.loginName = body.login;
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
-            eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname + location.search});
-            notificationStore.connectWS();
             console.log('call get');
             notificationStore.getNotifications();
+            eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname + location.search});
+            notificationStore.connectWS();
             break;
         case 401:
             this.#state.isAuth = false;
