@@ -92,5 +92,5 @@ jobs:
             sudo bash
             cd $(echo $FOLDER_COMPOSE)
 
-            cp -r dist/* /data/public/
+            cp -r ./dist/* /data/public/
           
