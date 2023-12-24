@@ -8,25 +8,25 @@ import {productsStore} from './src/stores/products';
 import {userStore} from './src/stores/user';
 import {renderServerMessage, renderWarningMessage} from './src/modules/server-message';
 
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register('/sw.js', {scope: '/'})
-//         .then((reg) => {
-//             console.log('sw registered', reg);
-//         })
-//         .catch((e) => {
-//             console.error(e);
-//         });
-// }
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js', {scope: '/'})
+        .then((reg) => {
+            console.log('sw registered', reg);
+        })
+        .catch((e) => {
+            console.error(e);
+        });
+}
 
 const ustore = userStore;
 const cstore = cartStore;
 const pstore = productsStore;
 
-// if (navigator.onLine) {
-//     UserActions.setOnline();
-// } else {
-//     UserActions.setOffline();
-// }
+if (navigator.onLine) {
+    UserActions.setOnline();
+} else {
+    UserActions.setOffline();
+}
 
 window.addEventListener('online', UserActions.setOnline);
 window.addEventListener('offline', UserActions.setOffline);

@@ -47,3 +47,4 @@ export const checkPromoUrl = 'promo/check';
 export const getAnonRecsUrl = 'recommendations/get_anon';
 export const getRecsUrl = 'recommendations/get_all';
 export const updateActivityUrl = 'recommendations/update';
+export const getRecentNotifications = 'notifications/get_recent';

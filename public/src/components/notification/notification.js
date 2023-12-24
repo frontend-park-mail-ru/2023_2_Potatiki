@@ -6,8 +6,6 @@ import {Events} from '../../config/events';
 import NotificationWindow from '../notificationWindow/notificationWindow';
 import {notificationStore} from '../../stores/notification';
 
-// TO DO подправить верстку иконой
-
 /**
  * Класс компонента уведомлений
  */
@@ -18,7 +16,7 @@ export default class Notification {
     notificationWindow;
 
     /**
-   * Конструктор класса ссылки
+   * Конструктор класса уведомлений
    * @param {Element} parent Родительский компонент
    * @param {Object} config Конфиг для отрисовки компонента
    */
@@ -28,27 +26,23 @@ export default class Notification {
     }
 
     /**
-     *
+     * Взятие элемента компонента
      */
     get self() {
         return document.querySelector(`#${this.#config.id}`);
     }
 
     /**
-     *
+     * Смена состояния иконки уведомления
      */
     changeIconState() {
-        if (notificationStore.isUnread) {
-            document.querySelector('.notification__icon')?.classList.
-                add('notification__icon_active');
-        } else {
-            document.querySelector('.notification__icon')?.classList.
-                remove('notification__icon_active');
-        }
+        document.querySelector('.notification__icon')?.classList.
+            toggle('notification__icon_active');
     }
 
     /**
-     *
+     * Отрисовка окна с уведомлениями
+     * @param {Event} event
      */
     renderNotificationWindow(event) {
         event.stopPropagation();
@@ -66,7 +60,8 @@ export default class Notification {
     }
 
     /**
-     *
+     * Скрытие окна уведомлений
+     * @param {Event} event
      */
     hideNotificationWindow(event) {
         this.notificationWindow.hide();
@@ -78,7 +73,7 @@ export default class Notification {
     }
 
     /**
-     *
+     * Обработка принятия уведомлений
      */
     receiveNotification() {
         if (this.notificationWindow) {
@@ -90,7 +85,7 @@ export default class Notification {
     }
 
     /**
-     *
+     * Обработка очистки уведомлений
      */
     cleanNotifications() {
         this.changeIconState();
@@ -103,7 +98,7 @@ export default class Notification {
     hideNotificationWindow = this.hideNotificationWindow.bind(this);
 
     /**
-     *
+     * Подписка на события
      */
     subscribeToEvents() {
         eventEmmiter.subscribe(Events.RECIEVE_NOTIFICATION, this.receiveNotification);
@@ -111,7 +106,7 @@ export default class Notification {
     }
 
     /**
-     *
+     * Добавление листенеров
      */
     addEventListeners() {
         document.querySelector('.notification__icon').addEventListener('click',
@@ -119,7 +114,7 @@ export default class Notification {
     }
 
     /**
-   * Отрисовка компонента ссылки
+   * Отрисовка компонента уведомдений
    */
     render() {
         this.#parent.insertAdjacentHTML(

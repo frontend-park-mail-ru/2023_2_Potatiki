@@ -242,6 +242,7 @@ class UserStore {
             this.#state.imgSrc = body.img;
             eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname + location.search});
             notificationStore.connectWS();
+            notificationStore.getNotifications();
             break;
         case 401:
             this.#state.isAuth = false;
@@ -286,6 +287,7 @@ class UserStore {
             this.#state.imgSrc = body.img;
             eventEmmiter.emit(Events.SUCCESSFUL_LOGIN);
             notificationStore.connectWS();
+            notificationStore.getNotifications();
             break;
         case 403:
             renderServerMessage('Ошибка доступа');
@@ -334,7 +336,6 @@ class UserStore {
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
             this.#state.isAuth = true;
-            console.log('signup');
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
             notificationStore.connectWS();
             break;
