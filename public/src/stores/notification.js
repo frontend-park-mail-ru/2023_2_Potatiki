@@ -1,5 +1,5 @@
 import {Events} from '../config/events';
-import { getRecentNotifications } from '../config/urls';
+import {getRecentNotifications} from '../config/urls';
 import {eventEmmiter} from '../modules/event-emmiter';
 import WS from '../modules/ws';
 
