@@ -234,6 +234,7 @@ class UserStore {
      */
     async checkSession() {
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
+        console.log('call get');
         switch (statusCode) {
         case 200:
             this.#state.isAuth = true;
