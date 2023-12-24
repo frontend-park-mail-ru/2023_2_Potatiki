@@ -3,6 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const miniCss = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -25,22 +28,53 @@ module.exports = {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
             },
-            // {
-            //     test: /\.m?js$/,
-            //     exclude: /(node_modules|bower_components)/,
-            //     use: {
-            //         loader: 'babel-loader',
-            //     },
-            // },
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|dist)/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
             {
                 test: /\.(s*)css$/,
                 use: [
                     miniCss.loader,
                     'css-loader',
                     'sass-loader',
+                    'postcss-loader',
                 ],
             },
         ],
+    },
+
+    optimization: {
+        minimizer: [
+            new TerserPlugin({
+                test: /\.m?js$/,
+                exclude: /(node_modules|dist)/,
+                minify: TerserPlugin.uglifyJsMinify,
+                terserOptions: {
+                    compress: true,
+                    mangle: true,
+                },
+            }),
+            new CssMinimizerPlugin({
+                minify: CssMinimizerPlugin.esbuildMinify,
+            }),
+            new ImageMinimizerPlugin({
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.imageminMinify,
+                    options: {
+                        plugins: [
+                            ['jpegtran', {progressive: true}],
+                            ['optipng', {optimizationLevel: 5}],
+                            ['svgo', {name: 'preset-default'}],
+                        ],
+                    },
+                },
+            }),
+        ],
+        minimize: true,
     },
 
     plugins: [
@@ -56,7 +90,7 @@ module.exports = {
         }),
 
         new miniCss({
-            filename: 'style.css',
+            filename: 'style.[contenthash].css',
         }),
 
         new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/static/images/favicon.svg')),
