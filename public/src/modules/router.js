@@ -1,19 +1,10 @@
-import MainPage from '../pages/main-page/main-page';
-import {cartRoute, categoryRoute, loginRoute,
-    mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute,
-    signupRoute, profileRoute, searchRoute, reviewRoute} from '../config/urls';
-import LoginPage from '../pages/login-page/login-page';
-import SignupPage from '../pages/signup-page/signup-page';
-import CartPage from '../pages/cart-page/cart-page';
-import NotFoundPage from '../pages/not-found-page/not-found-page';
+
+import {loginRoute,
+    notFoundRoute,
+    signupRoute} from '../config/urls';
+
 import {UserActions} from '../actions/user';
-import OrderPage from '../pages/orderPage/order-page';
-import CategoryPage from '../pages/category-page/category-page';
-import ProductPage from '../pages/product-page/product-page';
-import ProfilePage from '../pages/profile-page/profile-page';
-import OrdersPage from '../pages/orders-page/orders-page';
-import SearchPage from '../pages/search-page/search-page';
-import ReviewsPage from '../pages/reviews-page/reviews-page';
+
 
 /**
  * Класс роутера
@@ -31,6 +22,7 @@ class Router {
      */
     constructor() {
         this.#history = window.history;
+        this.#states = new Map();
     }
 
     /**
@@ -54,20 +46,6 @@ class Router {
             this.go(event.state, true);
         };
 
-        this.#states = new Map([
-            [mainRoute, {view: MainPage, url: mainRoute, name: 'Zuzu'}],
-            [signupRoute, {view: SignupPage, url: signupRoute, name: 'Регистрация'}],
-            [loginRoute, {view: LoginPage, url: loginRoute, name: 'Авторизация'}],
-            [notFoundRoute, {view: NotFoundPage, url: notFoundRoute, name: 'Страница не найдена'}],
-            [cartRoute, {view: CartPage, url: cartRoute, name: 'Корзина'}],
-            [orderRoute, {view: OrderPage, url: orderRoute, name: 'Оформление заказа'}],
-            [categoryRoute, {view: CategoryPage, url: categoryRoute, name: 'Товары'}],
-            [productRoute, {view: ProductPage, url: productRoute, name: 'Товары'}],
-            [profileRoute, {view: ProfilePage, url: profileRoute, name: 'Профиль'}],
-            [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'Мои заказы'}],
-            [searchRoute, {view: SearchPage, url: searchRoute, name: 'Поиск'}],
-            [reviewRoute, {view: ReviewsPage, url: reviewRoute, name: 'Отзывы'}],
-        ]);
 
         window.addEventListener('click', this.listenClick.bind(this));
     }
