@@ -92,5 +92,5 @@ jobs:
             sudo bash
             cd $(echo $DEPLOY_FOLDER)
 
-            cp -r ./dist/* /data/public/
+            sudo cp -r ./dist/* /data/public/
           
