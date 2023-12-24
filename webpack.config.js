@@ -68,7 +68,6 @@ module.exports = {
                         plugins: [
                             ['jpegtran', {progressive: true}],
                             ['optipng', {optimizationLevel: 5}],
-                            ['svgo', {name: 'preset-default'}],
                         ],
                     },
                 },

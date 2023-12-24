@@ -25,16 +25,8 @@ body {
     height: 100%;
 }
 
-body::-webkit-scrollbar {
-    display: none;
-}
-
-#root::-webkit-scrollbar {
-    display: none;
-}
-
-.container-main::-webkit-scrollbar {
-    display: none;
+#root {
+    overflow-y: scroll;
 }
 
 #root {
