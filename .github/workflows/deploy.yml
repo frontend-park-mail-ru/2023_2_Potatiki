@@ -67,6 +67,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
+          path: dist
 
       - name: Copy dist dir to target machine
         uses: appleboy/scp-action@v0.1.4
