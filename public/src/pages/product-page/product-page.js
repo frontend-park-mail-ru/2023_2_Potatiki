@@ -1,4 +1,4 @@
-import Header from '../../components/header/header.js';
+import {header} from '../../components/header/header.js';
 import template from './product-page.hbs';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
@@ -41,8 +41,8 @@ export default class ProductPage {
     getConfig(data) {
         return {
             id: `category-product-${data.productId}`,
-            category: data.categoryName,
-            categoryHref: `/category/${data.categoryId}`,
+            category: data.category.categoryName,
+            categoryHref: `/category/${data.category.categoryId}`,
             data: data,
             quantity: data.quantity,
             description: data.description,
@@ -116,7 +116,6 @@ export default class ProductPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header();
         header.render();
         this.subscribeToEvents();
         ProductsActions.getProduct(this.#productId);

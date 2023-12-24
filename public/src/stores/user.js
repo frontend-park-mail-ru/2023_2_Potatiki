@@ -13,6 +13,7 @@ import {loginUrl, signupUrl, checkUrl, logoutUrl, loginRoute,
 import {Events} from '../config/events';
 import {removeWarningMessage,
     renderServerMessage} from '../modules/server-message';
+import {notificationStore} from './notification';
 
 /**
  * Класс хранилище для работы с данными пользователя
@@ -176,6 +177,9 @@ class UserStore {
             case UserActionsType.SET_ONLINE:
                 this.setOnline();
                 break;
+            case UserActionsType.LOCAL_REMOVE_LISTENERS:
+                this.localRemoveListeners();
+                break;
             default:
                 break;
             }
@@ -236,12 +240,13 @@ class UserStore {
             this.#state.loginName = body.login;
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
-            eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname});
+            eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname + location.search});
+            notificationStore.connectWS();
             break;
         case 401:
             this.#state.isAuth = false;
-            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
-
+            notificationStore.deleteNotifications();
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname + location.search});
             break;
         case 429:
             renderServerMessage('Ошибка. Попробуйте позже');
@@ -280,6 +285,7 @@ class UserStore {
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
             eventEmmiter.emit(Events.SUCCESSFUL_LOGIN);
+            notificationStore.connectWS();
             break;
         case 403:
             renderServerMessage('Ошибка доступа');
@@ -328,7 +334,9 @@ class UserStore {
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
             this.#state.isAuth = true;
+            console.log('signup');
             eventEmmiter.emit(Events.SUCCESSFUL_SIGNUP);
+            notificationStore.connectWS();
             break;
         case 400:
             eventEmmiter.emit(
@@ -398,6 +406,8 @@ class UserStore {
         this.#state.isAuth = false;
         Ajax.prototype.getRequest(logoutUrl);
         eventEmmiter.emit(Events.LOGOUT, {url: '/'});
+        notificationStore.disconnectWS();
+        notificationStore.deleteNotifications();
     }
 
     /**
@@ -584,7 +594,7 @@ class UserStore {
 
     /**
      * Обновление номера телефона пользователя
-     * @param {*} number Новый номер телефона
+     * @param {String} number Новый номер телефона
      */
     async updateNuber(number) {
         const isValidNumber = this.validatePhone(number);
@@ -797,7 +807,7 @@ class UserStore {
 
     /**
      * Обновление текущего адреса
-     * @param {*} addressId Новый текущий адрес
+     * @param {String} addressId Новый текущий адрес
      */
     async makeCurrentAddress(addressId) {
         const [statusCode] = await Ajax.prototype.postRequest(makeCurrentAddressUrl, {
@@ -847,6 +857,13 @@ class UserStore {
             eventEmmiter.emit(Events.SERVER_MESSAGE, 'Ошибка. Попробуйте позже');
             break;
         }
+    }
+
+    /**
+     * Удаление лисенеров у части элементов на странице
+     */
+    localRemoveListeners() {
+        eventEmmiter.emit(Events.LOCAL_REMOVE_LISTENERS);
     }
 }
 

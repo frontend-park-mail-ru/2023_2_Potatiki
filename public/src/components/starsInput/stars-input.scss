@@ -15,3 +15,17 @@
 .stars-input__star {
     min-height: 26px;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .stars-input {
+        grid-template-columns: 3fr 3fr;
+    }
+
+    .stars-input__error-place {
+        grid-column: span 2;
+    }
+    
+    .stars-input__star {
+        min-height: 20px;
+    }
+} 

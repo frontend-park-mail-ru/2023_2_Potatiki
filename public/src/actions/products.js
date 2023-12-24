@@ -6,12 +6,15 @@ export const ProductsActionsType = {
     GET_CATEGORY_PRODUCTS: 'GET_CATEGORY_PRODUCTS',
     GET_CATEGORY_NAME: 'GET_CATEGORY_NAME',
     GET_PRODUCT: 'GET_PRODUCT',
+    GET_SUGGEST: 'GET_SUGGEST',
+    GET_SEARCH_PRODUCTS: 'GET_SEARCH_PRODUCTS',
     GET_REVIEWS: 'GET_REVIEWS',
     GET_REVIEW_FORM: 'GET_REVIEW_FORM',
     GET_REVIEWS_SUMMARY: 'GET_REVIEWS_SUMMARY',
     VALIDATE_REVIEW_INPUT: 'VALIDATE_REVIEW_INPUT',
     CREATE_REVIEW: 'CREATE_REVIEW',
     ON_SCROLL: 'ON_SCROLL',
+    GET_REC_PRODUCTS: 'GET_REC_PRODUCTS',
 };
 
 export const ProductsActions = {
@@ -29,10 +32,10 @@ export const ProductsActions = {
         });
     },
 
-    getCategoryProducts(offset = 0, count = 5, categoryId) {
+    getCategoryProducts(offset = 0, count = 5, categoryId, sortType) {
         AppDispatcher.dispatch({
             type: ProductsActionsType.GET_CATEGORY_PRODUCTS,
-            payload: {offset, count, categoryId},
+            payload: {offset, count, categoryId, sortType},
         });
     },
 
@@ -47,6 +50,20 @@ export const ProductsActions = {
         AppDispatcher.dispatch({
             type: ProductsActionsType.GET_PRODUCT,
             payload: {id},
+        });
+    },
+
+    getSuggest(word) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_SUGGEST,
+            payload: {word},
+        });
+    },
+
+    getSearchProducts(searchValue) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_SEARCH_PRODUCTS,
+            payload: {searchValue},
         });
     },
 
@@ -88,6 +105,13 @@ export const ProductsActions = {
     onScroll() {
         AppDispatcher.dispatch({
             type: ProductsActionsType.ON_SCROLL,
+        });
+    },
+
+    getRecProducts(productId, categoryId) {
+        AppDispatcher.dispatch({
+            type: ProductsActionsType.GET_REC_PRODUCTS,
+            payload: {productId, categoryId},
         });
     },
 };

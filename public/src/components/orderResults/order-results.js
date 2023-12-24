@@ -13,6 +13,8 @@ export default class OrderResults {
     #parent;
     #config;
     #page;
+    #price;
+    #discountPrice;
 
     button;
 
@@ -25,6 +27,8 @@ export default class OrderResults {
         this.#parent = parent;
         this.#config = config;
         this.#page = config.page;
+        this.#price = 0;
+        this.#discountPrice = 0;
     }
 
     /**
@@ -56,21 +60,18 @@ export default class OrderResults {
     }
 
     /**
+     * Взятие элемента скидки
+     */
+    get discount() {
+        return this.self.querySelector('#discount');
+    }
+
+    /**
      * Вязтие кнопки создания заказа
      */
     get button() {
-        return this.self.querySelector('.order-results__make-result-btn');
+        return this.self.querySelector(`#${this.#config.id}`);
     }
-
-    unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
-    updateOrderResult = this.updateOrderResult.bind(this);
-    updateOrder = this.updateOrder.bind(this);
-    removeListeners = this.removeListeners.bind(this);
-    unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
-    deleteSelf = this.deleteSelf.bind(this);
-    addressNotFound = this.addressNotFound.bind(this);
-    serverMessage = this.serverMessage.bind(this);
-
     /**
      * Удаление компонента
      */
@@ -87,10 +88,33 @@ export default class OrderResults {
      * @param {Nuber} price Сумма заказа
      */
     updateOrderResult(count, price) {
+        this.#price = price;
         price = price.toLocaleString('ru') + ' ₽';
         this.count.textContent = `Товары(${count})`;
         this.subprice.textContent = price;
+        this.discount.textContent = '0%';
         this.result.textContent = price;
+    }
+
+    /**
+     * Пересчет цен с учетом скидки
+     * @param {String} discount Размер скидки
+     */
+    applyPromo(discount) {
+        this.#discountPrice = Number((this.#price * (1-Number(discount)/100)).toFixed(0));
+        const price = this.#discountPrice.toLocaleString('ru') + ' ₽';
+        this.discount.textContent = discount + '%';
+        this.result.textContent = price;
+    }
+
+    /**
+     * Отмена промокода
+     */
+    cancelPromo() {
+        const price = this.#price.toLocaleString('ru') + ' ₽';
+
+        this.result.textContent = price;
+        this.discount.textContent = '0%';
     }
 
     /**
@@ -118,6 +142,18 @@ export default class OrderResults {
     }
 
 
+    unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
+    updateOrderResult = this.updateOrderResult.bind(this);
+    updateOrder = this.updateOrder.bind(this);
+    removeListeners = this.removeListeners.bind(this);
+    unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
+    deleteSelf = this.deleteSelf.bind(this);
+    addressNotFound = this.addressNotFound.bind(this);
+    serverMessage = this.serverMessage.bind(this);
+    applyPromo = this.applyPromo.bind(this);
+    cancelPromo = this.cancelPromo.bind(this);
+
+
     /**
      * Подписка на события
      */
@@ -127,6 +163,8 @@ export default class OrderResults {
         eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.subscribe(Events.EMPTY_CART, this.deleteSelf);
         eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
+        eventEmmiter.subscribe(Events.APPLY_PROMO, this.applyPromo);
+        eventEmmiter.subscribe(Events.CANCEL_PROMO, this.cancelPromo);
     }
 
     /**
@@ -138,6 +176,8 @@ export default class OrderResults {
         eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.EMPTY_CART, this.deleteSelf);
         eventEmmiter.unsubscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
+        eventEmmiter.unsubscribe(Events.APPLY_PROMO, this.applyPromo);
+        eventEmmiter.unsubscribe(Events.CANCEL_PROMO, this.cancelPromo);
     }
 
 

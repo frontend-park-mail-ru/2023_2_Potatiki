@@ -13,3 +13,21 @@
 .select-title {
     margin-right: 10%;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .select-container {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        gap: 10px;
+        flex-direction: column;
+    }
+    
+    .select {
+        margin-top: 0;
+    }
+
+    .sort-select {
+        margin-top: 10px;
+    }
+}

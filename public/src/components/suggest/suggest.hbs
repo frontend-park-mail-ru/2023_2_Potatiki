@@ -1,0 +1,6 @@
+<div class="suggest">
+    {{#each rows}}
+        {{#if this.isCategory}} <a href="{{this.href}}" class="suggest__row_category">{{this.name}}</a> {{/if}}
+        {{#unless this.isCategory}} <div class="suggest__row">{{this.name}}</div> {{/unless}}
+    {{/each}}
+</div>

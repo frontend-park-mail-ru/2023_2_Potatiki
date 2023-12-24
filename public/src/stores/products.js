@@ -4,11 +4,13 @@ import {eventEmmiter} from '../modules/event-emmiter';
 import {Events} from '../config/events';
 import {ProductsActionsType} from '../actions/products';
 import {categoryProductsUrl,
-    createReviewUrl,
-    getAllCategoriesUrl, getProductUrl, getProductsUrl, getReviewsUrl} from '../config/urls';
+    createReviewUrl, getAllCategoriesUrl, getAnonRecsUrl,
+    getProductUrl, getProductsUrl, getRecsUrl, getReviewsUrl,
+    updateActivityUrl} from '../config/urls';
 import {parseCategories, reduceReviews, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkReviewInput} from '../modules/validation';
+import {SORT_PRICE_ASC, SORT_PRICE_DESC, SORT_RATING} from '../config/components';
 import {advantagesName, commentsName, disadvantagesName} from '../config/components';
 
 /**
@@ -18,6 +20,9 @@ class ProductsStore {
     #state = {
         categories: undefined,
         categoriesTree: undefined,
+        productsActivity: new Map(),
+        categoryActivity: new Map(),
+        activityRecords: 0,
     };
 
     /**
@@ -25,6 +30,7 @@ class ProductsStore {
      */
     constructor() {
         this.registerEvents();
+        this.getCategories();
     }
 
     /**
@@ -48,6 +54,7 @@ class ProductsStore {
                     action.payload.offset,
                     action.payload.count,
                     action.payload.categoryId,
+                    action.payload.sortType,
                 );
                 break;
             case ProductsActionsType.GET_CATEGORY_NAME:
@@ -55,6 +62,12 @@ class ProductsStore {
                 break;
             case ProductsActionsType.GET_PRODUCT:
                 this.getProduct(action.payload.id);
+                break;
+            case ProductsActionsType.GET_SUGGEST:
+                this.getSuggest(action.payload.word);
+                break;
+            case ProductsActionsType.GET_SEARCH_PRODUCTS:
+                this.getSearchProducts(action.payload.searchValue);
                 break;
             case ProductsActionsType.GET_REVIEWS:
                 this.getReviews(action.payload.id);
@@ -76,6 +89,12 @@ class ProductsStore {
                 break;
             case ProductsActionsType.ON_SCROLL:
                 this.onScroll();
+                break;
+            case ProductsActionsType.GET_REC_PRODUCTS:
+                this.getRecommendations(
+                    action.payload.productId,
+                    action.payload.categoryId,
+                );
                 break;
             default:
                 break;
@@ -128,7 +147,7 @@ class ProductsStore {
             } else {
                 const data = productsMap.get(product.productId);
                 if (data) {
-                    product.quantity = data.quantity;
+                    product.quantity = data.quantity || 0;
                 } else {
                     product.quantity = 0;
                 }
@@ -169,6 +188,15 @@ class ProductsStore {
         case 200:
             const product = this.isProductInCart([body])[0];
             eventEmmiter.emit(Events.PRODUCT, product);
+            this.recordActivity([{
+                productId: product.productId,
+                activityPoints: 1,
+            }],
+            [{
+                categoryId: Number(product.category.categoryId),
+                activityPoints: 1,
+            }],
+            );
             break;
         case 400:
             eventEmmiter.emit(Events.NOT_FOUND);
@@ -208,10 +236,33 @@ class ProductsStore {
      * @param {Number} paging Отступ
      * @param {Number} count Количество товаров
      * @param {Number} categoryId Idкатегории
+     * @param {String} sortType Тип сортировки продуктов
      */
-    async getProductsByCategory(paging=0, count=5, categoryId) {
+    async getProductsByCategory(paging=0, count=5, categoryId, sortType) {
+        let sortQuery = '';
+
+        switch (sortType) {
+        case SORT_PRICE_ASC:
+            sortQuery = '&priceBy=ASC';
+            break;
+        case SORT_PRICE_DESC:
+            sortQuery = '&priceBy=DESC';
+            break;
+        case SORT_RATING:
+            sortQuery = '&ratingBy=DESC';
+            break;
+        }
+
+        this.recordActivity([],
+            [{
+                categoryId: Number(categoryId),
+                activityPoints: 1,
+            }],
+        );
+
         const requestUrl =
-            `${categoryProductsUrl}?paging=${paging}&count=${count}&category_id=${categoryId}`;
+            `${categoryProductsUrl}?paging=${paging}&count=${count}&category_id=${categoryId}` +
+            sortQuery;
         const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
         switch (statusCode) {
         case 200:
@@ -231,12 +282,82 @@ class ProductsStore {
     }
 
     /**
+     * Взятие саджеста
+     * @param {String} word Поисковый запрос
+     */
+    async getSuggest(word) {
+        if (!word) {
+            eventEmmiter.emit(Events.RECIEVE_SUGGEST, this.getLastSearchRequests());
+            return;
+        }
+
+        let maxSuggestLen = 10;
+
+        let rows = [];
+        const matchCategories = [];
+        const matchProducts = [];
+
+        this.#state.categories.forEach((el) => {
+            if (el.categoryName.toLowerCase().startsWith(word)) {
+                matchCategories.push({name: el.categoryName, isCategory: true, id: el.categoryId});
+                maxSuggestLen--;
+            }
+        });
+
+        const requestUrl =
+            `search/?product=${word}`;
+        const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
+
+        switch (statusCode) {
+        case 200:
+            const products = body;
+
+            if (!products) {
+                return;
+            }
+
+            products.forEach((el) => {
+                if (maxSuggestLen > 0) {
+                    matchProducts.push({name: el.productName.toLowerCase(), isCategory: false,
+                        id: el.productId});
+                    maxSuggestLen--;
+                }
+            });
+
+            rows = [...matchProducts, ...matchCategories];
+
+            if (rows.length === 0) {
+                eventEmmiter.emit(Events.RECIEVE_SUGGEST, this.getLastSearchRequests());
+                return;
+            }
+
+            eventEmmiter.emit(Events.RECIEVE_SUGGEST, rows);
+            break;
+        case 400:
+            eventEmmiter.emit(Events.NOT_FOUND);
+            break;
+        case 429:
+            eventEmmiter.emit(Events.RECIEVE_SUGGEST, this.getLastSearchRequests());
+            break;
+        default:
+            break;
+        }
+    }
+
+    /**
      * Получение отзывов о товаре
      * @param {String} id id товара
      */
     async getReviews(id) {
         const [statusCode, body] = await Ajax.prototype.getRequest(
             `${getReviewsUrl}?product=${id}`,
+        );
+
+        this.recordActivity([{
+            productId: id,
+            activityPoints: 1,
+        }],
+        [],
         );
         switch (statusCode) {
         case 200:
@@ -329,6 +450,61 @@ class ProductsStore {
     }
 
     /**
+     * Взятие продуктов по запросу
+     * @param {String} searchValue Запрос
+     */
+    async getSearchProducts(searchValue) {
+        const requestUrl =
+            `search/?product=${searchValue}`;
+        const [statusCode, body] = await Ajax.prototype.getRequest(requestUrl);
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.SUCCESSFUL_GET_SEARCH_PRODUCTS, body, searchValue);
+            break;
+        case 400:
+            eventEmmiter.emit(Events.NOT_FOUND);
+            break;
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
+            break;
+        default:
+            break;
+        }
+    }
+
+    /**
+     * Взятие последних десяти поисковых запросов
+     * @return {Array} Массив запросов
+     */
+    getLastSearchRequests() {
+        const requests = JSON.parse(localStorage.getItem('searchRequests'));
+        if (requests) {
+            return requests.reverse();
+        }
+        return [];
+    }
+
+    /**
+     * Добавление запроса поиска локально
+     * @param {String} searchValue Добовляемое значение
+     */
+    addRequestLocal(searchValue) {
+        const requests = JSON.parse(localStorage.getItem('searchRequests'));
+        if (!searchValue) {
+            return;
+        }
+        if (requests) {
+            requests.push(searchValue);
+            if (requests.length > 10) {
+                requests.shift();
+            }
+            localStorage.setItem('searchRequests', JSON.stringify(requests));
+        } else {
+            localStorage.setItem('searchRequests', JSON.stringify([searchValue]));
+        }
+    }
+
+    /**
      * Валидация поля формы отзыва
      * @param {String} data
      * @param {String} inputName
@@ -349,6 +525,98 @@ class ProductsStore {
      */
     onScroll() {
         eventEmmiter.emit(Events.ON_PAGE_SCROLL);
+    }
+
+    /**
+     * Получение рекомендаций для продукта
+     * @param {String} productId id продукта
+     * @param {String} categoryId id категории
+     */
+    async getRecommendations(productId, categoryId) {
+        if (userStore.isAuth) {
+            const [statusCode, body] = await Ajax.prototype.getRequest(
+                `${getRecsUrl}?id=${productId}&category_id=${categoryId || 6}`,
+            );
+            switch (statusCode) {
+            case 200:
+                eventEmmiter.emit(Events.REC_PRODUCTS, body);
+                return;
+            case 401:
+                break;
+            case 429:
+                eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
+                return;
+            }
+        }
+        const [statusCode, body] = await Ajax.prototype.getRequest(
+            `${getAnonRecsUrl}?id=${productId}&category_id=${categoryId || 6}`,
+        );
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.REC_PRODUCTS, body);
+            break;
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка при получении товаров');
+            break;
+        }
+    }
+
+    /**
+     * Отправка данных об активности пользователя
+     */
+    async sendActivity() {
+        if (!userStore.isAuth) {
+            return;
+        }
+        const productsArray = Array.from(this.#state.productsActivity.values());
+        const categoryArray = Array.from(this.#state.categoryActivity.values());
+
+        const body = {
+            product: productsArray,
+            category: categoryArray,
+        };
+        Ajax.prototype.postRequest(updateActivityUrl, body);
+        this.#state.productsActivity = new Map();
+        this.#state.categoryActivity = new Map();
+    }
+
+    /**
+     * Запись данных об активности пользователя
+     * @param {Array} products данные об активности по продуктам
+     * @param {Array} category данные об активности по категориям
+     */
+    recordActivity(products, category) {
+        this.#state.activityRecords += 1;
+        products.forEach((product) => {
+            if (this.#state.productsActivity.has(product.productId)) {
+                const productActivity = this.#state.productsActivity.get(product.productId);
+                productActivity.activityPoints += product.activityPoints;
+                productActivity.isBought = product.isBought || productActivity.isBought;
+                productActivity.isReviewed = product.isReviewed || productActivity.isReviewed;
+                this.#state.productsActivity.set(product.productId, productActivity);
+            } else {
+                this.#state.productsActivity.set(product.productId, product);
+            }
+        });
+
+        category.forEach((categoryItem) => {
+            if (categoryItem.categoryId) {
+                const categoryId = Number(categoryItem.categoryId);
+                if (this.#state.productsActivity.has(categoryId)) {
+                    const categoryActivity = this.#state.categoryActivity.get(
+                        categoryId,
+                    );
+                    categoryActivity.activityPoints += categoryItem.activityPoints;
+                    this.#state.categoryActivity.set(categoryId, categoryActivity);
+                } else {
+                    this.#state.categoryActivity.set(categoryId, categoryItem);
+                }
+            }
+        });
+
+        if (this.#state.activityRecords % 5 === 0) {
+            this.sendActivity();
+        }
     }
 }
 

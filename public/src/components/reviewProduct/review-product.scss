@@ -26,3 +26,31 @@
     border-radius: 1rem;
     padding: 4px;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .review-product__name {
+        grid-column: span 3;
+        width: 100%;
+        padding: 0;
+    }
+
+    .review-product__img-place {
+        grid-row: 2 / 3;
+        grid-column: 1;
+    }
+
+    .review-product {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        border-bottom: 1px solid var(--color-stroke);
+        padding-bottom: 1rem;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .review-product .product__management {
+        grid-row: 2 / 3;
+        grid-column: 2 / 4;
+    }
+}

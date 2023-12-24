@@ -2,11 +2,13 @@ import {AppDispatcher} from '../modules/dispatcher';
 import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import {getCartProductsUrl, updateCartUrl, addProductUrl, delProductUrl, loginRoute,
-    cartRoute, createOrderUrl, orderRoute, mainRoute, getAllOrdersUrl} from '../config/urls';
+    cartRoute, createOrderUrl, orderRoute, mainRoute,
+    getAllOrdersUrl, checkPromoUrl} from '../config/urls';
 import {Events} from '../config/events';
 import {CartActionsType} from '../actions/cart';
 import {replacer, reviver} from '../modules/utils';
 import {userStore} from './user';
+import {checkPromoInput} from '../modules/validation';
 
 /**
  * Класс хранилище корзины
@@ -63,6 +65,16 @@ class CartStore {
             case CartActionsType.GET_ALL_ORDERS:
                 this.getALlOrders();
                 break;
+            case CartActionsType.ORDER_INFO:
+                this.createOrder(
+                    action.payload.deliveryDate,
+                    action.payload.deliveryTime,
+                    action.payload.promo,
+                );
+                break;
+            case CartActionsType.APPLY_PROMO:
+                this.applyPromo(action.payload.promo);
+                break;
             default:
                 break;
             }
@@ -101,7 +113,12 @@ class CartStore {
      */
     cleanCart() {
         const EmptyCart = new Map();
+        const deletedProducts = JSON.parse(localStorage.getItem('products_map'), reviver);
         localStorage.setItem('products_map', JSON.stringify(EmptyCart, replacer));
+        this.cartEvents();
+        deletedProducts.forEach((product) => {
+            eventEmmiter.emit(Events.DEL_PRODUCT_SUCCESS, product);
+        });
     }
 
     /**
@@ -121,6 +138,7 @@ class CartStore {
             switch (statusCode) {
             case 200:
                 const productsMap = new Map();
+                eventEmmiter.emit(Events.CART_PRODUCTS, {products: body.products, isUpdate: true});
                 body.products.forEach((product) => {
                     productsMap.set(product.productId, product);
                 });
@@ -335,27 +353,43 @@ class CartStore {
                     'Невозможно оформить заказ в оффлайн-режиме');
                 return;
             }
-            Ajax.prototype.postRequest(createOrderUrl, {}, userStore.csrfToken)
-                .then((result) => {
-                    const [statusCode] = result;
-                    switch (statusCode) {
-                    case 200:
-                        eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});
-                        eventEmmiter.emit(Events.SERVER_MESSAGE, 'Заказ успешно оформлен', true);
-                        this.cleanCart();
-                        this.cartEvents();
-                        break;
-                    case 401:
-                        eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
-                        break;
-                    case 429:
-                        eventEmmiter.emit(Events.SERVER_MESSAGE,
-                            'Возникла ошибка при создании заказа');
-                        break;
-                    default:
-                        break;
-                    }
-                });
+            eventEmmiter.emit(Events.SEND_ORDER_INFO);
+            break;
+        default:
+            break;
+        }
+    }
+
+    /**
+     * Создание заказа
+     * @param {String} deliveryDate дата доставки
+     * @param {String} deliveryTime время доставки
+     * @param {String} promocode промокод
+     */
+    async createOrder(deliveryDate, deliveryTime, promocode) {
+        const [statusCode] = await Ajax.prototype.postRequest(
+            createOrderUrl,
+            {
+                deliveryDate,
+                deliveryTime,
+                promocodeName: promocode,
+            },
+            userStore.csrfToken,
+        );
+
+        switch (statusCode) {
+        case 200:
+            eventEmmiter.emit(Events.REDIRECT, {url: mainRoute});
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Заказ успешно оформлен', true);
+            this.cleanCart();
+            this.cartEvents();
+            break;
+        case 401:
+            eventEmmiter.emit(Events.USER_IS_NOT_AUTH, {url: location.pathname});
+            break;
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE,
+                'Возникла ошибка при создании заказа');
             break;
         default:
             break;
@@ -440,6 +474,63 @@ class CartStore {
         const [productCount, productsPrice] = this.getProductsInfo();
         eventEmmiter.emit(Events.UPDATE_CART_ICON, productCount);
         eventEmmiter.emit(Events.UPDATE_CART_RESULT, productCount, productsPrice);
+    }
+
+    /**
+     * Применение промокода
+     * @param {String} promocode введенный промокод
+     */
+    async applyPromo(promocode) {
+        const isValidPromo = this.validatePromoInput(promocode);
+        if (!isValidPromo) {
+            eventEmmiter.emit(Events.SET_PROMO, '');
+            eventEmmiter.emit(Events.CANCEL_PROMO);
+            return;
+        }
+
+        const [statusCode, body] = await Ajax.prototype.getRequest(
+            `${checkPromoUrl}?name=${promocode}`,
+        );
+        switch (statusCode) {
+        case 200:
+            const {discount} = body;
+            eventEmmiter.emit(Events.SET_PROMO, promocode);
+            eventEmmiter.emit(Events.PROMO_APPLIED);
+            eventEmmiter.emit(Events.APPLY_PROMO, discount);
+            return;
+        case 404:
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Промокод не найден');
+            break;
+        case 410:
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Промокод был применен вами ранее');
+            break;
+        case 413:
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Использованы все промокоды');
+            break;
+        case 419:
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, 'Время действия промокода истекло');
+            break;
+        case 429:
+            eventEmmiter.emit(Events.SERVER_MESSAGE, 'Возникла ошибка');
+        default:
+            break;
+        }
+        eventEmmiter.emit(Events.CANCEL_PROMO);
+        eventEmmiter.emit(Events.SET_PROMO, '');
+    }
+
+    /**
+     * Валидация поля ввода промокода
+     * @param {String} data
+     * @return {Boolean} проверка на валидацию
+     */
+    validatePromoInput(data) {
+        const [error, isValid] = checkPromoInput(data);
+        if (!isValid) {
+            eventEmmiter.emit(Events.PROMO_INPUT_ERROR, error);
+            return false;
+        }
+        return true;
     }
 }
 

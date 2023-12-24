@@ -1,6 +1,6 @@
 import './main-page.scss';
 import Carousel from '../../components/carousel/carousel.js';
-import Header from '../../components/header/header.js';
+import {header} from '../../components/header/header.js';
 import template from './main-page.hbs';
 import {config} from '../../../config.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -77,7 +77,6 @@ export default class MainPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header();
         header.render();
         this.subscribeToEvents();
 

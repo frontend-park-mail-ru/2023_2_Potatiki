@@ -7,6 +7,7 @@ import {cartRoute} from '../../config/urls.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import Button from '../button/button.js';
+import Recommendations from '../recommendations/recommendations.js';
 
 /**
  * Класс компонента карточки товара на странице товара
@@ -148,5 +149,12 @@ export default class Product {
         if (this.#config.quantity) {
             this.renderToCartButton(this.#config.data);
         }
+
+        const recs = new Recommendations(
+            this.self.querySelector('.recommendations'),
+            this.#config.data.productId,
+            this.#config.data.category.categoryId,
+        );
+        recs.render();
     }
 }

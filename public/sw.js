@@ -1,4 +1,4 @@
-const CURRENT_CACHE = 'main-cache';
+const CURRENT_CACHE = 'main-cache' + new Date().toDateString();
 
 
 self.addEventListener('activate', (evt) =>
@@ -45,6 +45,6 @@ const update = (request, response) =>
 
 self.addEventListener('fetch', (event) => {
     event.respondWith(
-        fromNetwork(event.request, 3000).catch(() => fromCache(event.request)),
+        fromNetwork(event.request, 2000).catch(() => fromCache(event.request)),
     );
 });

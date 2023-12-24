@@ -9,9 +9,25 @@
     font-size: 1.2rem;
 }
 
+.input__field:focus {
+    border: 0.2rem solid #9a9ed5;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+
 .input__error {
     padding-left: 1rem;
     padding-top: 0.5rem;
     font-size: 1.1rem;
     color: var(--color-incorrect);
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .input__field {
+        height: 4rem;
+        font-size: 1.5rem;
+    }
 }

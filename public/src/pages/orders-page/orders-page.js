@@ -1,4 +1,4 @@
-import Header from '../../components/header/header.js';
+import {header} from '../../components/header/header.js';
 import template from './orders-page.hbs';
 import {UserActions} from '../../actions/user.js';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
@@ -9,6 +9,7 @@ import {loginRoute} from '../../config/urls.js';
 import {CartActions} from '../../actions/cart.js';
 import {renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
+import {getDateForReview} from '../../modules/utils.js';
 
 /**
  * Класс страницы заказов пользователя
@@ -43,14 +44,22 @@ export default class OrdersPage {
             count += product.quantity;
             summary += product.quantity * product.price;
         });
+
+        const promo = data.promocodeName.substring(data.promocodeName.length - 2);
+        const discount = +promo;
+        summary = Number((summary * (1-Number(discount)/100)).toFixed(0));
+
         return {
             id: `order-item-${data.id}`,
             uuid: data.id,
-            status: data.statusId,
+            status: data.status,
             products: data.products,
             summary: summary.toLocaleString() + ' ₽',
             count: count,
-            address: `${data.city}, ${data.street}, ${data.house}, ${data.flat}`,
+            address: `${data.address.city}, ${data.address.street}, ${data.address.house}, ${data.address.flat}`,
+            creationDate: getDateForReview(data.creationDate),
+            deliveryDate: data.deliveryDate,
+            deliveryTime: data.deliveryTime,
         };
     }
 
@@ -82,7 +91,6 @@ export default class OrdersPage {
     renderAll() {
         this.#parent.innerHTML = template({});
 
-        const header = new Header();
         header.render();
 
         CartActions.getAllOrders();

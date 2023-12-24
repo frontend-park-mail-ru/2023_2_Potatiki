@@ -1,10 +1,12 @@
 import './signup-page.scss';
+import './signup-page.scss';
 import Link from '../../components/link/link.js';
 import SignupForm from '../../components/signupForm/signupForm.js';
 import template from './signup-page.hbs';
 import {config} from '../../../config.js';
 import {signupRoute} from '../../config/urls.js';
 import {UserActions} from '../../actions/user.js';
+
 
 /**
  * Класс страницы регистрации
@@ -33,6 +35,7 @@ export default class SignupPage {
    */
     get self() {
         return document.getElementById('signup-page');
+        return document.getElementById('signup-page');
     }
 
     /**
@@ -55,7 +58,11 @@ export default class SignupPage {
     render() {
         UserActions.getCSRFToken(signupRoute);
 
+        UserActions.getCSRFToken(signupRoute);
+
         this.#parent.innerHTML = template();
+        document.getElementById('container-header').innerHTML = '';
+
         document.getElementById('container-header').innerHTML = '';
 
 

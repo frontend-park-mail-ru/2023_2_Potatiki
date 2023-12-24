@@ -24,3 +24,9 @@
     font-size: 2.7rem;
     color: #181818;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    #profile-main {
+        padding-top: 12rem;
+    }
+}

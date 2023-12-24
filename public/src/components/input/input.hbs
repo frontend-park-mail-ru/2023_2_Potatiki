@@ -1,5 +1,5 @@
 <div class="{{inputClass}}">
     {{#if label}}<label class="{{labelClass}}" for="{{labelFor}}">{{labelText}}</label>{{/if}}
-    <input class="input__field" type="{{inputType}}" value="{{value}}" name="{{inputName}}" placeholder="{{inputPlaceholder}}" {{#if disabled}}disabled{{/if}}/> 
+    <input class="input__field" type="{{inputType}}" value="{{value}}" name="{{inputName}}" placeholder="{{inputPlaceholder}}" {{#if disabled}}disabled{{/if}} {{#if offAutocomplete}}autocomplete="off"{{/if}}/> 
     {{#if errorId}}<div class="input__error" id="{{errorId}}"></div>{{/if}}
 </div>

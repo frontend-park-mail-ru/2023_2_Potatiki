@@ -5,3 +5,9 @@
     justify-content: space-between;
     margin: 80px 10% 30px 10%;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    #product-page {
+        margin: 80px 10% 80px 10%;
+    }
+}

@@ -53,3 +53,50 @@
 .category-card__price {
     text-align: right;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .category-card {
+        display: flex;
+        flex-direction: column;
+        height: 42rem;
+        width: 100%;
+        border-radius: 1.2rem;
+        box-sizing: border-box;
+        background: var(--color-card-background);
+        padding: 1rem 0rem;
+        justify-content: center;
+        border: 1px solid var(--color-stroke);
+    }
+
+    .category-card__info {
+        box-sizing: border-box;
+    }
+
+    .category-card__name {
+       height: 4rem;
+       overflow: hidden;
+    }
+
+    .category-card__img-place {
+        height: 18rem;
+    }
+
+    .category-card__img {
+        width: 100%;
+        max-height: 18rem;
+        min-width: 8rem;
+        object-fit: scale-down;
+    }
+
+    .category-card__management {
+        padding-top: 2rem;
+        padding-bottom: 0;
+    }
+
+    .category-card__reviews-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+}

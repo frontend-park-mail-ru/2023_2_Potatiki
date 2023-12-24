@@ -1,7 +1,7 @@
 import MainPage from '../pages/main-page/main-page';
 import {cartRoute, categoryRoute, loginRoute,
     mainRoute, notFoundRoute, orderRoute, ordersRoute, productRoute,
-    signupRoute, profileRoute, reviewRoute} from '../config/urls';
+    signupRoute, profileRoute, searchRoute, reviewRoute} from '../config/urls';
 import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import CartPage from '../pages/cart-page/cart-page';
@@ -12,6 +12,7 @@ import CategoryPage from '../pages/category-page/category-page';
 import ProductPage from '../pages/product-page/product-page';
 import ProfilePage from '../pages/profile-page/profile-page';
 import OrdersPage from '../pages/orders-page/orders-page';
+import SearchPage from '../pages/search-page/search-page';
 import ReviewsPage from '../pages/reviews-page/reviews-page';
 
 /**
@@ -64,6 +65,7 @@ class Router {
             [productRoute, {view: ProductPage, url: productRoute, name: 'Товары'}],
             [profileRoute, {view: ProfilePage, url: profileRoute, name: 'Профиль'}],
             [ordersRoute, {view: OrdersPage, url: ordersRoute, name: 'Мои заказы'}],
+            [searchRoute, {view: SearchPage, url: searchRoute, name: 'Поиск'}],
             [reviewRoute, {view: ReviewsPage, url: reviewRoute, name: 'Отзывы'}],
         ]);
 
@@ -133,9 +135,7 @@ class Router {
             UserActions.removeListeners();
         }
 
-        this.#currentUrl = state.url;
-        this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
-        document.title = baseState.name;
+
         if (replaceState) {
             this.#history.replaceState(
                 state,
@@ -149,6 +149,9 @@ class Router {
                 state.url,
             );
         }
+        this.#currentUrl = state.url;
+        this.#currentView = new baseState.view(this.#root, {continue: state.continue, idParam});
+        document.title = baseState.name;
         this.#currentView.render();
     }
 

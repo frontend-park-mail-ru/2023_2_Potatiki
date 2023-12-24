@@ -5,6 +5,7 @@
     padding-bottom: 10vh;
     background-color: var(--color-background);
     min-height: 100vh;
+    padding-top: 3rem;
 }
 
 .orders-container {
@@ -14,4 +15,18 @@
     justify-content: center;
     align-items: center;
     grid-template-columns: minmax(50rem, 80rem);
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .orders-container {
+        margin: 20px 10px;
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 90%;
+    }
+
+    #orders-page {
+        padding-top: 3rem;
+    }
+
 }

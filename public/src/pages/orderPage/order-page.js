@@ -1,7 +1,7 @@
 import './order-page.scss';
 import template from './order-page.hbs';
 import router from '../../modules/router.js';
-import Header from '../../components/header/header';
+import {header} from '../../components/header/header.js';
 import OrderResults from '../../components/orderResults/order-results';
 import OrderInfo from '../../components/orderInfo/order-info';
 import OrderProducts from '../../components/orderProducts/order-products';
@@ -12,14 +12,19 @@ import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Select from '../../components/select/select.js';
 import {formatDate} from '../../modules/utils.js';
+import Promocode from '../../components/promocode/promocode.js';
 
 /**
  * Класс страницы оформления заказа
  */
 export default class OrderPage {
     #parent;
+    #promo;
 
     userInfo;
+    timeSelect;
+    dateSelect;
+    isRendered;
 
     /**
      * Конструктор класса
@@ -28,6 +33,8 @@ export default class OrderPage {
      */
     constructor(parent) {
         this.#parent = parent;
+        this.isRendered = false;
+        this.#promo = '';
     }
 
     /**
@@ -39,19 +46,23 @@ export default class OrderPage {
 
     /**
      * Отображение продуктов заказа
-     * @param {*} body Данные о продуктах
+     * @param {Object} body Данные о продуктах
      */
     renderProducts(body) {
         if (!body.products || !body.products.length) {
             this.redirectToLogin();
             return;
         }
+        if (this.isRendered) {
+            return;
+        }
         const orderProducts = new OrderProducts(
-            this.self.querySelector('.order-info-container'),
+            this.self.querySelector('.order-info-container_cart-products'),
             body.products,
             true,
         );
         orderProducts.render();
+        this.isRendered = true;
     }
 
     /**
@@ -93,12 +104,28 @@ export default class OrderPage {
     }
 
     /**
+     * Отправка информации для создания заказа
+     */
+    sendOrderInfo() {
+        const deliveryDate = this.dateSelect.getSelected();
+        const deliveryTime = this.timeSelect.getSelected();
+        CartActions.orderInfo(deliveryDate, deliveryTime, this.#promo);
+    }
+
+    /**
+     * Сохранение промокода
+     * @param {String} promo промокод
+     */
+    setPromo(promo) {
+        this.#promo = promo;
+    }
+
+    /**
      * Отбражение данных о заказе
      */
     renderAll() {
         this.#parent.innerHTML = template();
 
-        const header = new Header;
         header.render();
 
         const payment = new OrderInfo(
@@ -145,7 +172,7 @@ export default class OrderPage {
         this.userInfo.render();
 
         this.delivery = new OrderInfo(
-            this.self.querySelector('.order-info-container'),
+            this.self.querySelector('.order-info-container_delivery-info'),
             {
                 id: 'delivery-info-card',
                 name: 'Доставка',
@@ -175,17 +202,19 @@ export default class OrderPage {
                 data: date,
             });
         }
-        const dateSelect = new Select(
+        this.dateSelect = new Select(
             this.delivery.time,
             {
+                id: 'date-select',
                 name: 'Дата',
                 options: dates,
             },
         );
-        dateSelect.render();
-        const timeSelect = new Select(
+        this.dateSelect.render();
+        this.timeSelect = new Select(
             this.delivery.time,
             {
+                id: 'time-select',
                 name: 'Время',
                 options: [
                     {data: '10:00 - 12:00'},
@@ -195,11 +224,11 @@ export default class OrderPage {
                 ],
             },
         );
-        timeSelect.render();
+        this.timeSelect.render();
 
 
         const orderResults = new OrderResults(
-            this.self.querySelector('.order-container'),
+            this.self.querySelector('.order-container__support'),
             {
                 page: orderRoute,
                 text: 'Оформить',
@@ -209,12 +238,24 @@ export default class OrderPage {
         );
         orderResults.render();
 
+        const promocode = new Promocode(
+            this.self.querySelector('.order-container__support'),
+            {
+                text: 'Применить промокод',
+                id: 'apply-promo-btn',
+                class: 'order-results__make-result-btn',
+            },
+        );
+        promocode.render();
+
         CartActions.getCartProducts();
         UserActions.getProfileData();
         UserActions.getCurrentAddress();
         UserActions.getCSRFToken(orderRoute);
     }
 
+    setPromo = this.setPromo.bind(this);
+    sendOrderInfo = this.sendOrderInfo.bind(this);
     addressNotFound = this.addressNotFound.bind(this);
     updateAddress = this.updateAddress.bind(this);
     updateUserInfo = this.updateUserInfo.bind(this);
@@ -232,6 +273,8 @@ export default class OrderPage {
         eventEmmiter.subscribe(Events.PAGE_ALLOWED, this.renderAll);
         eventEmmiter.subscribe(Events.CURRENT_ADDRESS, this.updateAddress);
         eventEmmiter.subscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
+        eventEmmiter.subscribe(Events.SEND_ORDER_INFO, this.sendOrderInfo);
+        eventEmmiter.subscribe(Events.SET_PROMO, this.setPromo);
     }
 
     /**
@@ -244,6 +287,8 @@ export default class OrderPage {
         eventEmmiter.unsubscribe(Events.CURRENT_ADDRESS, this.updateAddress);
         eventEmmiter.unsubscribe(Events.PROFILE_DATA, this.updateUserInfo);
         eventEmmiter.unsubscribe(Events.ADDRESS_NOT_FOUND, this.addressNotFound);
+        eventEmmiter.unsubscribe(Events.SEND_ORDER_INFO, this.sendOrderInfo);
+        eventEmmiter.unsubscribe(Events.SET_PROMO, this.setPromo);
     }
 
     /**

@@ -1,8 +1,8 @@
 .carousel {
-    margin: 1rem 3rem 1rem 3rem;
-
+    margin: 40px 0;
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 .carousel__cards {
@@ -25,12 +25,40 @@
 .carousel__container {
     display: flex;
     gap: 3rem;
-    align-items: center;
     margin-top: 1rem;
     max-width: 80vw;
     overflow-x: scroll;
 }
 
+.carousel__main-container {
+    max-width: 70vw;
+}
+
 .carousel__container::-webkit-scrollbar {
     display: none;
-  }
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .carousel {
+        margin: 0;
+    }
+
+    .carousel__cards {
+        margin-top: 2rem;
+    
+    }
+
+    .carousel__name {
+        font-size: 3rem;
+    }
+
+    .carousel__container {
+        padding: 10px 0;
+        margin-top: 2rem;
+        gap: 10rem;
+        display: grid;
+        grid-auto-columns: calc(100vw - 110px);
+        grid-auto-flow: column;
+        grid-template-rows: 320px;
+    }
+}

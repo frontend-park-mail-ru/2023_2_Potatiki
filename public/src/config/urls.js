@@ -1,5 +1,7 @@
-export const baseUrl = 'https://www.zuzu-market.ru/api/';
+export const baseUrl = 'https://zuzu-market.ru/api/';
 // export const baseUrl = 'http://localhost:8096/api/';
+// export const wsUrl = 'ws://localhost:8096/api/notifications/get_all';
+export const wsUrl = 'wss://zuzu-market.ru/api/notifications/get_all';
 
 export const signupUrl = 'auth/signup';
 export const loginUrl = 'auth/signin';
@@ -29,6 +31,7 @@ export const categoryRoute = '/category';
 export const productRoute = '/product';
 export const ordersRoute = '/orders';
 export const profileRoute = '/my-profile';
+export const searchRoute = '/search';
 export const profileUpdateDataRoute = '/my-profile/profile/update-data';
 export const profileAddAddressRoute = '/my-profile/profile/add-address';
 export const addAddressUrl = 'address/add';
@@ -40,3 +43,7 @@ export const updatePhotoUrl = 'profile/update-photo';
 export const reviewRoute = '/reviews';
 export const createReviewUrl = 'comments/create';
 export const getReviewsUrl = 'comments/get_all';
+export const checkPromoUrl = 'promo/check';
+export const getAnonRecsUrl = 'recommendations/get_anon';
+export const getRecsUrl = 'recommendations/get_all';
+export const updateActivityUrl = 'recommendations/update';
