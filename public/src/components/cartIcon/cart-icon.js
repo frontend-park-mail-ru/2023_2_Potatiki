@@ -55,7 +55,6 @@ export default class CartIcon {
      * Подписка на события
      */
     subscribeToEvents() {
-        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.subscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
     }
 
@@ -63,7 +62,6 @@ export default class CartIcon {
      * Отписка от событий
      */
     unsubscribeToEvents() {
-        eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.UPDATE_CART_ICON, this.updateCartCount);
     }
 

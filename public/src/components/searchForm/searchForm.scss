@@ -13,3 +13,22 @@
 .serch-form__input {
     width: 100%;
 }
+
+.container-search-form {
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+}
+
+.container-suggest {
+    position: absolute;
+    top: 5rem;
+    display: flex;
+    width: 46.7rem;
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .container-suggest {
+        width: 20.5rem;
+    }
+}

@@ -1,7 +1,10 @@
 .product  {
     display: grid;
     height: auto;
-    width: 100%;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 100%;
 }
 
 .product__data {
@@ -78,4 +81,22 @@
 .product__to-cart-btn {
     margin: 1rem;
     background-color: var(--color-highlight);
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .product__data {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .product .product__management {
+        display: grid;
+        justify-content: end;
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .product__to-cart-btn {
+        grid-column: 2 / -1;
+    }
 }

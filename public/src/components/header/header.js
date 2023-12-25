@@ -11,6 +11,7 @@ import {UserActions} from '../../actions/user.js';
 import {CartActions} from '../../actions/cart.js';
 import Catalog from '../catalog/catalog.js';
 import CartIcon from '../cartIcon/cart-icon.js';
+import Notification from '../notification/notification.js';
 
 /**
  * Класс хедера страницы
@@ -24,6 +25,7 @@ export default class Header {
     catalog;
     logoutButton;
     user;
+    isRendered;
 
     /**
    * Конструктор класса
@@ -32,6 +34,7 @@ export default class Header {
     constructor(parent) {
         this.#parent = parent;
         this.#config = config.mainPage.header;
+        this.isRendered = false;
     }
 
     /**
@@ -68,8 +71,8 @@ export default class Header {
         this.catalogButton.img.src = '/static/images/burger.svg';
         this.catalogButton.self.removeEventListener('click', this.hideCatalog);
         this.catalogButton.self.addEventListener('click', this.renderCatalog);
-        this.catalog.self.remove();
-        this.catalog.unsubscribeToEvents();
+        this.catalog?.self?.remove();
+        this.catalog?.unsubscribeToEvents();
     }
 
     hideCatalog = this.hideCatalog.bind(this);
@@ -84,29 +87,29 @@ export default class Header {
      * Подписка на события
      */
     subscribeToEvents() {
-        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
-        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.subscribe(Events.USER_IS_AUTH, this.authorizedHeader);
         eventEmmiter.subscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.subscribe(Events.LOGOUT, this.unauthorizedHeader);
+        eventEmmiter.subscribe(Events.CATEGORY_NAME, this.hideCatalog);
     }
 
     /**
      * Отписка от событий
      */
     unsubscribeToEvents() {
-        eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
-        eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
         eventEmmiter.unsubscribe(Events.USER_IS_AUTH, this.authorizedHeader);
         eventEmmiter.unsubscribe(Events.USER_IS_NOT_AUTH, this.unauthorizedHeader);
         eventEmmiter.unsubscribe(Events.LOGOUT, this.unauthorizedHeader);
+        eventEmmiter.unsubscribe(Events.CATEGORY_NAME, this.hideCatalog);
     }
 
     /**
      * Удаление листенеров
      */
     removeListeners() {
-        this.logoutButton?.removeEventListener('click', logout);
+        if (this.logoutButton && this.logoutButton.self) {
+            this.logoutButton.self.removeEventListener('click', this.logout);
+        }
     }
 
     /**
@@ -125,7 +128,7 @@ export default class Header {
      * Удаление кнопки выхода
      */
     removeLogoutButton() {
-        if (this.logoutButton) {
+        if (this.logoutButton && this.logoutButton.self) {
             this.logoutButton.self.removeEventListener('click', this.logout);
             this.logoutButton.self.remove();
         }
@@ -148,9 +151,31 @@ export default class Header {
     }
 
     /**
+     * Убрать хедер
+     */
+    hide() {
+        this.isRendered = false;
+        this.removeListeners();
+        this.unsubscribeToEvents();
+        document.getElementById('container-header').innerHTML = '';
+    }
+
+    /**
      * Отрисовка компонента хедера
      */
     render() {
+        if (this.isRendered) {
+            const queryString = location.search;
+            if (queryString) {
+                const params = new URLSearchParams(queryString);
+                document.querySelector(`[name='search']`).value = params.get('product');
+            } else {
+                document.querySelector(`[name='search']`).value = '';
+            }
+            return;
+        }
+
+        this.isRendered = true;
         document.getElementById('container-header').innerHTML = template();
 
         const self = document.getElementById('header');
@@ -175,9 +200,9 @@ export default class Header {
         );
         orders.render();
 
-        const favorite = new Link(
+        const favorite = new Notification(
             self.querySelector('.header__icons-container'),
-            this.#config.favorite,
+            this.#config.notification,
         );
         favorite.render();
 
@@ -203,3 +228,5 @@ export default class Header {
         CartActions.getCartCount();
     }
 }
+
+export const header = new Header();

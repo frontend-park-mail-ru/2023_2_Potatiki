@@ -23,12 +23,20 @@
 }
 
 .order-info__img {
-    width: 4.1rem;
-    height: 3.32rem;
+    width: 4rem;
+    height: 4rem;
     margin-right: 0.8rem;
+    object-fit: cover;
+    border-radius: 100%;
 }
 
 .order-info__time-container {
     display: grid;
     grid-template-columns: 0.5fr 1fr;
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .order-info__time-container {
+        grid-template-columns: 1fr 1fr;
+    }
 }

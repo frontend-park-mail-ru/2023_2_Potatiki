@@ -1,11 +1,23 @@
 <div class="order-info__products white-color" id="{{id}}">
-    <div class="order-info__row-container">
-            <span class="order-info__text">Заказ</span>
-            <span class="order-info__text">{{uuid}}</span>
+    <div class="order-info__head-container">
+        <div class="order-info__head">
+            <div class="order-info__row-container">
+                <span class="order-info__text">Заказ от</span>
+                <span class="order-info__text">{{creationDate}}</span>
+            </div>
+            <div class="order-info__status">
+                {{status}}
+            </div>
+        </div>
     </div>
+    
     <div class="order-info__row-container">
         <span class="order-info__text">Адрес</span>
         <div class="order-info__address order-info__text">{{address}}</div>
+    </div>
+    <div class="order-info__row-container">
+        <span class="order-info__text">Доставим</span>
+        <div class="order-info__delivery-date order-info__text">{{deliveryDate}} {{deliveryTime}}</div>
     </div>
     <div class="order-info__row-container">
         <span class="order-info__text">Оплачено</span>

@@ -1,0 +1,30 @@
+.notification {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: -0.2rem;
+}
+
+.link_icon__img_notification {
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+.notification__icon_active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -0.2rem;
+    left: 4rem;
+    background-color: var(--color-secondary);
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+}
+
+.notification__window-container {
+    position: absolute;
+    z-index: 1;
+    top: 5rem;
+}

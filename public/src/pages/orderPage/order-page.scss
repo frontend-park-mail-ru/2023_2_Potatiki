@@ -17,6 +17,25 @@
     gap: 2rem;
 }
 
+.order-container__support {
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+}
+
 .white-background-color {
     background-color: var(--color-card-background);
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+
+    #order-page {
+        padding: 30px 10px 80px 10px;
+    }
+
+    .order-info-container__payment-and-user {
+        display: flex;
+        flex-direction: column;
+    }
+
 }

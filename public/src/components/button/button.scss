@@ -43,3 +43,16 @@
     background-color: var(--color-button-text);
 }
 
+.recommendations .carousel__button {
+    background-color: var(--color-background-header);
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .button {
+        min-width: 4rem;
+    }
+
+    .button__text {
+        font-size: 1.7rem;
+    }
+}

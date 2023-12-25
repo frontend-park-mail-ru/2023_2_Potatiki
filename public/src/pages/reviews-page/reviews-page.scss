@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin: 80px 10% 30px 10%;
+    margin: 136px 10% 30px 10%;
     gap: 2rem;
 }
 
@@ -40,4 +40,27 @@
 
 .reviews-page__reviews-container {
     margin-right: 4rem;
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    #reviews-page {
+        margin: 80px 20px 80px 20px;
+    }
+
+    .reviews-page__main-container {
+        grid-template-columns: 1fr;
+    }
+
+    .reviews-page__summary-container {
+        grid-row: 1;
+    }
+
+    .reviews-page__reviews-container {
+        margin: 0;
+    }
+
+    .reviews-page__empty-review {
+        position: absolute;
+        right: 20px;
+    }
 }

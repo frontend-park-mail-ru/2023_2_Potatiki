@@ -8,6 +8,8 @@ export const CartActionsType = {
     GET_CART_COUNT: 'GET_CART_COUNT',
     UPDATE_ORDER: 'UPDATE_ORDER',
     GET_ALL_ORDERS: 'GET_ALL_ORDERS',
+    ORDER_INFO: 'ORDER_INFO',
+    APPLY_PROMO: 'APPLY_PROMO',
 };
 
 export const CartActions = {
@@ -56,6 +58,20 @@ export const CartActions = {
     getAllOrders() {
         AppDispatcher.dispatch({
             type: CartActionsType.GET_ALL_ORDERS,
+        });
+    },
+
+    orderInfo(deliveryDate, deliveryTime, promo) {
+        AppDispatcher.dispatch({
+            type: CartActionsType.ORDER_INFO,
+            payload: {deliveryDate, deliveryTime, promo},
+        });
+    },
+
+    applyPromo(promo) {
+        AppDispatcher.dispatch({
+            type: CartActionsType.APPLY_PROMO,
+            payload: {promo},
         });
     },
 };

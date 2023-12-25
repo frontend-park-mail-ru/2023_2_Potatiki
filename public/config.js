@@ -13,13 +13,17 @@ const header = {
         altText: 'ZuZu logo',
         imgSrc: '/static/images/logo.svg',
         imgClass: 'logo-img ',
+        imgSrc: '/static/images/logo.svg',
+        imgClass: 'logo-img ',
     },
 
     catalog: {
         class: 'header__button_size_catalog',
+        class: 'header__button_size_catalog',
         type: 'button',
         text: 'Каталог',
         id: 'catalog-button',
+        imgSrc: '/static/images/burger.svg',
         imgSrc: '/static/images/burger.svg',
         imgClass: 'button__img_size_s',
     },
@@ -34,14 +38,15 @@ const header = {
             inputPlaceholder: 'Я хочу найти',
             error: false,
             label: false,
-            disabled: true,
+            offAutocomplete: true,
         },
         submit: {
-            class: 'button_disabled search-form__button_size_search',
+            class: 'search-form__button_size_search',
             type: '',
             text: '',
             id: 'search-button',
             altText: 'Поиск',
+            imgSrc: '/static/images/search.svg',
             imgSrc: '/static/images/search.svg',
             imgClass: 'button__img_size_s',
         },
@@ -52,22 +57,27 @@ const header = {
         id: 'orders-button',
         class: 'link_icon',
         href: '/orders',
+        class: 'link_icon',
+        href: '/orders',
         text: 'Заказы',
+        imgSrc: '/static/images/order-box.svg',
         imgSrc: '/static/images/order-box.svg',
         imgClass: 'link_icon__img',
     },
 
-    favorite: {
-        id: 'favorite-button',
-        class: 'link_icon link_disabled',
-        text: 'Избранное',
-        href: '',
-        imgSrc: '/static/images/like-icon.svg',
-        imgClass: 'link_icon__img',
+    notification: {
+        id: 'notification-button',
+        class: 'link_icon fake-button',
+        text: 'Уведомления',
+        imgSrc: '/static/images/not-icon.svg',
+        imgClass: 'link_icon__img_notification',
+        spanClass: 'dark-text icon__text',
     },
 
     basket: {
         id: 'basket-button',
+        class: 'link_icon cart-icon',
+        href: '/cart',
         class: 'link_icon cart-icon',
         href: '/cart',
         text: 'Корзина',
@@ -82,6 +92,7 @@ const header = {
         text: 'Войти',
         href: '/login',
         imgSrc: '/static/images/login.svg',
+        imgSrc: '/static/images/login.svg',
         imgClass: 'link_icon__img',
     },
 
@@ -89,8 +100,10 @@ const header = {
         id: 'profile-button',
         class: 'link_icon',
         href: '/my-profile',
+        class: 'link_icon',
+        href: '/my-profile',
         text: 'Профиль',
-        imgSrc: '/static/images/user.svg',
+        imgSrc: '/static/images/profile.svg',
         imgClass: 'link_icon__img',
     },
 
@@ -100,7 +113,7 @@ const header = {
         text: 'Выйти',
         imgSrc: '/static/images/login.svg',
         imgClass: 'link_icon__img',
-        spanClass: 'dark-text',
+        spanClass: 'dark-text icon__text',
     },
 };
 
@@ -113,12 +126,14 @@ const newCarousel = {
         type: 'button',
         id: 'new-carousel-button-left',
         imgSrc: '/static/images/arrow-left.svg',
+        imgSrc: '/static/images/arrow-left.svg',
         imgClass: 'button__img_size_m',
     },
     buttonRight: {
         class: 'button carousel__button',
         type: 'button',
         id: 'new-carousel-button-right',
+        imgSrc: '/static/images/arrow-right.svg',
         imgSrc: '/static/images/arrow-right.svg',
         imgClass: 'button__img_size_m',
     },
@@ -139,6 +154,7 @@ const popularCarousel = {
         type: 'button',
         id: 'popular-carousel-button-right',
         imgSrc: '/static/images/arrow-right.svg',
+        imgSrc: '/static/images/arrow-right.svg',
         imgClass: 'button__img_size_m',
     },
 };
@@ -155,6 +171,7 @@ const loginPage = {
         class: 'login-page__logo',
         href: '/',
         altText: 'ZuZu logo',
+        imgSrc: '/static/images/logo.svg',
         imgSrc: '/static/images/logo.svg',
         imgClass: 'login-page__logo-img',
     },
@@ -198,6 +215,7 @@ const signupPage = {
         href: '/',
         altText: 'ZuZu logo',
         imgSrc: '/static/images/logo.svg',
+        imgSrc: '/static/images/logo.svg',
         imgClass: 'login-page__logo-img',
     },
 
@@ -210,6 +228,13 @@ const signupPage = {
             inputName: 'login',
             inputPlaceholder: 'Придумайте логин',
             errorId: 'login-error',
+        },
+
+        phone: {
+            inputClass: 'input login-form__input',
+            inputName: 'phone',
+            inputPlaceholder: '+7(___)-___-__-__',
+            errorId: 'number-error',
         },
 
         phone: {

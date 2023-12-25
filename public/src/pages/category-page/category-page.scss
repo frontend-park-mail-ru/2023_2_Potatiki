@@ -11,10 +11,40 @@
     justify-content: start;
     flex-direction: column;
     align-items: center;
+    padding-top: 4rem;
     padding-bottom: 10vh;
 }
 
 .page-title {
     margin-left: 15%;
     align-self: start;
+}
+
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    #category-page {
+        align-items: normal;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    .category-products-container {
+        display: grid;
+        grid-template-columns: repeat(2, 43vw);
+        row-gap: 2rem;
+        column-gap: 2rem;
+        margin: 0;
+        width: 100%;
+        padding-top: 2rem;
+        align-items: center;
+    }
+
+    .page-title {
+        margin-left: 10px;
+    }
+
+    .select {
+        font-size: 1.5rem;
+    }
+
 }

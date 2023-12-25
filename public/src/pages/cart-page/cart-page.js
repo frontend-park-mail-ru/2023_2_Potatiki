@@ -1,5 +1,5 @@
 import template from './cart-page.hbs';
-import Header from '../../components/header/header';
+import {header} from '../../components/header/header.js';
 import CartProduct from '../../components/cartProduct/cart-product';
 import {config} from '../../../config';
 import './cart-page.scss';
@@ -19,6 +19,8 @@ export default class CartPage {
 
     orderResults;
 
+    #isRendered;
+
     /**
      * Конструктор класса
      * @param {Element} parent Родительский элемент
@@ -26,6 +28,7 @@ export default class CartPage {
     constructor(parent) {
         this.#parent = parent;
         this.#config = config;
+        this.#isRendered = false;
     }
 
     /**
@@ -101,6 +104,11 @@ export default class CartPage {
             this.renderEmptyCartMessage();
             return;
         }
+        if (this.#isRendered && !body.isUpdate) {
+            return;
+        }
+        this.#isRendered = true;
+        this.self.querySelector('.cart-container__products').innerHTML = '';
         body.products.forEach((element) => {
             const product = new CartProduct(
                 this.self.querySelector('.cart-container__products'),
@@ -115,8 +123,11 @@ export default class CartPage {
      * Отображение итоговой информации о содержании корзины
      */
     renderCartResult() {
+        if (this.orderResults) {
+            return;
+        }
         this.orderResults = new OrderResults(
-            this.self.querySelector('.order-container'),
+            this.self.querySelector('.order-container__support'),
             {
                 page: cartRoute,
                 text: 'Перейти к оформлению',
@@ -153,7 +164,6 @@ export default class CartPage {
     render() {
         this.#parent.innerHTML = template();
 
-        const header = new Header();
         header.render();
 
         this.subscribeToEvents();

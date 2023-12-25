@@ -4,6 +4,8 @@ import Button from '../button/button.js';
 import ProductCard from '../productCard/productCard.js';
 import template from './carousel.hbs';
 import {rateCase} from '../../modules/utils.js';
+import {eventEmmiter} from '../../modules/event-emmiter.js';
+import {Events} from '../../config/events.js';
 
 /**
  * Класс карусели продуктов
@@ -15,7 +17,9 @@ export default class Carousel {
     #currentPos;
     #leftPos;
     #rightPos;
+    #singlePos;
     #data;
+    #interval;
 
     /**
      * Конструктор класса
@@ -27,6 +31,7 @@ export default class Carousel {
         this.#parent = parent;
         this.#config = config;
         this.#data = data;
+        this.#singlePos = 0;
     }
 
     /**
@@ -49,11 +54,13 @@ export default class Carousel {
             img: {
                 imgSrc: '/static/images/' + data.img,
                 imgClass: 'product-card__img',
+                class: 'product-card__img-link',
                 href: productRoute + '/' + data.productId,
             },
             name: {
                 text: data.productName,
                 href: productRoute + '/' + data.productId,
+                spanClass: 'product-card__name-text',
             },
             button: {
                 class: 'product-card__button_size_in-cart button_disabled',
@@ -79,9 +86,9 @@ export default class Carousel {
             .getBoundingClientRect().width;
         const cardWidth = document
             .querySelector('.product-card').getBoundingClientRect().width;
-        this.#cardCount = Math.min(Math.round(containerWidth / cardWidth) - 1,
+        this.#cardCount = Math.max(1, Math.min(Math.round(containerWidth / cardWidth) - 1,
             this.#data.length,
-        );
+        ));
     }
 
     /**
@@ -89,12 +96,14 @@ export default class Carousel {
      * @param {Event} event Событие
      */
     slideRight(event) {
-        event.preventDefault();
+        if (event) {
+            clearInterval(this.#interval);
+        }
         const newCard = this.self.querySelectorAll('.product-card');
         this.calcCardCount();
         this.#rightPos = Math.min(
             this.#data.length - 1,
-            this.#rightPos + this.#cardCount - 1,
+            this.#rightPos + this.#cardCount,
         );
 
         this.#leftPos = Math.min(
@@ -102,9 +111,19 @@ export default class Carousel {
             this.#leftPos + this.#cardCount,
         );
 
+        if (this.#cardCount === 1) {
+            this.#singlePos = Math.min(this.#singlePos + 1, this.#data.length - 1);
+            newCard[this.#singlePos].scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center',
+            });
+            return;
+        }
         newCard[this.#rightPos].scrollIntoView({
             behavior: 'smooth',
-            block: 'nearest',
+            block: 'center',
+            inline: 'nearest',
         });
     }
 
@@ -113,12 +132,14 @@ export default class Carousel {
      * @param {Event} event Событие
      */
     slideLeft(event) {
-        event.preventDefault();
+        if (event) {
+            clearInterval(this.#interval);
+        }
         const newCard = this.self.querySelectorAll('.product-card');
         this.calcCardCount();
         this.#leftPos = Math.max(
             0,
-            Math.min(this.#data.length - 1 - this.#cardCount, this.#leftPos - this.#cardCount + 1),
+            Math.min(this.#data.length - 1 - this.#cardCount, this.#leftPos - this.#cardCount),
         );
 
         this.#rightPos = Math.max(
@@ -126,9 +147,21 @@ export default class Carousel {
             this.#rightPos - this.#cardCount,
         );
 
+        if (this.#cardCount === 1) {
+            this.#singlePos = Math.max(this.#singlePos - 1, 0);
+            newCard[this.#singlePos].scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center',
+            });
+            return;
+        }
+
+
         newCard[this.#leftPos].scrollIntoView({
             behavior: 'smooth',
-            block: 'nearest',
+            block: 'center',
+            inline: 'nearest',
         });
     }
 
@@ -136,6 +169,9 @@ export default class Carousel {
      * Прослушиватели событий для кнопки карусели
      */
     addListeners() {
+        window.addEventListener('click', this.cancelMove);
+        window.addEventListener('scroll', this.cancelMove);
+
         this.slideRightListener = this.slideRight.bind(this);
 
         document
@@ -160,6 +196,31 @@ export default class Carousel {
         document
             .querySelector(`#${this.#config.buttonLeft.id}`)
             .removeEventListener('click', this.slideLeftListener);
+
+        clearInterval(this.#interval);
+        window.removeEventListener('click', this.cancelMove);
+        window.removeEventListener('scroll', this.cancelMove);
+    }
+
+    removeListeners = this.removeListeners.bind(this);
+
+    subscribeToEvents = this.subscribeToEvents.bind(this);
+    unsubscribeToEvents = this.unsubscribeToEvents.bind(this);
+
+    /**
+     * Подписка на события
+     */
+    subscribeToEvents() {
+        eventEmmiter.subscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.subscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
+    }
+
+    /**
+     * Отписка от событий
+     */
+    unsubscribeToEvents() {
+        eventEmmiter.unsubscribe(Events.REMOVE_LISTENERS, this.removeListeners);
+        eventEmmiter.unsubscribe(Events.REMOVE_SUBSCRIBES, this.unsubscribeToEvents);
     }
 
     /**
@@ -170,6 +231,8 @@ export default class Carousel {
             'beforeend',
             template(this.#config),
         );
+
+        this.subscribeToEvents();
 
         const buttonLeft = new Button(
             this.self.querySelector('.left-button'),

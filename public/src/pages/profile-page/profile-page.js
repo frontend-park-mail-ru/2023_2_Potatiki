@@ -1,7 +1,7 @@
 import './profile-page.scss';
 import template from './profile-page.hbs';
 import Profile from '../../components/profile/profile';
-import Header from '../../components/header/header';
+import {header} from '../../components/header/header.js';
 import {config} from '../../../config.js';
 import {userStore} from '../../stores/user.js';
 import router from '../../modules/router.js';
@@ -18,7 +18,7 @@ export default class ProfilePage {
 
     /**
      * Конструктор класса страницы
-     *@param {*} parent
+     *@param {Element} parent Родительский элемент
      */
     constructor(parent) {
         this.#parent = parent;
@@ -48,7 +48,7 @@ export default class ProfilePage {
     /**
      * Удаление листенеров
      */
-    removeEventListeners() {
+    removeListeners() {
 
     }
 
@@ -78,7 +78,6 @@ export default class ProfilePage {
             return;
         }
 
-        const header = new Header();
         header.render();
 
         this.profile = new Profile(document.getElementById('profile__card'));
