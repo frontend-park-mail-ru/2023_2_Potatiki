@@ -233,7 +233,6 @@ class UserStore {
      * Проверяет сессию пользовтеля запросом на сервер
      */
     async checkSession() {
-        console.log('check session');
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
         switch (statusCode) {
         case 200:
@@ -241,7 +240,6 @@ class UserStore {
             this.#state.loginName = body.login;
             this.#state.number = formatPhone(body.phone);
             this.#state.imgSrc = body.img;
-            console.log('call get');
             notificationStore.getNotifications();
             eventEmmiter.emit(Events.USER_IS_AUTH, {url: location.pathname + location.search});
             notificationStore.connectWS();
@@ -488,7 +486,6 @@ class UserStore {
      */
     async getProfileData() {
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
-        console.log('get prodile');
         switch (statusCode) {
         case 200:
             eventEmmiter.emit(Events.PROFILE_DATA, body);

@@ -74,10 +74,8 @@ class NotificationStore {
      * Взятие уведомлений с сервера
      */
     async getNotifications() {
-        console.log('get');
         const [statusCode, body] = await Ajax.prototype.getRequest(getRecentNotifications);
 
-        console.log(body);
 
         if (statusCode === 200) {
             this.#state.notifications = body;
