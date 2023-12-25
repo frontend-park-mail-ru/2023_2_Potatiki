@@ -5,9 +5,10 @@
     right: 0;
     bottom: 0;
     display: grid;
-    grid-template-columns: minmax(40%, 500px);
+    grid-template-columns: minmax(300px, 600px);
     justify-content: center;
     background-color: rgba(165, 165, 179, 0.3);
+    overflow-y: scroll;
 }
 
 .review-form__container {
@@ -18,6 +19,8 @@
     background-color: var(--color-background-header);
     position: relative;
     display: grid;
+    gap: 20px;
+    max-height: 700px;
 }
 
 .review-form__close {
@@ -42,7 +45,9 @@
 
 @media (min-device-width: 320px) and (max-device-width: 568px) {
     #review-form {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         padding: 0 10px;
     }
+
 }

@@ -1,5 +1,6 @@
 import {Events} from '../config/events';
 import {getRecentNotifications} from '../config/urls';
+import Ajax from '../modules/ajax';
 import {eventEmmiter} from '../modules/event-emmiter';
 import WS from '../modules/ws';
 
