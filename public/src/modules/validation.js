@@ -178,6 +178,18 @@ export function checkAddressField(fieldText, isFlatField) {
         return ['Заполните поле', false];
     }
 
+    for (let i = 0; i < fieldText.length; ++i) {
+        const code = fieldText.codePointAt(i);
+        if ((code < UNICODE_OF_ASCII_START ||
+        code > UNICODE_OF_ASCII_END) &&
+        (code < UNICODE_OF_RUS_BEGIN ||
+        code > UNICODE_OF_RUS_END) &&
+        code !== UNICODE_OF_SPACE && code !== UNICODE_OF_TIRE
+        ) {
+            return ['Введены недопустимые символы', false];
+        }
+    }
+
     return ['', true];
 }
 
