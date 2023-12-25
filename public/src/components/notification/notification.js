@@ -36,8 +36,13 @@ export default class Notification {
      * Смена состояния иконки уведомления
      */
     changeIconState() {
-        document.querySelector('.notification__icon')?.classList.
-            toggle('notification__icon_active');
+        if (notificationStore.isUnread) {
+            document.querySelector('.notification__icon')?.classList.
+                add('notification__icon_active');
+        } else {
+            document.querySelector('.notification__icon')?.classList.
+                remove('notification__icon_active');
+        }
     }
 
     /**

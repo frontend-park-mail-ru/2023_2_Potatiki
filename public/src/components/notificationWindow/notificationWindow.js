@@ -26,7 +26,8 @@ export default class NotificationWindow {
    * Отрисовка компонента окна уведомлений
    */
     render() {
-        this.#parent.innerHTML = template({notifications: notificationStore.notifications});
+        this.#parent.innerHTML = template({notifications:
+            notificationStore.notifications.reverse()});
     }
 
     /**

@@ -5,19 +5,18 @@
     padding: 0;
 }
 
-@media screen and (min-width: 300px) {
+html {
+    font-size: 12px;
+    height: 100%;
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
     html {
         font-size: 8px;
         height: 100%;
     }
 }
 
-@media screen and (min-width: 1000px) {
-    html {
-        font-size: 12px;
-        height: 100%;
-    }
-}
 
 
 

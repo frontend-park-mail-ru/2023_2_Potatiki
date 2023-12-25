@@ -488,6 +488,7 @@ class UserStore {
      */
     async getProfileData() {
         const [statusCode, body] = await Ajax.prototype.getRequest(checkUrl);
+        console.log('get prodile');
         switch (statusCode) {
         case 200:
             eventEmmiter.emit(Events.PROFILE_DATA, body);
