@@ -4,7 +4,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    display: grid;
     grid-template-columns: minmax(300px, 600px);
     justify-content: center;
     background-color: rgba(165, 165, 179, 0.3);
@@ -49,5 +48,4 @@
         flex-direction: column;
         padding: 0 10px;
     }
-
 }

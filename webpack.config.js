@@ -78,7 +78,7 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-            template: '/public/index.hbs',
+            template: './public/index.hbs',
         }),
 
         new CopyPlugin({
