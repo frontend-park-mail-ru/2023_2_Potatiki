@@ -1,0 +1,61 @@
+{
+    "name": "Zuzu",
+    "short_name": "Zuzu",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#F5F5FF",
+    "description": "Ваш любимый маркетплейс.",
+    "purpose": "any",
+    "icons": [
+      {
+        "src": "static/images/favicon48.svg",
+        "sizes": "48x48",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "static/images/favicon72.svg",
+        "sizes": "72x72",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "static/images/favicon96.svg",
+        "sizes": "96x96",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "static/images/favicon144.svg",
+        "sizes": "144x144",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "static/images/favicon168.svg",
+        "sizes": "168x168",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "static/images/favicon192.svg",
+        "sizes": "192x192",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "static/images/favicon512.svg",
+        "sizes": "512x512",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "static/images/favicon512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ]
+  }
+  
