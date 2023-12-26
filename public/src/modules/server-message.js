@@ -7,7 +7,6 @@ export const INFO_MESSAGE = 'INFO_MESSAGE';
  */
 export function renderServerMessage(msg, type) {
     let msgClass;
-    console.log(type);
     switch (type) {
     case undefined:
         msgClass = 'server-msg server-error';
