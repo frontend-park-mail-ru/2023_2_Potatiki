@@ -85,11 +85,12 @@ module.exports = {
             patterns: [
                 {from: path.resolve(__dirname, 'public/static/images'), to: 'static/images'},
                 {from: path.resolve(__dirname, 'public/sw.js'), to: ''},
+                {from: path.resolve(__dirname, 'manifest.json'), to: ''},
             ],
         }),
 
         new miniCss({
-            filename: 'style.[contenthash].css',
+            filename: 'style.css',
         }),
 
         new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/static/images/favicon.svg')),
