@@ -136,6 +136,13 @@ body {
     background-color: var(--color-incorrect);
 }
 
+.info-msg {
+    color: var(--color-headline);
+    background-color: var(--color-background-header);
+    border: 1px solid var(--color-stroke);
+    box-shadow: 0 0.1rem 0.4rem var(--color-stroke);
+}
+
 .error {
     color: var(--color-incorrect);
 }

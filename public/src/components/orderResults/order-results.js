@@ -4,7 +4,7 @@ import './order-results.scss';
 import {eventEmmiter} from '../../modules/event-emmiter.js';
 import {Events} from '../../config/events.js';
 import {CartActions} from '../../actions/cart.js';
-import {renderServerMessage} from '../../modules/server-message.js';
+import {INFO_MESSAGE, renderServerMessage} from '../../modules/server-message.js';
 
 /**
  * Класс компонента итога заказа
@@ -138,7 +138,7 @@ export default class OrderResults {
      * Отображение ошибки
      */
     serverMessage() {
-        renderServerMessage('Для оформления заказа установите адрес в профиле', false);
+        renderServerMessage('Для оформления заказа установите адрес в профиле', INFO_MESSAGE);
     }
 
 

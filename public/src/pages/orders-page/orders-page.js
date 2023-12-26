@@ -7,7 +7,7 @@ import './orders-page.scss';
 import router from '../../modules/router.js';
 import {loginRoute} from '../../config/urls.js';
 import {CartActions} from '../../actions/cart.js';
-import {renderServerMessage} from '../../modules/server-message.js';
+import {INFO_MESSAGE, renderServerMessage} from '../../modules/server-message.js';
 import OrderItem from '../../components/order-item/order-item.js';
 import {getDateForReview} from '../../modules/utils.js';
 
@@ -102,7 +102,7 @@ export default class OrdersPage {
      */
     redirectToLogin() {
         router.go({url: loginRoute}, true);
-        renderServerMessage('Авторизуйтесь, чтобы просмотреть ваши заказы');
+        renderServerMessage('Авторизуйтесь, чтобы просмотреть ваши заказы', INFO_MESSAGE);
     }
 
 

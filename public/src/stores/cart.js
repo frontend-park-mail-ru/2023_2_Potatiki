@@ -10,6 +10,7 @@ import {replacer, reviver} from '../modules/utils';
 import {userStore} from './user';
 import {checkPromoInput} from '../modules/validation';
 import {productsStore} from './products';
+import {INFO_MESSAGE} from '../modules/server-message';
 
 /**
  * Класс хранилище корзины
@@ -342,7 +343,7 @@ class CartStore {
         }
         if (!userStore.isAuth) {
             eventEmmiter.emit(Events.SERVER_MESSAGE,
-                'Для оформления заказа необходимо авторизоваться');
+                'Для оформления заказа необходимо авторизоваться', INFO_MESSAGE);
             eventEmmiter.emit(Events.REDIRECT, {url: loginRoute, continue: continueUrl});
             return;
         }
