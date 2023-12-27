@@ -35,3 +35,12 @@
     z-index: 1;
     top: 5rem;
 }
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .notification__window-container {
+        top: 0rem;
+        bottom: 7rem;
+        left: 0;
+        right: 0;
+    }
+}
