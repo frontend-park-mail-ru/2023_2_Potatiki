@@ -6,6 +6,12 @@
     top: -0.2rem;
 }
 
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .notification {
+        top: unset;
+    }
+}
+
 .link_icon__img_notification {
     width: 2.2rem;
     height: 2.2rem;

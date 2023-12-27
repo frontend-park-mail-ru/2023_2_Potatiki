@@ -26,6 +26,12 @@
     top: -0.1rem;
 }
 
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .cart-icon__container {
+        top: unset;
+    }
+}
+
 .hidden {
     display: none;
 }
