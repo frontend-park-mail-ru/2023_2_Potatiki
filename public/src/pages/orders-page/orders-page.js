@@ -99,7 +99,7 @@ export default class OrdersPage {
     }
 
     updateOrders(message) {
-        if (message.Type !== 'updateOrderStatus') {
+        if (message.Type === 'profileRegistration') {
             return;
         }
         CartActions.getAllOrders();
