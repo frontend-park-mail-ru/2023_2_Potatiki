@@ -79,6 +79,7 @@ export default class OrdersPage {
         if (!body) {
             return;
         }
+        this.self.querySelector('.orders-container').innerHTML = '';
         body.forEach((element) => {
             const product = new OrderItem(this.self.querySelector('.orders-container'),
                 this.getConfig(element));
@@ -97,6 +98,13 @@ export default class OrdersPage {
         CartActions.getAllOrders();
     }
 
+    updateOrders(message) {
+        if (message.Type !== 'updateOrderStatus') {
+            return;
+        }
+        CartActions.getAllOrders();
+    }
+
     /**
      * Перенаправление на страницу авторизации
      */
@@ -110,6 +118,7 @@ export default class OrdersPage {
     renderOrders = this.renderOrders.bind(this);
     renderAll = this.renderAll.bind(this);
     noOrders = this.noOrders.bind(this);
+    updateOrders = this.updateOrders.bind(this);
 
     /**
      * подписка на события
@@ -119,6 +128,7 @@ export default class OrdersPage {
         eventEmmiter.subscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
         eventEmmiter.subscribe(Events.PAGE_ALLOWED, this.renderAll);
         eventEmmiter.subscribe(Events.NOT_FOUND, this.noOrders);
+        eventEmmiter.subscribe(Events.RECIEVE_NOTIFICATION, this.updateOrders);
     }
 
     /**
@@ -129,6 +139,7 @@ export default class OrdersPage {
         eventEmmiter.unsubscribe(Events.PAGE_FORBIDDEN, this.redirectToLogin);
         eventEmmiter.unsubscribe(Events.NOT_FOUND, this.noOrders);
         eventEmmiter.unsubscribe(Events.PAGE_ALLOWED, this.renderAll);
+        eventEmmiter.unsubscribe(Events.RECIEVE_NOTIFICATION, this.updateOrders);
     }
 
     /**
