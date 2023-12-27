@@ -27,7 +27,7 @@ export default class NotificationWindow {
    */
     render() {
         this.#parent.innerHTML = template({notifications:
-            notificationStore.notifications.reverse()});
+            notificationStore.notifications});
     }
 
     /**
