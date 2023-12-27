@@ -22,9 +22,14 @@
     align-items: center;
     justify-content: center;
     min-width: 6rem;
-    background-color: var(--color-background-header);
     font-size: 1.6rem;
     top: -0.1rem;
+}
+
+@media (min-device-width: 320px) and (max-device-width: 568px) {
+    .cart-icon__container {
+        top: unset;
+    }
 }
 
 .hidden {

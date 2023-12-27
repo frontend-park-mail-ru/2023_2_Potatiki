@@ -32,7 +32,7 @@ class NotificationStore {
      * Получение уведомлений
      */
     get notifications() {
-        return this.#state.notifications;
+        return this.#state.notifications.sort((a, b) => a.Created < b.Created ? 1 : -1);
     }
 
     /**
@@ -47,7 +47,6 @@ class NotificationStore {
      */
     syncLocalNotifiacation() {
         const localNotifications = this.#state;
-        localStorage.setItem('notification-info', JSON.stringify(localNotifications));
         localStorage.setItem('notification-info', JSON.stringify(localNotifications));
     }
 
