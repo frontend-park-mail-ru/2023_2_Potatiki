@@ -38,7 +38,7 @@
 
 @media (min-device-width: 320px) and (max-device-width: 568px) {
     .notification__window-container {
-        top: 0rem;
+        top: unset;
         bottom: 7rem;
         left: 0;
         right: 0;
