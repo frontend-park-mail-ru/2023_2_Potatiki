@@ -32,7 +32,7 @@ class NotificationStore {
      * Получение уведомлений
      */
     get notifications() {
-        return this.#state.notifications.sort((a, b) => a.Created > b.Created ? 1 : -1);
+        return this.#state.notifications.sort((a, b) => a.Created < b.Created ? 1 : -1);
     }
 
     /**
