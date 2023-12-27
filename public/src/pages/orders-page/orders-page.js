@@ -98,6 +98,10 @@ export default class OrdersPage {
         CartActions.getAllOrders();
     }
 
+    /**
+     * Обновление заказов
+     * @param {String} message
+     */
     updateOrders(message) {
         if (message.Type === 'profileRegistration') {
             return;
