@@ -134,7 +134,7 @@ export default class Profile {
     editAddress(event) {
         event.preventDefault();
         UserActions.getCSRFToken(profileUpdateDataRoute);
-        const currentId = event.target.parentElement.id;
+        const currentId = event.target.parentElement.parentElement.id;
         const address = this.addresses.find((address) => address.addressId == currentId);
         document.getElementById('profile-data-card').innerHTML = '';
         this.addressAddForm.render(false, address);
