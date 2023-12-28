@@ -22,7 +22,7 @@
     display: flex;
     padding-left: 1.3rem;
     padding-bottom: 0.5rem;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .avatar__border {
@@ -41,10 +41,12 @@
 }
 
 .avatar-edit {
+    position: relative;
     cursor: pointer;
-    width: 13rem;
+    width: 1.6rem;
     height: 1.6rem;
-    margin-bottom: 1.3rem;
+    right: 2rem;
+    top: 5rem;
 }
 
 .info-card__number {
@@ -82,6 +84,7 @@
     
     .avatar-edit {
         width: 3rem;
+        top: 3rem;
     }
 
     .number-edit {
